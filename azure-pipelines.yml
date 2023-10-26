@@ -1,0 +1,16 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  submodules: true
+
+- script: |
+    git remote add azure https://dotNetAPA@dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app_experimental.andrii.voznesenskyi
+    git push azure HEAD:main --force
+  env:
+    AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: $(AzureDevOpsPAT)
+  displayName: 'Push to Azure DevOps Repository'
