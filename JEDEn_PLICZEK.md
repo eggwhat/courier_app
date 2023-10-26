@@ -1,1 +1,0 @@
-JEDEN PLICZEK :)
