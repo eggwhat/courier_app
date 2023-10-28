@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey.Types;
+using SwiftParcel.Services.Identity.Core.Entities;
 
-namespace SwiftParcel.Services.Identity.Core.Domain
+namespace SwiftParcel.Services.Identity.Core.Entities
 {
     public class RefreshToken : IIdentifiable<Guid>
     {
@@ -14,11 +15,7 @@ namespace SwiftParcel.Services.Identity.Core.Domain
         public DateTime CreatedAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
         public bool Revoked => RevokedAt.HasValue;
-
-        protected RefreshToken()
-        {
-        }
-
+        
         public void Revoke()
         {
             if (Revoked)
