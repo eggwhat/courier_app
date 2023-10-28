@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
 
-namespace SwiftParcel.Services.Identity.Services.Messages.Events
+namespace SwiftParcel.Services.Identity.Application.Events
 {
     public class SignedUp : IEvent
     {

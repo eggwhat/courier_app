@@ -8,7 +8,7 @@ using Convey.WebApi.CQRS;
 using Convey.WebApi.Requests;
 using ConveyICommand = Convey.CQRS.Commands.ICommand;
 
-namespace SwiftParcel.Services.Identity.Services.Messages.Commands
+namespace SwiftParcel.Services.Identity.Application.Commands
 {
     //[PublicMessage]
     public class SignUp : ConveyICommand
