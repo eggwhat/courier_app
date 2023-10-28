@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey.Persistence.MongoDB;
-using SwiftParcel.Services.Identity.Core.Domain;
+using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
 
 namespace SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository
