@@ -7,7 +7,10 @@ using Convey.Auth;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
+using Convey.MessageBrokers.RabbitMQ;
+using Convey.Persistence.MongoDB;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
 using SwiftParcel.Services.Identity.Core.Services;
@@ -44,8 +47,8 @@ namespace SwiftParcel.Services.Identity.Infrastructure
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         {
-            app.UseInitializers().UseRabbitMq();
-
+            //app.UseInitializers().UseRabbitMq();
+            app.UseInitializers().UseRebbitMq();
             return app;
         }
     }
