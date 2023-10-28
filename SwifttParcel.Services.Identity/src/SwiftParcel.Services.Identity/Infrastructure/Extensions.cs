@@ -39,6 +39,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
                 .AddMongo()
                 .AddMongoRepository<RefreshToken, Guid>("refreshTokens")
                 .AddMongoRepository<User, Guid>("users");
+                
         }
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
