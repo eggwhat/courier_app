@@ -7,6 +7,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F2EF2C7-579
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity", "src\SwiftParcel.Services.Identity\SwiftParcel.Services.Identity.csproj", "{AFA3F252-2ED1-47E3-8046-7567C8734C49}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Api", "SwiftParcel.Services.Identity.Api", "{B85B3054-38B0-4EA1-8943-30DB1A33C2B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Api", "src\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api.csproj", "{2ADD2415-5EA3-4004-A416-9C131FFB8173}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Application", "SwiftParcel.Services.Identity.Application", "{0D20F0A4-91C5-468A-9337-CDDA3313D9DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Application", "src\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj", "{883F6B8D-839D-4071-870C-DD5F0CFE937E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Core", "SwiftParcel.Services.Identity.Core", "{B9FBBB29-CC89-44BC-B845-FEB03B468FD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Core", "src\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core.csproj", "{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Infrastructure", "SwiftParcel.Services.Identity.Infrastructure", "{BCF8AC11-5D37-4198-B089-0CB0519193A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Infrastructure", "src\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure.csproj", "{843424FB-FBC0-4F36-80E4-D839EE0837C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +36,32 @@ Global
 		{AFA3F252-2ED1-47E3-8046-7567C8734C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFA3F252-2ED1-47E3-8046-7567C8734C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFA3F252-2ED1-47E3-8046-7567C8734C49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ADD2415-5EA3-4004-A416-9C131FFB8173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ADD2415-5EA3-4004-A416-9C131FFB8173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ADD2415-5EA3-4004-A416-9C131FFB8173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ADD2415-5EA3-4004-A416-9C131FFB8173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883F6B8D-839D-4071-870C-DD5F0CFE937E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883F6B8D-839D-4071-870C-DD5F0CFE937E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883F6B8D-839D-4071-870C-DD5F0CFE937E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883F6B8D-839D-4071-870C-DD5F0CFE937E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AFA3F252-2ED1-47E3-8046-7567C8734C49} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
+		{B85B3054-38B0-4EA1-8943-30DB1A33C2B1} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
+		{2ADD2415-5EA3-4004-A416-9C131FFB8173} = {B85B3054-38B0-4EA1-8943-30DB1A33C2B1}
+		{0D20F0A4-91C5-468A-9337-CDDA3313D9DF} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
+		{883F6B8D-839D-4071-870C-DD5F0CFE937E} = {0D20F0A4-91C5-468A-9337-CDDA3313D9DF}
+		{B9FBBB29-CC89-44BC-B845-FEB03B468FD9} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
+		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80} = {B9FBBB29-CC89-44BC-B845-FEB03B468FD9}
+		{BCF8AC11-5D37-4198-B089-0CB0519193A8} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
+		{843424FB-FBC0-4F36-80E4-D839EE0837C0} = {BCF8AC11-5D37-4198-B089-0CB0519193A8}
 	EndGlobalSection
 EndGlobal
