@@ -1,0 +1,66 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "net6.0": []
+  },
+  "packageFolders": {
+    "/home/kaliuser/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
+      "projectName": "SwiftParcel.Services.Identity.Core",
+      "projectPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
+      "packagesPath": "/home/kaliuser/.nuget/packages/",
+      "outputPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/kaliuser/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.413/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

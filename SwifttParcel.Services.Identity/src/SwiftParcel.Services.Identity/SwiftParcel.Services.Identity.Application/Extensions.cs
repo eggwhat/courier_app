@@ -15,7 +15,7 @@ using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
 using SwiftParcel.Services.Identity.Core.Services;
 using SwiftParcel.Services.Identity.Identity.Application;
-using SwiftParcel.Services.Identity.Identity.Application.Services;
+
 using SwiftParcel.Services.Identity.Infrastructure.Auth;
 using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
 using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
@@ -47,7 +47,8 @@ namespace SwiftParcel.Services.Identity.Infrastructure
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         {
-            //app.UseInitializers().UseRabbitMq();
+            // TODO:  devide the extenstion in the mongo repositories and the genegral 
+            
             app.UseInitializers().UseRebbitMq();
             return app;
         }
