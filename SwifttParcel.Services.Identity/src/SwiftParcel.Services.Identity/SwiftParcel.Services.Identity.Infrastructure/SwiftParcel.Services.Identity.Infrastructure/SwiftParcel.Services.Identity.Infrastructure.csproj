@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+   <ItemGroup>
+      <ProjectReference Include="..\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj" />
+    </ItemGroup>
+
+
 </Project>
