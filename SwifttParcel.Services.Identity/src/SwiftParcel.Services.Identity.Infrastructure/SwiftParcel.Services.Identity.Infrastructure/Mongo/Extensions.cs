@@ -7,7 +7,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo
 {
     public static class Extensions
     {
-         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
+        public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
             builder.Services.AddSingleton<IIdentityService, IdentityService>();
