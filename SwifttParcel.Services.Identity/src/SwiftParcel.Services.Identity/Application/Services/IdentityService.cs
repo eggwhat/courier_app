@@ -6,11 +6,13 @@ using Convey.Auth;
 using Microsoft.AspNetCore.Identity;
 using SwiftParcel.Services.Identity.Core.Repositories;
 using SwiftParcel.Services.Identity.Application;
-using SwiftParcel.Services.Identity.Services;
+
 using SwiftParcel.Services.Identity.Identity.Application.UserDTO;
 using SwiftParcel.Services.Identity.Application.Commands;
 using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Application.Events;
+using SwiftParcel.Services.Identity.Core.Exceptions;
+using SwiftParcel.Services.Identity.Core.Services;
 
 
 
@@ -33,7 +35,7 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             _messageBroker = messageBroker;
         }
 
-        public async Task<UserValidator> GetAsync(Guid id)
+        public async Task<UserDto> GetAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
 
@@ -63,7 +65,7 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             }
 
             var role = string.IsNullOrWhiteSpace(command.Role) ? "user" : command.Role.ToLowerInvariant();
-            user = new User(command.Id, command.Email, _passwordService.Hash(command.Password), role);
+            user = new User(command.UserId, command.Email, _passwordService.Hash(command.Password), role);
             await _userRepository.AddAsync(user);
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Role));
         }

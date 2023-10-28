@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey;
+using Convey.Auth;
+using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
+using Convey.CQRS.Queries;
 using Microsoft.AspNetCore.Identity;
 using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
@@ -10,7 +14,9 @@ using SwiftParcel.Services.Identity.Core.Services;
 using SwiftParcel.Services.Identity.Identity.Application;
 using SwiftParcel.Services.Identity.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Infrastructure.Auth;
+using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
 using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
+
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
