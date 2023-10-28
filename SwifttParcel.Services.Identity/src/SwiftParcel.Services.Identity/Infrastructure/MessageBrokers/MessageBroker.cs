@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
+using Convey.MessageBrokers;
 using SwiftParcel.Services.Identity.Identity.Application;
 
 namespace SwiftParcel.Services.Identity.Infrastructure.MessageBrokers
@@ -19,6 +20,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.MessageBrokers
         }
 
         public Task PublishAsync<T>(T @event) where T : class, IEvent
-            => _busPublisher.PublishAsync(@event, _contextAccessor.CorrelationContext);
+            => _busPublisher.PublishAsync(@event, _contextAccessor.CorrelationContext.ToString());
+
     }
 }
