@@ -33,7 +33,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/", async context =>
     {
-        await context.Response.WriteAsync("Welcome to the SwiftParcel Identity service!");
+        await context.Response.WriteAsync("Welcome to the SwiftParcel Identity service API!");
     });
 
     endpoints.MapPost("/sign-in", async context =>

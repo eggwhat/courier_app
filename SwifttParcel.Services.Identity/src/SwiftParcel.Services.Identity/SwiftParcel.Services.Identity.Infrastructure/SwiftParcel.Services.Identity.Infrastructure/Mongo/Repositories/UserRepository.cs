@@ -17,9 +17,20 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Reposit
             _repository = repository;
         }
 
-        public Task<User> GetAsync(Guid id) => _repository.GetAsync(id);
-        public Task<User> GetAsync(string email) => _repository.GetAsync(x => x.Email == email.ToLowerInvariant());
-        public Task AddAsync(User user) => _repository.AddAsync(user);
-        public Task UpdateAsync(User user) => _repository.UpdateAsync(user);
+         public async Task<User> GetAsync(Guid id)
+        {
+            var user = await _repository.GetAsync(id);
+
+            return user?.AsEntity();
+        }
+
+        public async Task<User> GetAsync(string email)
+        {
+            var user = await _repository.GetAsync(x => x.Email == email.ToLowerInvariant());
+
+            return user?.AsEntity();
+        }
+
+        public Task AddAsync(User user) => _repository.AddAsync(user.AsDocument());
     }
 }
