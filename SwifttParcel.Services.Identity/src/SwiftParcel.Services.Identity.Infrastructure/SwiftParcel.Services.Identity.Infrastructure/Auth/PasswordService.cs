@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SwiftParcel.Services.Identity.Core.Services;
-
+using SwiftParcel.Services.Identity.Application.Services;
+using SwiftParcel.Services.Identity.Infrastructure;
 
 namespace SwiftParcel.Services.Identity.Infrastructure.Auth
 {

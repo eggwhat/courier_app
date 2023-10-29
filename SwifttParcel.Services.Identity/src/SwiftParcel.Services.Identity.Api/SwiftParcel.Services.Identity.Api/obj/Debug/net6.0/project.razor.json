@@ -1,6 +1,6 @@
 {
-  "SerializedFilePath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/project.razor.json",
-  "FilePath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.csproj",
+  "SerializedFilePath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/obj/Debug/net6.0/project.razor.json",
+  "FilePath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "6.0",
@@ -18371,7 +18371,7 @@
     ],
     "CSharpLanguageVersion": 1000
   },
-  "RootNamespace": "SwiftParcel.Services.Identity",
+  "RootNamespace": "SwiftParcel.Services.Identity.Api",
   "Documents": [],
   "SerializationFormat": "0.3"
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj": {}
+    "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj": {}
   },
   "projects": {
-    "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj": {
+    "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
+        "projectUniqueName": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
         "projectName": "SwiftParcel.Services.Identity.Core",
-        "projectPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
+        "projectPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core.csproj",
         "packagesPath": "/home/kaliuser/.nuget/packages/",
-        "outputPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/obj/",
+        "outputPath": "/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/kaliuser/.nuget/NuGet/NuGet.Config"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Convey": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
