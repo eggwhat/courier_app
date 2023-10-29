@@ -10,7 +10,7 @@ using SwiftParcel.Services.Identity.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Query
 {
-    public class GetUserHandler: IQueryHandler<GetUser, UserDto>
+    internal sealed  class GetUserHandler: IQueryHandler<GetUser, UserDto>
     {
         private readonly IMongoRepository<UserDocument, Guid> _userRepository;
 
@@ -23,7 +23,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Query
         {
             var user = await _userRepository.GetAsync(query.UserId);
 
-            return user?.AsDto();
+            return user.AsDto();
         }
     }
 }
