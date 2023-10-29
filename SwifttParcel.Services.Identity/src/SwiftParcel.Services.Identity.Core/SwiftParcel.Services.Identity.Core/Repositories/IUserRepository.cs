@@ -11,6 +11,6 @@ namespace SwiftParcel.Services.Identity.Core.Repositories
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
         Task AddAsync(User user);
-        Task UpdateAsync(User user);
+        // Task UpdateAsync(User user);
     }
 }

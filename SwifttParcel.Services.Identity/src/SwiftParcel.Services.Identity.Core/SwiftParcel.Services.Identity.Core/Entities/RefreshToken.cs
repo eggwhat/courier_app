@@ -4,44 +4,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.Types;
 using SwiftParcel.Services.Identity.Core.Entities;
+using SwiftParcel.Services.Identity.Core.Exceptions;
 
 namespace SwiftParcel.Services.Identity.Core.Entities
 {
-    public class RefreshToken : IIdentifiable<Guid>
+    public class RefreshToken : AggregateRoot
     {
-        public Guid Id { get; private set; }
-        public Guid UserId { get; private set; }
+       public AggregateId UserId { get; private set; }
         public string Token { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
         public bool Revoked => RevokedAt.HasValue;
-        
-        public void Revoke()
+
+        protected RefreshToken()
+        {
+        }
+
+        public void Revoke(DateTime revokedAt)
         {
             if (Revoked)
             {
-                throw new ArgumentException(ErrorCodes.RefreshTokenAlreadyRevoked,
-                    $"Refresh token: '{Id}' was already revoked at '{RevokedAt}'.");
+                throw new RevokedRefreshTokenException();
             }
 
-            RevokedAt = DateTime.UtcNow;
+            RevokedAt = revokedAt;
         }
-
-        public RefreshToken(User user, string token)
+        public RefreshToken(AggregateId id, AggregateId userId, string token, DateTime createdAt,
+            DateTime? revokedAt = null)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
-                throw new ArgumentException("Invalid refresh token.", 
-                                            nameof(token));
+                throw new InvalidRefreshTokenException();
             }
 
-
-            Id = Guid.NewGuid();
-            
-            UserId = user.Id;
-            CreatedAt = DateTime.UtcNow;
+            Id = id;
+            UserId = userId;
             Token = token;
+            CreatedAt = createdAt;
+            RevokedAt = revokedAt;
         }
+
 
     }
 }

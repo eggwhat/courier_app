@@ -10,53 +10,38 @@ using SwiftParcel.Services.Identity.Core.Exceptions;
 
 namespace SwiftParcel.Services.Identity.Core.Entities
 {
-    public class User : IIdentifiable<Guid>
+    public class User : AggregateRoot
     {
-        public Guid Id { get; private set; }
-        public string Email { get; private set; }
-        public string Password { get; private set; }
+         public string Email { get; private set; }
         public string Role { get; private set; }
+        public string Password { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
+        public IEnumerable<string> Permissions { get; private set; }
 
-         private static readonly Regex EmailRegex = new Regex(
-            @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
-            RegexOptions.IgnoreCase | 
-            RegexOptions.Compiled | 
-            RegexOptions.CultureInvariant);
-
-        protected User()
+        public User(Guid id, string email, string password, string role, DateTime createdAt,
+            IEnumerable<string> permissions = null)
         {
-        }
-
-        public User(Guid id, string email, string password, string role)
-        {
-            if (!EmailRegex.IsMatch(email))
+            if (string.IsNullOrWhiteSpace(email))
             {
-                throw new ArgumentException(ErrorCodes.InvalidEmail,
-                    $"Invalid email: '{email}'.");
+                throw new InvalidEmailException(email);
             }
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentException(ErrorCodes.InvalidRole,
-                    $"Invalid role: '{role}'.");
-                
                 throw new InvalidPasswordException();
             }
 
-              if (!Entities.Role.IsValid(role))
+            if (!Entities.Role.IsValid(role))
             {
                 throw new InvalidRoleException(role);
             }
 
             Id = id;
             Email = email.ToLowerInvariant();
-            Role = role.ToLowerInvariant();
             Password = password;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
+            Role = role.ToLowerInvariant();
+            CreatedAt = createdAt;
+            Permissions = permissions ?? Enumerable.Empty<string>();
         }
 
         // public void SetPasswordHash(string passwordHash)

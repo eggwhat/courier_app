@@ -16,42 +16,46 @@ using SwiftParcel.Services.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
 using SwiftParcel.Services.Identity.Identity.Application.Services;
-using SwiftParcel.Services.Identity.Infrastructure.Auth;
-using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
-using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
 
 
 
-namespace SwiftParcel.Services.Identity.Infrastructure
+
+namespace SwiftParcel.Services.Identity.Application
 {
     public static class Extensions
     {
-        public static IConveyBuilder AddInfrastructureModule(this IConveyBuilder builder)
-        {
-            builder.Services.AddSingleton<IIdentityService, IdentityService>();
-            builder.Services.AddSingleton<IPasswordService, PasswordService>();
-            builder.Services.AddTransient<IMessageBroker, MessageBrokers>();
-            builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
-            builder.Services.AddTransient<IUserRepository, UserRepository>();
-            builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
-
-            return builder.AddJwt()
+        public static IConveyBuilder AddApplication(this IConveyBuilder builder)
+            => builder
                 .AddCommandHandlers()
                 .AddEventHandlers()
-                .AddQueryHandlers()
-                .AddRabbitMq()
-                .AddMongo()
-                .AddMongoRepository<RefreshToken, Guid>("refreshTokens")
-                .AddMongoRepository<User, Guid>("users");
-                
-        }
+                .AddInMemoryCommandDispatcher()
+                .AddInMemoryEventDispatcher();
+        // public static IConveyBuilder AddInfrastructureModule(this IConveyBuilder builder)
+        // {
+        //     builder.Services.AddSingleton<IIdentityService, IdentityService>();
+        //     builder.Services.AddSingleton<IPasswordService, PasswordService>();
+        //     builder.Services.AddTransient<IMessageBroker, MessageBrokers>();
+        //     builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+        //     builder.Services.AddTransient<IUserRepository, UserRepository>();
+        //     builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
 
-        public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
-        {
-            // TODO:  devide the extenstion in the mongo repositories and the genegral 
+        //     return builder.AddJwt()
+        //         .AddCommandHandlers()
+        //         .AddEventHandlers()
+        //         .AddQueryHandlers()
+        //         .AddRabbitMq()
+        //         .AddMongo()
+        //         .AddMongoRepository<RefreshToken, Guid>("refreshTokens")
+        //         .AddMongoRepository<User, Guid>("users");
+                
+        // }
+
+        // public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+        // {
+        //     // TODO:  devide the extenstion in the mongo repositories and the genegral 
             
-            app.UseInitializers().UseRebbitMq();
-            return app;
-        }
+        //     app.UseInitializers().UseRebbitMq();
+        //     return app;
+        // }
     }
 }
