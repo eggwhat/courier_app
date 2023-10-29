@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[1.1.448, )"
             },
+            "Convey.Logging": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
             "Convey.WebApi": {
               "target": "Package",
               "version": "[1.1.448, )"
@@ -289,6 +293,22 @@
               "target": "Package",
               "version": "[1.1.448, )"
             },
+            "Convey.Discovery.Consul": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.HTTP": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.LoadBalancing.Fabio": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Logging": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
             "Convey.MessageBrokers": {
               "target": "Package",
               "version": "[1.1.448, )"
@@ -297,7 +317,19 @@
               "target": "Package",
               "version": "[1.1.448, )"
             },
+            "Convey.MessageBrokers.Outbox": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.MessageBrokers.Outbox.Mongo": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
             "Convey.MessageBrokers.RabbitMQ": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Metrics.AppMetrics": {
               "target": "Package",
               "version": "[1.1.448, )"
             },
@@ -305,7 +337,31 @@
               "target": "Package",
               "version": "[1.1.448, )"
             },
+            "Convey.Persistence.Redis": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Secrets.Vault": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Security": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Tracing.Jaeger": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.Tracing.Jaeger.RabbitMQ": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
             "Convey.WebApi.CQRS": {
+              "target": "Package",
+              "version": "[1.1.448, )"
+            },
+            "Convey.WebApi.Swagger": {
               "target": "Package",
               "version": "[1.1.448, )"
             }
