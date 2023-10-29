@@ -68,7 +68,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Services
                 spanContext = _tracer.ActiveSpan is null ? string.Empty : _tracer.ActiveSpan.Context.ToString();
             }
 
-            var headers = messageProperties.GetHeadersToForward();
+            var headers = messageProperties?.GetHeadersToForward();
             var correlationContext = _contextAccessor.CorrelationContext ??
                                      _httpContextAccessor.GetCorrelationContext();
 
