@@ -9,16 +9,17 @@ using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Persistence.MongoDB;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using SwiftParcel.Services.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
-using SwiftParcel.Services.Identity.Core.Services;
-using SwiftParcel.Services.Identity.Identity.Application;
-
+using SwiftParcel.Services.Identity.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Infrastructure.Auth;
 using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
 using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
+
 
 
 namespace SwiftParcel.Services.Identity.Infrastructure
@@ -29,7 +30,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
         {
             builder.Services.AddSingleton<IIdentityService, IdentityService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
-            builder.Services.AddTransient<IMessageBroker, MessageBroker>();
+            builder.Services.AddTransient<IMessageBroker, MessageBrokers>();
             builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();

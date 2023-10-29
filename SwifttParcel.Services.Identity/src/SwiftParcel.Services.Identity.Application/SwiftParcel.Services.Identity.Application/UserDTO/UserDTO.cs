@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SwiftParcel.Services.Identity.Core.Entities;
 
 
+
 namespace SwiftParcel.Services.Identity.Identity.Application.UserDTO
 {
     public class UserDto

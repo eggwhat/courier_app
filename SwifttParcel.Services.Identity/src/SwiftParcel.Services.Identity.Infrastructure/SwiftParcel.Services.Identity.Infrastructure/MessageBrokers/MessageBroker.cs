@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Convey.CQRS.Events;
-using Convey.MessageBrokers;
-using SwiftParcel.Services.Identity.Identity.Application;
+
+using SwiftParcel.Services.Identity.Application;
+using SwiftParcel.Services.Identity.Application.Services;
+
 
 namespace SwiftParcel.Services.Identity.Infrastructure.MessageBrokers
 {

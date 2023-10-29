@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Convey.Auth;
+
 using Microsoft.AspNetCore.Identity;
-using SwiftParcel.Services.Identity.Core.Repositories;
+
 using SwiftParcel.Services.Identity.Application;
 
 using SwiftParcel.Services.Identity.Identity.Application.UserDTO;
 using SwiftParcel.Services.Identity.Application.Commands;
-using SwiftParcel.Services.Identity.Core.Entities;
+
 using SwiftParcel.Services.Identity.Application.Events;
+using SwiftParcel.Services.Identity.Core.Repositories;
+using Convey.Auth;
+using SwiftParcel.Services.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Core.Exceptions;
-using SwiftParcel.Services.Identity.Core.Services;
+using SwiftParcel.Services.Identity.Core.Entities;
 
 
 

@@ -7,8 +7,19 @@
   </PropertyGroup>
 
    <ItemGroup>
-      <ProjectReference Include="..\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj" />
-    </ItemGroup>
+     <PackageReference Include="Convey" Version="1.1.448" />
+     <PackageReference Include="Convey.Auth" Version="1.1.448" />
+     <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
+     <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
+     <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.1.448" />
+     <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="1.1.448" />
+     <PackageReference Include="Convey.Persistence.MongoDB" Version="1.1.448" />
+     <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
+   </ItemGroup>
+
+   <ItemGroup>
+      <ProjectReference Include="..\..\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj" />
+  </ItemGroup>
 
 
 </Project>
