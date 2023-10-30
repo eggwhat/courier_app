@@ -60,6 +60,14 @@
             "Convey.WebApi.CQRS": {
               "target": "Package",
               "version": "[1.1.448, )"
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
@@ -158,10 +166,6 @@
             "Convey.WebApi.CQRS": {
               "target": "Package",
               "version": "[1.1.448, )"
-            },
-            "Microsoft.IdentityModel.Tokens": {
-              "target": "Package",
-              "version": "[7.0.3, )"
             }
           },
           "imports": [

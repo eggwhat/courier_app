@@ -20,7 +20,10 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Auth
         public AuthDto Create(Guid userId, string role, string audience = null,
             IDictionary<string, IEnumerable<string>> claims = null)
         {
-            var jwt = _jwtHandler.CreateToken(userId.ToString("N"), role, audience, claims);
+            var nonNullAudience = audience ?? string.Empty;
+            var nonNullClaims = claims ?? new Dictionary<string, IEnumerable<string>>();
+
+            var jwt = _jwtHandler.CreateToken(userId.ToString("N"), role, nonNullAudience, nonNullClaims);
 
             return new AuthDto
             {
@@ -29,5 +32,6 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Auth
                 Expires = jwt.Expires
             };
         }
+
     }
 }

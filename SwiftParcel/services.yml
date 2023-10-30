@@ -1,0 +1,6 @@
+apps:
+  - name: identity
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api
+    max_restarts: 3
+  

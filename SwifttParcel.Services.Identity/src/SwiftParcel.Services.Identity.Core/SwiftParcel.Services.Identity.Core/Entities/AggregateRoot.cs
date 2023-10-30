@@ -7,9 +7,9 @@ namespace SwiftParcel.Services.Identity.Core.Entities
 {
     public class AggregateRoot
     {
-        private readonly List<IDomainEvent> _events = new List<IDomainEvent>();
+       private readonly List<IDomainEvent> _events = new List<IDomainEvent>();
         public IEnumerable<IDomainEvent> Events => _events;
-        public AggregateId Id { get; protected set; }
+        public AggregateId Id { get; protected set; } = new AggregateId(); // Initialize Id here
         public int Version { get; protected set; }
 
         protected void AddEvent(IDomainEvent @event)

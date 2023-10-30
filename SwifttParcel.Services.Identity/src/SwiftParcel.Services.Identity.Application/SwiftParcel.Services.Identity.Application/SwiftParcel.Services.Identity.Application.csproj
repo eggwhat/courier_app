@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
     <ItemGroup>
@@ -16,7 +16,6 @@
       <PackageReference Include="Convey.Persistence.MongoDB" Version="1.1.448" />
       <PackageReference Include="Convey.WebApi" Version="1.1.448" />
       <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
     </ItemGroup>
 
     <ItemGroup>

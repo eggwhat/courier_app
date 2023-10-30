@@ -7,7 +7,7 @@ namespace SwiftParcel.Services.Identity.Core.Exceptions
 {
     public abstract class DomainException : Exception
     {
-        public virtual string Code { get; }
+        public virtual string Code { get; } = "ERROR_CODE";
 
         protected DomainException(string message) : base(message)
         {
