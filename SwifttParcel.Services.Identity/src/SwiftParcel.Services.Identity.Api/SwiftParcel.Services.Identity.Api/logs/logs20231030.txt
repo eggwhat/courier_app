@@ -1,0 +1,135 @@
+2023-10-30 14:40:00.032 +01:00 [FTL] Application startup exception
+System.InvalidOperationException: No service for type 'Convey.Docs.Swagger.SwaggerOptions' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Convey.Docs.Swagger.Extensions.UseSwaggerDocs(IApplicationBuilder builder)
+   at SwiftParcel.Services.Identity.Infrastructure.Extensions.UseInfrastructure(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/Extensions.cs:line 95
+   at src.SwiftParcel.Services.Identity.Api.Program.<>c.<Main>b__0_1(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/Program.cs:line 39
+   at Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.<>c__DisplayClass0_0.<Configure>b__2(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.DelegateStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Mvc.Filters.MiddlewareFilterBuilderStartupFilter.<>c__DisplayClass0_0.<Configure>g__MiddlewareFilterBuilder|0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.WebHost.BuildApplication()
+2023-10-30 14:41:49.660 +01:00 [FTL] Application startup exception
+System.TypeLoadException: Could not load type 'Microsoft.IdentityModel.Json.JsonObjectAttribute' from assembly 'Microsoft.IdentityModel.Tokens, Version=7.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+   at System.ModuleHandle.ResolveType(QCallModule module, Int32 typeToken, IntPtr* typeInstArgs, Int32 typeInstCount, IntPtr* methodInstArgs, Int32 methodInstCount, ObjectHandleOnStack type)
+   at System.ModuleHandle.ResolveTypeHandle(Int32 typeToken, RuntimeTypeHandle[] typeInstantiationContext, RuntimeTypeHandle[] methodInstantiationContext)
+   at System.Reflection.RuntimeModule.ResolveType(Int32 metadataToken, Type[] genericTypeArguments, Type[] genericMethodArguments)
+   at System.Reflection.CustomAttribute.FilterCustomAttributeRecord(MetadataToken caCtorToken, MetadataImport& scope, RuntimeModule decoratedModule, MetadataToken decoratedToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1& derivedAttributes, RuntimeType& attributeType, IRuntimeMethodInfo& ctorWithParameters, Boolean& isVarArg)
+   at System.Reflection.CustomAttribute.IsCustomAttributeDefined(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Int32 attributeCtorToken, Boolean mustBeInheritable)
+   at System.Reflection.CustomAttribute.IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit)
+   at System.RuntimeType.IsDefined(Type attributeType, Boolean inherit)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.<>c.<InitializeAsync>b__6_1(Type t)
+   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   at System.Collections.Generic.HashSet`1.UnionWith(IEnumerable`1 other)
+   at System.Collections.Generic.HashSet`1..ctor(IEnumerable`1 collection, IEqualityComparer`1 comparer)
+   at System.Linq.Enumerable.DistinctIterator`1.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.InitializeAsync()
+   at Convey.Types.StartupInitializer.InitializeAsync()
+   at Convey.Extensions.UseConvey(IApplicationBuilder app)
+   at SwiftParcel.Services.Identity.Infrastructure.Extensions.UseInfrastructure(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/Extensions.cs:line 95
+   at src.SwiftParcel.Services.Identity.Api.Program.<>c.<Main>b__0_1(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/Program.cs:line 39
+   at Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.<>c__DisplayClass0_0.<Configure>b__2(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.DelegateStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Mvc.Filters.MiddlewareFilterBuilderStartupFilter.<>c__DisplayClass0_0.<Configure>g__MiddlewareFilterBuilder|0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.WebHost.BuildApplication()
+2023-10-30 14:45:52.211 +01:00 [FTL] Application startup exception
+System.TypeLoadException: Could not load type 'Microsoft.IdentityModel.Json.JsonObjectAttribute' from assembly 'Microsoft.IdentityModel.Tokens, Version=7.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+   at System.ModuleHandle.ResolveType(QCallModule module, Int32 typeToken, IntPtr* typeInstArgs, Int32 typeInstCount, IntPtr* methodInstArgs, Int32 methodInstCount, ObjectHandleOnStack type)
+   at System.ModuleHandle.ResolveTypeHandle(Int32 typeToken, RuntimeTypeHandle[] typeInstantiationContext, RuntimeTypeHandle[] methodInstantiationContext)
+   at System.Reflection.RuntimeModule.ResolveType(Int32 metadataToken, Type[] genericTypeArguments, Type[] genericMethodArguments)
+   at System.Reflection.CustomAttribute.FilterCustomAttributeRecord(MetadataToken caCtorToken, MetadataImport& scope, RuntimeModule decoratedModule, MetadataToken decoratedToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1& derivedAttributes, RuntimeType& attributeType, IRuntimeMethodInfo& ctorWithParameters, Boolean& isVarArg)
+   at System.Reflection.CustomAttribute.IsCustomAttributeDefined(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Int32 attributeCtorToken, Boolean mustBeInheritable)
+   at System.Reflection.CustomAttribute.IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit)
+   at System.RuntimeType.IsDefined(Type attributeType, Boolean inherit)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.<>c.<InitializeAsync>b__6_1(Type t)
+   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   at System.Collections.Generic.HashSet`1.UnionWith(IEnumerable`1 other)
+   at System.Collections.Generic.HashSet`1..ctor(IEnumerable`1 collection, IEqualityComparer`1 comparer)
+   at System.Linq.Enumerable.DistinctIterator`1.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.InitializeAsync()
+   at Convey.Types.StartupInitializer.InitializeAsync()
+   at Convey.Extensions.UseConvey(IApplicationBuilder app)
+   at SwiftParcel.Services.Identity.Infrastructure.Extensions.UseInfrastructure(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/Extensions.cs:line 95
+   at src.SwiftParcel.Services.Identity.Api.Program.<>c.<Main>b__0_1(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/Program.cs:line 39
+   at Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.<>c__DisplayClass0_0.<Configure>b__2(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.DelegateStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Mvc.Filters.MiddlewareFilterBuilderStartupFilter.<>c__DisplayClass0_0.<Configure>g__MiddlewareFilterBuilder|0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.WebHost.BuildApplication()
+2023-10-30 14:51:39.747 +01:00 [FTL] Application startup exception
+System.TypeLoadException: Could not load type 'Microsoft.IdentityModel.Json.JsonObjectAttribute' from assembly 'Microsoft.IdentityModel.Tokens, Version=7.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+   at System.ModuleHandle.ResolveType(QCallModule module, Int32 typeToken, IntPtr* typeInstArgs, Int32 typeInstCount, IntPtr* methodInstArgs, Int32 methodInstCount, ObjectHandleOnStack type)
+   at System.ModuleHandle.ResolveTypeHandle(Int32 typeToken, RuntimeTypeHandle[] typeInstantiationContext, RuntimeTypeHandle[] methodInstantiationContext)
+   at System.Reflection.RuntimeModule.ResolveType(Int32 metadataToken, Type[] genericTypeArguments, Type[] genericMethodArguments)
+   at System.Reflection.CustomAttribute.FilterCustomAttributeRecord(MetadataToken caCtorToken, MetadataImport& scope, RuntimeModule decoratedModule, MetadataToken decoratedToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1& derivedAttributes, RuntimeType& attributeType, IRuntimeMethodInfo& ctorWithParameters, Boolean& isVarArg)
+   at System.Reflection.CustomAttribute.IsCustomAttributeDefined(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Int32 attributeCtorToken, Boolean mustBeInheritable)
+   at System.Reflection.CustomAttribute.IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit)
+   at System.RuntimeType.IsDefined(Type attributeType, Boolean inherit)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.<>c.<InitializeAsync>b__6_1(Type t)
+   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   at System.Collections.Generic.HashSet`1.UnionWith(IEnumerable`1 other)
+   at System.Collections.Generic.HashSet`1..ctor(IEnumerable`1 collection, IEqualityComparer`1 comparer)
+   at System.Linq.Enumerable.DistinctIterator`1.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Convey.MessageBrokers.RabbitMQ.Initializers.RabbitMqExchangeInitializer.InitializeAsync()
+   at Convey.Types.StartupInitializer.InitializeAsync()
+   at Convey.Extensions.UseConvey(IApplicationBuilder app)
+   at SwiftParcel.Services.Identity.Infrastructure.Extensions.UseInfrastructure(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/Extensions.cs:line 95
+   at src.SwiftParcel.Services.Identity.Api.Program.<>c.<Main>b__0_1(IApplicationBuilder app) in /home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/Program.cs:line 39
+   at Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.<>c__DisplayClass0_0.<Configure>b__2(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.DelegateStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Mvc.Filters.MiddlewareFilterBuilderStartupFilter.<>c__DisplayClass0_0.<Configure>g__MiddlewareFilterBuilder|0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.WebHost.BuildApplication()
+2023-10-30 14:55:42.341 +01:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2023-10-30 14:55:42.372 +01:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2023-10-30 14:55:42.381 +01:00 [INF] Creating key {86be746d-83b2-4363-9d4b-7ff382dd10e7} with creation date 2023-10-30 13:55:42Z, activation date 2023-10-30 13:55:42Z, and expiration date 2024-01-28 13:55:42Z.
+2023-10-30 14:55:42.404 +01:00 [WRN] No XML encryptor configured. Key {86be746d-83b2-4363-9d4b-7ff382dd10e7} may be persisted to storage in unencrypted form.
+2023-10-30 14:55:42.429 +01:00 [INF] Registering a service [id: identity-service:e78cfe47c8d8453a9573a7b85dd89262] in Consul...
+2023-10-30 14:55:42.441 +01:00 [INF] Start processing HTTP request PUT "http://localhost:8500/v1/agent/service/register"
+2023-10-30 14:55:42.443 +01:00 [INF] Sending HTTP request PUT "http://localhost:8500/v1/agent/service/register"
+2023-10-30 14:55:42.706 +01:00 [INF] Received HTTP response headers after 259.3281ms - 200
+2023-10-30 14:55:42.707 +01:00 [INF] End processing HTTP request after 272.0976ms - 200
+2023-10-30 14:55:42.708 +01:00 [INF] Registered a service [id: identity-service:e78cfe47c8d8453a9573a7b85dd89262] in Consul.
+2023-10-30 14:55:42.723 +01:00 [ERR] There was an error during RabbitMQ action: 'Subscribe'.
+2023-10-30 14:55:42.723 +01:00 [ERR] The AMQP operation was interrupted: AMQP close-reason, initiated by Peer, code=404, text='NOT_FOUND - no exchange 'SwiftParcel.Services.Identity.Application' in vhost '/'', classId=50, methodId=20
+RabbitMQ.Client.Exceptions.OperationInterruptedException: The AMQP operation was interrupted: AMQP close-reason, initiated by Peer, code=404, text='NOT_FOUND - no exchange 'SwiftParcel.Services.Identity.Application' in vhost '/'', classId=50, methodId=20
+   at RabbitMQ.Client.Impl.SimpleBlockingRpcContinuation.GetReply(TimeSpan timeout)
+   at RabbitMQ.Client.Impl.ModelBase.ModelRpc(MethodBase method, ContentHeaderBase header, Byte[] body)
+   at RabbitMQ.Client.Framing.Impl.Model._Private_QueueBind(String queue, String exchange, String routingKey, Boolean nowait, IDictionary`2 arguments)
+   at RabbitMQ.Client.Impl.ModelBase.QueueBind(String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at RabbitMQ.Client.Impl.AutorecoveringModel.QueueBind(String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at RabbitMQ.Client.IModelExensions.QueueBind(IModel model, String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at Convey.MessageBrokers.RabbitMQ.Internals.RabbitMqBackgroundService.Subscribe(IMessageSubscriber messageSubscriber)
+   at Convey.MessageBrokers.RabbitMQ.Internals.RabbitMqBackgroundService.ExecuteAsync(CancellationToken stoppingToken)
+2023-10-30 14:55:42.970 +01:00 [INF] Deregistering a service [id: identity-service:e78cfe47c8d8453a9573a7b85dd89262] from Consul...
+2023-10-30 14:55:42.971 +01:00 [INF] Start processing HTTP request PUT "http://localhost:8500/v1/agent/service/deregister/identity-service:e78cfe47c8d8453a9573a7b85dd89262"
+2023-10-30 14:55:42.971 +01:00 [INF] Sending HTTP request PUT "http://localhost:8500/v1/agent/service/deregister/identity-service:e78cfe47c8d8453a9573a7b85dd89262"
+2023-10-30 14:55:42.972 +01:00 [INF] Received HTTP response headers after 1.2169ms - 200
+2023-10-30 14:55:42.972 +01:00 [INF] End processing HTTP request after 1.6427ms - 200
+2023-10-30 14:55:42.973 +01:00 [INF] Deregistered a service [id: identity-service:e78cfe47c8d8453a9573a7b85dd89262] from Consul.
+2023-10-30 14:57:15.612 +01:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2023-10-30 14:57:15.651 +01:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2023-10-30 14:57:15.661 +01:00 [INF] Creating key {1ac89cba-1d90-45fd-a0f3-e9f89d390afe} with creation date 2023-10-30 13:57:15Z, activation date 2023-10-30 13:57:15Z, and expiration date 2024-01-28 13:57:15Z.
+2023-10-30 14:57:15.667 +01:00 [WRN] No XML encryptor configured. Key {1ac89cba-1d90-45fd-a0f3-e9f89d390afe} may be persisted to storage in unencrypted form.
+2023-10-30 14:57:15.681 +01:00 [INF] Registering a service [id: identity-service:7c2e8e584e124b98a0f2e05103470b7e] in Consul...
+2023-10-30 14:57:15.696 +01:00 [INF] Start processing HTTP request PUT "http://localhost:8500/v1/agent/service/register"
+2023-10-30 14:57:15.712 +01:00 [INF] Sending HTTP request PUT "http://localhost:8500/v1/agent/service/register"
+2023-10-30 14:57:24.518 +01:00 [INF] Received HTTP response headers after 8800.6309ms - 200
+2023-10-30 14:57:24.519 +01:00 [INF] End processing HTTP request after 8829.6464ms - 200
+2023-10-30 14:57:24.520 +01:00 [INF] Registered a service [id: identity-service:7c2e8e584e124b98a0f2e05103470b7e] in Consul.
+2023-10-30 14:57:24.537 +01:00 [ERR] There was an error during RabbitMQ action: 'Subscribe'.
+2023-10-30 14:57:24.537 +01:00 [ERR] The AMQP operation was interrupted: AMQP close-reason, initiated by Peer, code=404, text='NOT_FOUND - no exchange 'SwiftParcel.Services.Identity.Application' in vhost '/'', classId=50, methodId=20
+RabbitMQ.Client.Exceptions.OperationInterruptedException: The AMQP operation was interrupted: AMQP close-reason, initiated by Peer, code=404, text='NOT_FOUND - no exchange 'SwiftParcel.Services.Identity.Application' in vhost '/'', classId=50, methodId=20
+   at RabbitMQ.Client.Impl.SimpleBlockingRpcContinuation.GetReply(TimeSpan timeout)
+   at RabbitMQ.Client.Impl.ModelBase.ModelRpc(MethodBase method, ContentHeaderBase header, Byte[] body)
+   at RabbitMQ.Client.Framing.Impl.Model._Private_QueueBind(String queue, String exchange, String routingKey, Boolean nowait, IDictionary`2 arguments)
+   at RabbitMQ.Client.Impl.ModelBase.QueueBind(String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at RabbitMQ.Client.Impl.AutorecoveringModel.QueueBind(String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at RabbitMQ.Client.IModelExensions.QueueBind(IModel model, String queue, String exchange, String routingKey, IDictionary`2 arguments)
+   at Convey.MessageBrokers.RabbitMQ.Internals.RabbitMqBackgroundService.Subscribe(IMessageSubscriber messageSubscriber)
+   at Convey.MessageBrokers.RabbitMQ.Internals.RabbitMqBackgroundService.ExecuteAsync(CancellationToken stoppingToken)

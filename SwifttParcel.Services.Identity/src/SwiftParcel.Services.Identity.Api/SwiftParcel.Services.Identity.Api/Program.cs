@@ -15,6 +15,7 @@ using SwiftParcel.Services.Identity.Identity.Application.Services;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo;
 using Convey.Logging;
 using Convey.Secrets.Vault;
+using SwiftParcel.Services.Identity.Infrastructure;
 namespace src.SwiftParcel.Services.Identity.Api
 {
     public class Program
@@ -22,12 +23,21 @@ namespace src.SwiftParcel.Services.Identity.Api
         public static async Task Main(string[] args)
             => await WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services
+                    .AddCors(options =>
+                    {
+                        options.AddPolicy("AllowAll", builder =>
+                            builder.AllowAnyOrigin()
+                                   .AllowAnyMethod()
+                                   .AllowAnyHeader());
+                    })
                     .AddConvey()
                     .AddWebApi()
                     .AddApplication()
                     .AddInfrastructure()
-                    .Build())
+                    .Build()
+                    )
                 .Configure(app => app
+                    .UseCors("AllowAll")
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx =>  ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))

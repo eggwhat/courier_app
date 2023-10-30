@@ -16,10 +16,7 @@ namespace SwiftParcel.Services.Identity.Core.Entities
         public DateTime? RevokedAt { get; private set; }
         public bool Revoked => RevokedAt.HasValue;
 
-        protected RefreshToken()
-        {
-        }
-
+      
         public void Revoke(DateTime revokedAt)
         {
             if (Revoked)
