@@ -5,9 +5,7 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers.
 COPY *.sln .
-COPY src/Pacco.Services.Identity.Api/SwiftParcel.Services.Identity.Api/*.csproj ./src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/
-COPY src/SomeOtherProject/*.csproj ./src/SomeOtherProject/
-# ... (copy other project files as needed)
+COPY src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/*.csproj ./src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/
 RUN dotnet restore
 
 # Copy everything else and build the app.
