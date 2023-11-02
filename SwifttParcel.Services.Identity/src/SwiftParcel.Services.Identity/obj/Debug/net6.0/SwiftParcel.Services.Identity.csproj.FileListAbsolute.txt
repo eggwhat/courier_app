@@ -1,7 +1,0 @@
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.csproj.AssemblyReference.cache
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.GeneratedMSBuildEditorConfig.editorconfig
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.AssemblyInfoInputs.cache
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.AssemblyInfo.cs
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.csproj.CoreCompileInputs.cache
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.MvcApplicationPartsAssemblyInfo.cs
-/home/kaliuser/Documents/portfolio/commercial_apps/courierapp/courier_app/SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity/obj/Debug/net6.0/SwiftParcel.Services.Identity.MvcApplicationPartsAssemblyInfo.cache
