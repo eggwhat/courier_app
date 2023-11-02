@@ -4,7 +4,7 @@
 # Auto detect text files and perform LF normalization
 *          text=auto
 
-*.cs       text diff=csharp
+*.cs       text diff=csharp linguist-language=csharp
 *.cshtml   text diff=html
 *.csx      text diff=csharp
 *.sln      text eol=crlf
@@ -33,12 +33,12 @@
 *.bat             text eol=crlf
 *.cmd             text eol=crlf
 *.coffee          text
-*.css             text diff=css
+*.css             text diff=css linguist-language=css
 *.htm             text diff=html
 *.html            text diff=html
 *.inc             text
 *.ini             text
-*.js              text
+*.js              text linguist-language=JavaScript
 *.json            text
 *.jsx             text
 *.less            text
@@ -59,7 +59,7 @@
 *.sql             text
 *.styl            text
 *.tag             text
-*.ts              text
+*.ts              text linguist-language=TypeScript
 *.tsx             text
 *.xml             text
 *.xhtml           text diff=html
