@@ -99,7 +99,7 @@ StyleCopReport.xml
 *.scc
 
 #obj files
-**/obj/
+**/**/obj/
 
 # Chutzpah Test files
 _Chutzpah*
