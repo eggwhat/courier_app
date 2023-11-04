@@ -28,125 +28,125 @@ later in the process)
 
 ## Requirements overall
 ### Web UI (App) for Courier Hub app
- - Can register using AzureAD or other OpenId (Google, Facebook, custom)
- - When registered, need to provide some additional information:
-    - First Name
-    - Last Name
-    - Address
-    - Email
-    - Default Source address
- - Need to use provided by lecturer Courier API
- - Need to use at least one other group API
- - Need to create own Courier API
- - Need to meet the business requirements
- - Need to meet the technical requirements
+ - [ ] Can register using AzureAD or other OpenId (Google, Facebook, custom)
+ - [ ] When registered, need to provide some additional information:
+    - [ ] First Name
+    - [ ] Last Name
+    - [ ] Address
+    - [ ] Email
+    - [ ] Default Source address
+ - [ ] Need to use provided by lecturer Courier API
+ - [ ] Need to use at least one other group API
+ - [ ] Need to create own Courier API
+ - [ ] Need to meet the business requirements
+ - [ ] Need to meet the technical requirements
 
 ## Requirements – business part 1: Client
 
- - Client can have register/login abilities
- - Client (logged in) as default should see a list of the last 30 days’ inquires
- - Package dimension and weight,
- - Source and destination
- - Date of inquiring
- - Status
- - If inquiry has offer, submit just one that we offer with the status of the offer
- - Client (logged in) will have a button to create a new inquire
- - Client (not logged in) will have a button to create a new inquire
- - Client creating new inquire should provide
- - Package dimension and weight,
- - Source and destination
- - Pickup date and delivery date
- - If it is a company or not
- - Pirority and delivery at weekend
- - Client should get an email when the inquiry is submitted
- - Client should get a list of possible offers
- - Client can click on one of the offers to accept it (offer are valid for some time)
- - Client should need to provide some that before he can submit acceptance of the offer
- - Personal data or company data (if possible, take it form user data for logged in users)
- - Address (if possible, take it form user data for logged-in users)
- - Email address
- - Client should get a link that he can use to check the offer status and the offer Id
- - Client should get an email with a link to the offer status
- - Client should get an email when the decision about it will be made
+ -  [ ] Client can have register/login abilities
+ -  [ ] Client (logged in) as default should see a list of the last 30 days’ inquires
+ -  [ ] Package dimension and weight,
+ -  [ ] Source and destination
+ -  [ ] Date of inquiring
+ -  [ ] Status
+ -  [ ] If inquiry has offer, submit just one that we offer with the status of the offer
+    -  [ ] Client (logged in) will have a button to create a new inquire
+    -  [ ] Client (not logged in) will have a button to create a new inquire
+ -  [ ] Client creating new inquire should provide
+    -  [ ] Package dimension and weight,
+    -  [ ] Source and destination
+    -  [ ] Pickup date and delivery date
+    -  [ ] If it is a company or not
+    -  [ ] Pirority and delivery at weekend
+ -  [ ] Client should get an email when the inquiry is submitted
+ -  [ ] Client should get a list of possible offers
+ -  [ ] Client can click on one of the offers to accept it (offer are valid for some time)
+ -  [ ] Client should need to provide some that before he can submit acceptance of the offer
+ -  [ ] Personal data or company data (if possible, take it form user data for logged in users)
+ -  [ ] Address (if possible, take it form user data for logged-in users)
+ -  [ ] Email address
+ -  [ ] Client should get a link that he can use to check the offer status and the offer Id
+ -  [ ] Client should get an email with a link to the offer status
+ -  [ ] Client should get an email when the decision about it will be made
 
 ## Requirements – business part 2: Courier company office worker
- - Show all inquiries to your bank
- - Could be filtered out
- - Should be sortable
- - Show all offer request for your bank
- - Could be filtered out
- - Should be sortable
- - Can check details of the offers
- - Show all sent data
- - Can accept or reject pending offers
- - If accepted need to provide
- - Agreement
- - Receipt
- - If rejected need to provide reason why
+ - [ ] Show all inquiries to your bank
+    - [ ] Could be filtered out
+    - [ ] Should be sortable
+ - [ ] Show all offer request for your bank
+    - [ ] Could be filtered out
+    - [ ] Should be sortable
+ - [ ] Can check details of the offers
+    - [ ] Show all sent data
+ - [ ] Can accept or reject pending offers
+    - [ ] If accepted need to provide
+        - [ ] Agreement
+        - [ ] Receipt
+    - [ ] If rejected need to provide reason why
 
 ## Requirements – business part 3: Courier
- - Show all delivery
- - Could be filtered out
- - Should be sortable
- - Can check details of the delivery
- - Can set delivery as picked up
- - Name of courier
- - Date of pickup
- - Can set delivered package
- - Name of courier
- - Date of delivery
- - Can set cannot deliver
- - Date of attempt
- - Name of courier
- - Reason why
+ - [ ] Show all delivery
+    - [ ] Could be filtered out
+    - [ ] Should be sortable
+ - [ ] Can check details of the delivery
+ - [ ] Can set delivery as picked up
+    - [ ] Name of courier
+    - [ ] Date of pickup
+ - [ ] Can set delivered package
+    - [ ] Name of courier
+    - [ ] Date of delivery
+ - [ ] Can set cannot deliver
+    - [ ] Date of attempt
+    - [ ] Name of courier
+    - [ ] Reason why
 
 ## Requirements – business part 4: API functions
 
- - Create inquire
- - Some auth
- - Request must have all business needed fields as required
- - Can have some option
- - Need return id of this inquire
- - Create offer
- - Some auth
- - Required field check
- - Check the status of the offer
- - Some auth
- - Should require id
- - Return status with description
- - List of inquiring
- - Just for Courier company office worker
- - Return a list of inquiring
- - List of offers
- - Just for Courier comapny office worker
- - Return a list of offers
- - What offer need to contain:
- - The inquire id
- - The date of creation of offer
- - The date of update of offer
- - The status offer (with description)
- - The requested value
- - The offer time period
- - Information about package
- - Information about Source and Delivery
- - Price (taxes, fees and other things)
+ - [ ] Create inquire
+    - [ ] Some auth
+    - [ ] Request must have all business needed fields as required
+    - [ ] Can have some option
+    - [ ] Need return id of this inquire
+ - [ ] Create offer
+    - [ ] Some auth
+    - [ ] Required field check
+ - [ ] Check the status of the offer
+    - [ ] Some auth
+    - [ ] Should require id
+    - [ ] Return status with description
+ - [ ] List of inquiring
+    - [ ] Just for Courier company office worker
+    - [ ] Return a list of inquiring
+ - [ ] List of offers
+    - [ ] Just for Courier comapny office worker
+    - [ ] Return a list of offers
+ - [ ] What the offer need to contain:
+    - [ ] The inquire id
+    - [ ] The date of creation of offer
+    - [ ] The date of update of offer
+    - [ ] The status offer (with description)
+    - [ ] The requested value
+    - [ ] The offer time period
+    - [ ] Information about package
+    - [ ] Information about Source and Delivery
+    - [ ] Price (taxes, fees and other things)
 
 
  ## Technical requirements
- - Front-end
- - Javascript based (could react/angular if accepted by group lecturer)
- - Responsive
- - Using AJAX
- - Consistent
- - Host on Azure
- - Back-end
- - .NET (6 or Core 3.+)
- - Host on Azure
- - Using SQL database with EntityFramework (or similar) as the provider
- - Use AzureBlob (or similar) to store files
- - Use SendGrid (or similar) for sending mail
- - Use some form of OpenId to authentication (or other based on OATH)
- - Create custom authorization or use OpenId to achieve that
+ - [ ] Front-end
+    - [ ] Javascript based (could react/angular if accepted by group lecturer)
+    - [ ] Responsive
+    - [ ] Using AJAX
+    - [ ] Consistent
+    - [ ] Host on Azure
+ - [ ] Back-end
+    - [ ] .NET (6 or Core 3.+) (Maybe the .NET CORE will be more suitable)
+    - [ ] Host on Azure
+    - [ ] Using SQL database with EntityFramework (or similar) as the provider
+    - [ ] Use AzureBlob (or similar) to store files
+    - [ ] Use SendGrid (or similar) for sending mail
+    - [ ] Use some form of OpenId to authentication (or other based on OATH)
+    - [ ] Create custom authorization or use OpenId to achieve that
 
 ## Technology stack
  - SCRUM, git, git-flow, Azure DevOps
