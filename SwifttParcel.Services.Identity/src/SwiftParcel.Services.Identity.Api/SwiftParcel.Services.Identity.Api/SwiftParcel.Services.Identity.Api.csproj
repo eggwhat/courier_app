@@ -20,4 +20,9 @@
     <ProjectReference Include="..\..\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <Content Include="certs\**" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
 </Project>
