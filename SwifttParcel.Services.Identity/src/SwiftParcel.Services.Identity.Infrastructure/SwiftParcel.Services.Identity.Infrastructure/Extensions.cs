@@ -48,6 +48,7 @@ using Convey.Security;
 using Convey.WebApi.CQRS;
 using Convey.MessageBrokers.CQRS;
 using SwiftParcel.Services.Identity.Application;
+using Convey.HTTP;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
@@ -74,7 +75,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
                 .AddQueryHandlers()
                 .AddInMemoryQueryDispatcher()
                 .AddJwt()
-                //.AddHttpClient()
+                .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
                 .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
