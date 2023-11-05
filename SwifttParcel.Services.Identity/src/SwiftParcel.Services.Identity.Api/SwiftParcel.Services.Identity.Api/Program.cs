@@ -25,10 +25,10 @@ namespace src.SwiftParcel.Services.Identity.Api
                 .ConfigureServices(services => services
                     .AddCors(options =>
                     {
-                        options.AddPolicy("AllowAll", builder =>
-                            builder.AllowAnyOrigin()
-                                   .AllowAnyMethod()
-                                   .AllowAnyHeader());
+                        options.AddPolicy("AllowSpecificOrigin", builder =>
+                            builder.WithOrigins("http://localhost:3001/") // Replace with the React app's URL if it's not running on localhost:3000
+                                .AllowAnyMethod()
+                                .AllowAnyHeader());
                     })
                     .AddConvey()
                     .AddWebApi()
@@ -37,7 +37,7 @@ namespace src.SwiftParcel.Services.Identity.Api
                     .Build()
                     )
                 .Configure(app => app
-                    .UseCors("AllowAll")
+                    .UseCors("AllowSpecificOrigin")
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx =>  ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
