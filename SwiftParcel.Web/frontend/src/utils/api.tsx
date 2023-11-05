@@ -1,14 +1,18 @@
 import axios from "axios";
 import { getUserInfo, saveUserInfo } from "./storage";
 
+
+const API_BASE_URL = 'http://localhost:6001';
+
+
 const api = axios.create({
-  baseURL: "https://parcel-delivery-system-ng.herokuapp.com/api",
+  baseURL: "http://localhost:6001",
 });
 
 const defaultPageLimit = 10;
 
 export const login = async (username: string, password: string) => {
-  return await api.post("/auth/login", {
+  return await api.post(`${API_BASE_URL}/sign-in`, {
     username,
     password,
   });
@@ -19,7 +23,7 @@ export const register = async (
   password: string,
   email: string
 ) => {
-  return await api.post("/auth/register", {
+  return await api.post(`${API_BASE_URL}/sign-up`, {
     username,
     password,
     email,
