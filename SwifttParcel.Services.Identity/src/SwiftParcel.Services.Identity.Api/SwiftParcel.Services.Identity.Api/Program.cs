@@ -26,7 +26,7 @@ namespace src.SwiftParcel.Services.Identity.Api
                     .AddCors(options =>
                     {
                         options.AddPolicy("AllowSpecificOrigin", builder =>
-                            builder.WithOrigins("http://localhost:3001/") // Replace with the React app's URL if it's not running on localhost:3000
+                            builder.WithOrigins("http://localhost:3001") // Replace with the React app's URL if it's not running on localhost:3000
                                 .AllowAnyMethod()
                                 .AllowAnyHeader());
                     })
