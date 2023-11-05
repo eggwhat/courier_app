@@ -6,7 +6,7 @@ export const saveUserInfo = (userInfo: any) => {
 export const getUserInfo = () => {
     const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
-        return JSON.parse(userInfo);
+        return JSON.parse(JSON.stringify(userInfo));
     }
     return null;
 };

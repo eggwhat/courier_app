@@ -11,7 +11,7 @@ import Deliveries from "./pages/deliveries";
 import ManageCouriers from "./pages/couriers/manage";
 import ManageCars from "./pages/cars/manage";
 import ManageParcelsCar from "./pages/cars/parcels";
-import { populateAdminUser } from "./utils/userPopulation";
+
 
 export function App() {
 

@@ -38,8 +38,9 @@ export function LoginModal(props: LoginModalProps) {
 
     login(email, password)
       .then(async (res) => {
+        console.log(res)
         saveUserInfo(res.data);
-          close();
+        close();
         // if (res.status === 200) {
         //   saveUserInfo(res.data);
         //   close();
