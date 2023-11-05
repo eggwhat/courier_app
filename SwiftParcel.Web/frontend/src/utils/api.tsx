@@ -23,11 +23,23 @@ export const register = async (
   password: string,
   email: string
 ) => {
-  return await api.post(`${API_BASE_URL}/sign-up`, {
-    username,
-    password,
-    email,
-  });
+  try {
+    const response = await api.post(`/sign-up`, {
+      username,
+      password,
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // If the error is from Axios, you'll have a response object
+      console.error('Error during registration (Axios error):', error.response?.data || error.message);
+    } else {
+      // If the error is not from Axios, log the whole error
+      console.error('Error during registration:', error);
+    }
+    throw error;
+  }
 };
 
 export const logout = async () => {
