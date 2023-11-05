@@ -49,7 +49,7 @@ using Convey.MessageBrokers.CQRS;
 using SwiftParcel.Services.Identity.Application;
 using Convey.HTTP;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo;
-using SwiftParcel.Services.Identity.Infrastructure.Mongo.Services;
+using SwiftParcel.Services.Identity.Infrastructure.Services;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
