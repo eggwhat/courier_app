@@ -34,7 +34,6 @@ using SwiftParcel.Services.Identity.Infrastructure.Auth;
 using SwiftParcel.Services.Identity.Infrastructure.Contexts;
 using SwiftParcel.Services.Identity.Infrastructure.Decorators;
 using SwiftParcel.Services.Identity.Infrastructure.Exceptions;
-using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
@@ -50,6 +49,7 @@ using Convey.MessageBrokers.CQRS;
 using SwiftParcel.Services.Identity.Application;
 using Convey.HTTP;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo;
+using SwiftParcel.Services.Identity.Infrastructure.Mongo.Services;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
