@@ -9,9 +9,18 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Documents
 {
     internal static class Extensions
     {
+        // public static User AsEntity(this UserDocument document)
+        //     => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt,
+        //         document.Permissions);
+
         public static User AsEntity(this UserDocument document)
-            => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt,
+        {
+            if (document == null) return null;
+            
+            return new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt,
                 document.Permissions);
+        }
+
 
         public static UserDocument AsDocument(this User entity)
             => new UserDocument

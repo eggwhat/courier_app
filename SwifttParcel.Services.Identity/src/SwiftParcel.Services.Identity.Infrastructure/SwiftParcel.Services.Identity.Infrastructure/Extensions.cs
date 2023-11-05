@@ -49,6 +49,7 @@ using Convey.WebApi.CQRS;
 using Convey.MessageBrokers.CQRS;
 using SwiftParcel.Services.Identity.Application;
 using Convey.HTTP;
+using SwiftParcel.Services.Identity.Infrastructure.Mongo;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
@@ -98,7 +99,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
                 .UseJaeger()
                 .UseConvey()
                 .UseAccessTokenValidator()
-                //.UseMongo()
+                .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseAuthentication()
