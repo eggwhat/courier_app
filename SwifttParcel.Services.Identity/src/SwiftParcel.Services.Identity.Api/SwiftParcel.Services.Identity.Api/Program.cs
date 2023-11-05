@@ -16,6 +16,8 @@ using SwiftParcel.Services.Identity.Infrastructure.Mongo;
 using Convey.Logging;
 using Convey.Secrets.Vault;
 using SwiftParcel.Services.Identity.Infrastructure;
+using MongoDB.Driver;
+using Swashbuckle.AspNetCore.Swagger;
 namespace src.SwiftParcel.Services.Identity.Api
 {
     public class Program
@@ -95,5 +97,6 @@ namespace src.SwiftParcel.Services.Identity.Api
 
             await context.Response.WriteJsonAsync(user);
         }
+
     }
 }
