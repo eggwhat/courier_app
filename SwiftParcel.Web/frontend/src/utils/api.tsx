@@ -29,8 +29,8 @@ const getAuthHeader = () => {
 
 const defaultPageLimit = 10;
 
-export const login = async (username: string, password: string) => {
-  const response = await api.post('/sign-in', { username, password });
+export const login = async (email: string, password: string) => {
+  const response = await api.post('/sign-in', { email, password });
   return response.data;
 };
 
