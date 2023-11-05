@@ -9,13 +9,29 @@ const api = axios.create({
   baseURL: "http://localhost:6001",
 });
 
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      saveUserInfo(null);
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Helper function to get the authorization header
+const getAuthHeader = () => {
+  const token = getUserInfo()?.token;
+  if (!token) throw new Error('No token found');
+  return { Authorization: `Bearer ${token}` };
+};
+
 const defaultPageLimit = 10;
 
 export const login = async (username: string, password: string) => {
-  return await api.post(`${API_BASE_URL}/sign-in`, {
-    username,
-    password,
-  });
+  const response = await api.post('/sign-in', { username, password });
+  return response.data;
 };
 
 export const register = async (
@@ -43,33 +59,33 @@ export const register = async (
 };
 
 export const logout = async () => {
-  const token = getUserInfo()?.token;
+  try {
+    const headers = getAuthHeader();
+    await api.get('/auth/logout', { headers });
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
   saveUserInfo(null);
-  if (!token) return Promise.reject();
-
-  await api.get("/auth/logout", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 };
 
 export const getProfile = async () => {
-  const token = getUserInfo()?.token;
-  if (!token) return Promise.reject();
+  // const token = getUserInfo()?.token;
+  // if (!token) return Promise.reject();
 
-  const res = await api.get("/auth/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  // const res = await api.get("/auth/me", {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
 
-  if (res.status === 401) {
-    saveUserInfo(null);
-    return Promise.reject();
-  }
+  // if (res.status === 401) {
+  //   saveUserInfo(null);
+  //   return Promise.reject();
+  // }
 
-  return res;
+  // return res;
+  const response = await api.get("/me", { headers: getAuthHeader() });
+  return response.data;
 };
 
 export const getUsers = async (
@@ -77,19 +93,23 @@ export const getUsers = async (
   perPage: number = defaultPageLimit,
   extra = ""
 ) => {
-  const token = getUserInfo()?.token;
-  const res = await api.get(`/users?page=${page}&size=${perPage}${extra}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
-  if (res.status === 401) {
+  // in the case for the test reason: using the backend in the node
+  // const token = getUserInfo()?.token;
+  // const res = await api.get(`/users?page=${page}&size=${perPage}${extra}`, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+
+  const response = await api.get(`/users?page=${page}&size=${perPage}`, { headers: getAuthHeader() });
+
+  if (response.status === 401) {
     saveUserInfo(null);
     return Promise.reject();
   }
 
-  return res;
+  return response;
 };
 
 export const createCar = async (data: any) => {
