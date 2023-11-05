@@ -15,5 +15,5 @@ namespace SwiftParcel.Services.Identity.Application.Services
         // Task<UserDto> GetAsync(Guid id);
         // Task<JwtDTO> SignInAsync(SignIn command);
         // Task SignUpAsync(SignUp command);
-    }MONOG
+    }
 }
