@@ -38,12 +38,15 @@ export function LoginModal(props: LoginModalProps) {
 
     login(email, password)
       .then(async (res) => {
-        if (res.status === 201) {
-          saveUserInfo(res.data);
+        saveUserInfo(res.data);
           close();
-        } else {
-          throw new Error("Something went wrong");
-        }
+        // if (res.status === 200) {
+        //   saveUserInfo(res.data);
+        //   close();
+        // } else {
+        //   console.log("The error with login! The res.status =", res)
+        //   throw new Error("Something went wrong");
+        // }
       })
       .catch((err) => {
         setError(err?.response?.data?.message || "Something went wrong");
