@@ -13,7 +13,7 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
-      saveUserInfo(null);
+      //// saveUserInfo(null);
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -30,8 +30,23 @@ const getAuthHeader = () => {
 const defaultPageLimit = 10;
 
 export const login = async (email: string, password: string) => {
-  const response = await api.post('/sign-in', { email, password });
-  return response.data;
+  // const response = await api.post('/sign-in', { email, password });
+  // return response.data;
+
+  try {
+    const response = await api.post('/sign-in', { email, password });
+    const { accessToken, refreshToken, role, expires } = response.data;
+  
+    saveUserInfo({ token: accessToken, refreshToken, role, expires }); // Save the user info with the role
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during login:', error.response?.data || error.message);
+    } else {
+      console.error('Error during login:', error);
+    }
+    throw error;
+  }
 };
 
 export const register = async (
@@ -79,7 +94,7 @@ export const getProfile = async () => {
   // });
 
   // if (res.status === 401) {
-  //   saveUserInfo(null);
+  //   // saveUserInfo(null);
   //   return Promise.reject();
   // }
 
@@ -105,7 +120,7 @@ export const getUsers = async (
   const response = await api.get(`/users?page=${page}&size=${perPage}`, { headers: getAuthHeader() });
 
   if (response.status === 401) {
-    saveUserInfo(null);
+    //// saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -121,7 +136,7 @@ export const createCar = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -137,7 +152,7 @@ export const updateCar = async (carId: number, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -153,7 +168,7 @@ export const deleteCar = async (carId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    //// saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -169,7 +184,7 @@ export const getCar = async (carId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -189,7 +204,7 @@ export const getCarPersonal = async () => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -209,7 +224,7 @@ export const getCars = async (
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -225,7 +240,7 @@ export const createParcel = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -241,7 +256,7 @@ export const updateParcel = async (parcelId: string, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -257,7 +272,7 @@ export const deleteParcel = async (parcelId: string) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -273,7 +288,7 @@ export const getParcel = async (parcelId: string) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -293,7 +308,7 @@ export const getParcels = async (
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -316,7 +331,7 @@ export const getParcelsForCourier = async (
   );
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -339,7 +354,7 @@ export const getParcelsForCar = async (
   );
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -355,7 +370,7 @@ export const createCourier = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -371,7 +386,7 @@ export const updateCourier = async (courierId: number, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -387,7 +402,7 @@ export const deleteCourier = async (courierId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -403,7 +418,7 @@ export const getCourier = async (courierId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -419,7 +434,7 @@ export const getCouriers = async (page: number, perPage: number = 10) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 

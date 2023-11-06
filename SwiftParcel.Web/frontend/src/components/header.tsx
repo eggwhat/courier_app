@@ -25,6 +25,10 @@ export function Header(props: {
     setUserToken(getUserInfo());
   }, [showLoginModal]);
 
+  React.useEffect(() => {
+    console.log('User token updated:', userToken);
+  }, [userToken]);
+
   React.useMemo(() => {
     if (userToken) {
       getProfile()
@@ -40,9 +44,9 @@ export function Header(props: {
           }
         })
         .catch(() => {
-          saveUserInfo(null);
-          setUserToken(null);
-          setIsCourier(false);
+          // saveUserInfo(null);
+          // setUserToken(null);
+          // setIsCourier(false);
         })
         .finally(() => {
           props.setLoading(false);
@@ -54,12 +58,12 @@ export function Header(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userToken]);
 
-  const logoutUser = async () => {
-    logout();
-    setUserToken(null);
-    localStorage.removeItem("parcelId");
-    navigate("/");
-  };
+  // const logoutUser = async () => {
+  //   logout();
+  //   setUserToken(null);
+  //   localStorage.removeItem("parcelId");
+  //   navigate("/");
+  // };
 
   return (
     <>
@@ -85,7 +89,7 @@ export function Header(props: {
                   {userToken?.user?.email}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item>
+              {/* <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item> */}
             </Dropdown>
           ) : (
             <Button className="mr-2" onClick={() => setShowLoginModal(true)}>
@@ -93,7 +97,7 @@ export function Header(props: {
               <span className="hidden sm:flex">Sign in</span>
             </Button>
           )}
-          {userToken?.user?.role === "Admin" || userToken?.courier !== null ? (
+          {userToken?.user?.role === "admin" || userToken?.courier !== null ? (
             <Navbar.Toggle />
           ) : null}
         </div>
@@ -106,7 +110,7 @@ export function Header(props: {
               <AppNavLink to="/parcels" text="All Parcels" />
             </>
           ) : null}
-          {userToken?.user?.role === "Admin" ? (
+          {userToken?.user?.role === "admin" ? (
             <>
               <AppNavLink to="/couriers/manage" text="Couriers" />
               <AppNavLink to="/parcels/manage" text="Parcels" />
