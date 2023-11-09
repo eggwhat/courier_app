@@ -6,4 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Convey.Logging" Version="1.1.448" />
+    <PackageReference Include="Convey.Metrics.AppMetrics" Version="1.1.448" />
+    <PackageReference Include="Convey.Security" Version="1.1.448" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
+    <PackageReference Include="Ntrada" Version="0.4.4" />
+    <PackageReference Include="Ntrada.Extensions.Cors" Version="0.4.0" />
+    <PackageReference Include="Ntrada.Extensions.CustomErrors" Version="0.4.0" />
+    <PackageReference Include="Ntrada.Extensions.Jwt" Version="0.4.0" />
+    <PackageReference Include="Ntrada.Extensions.RabbitMq" Version="0.4.1" />
+    <PackageReference Include="Ntrada.Extensions.Swagger" Version="0.4.0" />
+    <PackageReference Include="Ntrada.Extensions.Tracing" Version="0.4.0" />
+  </ItemGroup>
+
 </Project>
