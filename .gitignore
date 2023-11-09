@@ -400,3 +400,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore the specific dackend development folder
+./SwiftParcel.Web/backend/**
