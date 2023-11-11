@@ -10,7 +10,7 @@ namespace SwiftParcel.Services.Availability.Application.Events.External.Handlers
     {
         // Customer data could be saved into custom DB depending on the business requirements.
         // Given the asynchronous nature of events, this would result in eventual consistency.
-        public Task HandleAsync(CustomerCreated @event)
+        public Task HandleAsync(CustomerCreated @event, CancellationToken cancellationToken)
             => Task.CompletedTask;
     }
 }
