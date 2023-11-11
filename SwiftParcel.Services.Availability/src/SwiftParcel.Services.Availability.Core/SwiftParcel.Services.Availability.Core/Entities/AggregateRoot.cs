@@ -6,7 +6,7 @@ using SwiftParcel.Services.Availability.Core.Events;
 
 namespace SwiftParcel.Services.Availability.Core.Entities
 {
-    public class AggregateRoot
+    public abstract class AggregateRoot
     {
         private readonly List<IDomainEvent> _events = new List<IDomainEvent>();
         public IEnumerable<IDomainEvent> Events => _events;
@@ -14,7 +14,7 @@ namespace SwiftParcel.Services.Availability.Core.Entities
         public int Version {get; protected set;}
 
         // here 'event' is not an C# event, but verbatim
-        protected void AggEvent(IDomainEvent @event)
+        protected void AddEvent(IDomainEvent @event)
         {
             if(!_events.Any())
             {

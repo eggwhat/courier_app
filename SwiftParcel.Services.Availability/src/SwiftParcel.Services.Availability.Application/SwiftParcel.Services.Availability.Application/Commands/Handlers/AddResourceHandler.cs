@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using SwiftParcel.Services.Availability.Application.Exceptions;
 using SwiftParcel.Services.Availability.Application.Services;
+using SwiftParcel.Services.Availability.Core.Entities;
 using SwiftParcel.Services.Availability.Core.Repositories;
 
 namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
