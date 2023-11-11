@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SwiftParcel.Services.Availability.Core.Events;
 
 namespace SwiftParcel.Services.Availability.Core.Entities
 {
-    public class AggreagetRoot
+    public class AggregateRoot
     {
         private readonly List<IDomainEvent> _events = new List<IDomainEvent>();
         public IEnumerable<IDomainEvent> Events => _events;
@@ -20,7 +21,7 @@ namespace SwiftParcel.Services.Availability.Core.Entities
                 Version++;
             }
 
-            _events.Add(@event)
+            _events.Add(@event);
         }
 
         public void ClearEvents() => _events.Clear();
