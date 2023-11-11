@@ -20,7 +20,7 @@ namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
             _eventProcessor = eventProcessor;
         }
         
-        public async Task HandleAsync(DeleteResource command)
+        public async Task HandleAsync(DeleteResource command, CancellationToken cancellationToken)
         {
             var resource = await _repository.GetAsync(command.ResourceId);
             
