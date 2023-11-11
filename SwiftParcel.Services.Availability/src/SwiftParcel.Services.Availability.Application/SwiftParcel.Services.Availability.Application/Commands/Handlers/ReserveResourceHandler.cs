@@ -26,7 +26,7 @@ namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
             _appContext = appContext;
         }
 
-        public async Task HandleAsync(ReserveResource command)
+        public async Task HandleAsync(ReserveResource command, CancellationToken cancellationToken)
         {
             var identity = _appContext.Identity;
             if (identity.IsAuthenticated && identity.Id != command.CustomerId && !identity.IsAdmin)
@@ -51,7 +51,7 @@ namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
                 throw new InvalidCustomerStateException(command.ResourceId, customerState?.State);
             }
 
-            var reservation = new Reservation(command.DateTime, command.Priority);
+            var reservation = new Core.ValueObjects.Reservation(command.DateTime, command.Priority);
             resource.AddReservation(reservation);
             await _repository.UpdateAsync(resource);
             await _eventProcessor.ProcessAsync(resource.Events);

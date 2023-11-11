@@ -9,7 +9,7 @@ using SwiftParcel.Services.Availability.Core.Repositories;
 
 namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
 {
-    public class ReleaseResourceReservationHandler : ICommandHandler<ReleaseResourceReservationvation>
+    public class ReleaseResourceReservationHandler : ICommandHandler<ReleaseResourceReservation>
     {
         private readonly IResourcesRepository _repository;
         private readonly IEventProcessor _eventProcessor;
@@ -20,7 +20,7 @@ namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
             _eventProcessor = eventProcessor;
         }
         
-        public async Task HandleAsync(ReleaseResourceReservation command)
+        public async Task HandleAsync(ReleaseResourceReservation command, CancellationToken cancellationToken)
         {
             var resource = await _repository.GetAsync(command.ResourceId);
             

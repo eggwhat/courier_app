@@ -21,7 +21,7 @@ namespace SwiftParcel.Services.Availability.Application.Commands.Handlers
             _eventProcessor = eventProcessor;
         }
         
-        public async Task HandleAsync(AddResource command)
+        public async Task HandleAsync(AddResource command, CancellationToken cancellationToken)
         {
             if (await _repository.ExistsAsync(command.ResourceId))
             {
