@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SwiftParcel.Services.Availability.Application.DTO;
+using SwiftParcel.Services.Availability.Core.Entities;
+using SwiftParcel.Services.Availability.Core.ValueObjects;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Documents
 {

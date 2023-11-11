@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Queries;
+using MongoDB.Driver;
+using SwiftParcel.Services.Availability.Application.DTO;
+using SwiftParcel.Services.Availability.Application.Qeries;
+using SwiftParcel.Services.Availability.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Queries
 {

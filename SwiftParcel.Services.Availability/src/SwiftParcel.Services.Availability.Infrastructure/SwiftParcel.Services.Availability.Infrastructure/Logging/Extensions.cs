@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey;
+using Convey.Logging.CQRS;
+using Microsoft.Extensions.DependencyInjection;
+using SwiftParcel.Services.Availability.Application.Commands;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Logging
 {

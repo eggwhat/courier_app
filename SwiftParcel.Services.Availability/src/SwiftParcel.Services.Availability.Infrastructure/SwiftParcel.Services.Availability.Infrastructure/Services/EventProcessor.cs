@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Events;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using SwiftParcel.Services.Availability.Application.Events;
+using SwiftParcel.Services.Availability.Application.Services;
+using SwiftParcel.Services.Availability.Core.Events;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Services
 {

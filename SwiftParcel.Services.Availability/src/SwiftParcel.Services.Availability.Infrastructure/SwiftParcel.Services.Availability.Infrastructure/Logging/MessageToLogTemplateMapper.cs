@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.Logging.CQRS;
+using SwiftParcel.Services.Availability.Application.Commands;
+using SwiftParcel.Services.Availability.Application.Events.External;
+using SwiftParcel.Services.Availability.Application.Exceptions;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Logging
 {
@@ -25,7 +29,7 @@ namespace SwiftParcel.Services.Availability.Infrastructure.Logging
                 {typeof(ReleaseResourceReservation), new HandlerLogTemplate { After = "Released a resource with id: {ResourceId}."}},
                 {typeof(ReserveResource), new HandlerLogTemplate { After = "Reserved a resource with id: {ResourceId} " +
                                                                           "priority: {Priority}, date: {DateTime}."}},
-                {typeof(VehicleDeleted), new HandlerLogTemplate{ Before = "Vehicle with id: {VehicleId} has been deleted."}}, 
+                {typeof(CourierDeleted), new HandlerLogTemplate{ Before = "Courier with id: {CourierId} has been deleted."}}, 
             };
         
         public HandlerLogTemplate Map<TMessage>(TMessage message) where TMessage : class
