@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Events;
 
 namespace SwiftParcel.Services.Availability.Application.Events.External
 {
-    public class CourierDeleated : IEvent
+    public class CourierDeleted : IEvent
     {
         public Guid CourierId { get; }
 
-        public CourierDeleated(Guid courierId) 
+        public CourierDeleted(Guid courierId) 
             => CourierId = courierId;
     }
 }

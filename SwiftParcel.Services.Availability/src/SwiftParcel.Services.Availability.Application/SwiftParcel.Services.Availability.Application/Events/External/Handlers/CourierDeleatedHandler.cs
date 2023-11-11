@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
 
 namespace SwiftParcel.Services.Availability.Application.Events.External.Handlers
 {
-    public class CourierDeleatedHandler  : IEventHandler<VehicleDeleted>
+    public class CourierDeletedHandler  : IEventHandler<CourierDeleted>
     {
         private readonly ICommandDispatcher _dispatcher;
 
