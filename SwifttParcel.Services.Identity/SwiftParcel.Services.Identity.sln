@@ -7,27 +7,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F2EF2C7-579
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Api", "SwiftParcel.Services.Identity.Api", "{B85B3054-38B0-4EA1-8943-30DB1A33C2B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Api", "src\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api.csproj", "{2ADD2415-5EA3-4004-A416-9C131FFB8173}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Api", "src\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api\SwiftParcel.Services.Identity.Api.csproj", "{2ADD2415-5EA3-4004-A416-9C131FFB8173}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Application", "SwiftParcel.Services.Identity.Application", "{0D20F0A4-91C5-468A-9337-CDDA3313D9DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Application", "src\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj", "{883F6B8D-839D-4071-870C-DD5F0CFE937E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Application", "src\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application\SwiftParcel.Services.Identity.Application.csproj", "{883F6B8D-839D-4071-870C-DD5F0CFE937E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Core", "SwiftParcel.Services.Identity.Core", "{B9FBBB29-CC89-44BC-B845-FEB03B468FD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Core", "src\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core.csproj", "{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Core", "src\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core\SwiftParcel.Services.Identity.Core.csproj", "{F72C4B04-5CE8-41C4-AA61-E3F415D82C80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Infrastructure", "SwiftParcel.Services.Identity.Infrastructure", "{BCF8AC11-5D37-4198-B089-0CB0519193A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Identity.Infrastructure", "src\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure.csproj", "{843424FB-FBC0-4F36-80E4-D839EE0837C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Infrastructure", "src\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure\SwiftParcel.Services.Identity.Infrastructure.csproj", "{843424FB-FBC0-4F36-80E4-D839EE0837C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0D99CB76-AD5F-4C96-A7AA-418BC0048C83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Application.UnitTests", "SwiftParcel.Services.Identity.Application.UnitTests", "{4BCEB813-D70B-4338-ABAE-6556283F93E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Application.UnitTests", "tests\SwiftParcel.Services.Identity.Application.UnitTests\SwiftParcel.Services.Identity.Application.UnitTests\SwiftParcel.Services.Identity.Application.UnitTests.csproj", "{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Api.UnitTests", "SwiftParcel.Services.Identity.Api.UnitTests", "{EC1BA5DF-234B-453E-BFC8-68085586F34D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Core.UnitTests", "SwiftParcel.Services.Identity.Core.UnitTests", "{96F3E0D1-09BF-4693-B6D5-CDEA920B1F82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Infrastructure.UnitTests", "SwiftParcel.Services.Identity.Infrastructure.UnitTests", "{E0D65F4A-C5FE-4280-80D0-7B727124E9C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2ADD2415-5EA3-4004-A416-9C131FFB8173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,6 +55,13 @@ Global
 		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{843424FB-FBC0-4F36-80E4-D839EE0837C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B85B3054-38B0-4EA1-8943-30DB1A33C2B1} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
@@ -56,5 +72,13 @@ Global
 		{F72C4B04-5CE8-41C4-AA61-E3F415D82C80} = {B9FBBB29-CC89-44BC-B845-FEB03B468FD9}
 		{BCF8AC11-5D37-4198-B089-0CB0519193A8} = {5F2EF2C7-5798-4569-85F7-8985655984CC}
 		{843424FB-FBC0-4F36-80E4-D839EE0837C0} = {BCF8AC11-5D37-4198-B089-0CB0519193A8}
+		{4BCEB813-D70B-4338-ABAE-6556283F93E3} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
+		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3} = {4BCEB813-D70B-4338-ABAE-6556283F93E3}
+		{EC1BA5DF-234B-453E-BFC8-68085586F34D} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
+		{96F3E0D1-09BF-4693-B6D5-CDEA920B1F82} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
+		{E0D65F4A-C5FE-4280-80D0-7B727124E9C7} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {313FC8F3-55A5-4607-8A49-193999D5D813}
 	EndGlobalSection
 EndGlobal
