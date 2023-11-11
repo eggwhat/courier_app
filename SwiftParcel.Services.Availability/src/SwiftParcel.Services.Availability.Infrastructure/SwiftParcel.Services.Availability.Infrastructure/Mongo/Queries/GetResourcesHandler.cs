@@ -19,7 +19,7 @@ namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Queries
             _database = database;
         }
 
-        public async Task<IEnumerable<ResourceDto>> HandleAsync(GetResources query)
+        public async Task<IEnumerable<ResourceDto>> HandleAsync(GetResources query, CancellationToken cancellationToken)
         {
             var collection = _database.GetCollection<ResourceDocument>("resources");
 
@@ -31,9 +31,9 @@ namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Queries
             }
 
             var documents = collection.AsQueryable();
-            documents = query.MatchAllTags
+            documents = (MongoDB.Driver.Linq.IMongoQueryable<ResourceDocument>)(query.MatchAllTags
                 ? documents.Where(d => query.Tags.All(t => d.Tags.Contains(t)))
-                : documents.Where(d => query.Tags.Any(t => d.Tags.Contains(t)));
+                : documents.Where(d => query.Tags.Any(t => d.Tags.Contains(t))));
 
             var resources = await documents.ToListAsync();
 
