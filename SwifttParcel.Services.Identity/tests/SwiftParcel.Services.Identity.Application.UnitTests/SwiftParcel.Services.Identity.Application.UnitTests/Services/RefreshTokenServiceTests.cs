@@ -8,6 +8,7 @@ using SwiftParcel.Services.Identity.Core.Entities;
 using SwiftParcel.Services.Identity.Core.Repositories;
 using SwiftParcel.Services.Identity.Core.Exceptions;
 using SwiftParcel.Services.Identity.Application.UserDTO;
+using SwiftParcel.Services.Identity.Application.Exceptions;
 
 namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
 {
@@ -71,7 +72,7 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
         {
             //Arrange
             var refreshToken = "invalidToken";
-            _mockRefreshTokenRepository.Setup(x => x.GetAsync(refreshToken)).ReturnsAsync((RefreshToken)null);
+            _mockRefreshTokenRepository.Setup(x => x.GetAsync(refreshToken)).ReturnsAsync(() => null);
 
             //Act and Assert
             await _refreshTokenService.Invoking(x => x.RevokeAsync(refreshToken)).Should().ThrowAsync<InvalidRefreshTokenException>();
@@ -102,7 +103,7 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
         {
             //Arrange
             var refreshToken = "invalidToken";
-            _mockRefreshTokenRepository.Setup(x => x.GetAsync(refreshToken)).ReturnsAsync((RefreshToken)null);
+            _mockRefreshTokenRepository.Setup(x => x.GetAsync(refreshToken)).ReturnsAsync(() => null);
 
             //Act and Assert
             await _refreshTokenService.Invoking(x => x.UseAsync(refreshToken)).Should().ThrowAsync<InvalidRefreshTokenException>();
@@ -117,6 +118,19 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
 
             //Act and Assert
             await _refreshTokenService.Invoking(x => x.UseAsync(refreshToken)).Should().ThrowAsync<RevokedRefreshTokenException>();
+        }
+
+        [Fact]
+        public async Task UseAsync_WithInvalidTokenUserId_ThrowsUserNotFoundException()
+        {
+            var refreshToken = "tokenWithInvalidUserId";
+            var token = new RefreshToken(new AggregateId(), Guid.NewGuid(), refreshToken, DateTime.UtcNow);
+            _mockRefreshTokenRepository.Setup(x => x.GetAsync(refreshToken)).ReturnsAsync(token);
+            _mockUserRepository.Setup(x => x.GetAsync(token.UserId)).ReturnsAsync(() => null);
+
+            //Act and Assert
+            await _refreshTokenService.Invoking(x => x.UseAsync(refreshToken)).Should().ThrowAsync<UserNotFoundException>()
+                .WithMessage($"User with ID: '{token.UserId}' was not found.");
         }
     }
 }
