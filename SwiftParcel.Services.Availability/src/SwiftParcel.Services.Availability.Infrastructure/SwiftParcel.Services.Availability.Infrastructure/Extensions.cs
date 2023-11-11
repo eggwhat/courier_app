@@ -1,7 +1,53 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Convey;
+using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
+using Convey.CQRS.Queries;
+using Convey.Discovery.Consul;
+using Convey.Docs.Swagger;
+using Convey.HTTP;
+using Convey.LoadBalancing.Fabio;
+using Convey.MessageBrokers;
+using Convey.MessageBrokers.CQRS;
+using Convey.MessageBrokers.Outbox;
+using Convey.MessageBrokers.Outbox.Mongo;
+using Convey.MessageBrokers.RabbitMQ;
+using Convey.Metrics.AppMetrics;
+using Convey.Persistence.MongoDB;
+using Convey.Persistence.Redis;
+using Convey.Security;
+using Convey.Tracing.Jaeger;
+using Convey.Tracing.Jaeger.RabbitMQ;
+using Convey.WebApi;
+using Convey.WebApi.CQRS;
+using Convey.WebApi.Security;
+using Convey.WebApi.Swagger;
+using Elasticsearch.Net;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using SwiftParcel.Services.Availability.Application;
+using SwiftParcel.Services.Availability.Application.Commands;
+using SwiftParcel.Services.Availability.Application.Events;
+using SwiftParcel.Services.Availability.Application.Events.External;
+using SwiftParcel.Services.Availability.Application.Services;
+using SwiftParcel.Services.Availability.Application.Services.Clients;
+using SwiftParcel.Services.Availability.Core.Repositories;
+using SwiftParcel.Services.Availability.Infrastructure.Contexts;
+using SwiftParcel.Services.Availability.Infrastructure.Decorators;
+using SwiftParcel.Services.Availability.Infrastructure.Exceptions;
+using SwiftParcel.Services.Availability.Infrastructure.Jeager;
+using SwiftParcel.Services.Availability.Infrastructure.Logging;
+using SwiftParcel.Services.Availability.Infrastructure.Metrics;
+using SwiftParcel.Services.Availability.Infrastructure.Mongo.Documents;
+using SwiftParcel.Services.Availability.Infrastructure.Mongo.Repositories;
+using SwiftParcel.Services.Availability.Infrastructure.Services;
+using SwiftParcel.Services.Availability.Infrastructure.Services.Clients;
 
 namespace SwiftParcel.Services.Availability.Infrastructure
 {
@@ -64,7 +110,7 @@ namespace SwiftParcel.Services.Availability.Infrastructure
                 .SubscribeCommand<ReleaseResourceReservation>()
                 .SubscribeCommand<ReserveResource>()
                 .SubscribeEvent<CustomerCreated>()
-                .SubscribeEvent<VehicleDeleted>();
+                .SubscribeEvent<CourierDeleted>();
 
             return app;
         }

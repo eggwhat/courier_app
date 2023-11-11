@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.Persistence.MongoDB;
+using SwiftParcel.Services.Availability.Core.Entities;
+using SwiftParcel.Services.Availability.Core.Repositories;
+using SwiftParcel.Services.Availability.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Repositories
 {

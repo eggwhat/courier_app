@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.Types;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Mongo.Documents
 {

@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.MessageBrokers.RabbitMQ;
+using SwiftParcel.Services.Availability.Application.Commands;
+using SwiftParcel.Services.Availability.Application.Events.Rejected;
+using SwiftParcel.Services.Availability.Application.Exceptions;
+using SwiftParcel.Services.Availability.Core.Exceptions;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Exceptions
 {

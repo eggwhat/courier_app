@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Events;
+using SwiftParcel.Services.Availability.Application.Events;
+using SwiftParcel.Services.Availability.Application.Services;
+using SwiftParcel.Services.Availability.Core.Events;
+using ReservationCanceled =  SwiftParcel.Services.Availability.Core.Events.ReservationCanceled;
+using ResourceDeleted = SwiftParcel.Services.Availability.Core.Events.ResourceDeleted;
+
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Services
 {

@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.HTTP;
+using Convey.Secrets.Vault;
+using Convey.WebApi.Security;
+using SwiftParcel.Services.Availability.Application.DTO;
+using SwiftParcel.Services.Availability.Application.Services.Clients;
 
 namespace SwiftParcel.Services.Availability.Infrastructure.Services.Clients
 {
-    internal sealed class CustomerServiceClient : ICustomersServiceClient
+    internal sealed class CustomersServiceClient : ICustomersServiceClient
     {
         private readonly IHttpClient _httpClient;
         private readonly string _url;
