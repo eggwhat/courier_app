@@ -1,25 +1,38 @@
-var builder = WebApplication.CreateBuilder(args);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace src.SwiftParcel.Services.Availability.Api
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static async Task Main(string[] args)
+            => await CreateWebHostBuilder(args)
+                .Build()
+                .RunAsync();
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+            => WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services
+                    .AddConvey()
+                    .AddWebApi()
+                    .AddApplication()
+                    .AddInfrastructure()
+                    .Build())
+                .Configure(app => app
+                    .UseInfrastructure()
+                    .UseDispatcherEndpoints(endpoints => endpoints
+                        .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
+                        .Get<GetResources, IEnumerable<ResourceDto>>("resources")
+                        .Get<GetResource, ResourceDto>("resources/{resourceId}")
+                        .Post<AddResource>("resources",
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"resources/{cmd.ResourceId}"))
+                        .Post<ReserveResource>("resources/{resourceId}/reservations/{dateTime}")
+                        .Delete<ReleaseResourceReservation>("resources/{resourceId}/reservations/{dateTime}")
+                        .Delete<DeleteResource>("resources/{resourceId}")))
+                .UseLogging()
+                .UseVault();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
