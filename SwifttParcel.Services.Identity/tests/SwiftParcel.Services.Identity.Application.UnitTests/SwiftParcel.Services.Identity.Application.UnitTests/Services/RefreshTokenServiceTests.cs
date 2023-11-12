@@ -63,6 +63,7 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
 
             //Assert
             token.Should().NotBeNull();
+            token.RevokedAt.Should().NotBeNull();
             token.Revoked.Should().BeTrue();
             _mockRefreshTokenRepository.Verify(x => x.UpdateAsync(token), Times.Once);
         }
