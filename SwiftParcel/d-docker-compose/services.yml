@@ -7,7 +7,7 @@ services:
     container_name: identity-service
     restart: unless-stopped
     ports:
-      - 5004:80
+      - 6001:80
     networks:
       - swiftparcel
 
@@ -16,7 +16,15 @@ services:
     container_name: availability-service
     restart: unless-stopped
     ports:
-      - 5001:80 
+      - 6002:80 
+    networks:
+      - swiftparcel
+  web:
+    image: apa/swiftparcel.web
+    container_name: swiftparcel-web
+    restart: unless-stopped
+    ports:
+      - 3001:80 
     networks:
       - swiftparcel
 
