@@ -1,6 +1,7 @@
-version: "3.7"
+version: "1.0"
 
 services:
+
   consul:
     image: consul:1.9.5
     container_name: consul
@@ -40,7 +41,7 @@ services:
     container_name: jaeger
     restart: unless-stopped
     networks:
-      - pacco
+      - swiftparcel
     ports:
       - 5775:5775/udp
       - 5778:5778
