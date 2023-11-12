@@ -23,17 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0D99CB76-AD5F-4C96-A7AA-418BC0048C83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Application.UnitTests", "SwiftParcel.Services.Identity.Application.UnitTests", "{4BCEB813-D70B-4338-ABAE-6556283F93E3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Identity.Application.UnitTests", "Services.Identity.Application.UnitTests", "{4BCEB813-D70B-4338-ABAE-6556283F93E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Identity.Application.UnitTests", "tests\SwiftParcel.Services.Identity.Application.UnitTests\SwiftParcel.Services.Identity.Application.UnitTests\SwiftParcel.Services.Identity.Application.UnitTests.csproj", "{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "tests\SwiftParcel.Services.Identity.Application.UnitTests\Application.UnitTests\Application.UnitTests.csproj", "{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Api.UnitTests", "SwiftParcel.Services.Identity.Api.UnitTests", "{EC1BA5DF-234B-453E-BFC8-68085586F34D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Identity.Infrastructure.UnitTests", "Services.Identity.Infrastructure.UnitTests", "{F00145B8-A4D2-4D7E-A618-7C3C4B1ED853}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Core.UnitTests", "SwiftParcel.Services.Identity.Core.UnitTests", "{96F3E0D1-09BF-4693-B6D5-CDEA920B1F82}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Identity.Infrastructure.UnitTests", "SwiftParcel.Services.Identity.Infrastructure.UnitTests", "{E0D65F4A-C5FE-4280-80D0-7B727124E9C7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Identity.Services.Infrastructure.UnitTests", "SwiftParcel.Identity.Services.Infrastructure.UnitTests\SwiftParcel.Identity.Services.Infrastructure.UnitTests.csproj", "{E77E9612-1A8D-45AA-9116-1A57F1F71741}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "tests\SwiftParcel.Services.Identity.Infrastructure.UnitTests\Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{CBB9BB09-93BF-4802-9A83-F01056230254}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +57,10 @@ Global
 		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E77E9612-1A8D-45AA-9116-1A57F1F71741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E77E9612-1A8D-45AA-9116-1A57F1F71741}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E77E9612-1A8D-45AA-9116-1A57F1F71741}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E77E9612-1A8D-45AA-9116-1A57F1F71741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB9BB09-93BF-4802-9A83-F01056230254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB9BB09-93BF-4802-9A83-F01056230254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB9BB09-93BF-4802-9A83-F01056230254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB9BB09-93BF-4802-9A83-F01056230254}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,10 +76,8 @@ Global
 		{843424FB-FBC0-4F36-80E4-D839EE0837C0} = {BCF8AC11-5D37-4198-B089-0CB0519193A8}
 		{4BCEB813-D70B-4338-ABAE-6556283F93E3} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
 		{EDF2F21A-7A1B-43E9-BBB4-642261242FB3} = {4BCEB813-D70B-4338-ABAE-6556283F93E3}
-		{EC1BA5DF-234B-453E-BFC8-68085586F34D} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
-		{96F3E0D1-09BF-4693-B6D5-CDEA920B1F82} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
-		{E0D65F4A-C5FE-4280-80D0-7B727124E9C7} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
-		{E77E9612-1A8D-45AA-9116-1A57F1F71741} = {E0D65F4A-C5FE-4280-80D0-7B727124E9C7}
+		{F00145B8-A4D2-4D7E-A618-7C3C4B1ED853} = {0D99CB76-AD5F-4C96-A7AA-418BC0048C83}
+		{CBB9BB09-93BF-4802-9A83-F01056230254} = {F00145B8-A4D2-4D7E-A618-7C3C4B1ED853}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {313FC8F3-55A5-4607-8A49-193999D5D813}

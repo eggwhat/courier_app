@@ -90,7 +90,7 @@ namespace SwiftParcel.Identity.Services.Infrastructure.UnitTests.Services
                 x => x.PublishAsync(It.IsAny<IEvent>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                     It.IsAny<object>(), It.IsAny<IDictionary<string, object>>()), Times.Never
             );
-                    }
+        }
 
         [Fact]
         public async Task PublishAsync_WithoutEvents_Returns()
