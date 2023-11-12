@@ -23,7 +23,6 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
         private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly Mock<IPasswordService> _mockPasswordService;
         private readonly Mock<IJwtProvider> _mockJwtProvider;
-        private readonly Mock<IJwtHandler> _mockJwtHandler;
         private readonly Mock<IMessageBroker> _mockMessageBroker;
         private readonly Mock<IRefreshTokenService> _mockRefreshTokenService;
         private readonly Mock<ILogger<IdentityService>> _mockLogger;
@@ -32,7 +31,6 @@ namespace SwiftParcel.Services.Identity.Application.UnitTests.Services
             _mockUserRepository = new Mock<IUserRepository>();
             _mockPasswordService = new Mock<IPasswordService>();
             _mockJwtProvider = new Mock<IJwtProvider>();
-            _mockJwtHandler = new Mock<IJwtHandler>();
             _mockMessageBroker = new Mock<IMessageBroker>();
             _mockRefreshTokenService = new Mock<IRefreshTokenService>();
             _mockLogger = new Mock<ILogger<IdentityService>>();
