@@ -1,0 +1,27 @@
+version: "1.0"
+
+services:
+
+  identity-service:
+    image: apa/swiftparcel.services.identity
+    container_name: identity-service
+    restart: unless-stopped
+    ports:
+      - 5004:80
+    networks:
+      - swiftparcel
+
+  availability-service:
+    image: apa/swiftparcel.services.availability
+    container_name: availability-service
+    restart: unless-stopped
+    ports:
+      - 5001:80 
+    networks:
+      - swiftparcel
+
+  
+networks:
+  swiftparcel:
+    name: swiftparcel-network
+    external: true

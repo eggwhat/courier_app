@@ -1,0 +1,26 @@
+version: "1.0"
+
+services:
+
+  identity-service:
+    build: ../../Swifttparcel.Services.Identity
+    container_name: identity-service
+    restart: unless-stopped
+    ports:
+      - 5004:80
+    networks:
+      - swiftparcel
+
+  availability-service:
+    build: ../../SwiftParcel.Services.Availability
+    container_name: availability-service
+    restart: unless-stopped
+    ports:
+      - 5001:80 
+    networks:
+      - swiftparcel
+
+networks:
+  swiftparcel:
+    name: swiftparcel-network
+    external: true
