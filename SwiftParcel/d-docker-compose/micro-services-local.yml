@@ -1,9 +1,9 @@
-version: "1.0"
+version: "2.1"
 
 services:
 
   identity-service:
-    build: ../../Swifttparcel.Services.Identity
+    build: ../../SwifttParcel.Services.Identity
     container_name: identity-service
     restart: unless-stopped
     ports:
