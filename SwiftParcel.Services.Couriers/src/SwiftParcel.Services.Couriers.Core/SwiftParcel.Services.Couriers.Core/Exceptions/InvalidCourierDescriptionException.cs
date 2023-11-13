@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Couriers.Core.Exceptions
         public InvalidCourierDescriptionException(string description)
             : base($"Courier description is invalid: {description}.")
         {
+            
         }
     }
 }

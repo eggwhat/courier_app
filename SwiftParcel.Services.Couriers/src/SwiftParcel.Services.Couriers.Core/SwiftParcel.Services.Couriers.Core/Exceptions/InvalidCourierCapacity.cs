@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Couriers.Core.Exceptions
         public InvalidCourierCapacity(double capacity)
             : base($"Courier capacity is invalid: {capacity}.")
         {
+            
         }
     }
 }
