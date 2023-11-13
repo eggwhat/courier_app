@@ -7,10 +7,10 @@ namespace SwiftParcel.Services.Couriers.Core.Exceptions
 {
     public class InvalidCourierCapacity : DomainException
     {
-        public override string Code { get; } = "invalid_vehicle_capacity";
+        public override string Code { get; } = "invalid_courier_capacity";
 
         public InvalidCourierCapacity(double capacity)
-            : base($"Vehicle capacity is invalid: {capacity}.")
+            : base($"Courier capacity is invalid: {capacity}.")
         {
         }
     }

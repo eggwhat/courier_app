@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SwiftParcel.Services.Couriers.Core.Exceptions;
 
 namespace SwiftParcel.Services.Couriers.Core.Entities
 {
@@ -26,8 +27,8 @@ namespace SwiftParcel.Services.Couriers.Core.Entities
             Id = id;
             Name = name;
             ChangeDescription(description);
-            PayloadCapacity = payloadCapacity > 0 ? payloadCapacity : throw new InvalidVehicleCapacity(payloadCapacity);
-            LoadingCapacity = loadingCapacity > 0 ? loadingCapacity : throw new InvalidVehicleCapacity(loadingCapacity);
+            PayloadCapacity = payloadCapacity > 0 ? payloadCapacity : throw new InvalidCourierCapacity(payloadCapacity);
+            LoadingCapacity = loadingCapacity > 0 ? loadingCapacity : throw new InvalidCourierCapacity(loadingCapacity);
             ChangePricePerService(pricePerService);
             AddVariants(Variants.Standard);
         }
@@ -46,7 +47,7 @@ namespace SwiftParcel.Services.Couriers.Core.Entities
         {
             if (string.IsNullOrEmpty(description))
             {
-                throw new InvalidVehicleDescriptionException(description);
+                throw new InvalidCourierDescriptionException(description);
             }
 
             Description = description;
@@ -56,7 +57,7 @@ namespace SwiftParcel.Services.Couriers.Core.Entities
         {
             if (pricePerService <= 0)
             {
-                throw  new InvalidVehiclePricePerServiceException(pricePerService);
+                throw  new InvalidCourierPricePerServiceException(pricePerService);
             }
 
             PricePerService = pricePerService;
