@@ -14,6 +14,7 @@
     <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
     <PackageReference Include="Convey.Discovery.Consul" Version="1.1.448" />
     <PackageReference Include="Convey.HTTP" Version="1.1.448" />
+    <PackageReference Include="Convey.LoadBalancing.Fabio" Version="1.1.448" />
     <PackageReference Include="Convey.Logging" Version="1.1.448" />
     <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
     <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.1.448" />
