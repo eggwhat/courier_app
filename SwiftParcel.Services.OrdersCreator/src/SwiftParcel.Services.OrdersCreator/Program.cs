@@ -1,27 +1,32 @@
-var builder = WebApplication.CreateBuilder(args);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Convey;
+using Convey.Logging;
+using Convey.WebApi;
+using Convey.WebApi.CQRS;
+using Microsoft.AspNetCore;
+using SwiftParcel.Services.OrdersCreator.Commands;
 
-// Add services to the container.
-
-// TODO: update the following to to make it use the controllers and the defauld project structure
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace SwiftParcel.Services.OrdersCreator
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static async Task Main(string[] args)
+            => await WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services
+                    .AddConvey()
+                    .AddWebApi()
+                    .AddInfrastructure()
+                    .Build())
+                .Configure(app => app
+                    .UseApp()
+                    .UseDispatcherEndpoints(endpoints => endpoints
+                        .Get("", ctx => ctx.Response.WriteAsync("Welcome to SwiftParcel couriers AI order maker Service!"))
+                        .Post<MakeOrder>("orders")))
+                .UseLogging()
+                .Build()
+                .RunAsync();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
