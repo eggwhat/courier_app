@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Couriers.Core.Exceptions
         public InvalidCourierPricePerServiceException(decimal pricePerService)
             : base($"Courier price per service is invalid: {pricePerService}.")
         {
+            
         }
     }
 }
