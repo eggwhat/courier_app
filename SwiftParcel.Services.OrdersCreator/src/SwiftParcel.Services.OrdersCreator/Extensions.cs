@@ -67,5 +67,4 @@ namespace SwiftParcel.Services.OrdersCreator
             return app;
         }
     }
-    }
 }
