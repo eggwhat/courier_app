@@ -7,7 +7,7 @@ using SwiftParcel.Services.Couriers.Application.Commands;
 
 namespace SwiftParcel.Services.Couriers.Infrastructure.Logging
 {
-    public class MessageToLogTemplateMapper : IMessageToLogTemplateMapper
+    internal sealed class MessageToLogTemplateMapper : IMessageToLogTemplateMapper
     {
         private static IReadOnlyDictionary<Type, HandlerLogTemplate> MessageTemplates 
             => new Dictionary<Type, HandlerLogTemplate>
