@@ -14,7 +14,6 @@ namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents
         // public string Model { get; set; }
 
         public string Name { get; set; }
-        public string LastName { get; set; }
         public string Description { get; set; }
         public double PayloadCapacity { get; set; }
         public double LoadingCapacity { get; set; }

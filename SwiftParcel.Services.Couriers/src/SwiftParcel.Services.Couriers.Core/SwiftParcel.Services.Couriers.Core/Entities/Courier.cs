@@ -11,6 +11,7 @@ namespace SwiftParcel.Services.Couriers.Core.Entities
         public Guid Id { get; protected set; }
 
         public string Name { get; protected set; }
+        
         // public string Brand { get; protected set; }
         // public string Model { get; protected set; }
         public string Description { get; protected set; }

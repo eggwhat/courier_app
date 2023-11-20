@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 using Convey.Persistence.MongoDB;
 using SwiftParcel.Services.Couriers.Core.Entities;
 using SwiftParcel.Services.Couriers.Core.Repositories;
+using SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Repositories
 {
