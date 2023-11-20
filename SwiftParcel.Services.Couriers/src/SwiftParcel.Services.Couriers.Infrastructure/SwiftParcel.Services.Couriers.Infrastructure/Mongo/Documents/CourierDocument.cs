@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.Types;
 using SwiftParcel.Services.Couriers.Core.Entities;
 
 namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents
 {
-    internal class CourierDocument
+    internal class CourierDocument : IIdentifiable<Guid>
     {
         public Guid Id { get; set; }
         // public string Brand { get; set; }
