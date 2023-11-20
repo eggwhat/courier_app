@@ -15,7 +15,7 @@ namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents
                 // document.Brand,
                 // document.Model,
                 document.Name,
-                document.LastName,
+                //document.LastName,
                 document.Description,
                 document.PayloadCapacity,
                 document.LoadingCapacity,
@@ -29,8 +29,10 @@ namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents
             => new CourierDocument
             {
                 Id = entity.Id,
-                Brand = entity.Brand,
-                Model = entity.Model,
+                // Brand = entity.Brand,
+                // Model = entity.Model,
+                Name = entity.Name,
+                // LastName = entity.LastName,
                 Description = entity.Description,
                 PayloadCapacity = entity.PayloadCapacity,
                 LoadingCapacity = entity.LoadingCapacity,
@@ -47,8 +49,7 @@ namespace SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents
                 Id = document.Id,
                 // Brand = document.Brand,
                 // Model = document.Model,
-                Name = document.Name;
-                
+                Name = document.Name,
                 Description = document.Description,
                 PayloadCapacity = document.PayloadCapacity,
                 LoadingCapacity = document.LoadingCapacity,

@@ -29,7 +29,7 @@ namespace SwiftParcel.Services.Couriers.Infrastructure.Decorators
                 : messageProperties.MessageId;
         }
 
-        public Task HandleAsync(TCommand command)
+        public Task HandleAsync(TCommand command, CancellationToken cancellationToken)
             => _enabled
                 ? _outbox.HandleAsync(_messageId, () => _handler.HandleAsync(command))
                 : _handler.HandleAsync(command);
