@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Convey;
 using Convey.WebApi.Exceptions;
 using SwiftParcel.Services.Couriers.Application.Exceptions;
 using SwiftParcel.Services.Couriers.Core.Exceptions;
