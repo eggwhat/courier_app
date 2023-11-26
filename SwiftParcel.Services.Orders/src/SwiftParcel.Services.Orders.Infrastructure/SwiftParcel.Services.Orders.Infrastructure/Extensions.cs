@@ -85,6 +85,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<AddParcelToOrder>()
                 .SubscribeCommand<DeleteParcelFromOrder>()
+                .SubscribeCommand<AssignCurrierToOrder>()
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
