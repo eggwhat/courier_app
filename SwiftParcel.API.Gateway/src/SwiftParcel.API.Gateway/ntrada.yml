@@ -290,7 +290,7 @@ modules:
       
       
   couriers:
-    path: couriers
+    path: /couriers
     routes:
       - upstream: /
         method: GET
@@ -324,7 +324,7 @@ modules:
       - upstream: /{courierId}
         method: DELETE
         use: downstream
-        downstream: couriers-service/couriers/{couriersId}
+        downstream: couriers-service/couriers/{courierId}
         auth: true
     
     services:
