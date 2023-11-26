@@ -30,4 +30,8 @@
     <PackageReference Include="Convey.WebApi.Swagger" Version="1.1.448" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj" />
+  </ItemGroup>
+
 </Project>

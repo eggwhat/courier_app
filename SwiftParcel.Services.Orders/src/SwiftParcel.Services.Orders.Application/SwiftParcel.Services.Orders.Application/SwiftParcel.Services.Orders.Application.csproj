@@ -14,4 +14,12 @@
     <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
 </ItemGroup>
 
+<ItemGroup>
+  <Folder Include="DTO\" />
+  <Folder Include="Events\" />
+  <Folder Include="Exceptions\" />
+  <Folder Include="Queries\" />
+  <Folder Include="Services\" />
+</ItemGroup>
+
 </Project>
