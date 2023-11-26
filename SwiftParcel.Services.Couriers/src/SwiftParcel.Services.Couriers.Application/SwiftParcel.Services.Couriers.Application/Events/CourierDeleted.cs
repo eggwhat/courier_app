@@ -6,11 +6,11 @@ using Convey.CQRS.Events;
 
 namespace SwiftParcel.Services.Couriers.Application.Events
 {
-    public class CourierDeleated : IEvent
+    public class CourierDeleted : IEvent
     {
         public Guid CourierId { get; }
 
-        public CourierDeleated(Guid id)
+        public CourierDeleted(Guid id)
             => CourierId = id;
     }
 }
