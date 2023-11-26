@@ -3,4 +3,8 @@ apps:
     script: dotnet run
     cwd: ../SwiftParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api
     max_restarts: 3
+  - name: availability
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api/SwiftParcel.Services.Availability.Api
+    max_restarts: 3
   
