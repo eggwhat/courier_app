@@ -9,7 +9,7 @@ using Convey.WebApi.Exceptions;
 using SwiftParcel.Services.Couriers.Application.Exceptions;
 using SwiftParcel.Services.Couriers.Core.Exceptions;
 
-namespace SwiftParcel.Services.Couriers.Infrastructure.Exeptions
+namespace SwiftParcel.Services.Couriers.Infrastructure.Exceptions
 {
     public class ExceptionToResponseMapper: IExceptionToResponseMapper
     {

@@ -35,7 +35,7 @@ using SwiftParcel.Services.Couriers.Application.Services;
 using SwiftParcel.Services.Couriers.Core.Repositories;
 using SwiftParcel.Services.Couriers.Infrastructure.Contexts;
 using SwiftParcel.Services.Couriers.Infrastructure.Decorators;
-using SwiftParcel.Services.Couriers.Infrastructure.Exeptions;
+using SwiftParcel.Services.Couriers.Infrastructure.Exceptions;
 using SwiftParcel.Services.Couriers.Infrastructure.Logging;
 using SwiftParcel.Services.Couriers.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Couriers.Infrastructure.Mongo.Repositories;
