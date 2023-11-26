@@ -6,6 +6,12 @@ WORKDIR /app
 # Copy csproj and restore as distinct layers.
 COPY *.sln .
 COPY src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/*.csproj ./src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/
+# Copy the Application, Core, and Infrastructure projects as well.
+COPY src/SwiftParcel.Services.Identity.Application/SwiftParcel.Services.Identity.Application/*.csproj ./src/SwiftParcel.Services.Identity.Application/SwiftParcel.Services.Identity.Application/
+COPY src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/*.csproj ./src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/
+COPY src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/*.csproj ./src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/
+
+# Restore the NuGet packages
 RUN dotnet restore
 
 # Copy everything else and build the app.
