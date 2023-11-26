@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{67465F3C-B4F2-4DAE-86A8-05047C2291E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Couriers.Api", "SwiftParcel.Services.Couriers.Api", "{99B398DB-F033-4D6A-9D52-1A7BDF4414E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Couriers.Api", "src\SwiftParcel.Services.Couriers.Api\SwiftParcel.Services.Couriers.Api\SwiftParcel.Services.Couriers.Api.csproj", "{A463D0B1-3D99-4842-AF72-190CA6807884}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Couriers.Application", "SwiftParcel.Services.Couriers.Application", "{CCB2F1E2-630A-4B5B-ACA6-504A39698B27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Couriers.Application", "src\SwiftParcel.Services.Couriers.Application\SwiftParcel.Services.Couriers.Application\SwiftParcel.Services.Couriers.Application.csproj", "{42EAD761-30F3-41D5-AE95-F207CDFD3F1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Couriers.Core", "SwiftParcel.Services.Couriers.Core", "{03CE8E75-731B-4228-BCE3-D4D3F40C8F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Couriers.Core", "src\SwiftParcel.Services.Couriers.Core\SwiftParcel.Services.Couriers.Core\SwiftParcel.Services.Couriers.Core.csproj", "{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Couriers.Infrastructure", "SwiftParcel.Services.Couriers.Infrastructure", "{CA6BE893-52D3-4F92-A7F6-B4D82EF9C999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Couriers.Infrastructure", "src\SwiftParcel.Services.Couriers.Infrastructure\SwiftParcel.Services.Couriers.Infrastructure\SwiftParcel.Services.Couriers.Infrastructure.csproj", "{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A463D0B1-3D99-4842-AF72-190CA6807884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A463D0B1-3D99-4842-AF72-190CA6807884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A463D0B1-3D99-4842-AF72-190CA6807884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A463D0B1-3D99-4842-AF72-190CA6807884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EAD761-30F3-41D5-AE95-F207CDFD3F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EAD761-30F3-41D5-AE95-F207CDFD3F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EAD761-30F3-41D5-AE95-F207CDFD3F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EAD761-30F3-41D5-AE95-F207CDFD3F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99B398DB-F033-4D6A-9D52-1A7BDF4414E1} = {67465F3C-B4F2-4DAE-86A8-05047C2291E1}
+		{A463D0B1-3D99-4842-AF72-190CA6807884} = {99B398DB-F033-4D6A-9D52-1A7BDF4414E1}
+		{CCB2F1E2-630A-4B5B-ACA6-504A39698B27} = {67465F3C-B4F2-4DAE-86A8-05047C2291E1}
+		{42EAD761-30F3-41D5-AE95-F207CDFD3F1F} = {CCB2F1E2-630A-4B5B-ACA6-504A39698B27}
+		{03CE8E75-731B-4228-BCE3-D4D3F40C8F1D} = {67465F3C-B4F2-4DAE-86A8-05047C2291E1}
+		{EB4751CB-FC11-4289-9F3F-B2C3FB4B92DF} = {03CE8E75-731B-4228-BCE3-D4D3F40C8F1D}
+		{CA6BE893-52D3-4F92-A7F6-B4D82EF9C999} = {67465F3C-B4F2-4DAE-86A8-05047C2291E1}
+		{4107EAA5-65B2-4C31-9DBF-4BA7CA6A4E42} = {CA6BE893-52D3-4F92-A7F6-B4D82EF9C999}
+	EndGlobalSection
+EndGlobal
