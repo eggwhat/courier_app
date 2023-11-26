@@ -22,14 +22,14 @@ namespace SwiftParcel.Services.OrdersCreator.Services.Clients
         public async Task<CourierDto> GetBestAsync()
         {
             // the most potential resource of the issues to resolve in the api connection
-            var vehicles = await _httpClient.GetAsync<PagedResult<CourierDto>>($"{_url}/courier");
-            var bestVehicle = vehicles?.Items?.FirstOrDefault(); // typical AI in a startup
-            if (bestVehicle is null)
+            var couriers = await _httpClient.GetAsync<PagedResult<CourierDto>>($"{_url}/courier");
+            var bestCourier = vehicles?.Items?.FirstOrDefault();
+            if (bestCourier is null)
             {
                 throw new InvalidOperationException("The best vehicle was not found.");
             }
 
-            return bestVehicle;
+            return bestCourier;
         }
     }
 }
