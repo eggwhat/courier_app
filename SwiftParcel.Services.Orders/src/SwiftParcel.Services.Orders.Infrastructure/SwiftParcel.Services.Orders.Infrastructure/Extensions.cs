@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using SwiftParcel.Services.Orders.Application.Commands;
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
@@ -84,7 +85,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<AddParcelToOrder>()
                 .SubscribeCommand<DeleteParcelFromOrder>()
-                .SubscribeCommand<AssignVehicleToOrder>()
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
