@@ -8,9 +8,9 @@ namespace SwiftParcel.Services.Couriers.Application.Events
 {
     public class CourierUpdated : IEvent
     {
-        public Guid CourierUpdated { get; }
+        public Guid CourierId { get; }
 
         public CourierUpdated(Guid id)
-            => CourierUpdated = id;
+            => CourierId = id;
     }
 }
