@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32E2CA73-681D-46E3-BFF4-F9DD0126E32A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Api", "SwiftParcel.Services.Orders.Api", "{6DA713C4-A10F-4248-B54C-9AE6AFB1E882}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Api", "src\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api.csproj", "{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Application", "SwiftParcel.Services.Orders.Application", "{DAA89118-586D-4669-B1D5-BE23736822C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Application", "src\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj", "{0CC5372D-B8AC-4380-8DBE-4B650C11D567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Core", "SwiftParcel.Services.Orders.Core", "{58C56B7C-E6D8-4CBD-B730-3F307C1DB930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Core", "src\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj", "{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Infrastructure", "SwiftParcel.Services.Orders.Infrastructure", "{69CF0B3C-64D8-44EE-AC46-7066C12E81DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Infrastructure", "src\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure.csproj", "{1256CFDD-28BC-4233-A2E2-11CC5925C154}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CC5372D-B8AC-4380-8DBE-4B650C11D567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CC5372D-B8AC-4380-8DBE-4B650C11D567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CC5372D-B8AC-4380-8DBE-4B650C11D567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CC5372D-B8AC-4380-8DBE-4B650C11D567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DA713C4-A10F-4248-B54C-9AE6AFB1E882} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
+		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C} = {6DA713C4-A10F-4248-B54C-9AE6AFB1E882}
+		{DAA89118-586D-4669-B1D5-BE23736822C8} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
+		{0CC5372D-B8AC-4380-8DBE-4B650C11D567} = {DAA89118-586D-4669-B1D5-BE23736822C8}
+		{58C56B7C-E6D8-4CBD-B730-3F307C1DB930} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
+		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C} = {58C56B7C-E6D8-4CBD-B730-3F307C1DB930}
+		{69CF0B3C-64D8-44EE-AC46-7066C12E81DB} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
+		{1256CFDD-28BC-4233-A2E2-11CC5925C154} = {69CF0B3C-64D8-44EE-AC46-7066C12E81DB}
+	EndGlobalSection
+EndGlobal

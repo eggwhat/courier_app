@@ -7,7 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Convey" Version="1.1.448" />
+    <PackageReference Include="Convey.WebApi" Version="1.1.448" />
+    <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
+    <PackageReference Include="Convey.Logging" Version="1.1.448" />
+    <PackageReference Include="Convey.Logging.CQRS" Version="1.1.448" />
+    <PackageReference Include="Convey.Secrets.Vault" Version="1.1.448" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj" />
   </ItemGroup>
 
 </Project>
