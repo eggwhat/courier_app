@@ -1,4 +1,4 @@
 #!/bin/bash
 export ASPNETCORE_ENVIRONMENT=Development
-cd ../src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api
+cd ../src/SwiftParcel.API.Gateway
 dotnet run
