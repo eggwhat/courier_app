@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -19,5 +19,13 @@
     <PackageReference Include="Ntrada.Extensions.Swagger" Version="0.4.0" />
     <PackageReference Include="Ntrada.Extensions.Tracing" Version="0.4.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ntrada.yml" />
+    <Content Include="ntrada.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>

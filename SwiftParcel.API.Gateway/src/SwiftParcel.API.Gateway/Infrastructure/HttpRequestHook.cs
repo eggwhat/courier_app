@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Ntrada;
+using Ntrada.Extensions.RabbitMq;
+using Ntrada.Hooks;
 
 namespace SwiftParcel.API.Gateway.Infrastructure
 {
