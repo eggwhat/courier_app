@@ -20,7 +20,10 @@
   <Folder Include="Events\" />
   <Folder Include="Exceptions\" />
   <Folder Include="Queries\" />
-  <Folder Include="Services\" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj" />
 </ItemGroup>
 
 </Project>
