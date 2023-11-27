@@ -2,11 +2,11 @@
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class RejectOrder: ICommand
+    public class CancelOrder: ICommand
     {
         public Guid OrderId { get; }
         public string Reason { get; }
-        public RejectOrder(Guid orderId, string reason)
+        public CancelOrder(Guid orderId, string reason)
         {
             OrderId = orderId;
             Reason = reason;

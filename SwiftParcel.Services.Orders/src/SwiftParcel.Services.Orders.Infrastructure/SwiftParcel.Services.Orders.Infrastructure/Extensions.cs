@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using SwiftParcel.Services.Orders.Application;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Core.Repositories;
+using SwiftParcel.Services.Orders.Infrastructure.Contexts;
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
@@ -83,7 +84,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .UseRabbitMq()
                 .SubscribeCommand<ApproveOrder>()
                 .SubscribeCommand<CreateOrder>()
-                .SubscribeCommand<RejectOrder>()
+                .SubscribeCommand<CancelOrder>()
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<AddParcelToOrder>()
                 .SubscribeCommand<DeleteParcelFromOrder>()

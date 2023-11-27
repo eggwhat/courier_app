@@ -15,10 +15,10 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         public DateTime? CannotDeliverAt { get; private set; }
         public DateTime? DeliveryDate { get; private set; }
         public decimal TotalPrice { get; private set; }
-        public string RejectionReason { get; private set; }
+        public string CancellationReason { get; private set; }
         public string CannotDeliverReason { get; private set; }
         public bool CanBeDeleted => Status == OrderStatus.New;
-        public bool CanAssignCourier => Status == OrderStatus.New || Status == OrderStatus.Rejected;
+        public bool CanAssignCourier => Status == OrderStatus.New || Status == OrderStatus.Cancelled;
         public bool HasParcels => Parcels.Any();
 
         public IEnumerable<Parcel> Parcels
@@ -47,7 +47,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             }
 
             TotalPrice = totalPrice;
-            RejectionReason = string.Empty;
+            CancellationReason = string.Empty;
             CannotDeliverReason = string.Empty;
         }
 
@@ -107,25 +107,25 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
         public void Approve()
         {
-            if (Status != OrderStatus.New && Status != OrderStatus.Rejected)
+            if (Status != OrderStatus.New && Status != OrderStatus.Cancelled)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Approved);
             }
 
             Status = OrderStatus.Approved;
-            RejectionReason = string.Empty;
+            CancellationReason = string.Empty;
             AddEvent(new OrderStateChanged(this));
         }
 
-        public void Reject(string reason)
+        public void Cancel(string reason)
         {
-            if (Status == OrderStatus.Delivered || Status == OrderStatus.Rejected)
+            if (Status == OrderStatus.Delivered || Status == OrderStatus.Cancelled)
             {
-                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Rejected);
+                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Cancelled);
             }
 
-            Status = OrderStatus.Rejected;
-            RejectionReason = reason ?? string.Empty;
+            Status = OrderStatus.Cancelled;
+            CancellationReason = reason ?? string.Empty;
             AddEvent(new OrderStateChanged(this));
         }
 
