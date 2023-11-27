@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SwiftParcel.Services.Parcels.Core.Entities
 {
-    public enum Variants
+    public enum Variant
     {
         Standard = 1 << 0,
         Chemistry = 1 << 1,

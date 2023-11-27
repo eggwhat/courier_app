@@ -20,7 +20,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public decimal Price { get; protected set; }
         public Address Source { get; protected set; }
         public Address Destination { get; protected set; }
-        public Variants Variant { get; protected set; }
+        public Variant Variant { get; protected set; }
         public Priority Priority { get; protected set; }
         public bool AtWeekend { get; protected set; }
         public bool IsFragile { get; protected set; }
@@ -28,14 +28,14 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public Parcel(AggregateId id, Guid orderId, string description, double width,
             double height, double depth, double weight, decimal price)
             : this(id, orderId, description, width, height, depth, weight, price, new Address(),
-                  new Address(), Variants.Standard, Priority.Low, false, false)
+                  new Address(), Variant.Standard, Priority.Low, false, false)
         {
 
         }
 
         public Parcel(AggregateId id, Guid orderId, string description, double width, double height, double depth,
             double weight, decimal price, Address source, Address destination,
-            Variants variant, Priority priority, bool atWeekend, bool isFragile)
+            Variant variant, Priority priority, bool atWeekend, bool isFragile)
         {
             Id = id;
             OrderId = orderId;
@@ -135,5 +135,9 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
                 throw new InvalidAddressElementException(element, value);
             }
         }
+
+        public void ChangeVariants(Variant variant) => Variant = variant;
+
+        public void ChangePriority(Priority priority) => Priority = priority;
     }
 }
