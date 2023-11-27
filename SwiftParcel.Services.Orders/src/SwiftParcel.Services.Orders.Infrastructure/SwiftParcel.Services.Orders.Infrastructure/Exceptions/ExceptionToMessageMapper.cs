@@ -2,18 +2,21 @@
 using Convey.MessageBrokers.RabbitMQ;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Application.Exceptions;
+using SwiftParcel.Services.Orders.Application.Events.Rejected;
+using SwiftParcel.Services.Orders.Application.Events.External;
 using SwiftParcel.Services.Orders.Core.Exceptions;
+
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
 {
     public class ExceptionToMessageMapper : IExceptionToMessageMapper
     {
-        public object Map(Exception exception, object message)
+        public object? Map(Exception exception, object message)
             => exception switch
             {
-                CannotDeleteOrderException ex => (object) new DeleteOrderRejected(ex.OrderId, ex.Message, ex.Code),
-                CustomerNotFoundException ex => new CreateOrderRejected(ex.CustomerId, ex.Message, ex.Code),
-                OrderForReservedVehicleNotFoundException ex => new OrderForReservedVehicleNotFound(ex.VehicleId,
+                CannotDeleteOrderException ex => (object) new DeleteOrderRejected(ex.Id, ex.Message, ex.Code),
+                CustomerNotFoundException ex => new CreateOrderRejected(ex.Id, ex.Message, ex.Code),
+                OrderForReservedCourierNotFoundException ex => new OrderForReservedVehicleNotFound(ex.CourierId,
                     ex.Date, ex.Message, ex.Code),
 
                 OrderNotFoundException ex
@@ -22,7 +25,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                     AddParcelToOrder m => (object) new AddParcelToOrderRejected(m.OrderId, m.ParcelId, ex.Message,
                         ex.Code),
                     ApproveOrder m => new ApproveOrderRejected(m.OrderId, ex.Message, ex.Code),
-                    AssignVehicleToOrder m => new AssignVehicleToOrderRejected(m.OrderId, m.VehicleId, ex.Message,
+                    AssignCourierToOrder m => new AssignCourierToOrderRejected(m.OrderId, m.CourierId, ex.Message,
                         ex.Code),
                     CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
@@ -37,7 +40,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                 OrderHasNoParcelsException ex
                 => message switch
                 {
-                    AddParcelToOrder m => new AssignVehicleToOrderRejected(m.OrderId, m.ParcelId, ex.Message, ex.Code),
+                    AddParcelToOrder m => new AssignCourierToOrderRejected(m.OrderId, m.ParcelId, ex.Message, ex.Code),
                     _ => null
                 },
 
@@ -63,17 +66,17 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                 {
                     AddParcelToOrder m => (object) new AddParcelToOrderRejected(m.OrderId, m.ParcelId, ex.Message,
                         ex.Code),
-                    AssignVehicleToOrder m => new AssignVehicleToOrderRejected(m.OrderId, m.VehicleId, ex.Message,
+                    AssignCourierToOrder m => new AssignCourierToOrderRejected(m.OrderId, m.CourierId, ex.Message,
                         ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteParcelFromOrder m => new DeleteParcelFromOrderRejected(m.OrderId, m.ParcelId, ex.Message,
                         ex.Code),
                     _ => null
                 },
-                VehicleNotFoundException ex
+                CourierNotFoundException ex
                 => message switch
                 {
-                    AssignVehicleToOrder m => new AssignVehicleToOrderRejected(m.OrderId, m.VehicleId, ex.Message,
+                    AssignCourierToOrder m => new AssignCourierToOrderRejected(m.OrderId, m.CourierId, ex.Message,
                         ex.Code),
                     _ => null,
                 },
