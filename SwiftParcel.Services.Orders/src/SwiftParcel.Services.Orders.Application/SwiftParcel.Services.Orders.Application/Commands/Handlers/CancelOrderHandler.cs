@@ -8,7 +8,7 @@ using SwiftParcel.Services.Orders.Application.Exceptions;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {
-    public class RejectOrderHandler: ICommandHandler<RejectOrder>
+    public class RejectOrderHandler: ICommandHandler<CancelOrder>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMessageBroker _messageBroker;
@@ -23,7 +23,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             _eventMapper = eventMapper;
             _appContext = appContext;
         }
-        public async Task HandleAsync(RejectOrder command, CancellationToken cancellationToken)
+        public async Task HandleAsync(CancelOrder command, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetAsync(command.OrderId);
             if (order is null)
@@ -37,7 +37,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
             
-            order.Reject(command.Reason);
+            order.Cancel(command.Reason);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());

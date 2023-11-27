@@ -4,7 +4,7 @@
     {
         New,
         Approved,
-        Rejected,
+        Cancelled,
         Received,
         Delivered,
         CannotDeliver,
