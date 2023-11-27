@@ -37,7 +37,7 @@ namespace SwiftParcel.Services.Customers.Application.Commands.Handlers
                 throw new CustomerAlreadyRegisteredException(command.CustomerId);
             }
 
-            customer.CompleteRegistration(command.FirstName, command.LastName, command.Address);
+            customer.CompleteRegistration(command.FirstName, command.LastName, command.Address, command.SourceAddress);
             await _customerRepository.UpdateAsync(customer);
 
             var events = _eventMapper.MapAll(customer.Events);
