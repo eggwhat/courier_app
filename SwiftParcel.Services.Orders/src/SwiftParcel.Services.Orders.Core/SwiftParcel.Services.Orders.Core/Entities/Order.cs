@@ -157,7 +157,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         
         public void SetCannotDeliver(string reason, DateTime cannotDeliverAt)
         {
-            if (Status != OrderStatus.Approved && Status != OrderStatus.Received)
+            if (Status != OrderStatus.Received)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.CannotDeliver);
             }
