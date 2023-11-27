@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Commands;
+using SwiftParcel.Services.Customers.Application.Exceptions;
+using SwiftParcel.Services.Customers.Core.Exceptions;
+using SwiftParcel.Services.Customers.Core.Repositories;
 
 namespace SwiftParcel.Services.Customers.Application.Commands.Handlers
 {
@@ -19,7 +23,7 @@ namespace SwiftParcel.Services.Customers.Application.Commands.Handlers
             _messageBroker = messageBroker;
         }
 
-        public async Task HandleAsync(CompleteCustomerRegistration command)
+        public async Task HandleAsync(CompleteCustomerRegistration command, CancellationToken cancellationToken)
         {
             var customer = await _customerRepository.GetAsync(command.CustomerId);
             if (customer is null)
