@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using SwiftParcel.Services.Orders.Application.Exceptions;
-using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Application.Services;
 
 namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
