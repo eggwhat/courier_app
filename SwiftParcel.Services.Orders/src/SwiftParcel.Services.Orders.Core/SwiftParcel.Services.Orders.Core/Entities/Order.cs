@@ -45,7 +45,9 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             {
                 SetDeliveryDate(deliveryDate.Value);
             }
-
+            ReceivedAt = null;
+            DeliveredAt = null;
+            CannotDeliverAt = null;
             TotalPrice = totalPrice;
             CancellationReason = string.Empty;
             CannotDeliverReason = string.Empty;

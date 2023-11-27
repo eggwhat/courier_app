@@ -32,7 +32,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                         case OrderStatus.Cancelled:
                             return new OrderCancelled(e.Order.Id, e.Order.CancellationReason);
                         case OrderStatus.CannotDeliver:
-                            return new OrderCouldNotBeDelivered(e.Order.Id, e.Order.CancellationReason);
+                            return new OrderCouldNotBeDelivered(e.Order.Id, e.Order.CannotDeliverReason);
                     }
 
                     break;
