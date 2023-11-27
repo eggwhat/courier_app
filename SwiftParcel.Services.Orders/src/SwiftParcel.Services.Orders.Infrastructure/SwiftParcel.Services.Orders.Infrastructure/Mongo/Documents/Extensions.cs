@@ -19,6 +19,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 CourierId = entity.CourierId,
                 Status = entity.Status,
                 CreatedAt = entity.CreatedAt,
+                ReceivedAt = entity.ReceivedAt,
+                DeliveredAt = entity.DeliveredAt,
+                CannotDeliverAt = entity.CannotDeliverAt,
                 DeliveryDate = entity.DeliveryDate,
                 TotalPrice = entity.TotalPrice,
                 Parcels = entity.Parcels.Select(p => new OrderDocument.Parcel
@@ -38,6 +41,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 CourierId = document.CourierId,
                 Status = document.Status.ToString().ToLowerInvariant(),
                 CreatedAt = document.CreatedAt,
+                ReceivedAt = document.ReceivedAt,
+                DeliveredAt = document.DeliveredAt,
+                CannotDeliverAt = document.CannotDeliverAt,
                 DeliveryDate = document.DeliveryDate,
                 TotalPrice = document.TotalPrice,
                 Parcels = document.Parcels.Select(p => new ParcelDto
