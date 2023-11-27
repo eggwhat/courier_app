@@ -13,6 +13,8 @@ using Convey.Secrets.Vault;
 using SwiftParcel.Services.Orders.Infrastructure;
 using SwiftParcel.Services.Orders.Application;
 using SwiftParcel.Services.Orders.Application.DTO;
+using SwiftParcel.Services.Orders.Application.Queries;
+using SwiftParcel.Services.Orders.Application.Commands;
 
 namespace SwiftParcel.Services.Orders.Api
 {

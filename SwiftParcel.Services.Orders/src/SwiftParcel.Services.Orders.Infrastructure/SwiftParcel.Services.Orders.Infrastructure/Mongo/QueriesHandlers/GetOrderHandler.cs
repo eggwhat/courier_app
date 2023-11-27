@@ -17,7 +17,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
             _orderRepository = orderRepository;
         }
 
-        public async Task<OrderDto> HandleAsync(GetOrder query)
+        public async Task<OrderDto> HandleAsync(GetOrder query, CancellationToken cancellationToken)
         {
             var document = await _orderRepository.GetAsync(p => p.Id == query.OrderId);
 
