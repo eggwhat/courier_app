@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,18 +30,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Core.Repositories;
-=======
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
->>>>>>> 21b8b23823637f50bc4bf7322a8d7b44f80eeceb
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
     public static class Extensions
     {
-<<<<<<< HEAD
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
             builder.Services.AddSingleton<IEventMapper, EventMapper>();
@@ -94,7 +86,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<AddParcelToOrder>()
                 .SubscribeCommand<DeleteParcelFromOrder>()
-                .SubscribeCommand<AssignCurrierToOrder>()
+                .SubscribeCommand<AssignCourierToOrder>()
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
@@ -141,8 +133,5 @@ namespace SwiftParcel.Services.Orders.Infrastructure
 
             return string.Empty;
         }
-=======
-        
->>>>>>> 21b8b23823637f50bc4bf7322a8d7b44f80eeceb
     }
 }
