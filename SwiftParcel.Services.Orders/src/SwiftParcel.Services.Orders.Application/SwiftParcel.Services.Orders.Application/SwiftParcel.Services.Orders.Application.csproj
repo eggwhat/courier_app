@@ -20,7 +20,6 @@
 
 <ItemGroup>
   <Folder Include="Events\External\" />
-  <Folder Include="Queries\" />
 </ItemGroup>
 
 <ItemGroup>

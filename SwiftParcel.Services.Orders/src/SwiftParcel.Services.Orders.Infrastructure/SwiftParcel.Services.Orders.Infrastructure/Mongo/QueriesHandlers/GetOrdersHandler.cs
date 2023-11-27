@@ -24,7 +24,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
             _appContext = appContext;
         }
 
-        public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrders query)
+        public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrders query, CancellationToken cancellationToken)
         {
             var documents = _orderRepository.Collection.AsQueryable();
             if (query.CustomerId.HasValue)
