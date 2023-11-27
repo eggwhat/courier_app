@@ -12,6 +12,7 @@ using Convey.Logging;
 using Convey.Secrets.Vault;
 using SwiftParcel.Services.Orders.Infrastructure;
 using SwiftParcel.Services.Orders.Application;
+using SwiftParcel.Services.Orders.Application.DTO;
 
 namespace SwiftParcel.Services.Orders.Api
 {
