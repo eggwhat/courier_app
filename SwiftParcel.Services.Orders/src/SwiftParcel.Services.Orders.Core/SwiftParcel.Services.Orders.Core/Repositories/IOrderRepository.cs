@@ -1,4 +1,4 @@
-﻿namespace SwiftParcel.Services.Orders.Core.Repositories
+﻿namespace SwiftParcel.Services.Orders.Core.Entities
 {
     public interface IOrderRepository
     {
