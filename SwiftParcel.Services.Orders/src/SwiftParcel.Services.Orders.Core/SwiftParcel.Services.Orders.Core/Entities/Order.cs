@@ -1,4 +1,6 @@
-﻿namespace SwiftParcel.Services.Orders.Core.Entities
+﻿using SwiftParcel.Services.Orders.Core.Exceptions;
+
+namespace SwiftParcel.Services.Orders.Core.Entities
 {
     public class Order : AggregateRoot
     {
