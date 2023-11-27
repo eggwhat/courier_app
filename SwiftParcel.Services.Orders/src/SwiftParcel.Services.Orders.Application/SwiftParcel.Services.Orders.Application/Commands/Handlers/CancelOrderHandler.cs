@@ -8,14 +8,14 @@ using SwiftParcel.Services.Orders.Application.Exceptions;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {
-    public class RejectOrderHandler: ICommandHandler<CancelOrder>
+    public class CancelOrderHandler: ICommandHandler<CancelOrder>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IAppContext _appContext;
 
-        public RejectOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
+        public CancelOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
             IEventMapper eventMapper, IAppContext appContext)
         {
             _orderRepository = orderRepository;

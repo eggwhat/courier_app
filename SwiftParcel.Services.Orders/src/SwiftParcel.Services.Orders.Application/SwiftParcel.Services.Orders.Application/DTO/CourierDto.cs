@@ -1,6 +1,6 @@
 ﻿namespace SwiftParcel.Services.Orders.Application.DTO
 {
-    public class CourierDTO
+    public class CourierDto
     {
         public Guid Id { get; set; }
         public decimal PricePerService { get; set; }

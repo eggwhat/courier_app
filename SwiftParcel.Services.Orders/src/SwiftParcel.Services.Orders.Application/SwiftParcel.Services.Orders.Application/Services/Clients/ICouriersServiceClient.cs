@@ -4,6 +4,6 @@ namespace SwiftParcel.Services.Orders.Application.Services.Clients
 {
     public interface ICouriersServiceClient
     {
-        Task<CourierDTO> GetAsync(Guid id);
+        Task<CourierDto> GetAsync(Guid id);
     }
 }
