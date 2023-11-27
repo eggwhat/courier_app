@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using SwiftParcel.Services.Customers.Application.Exceptions;
+using SwiftParcel.Services.Customers.Application.Services;
 using SwiftParcel.Services.Customers.Core.Exceptions;
 using SwiftParcel.Services.Customers.Core.Repositories;
 
@@ -31,12 +32,12 @@ namespace SwiftParcel.Services.Customers.Application.Commands.Handlers
                 throw new CustomerNotFoundException(command.CustomerId);
             }
             
-            if (customer.State is State.Valid)
+            if (customer.State is Core.Entities.State.Valid)
             {
                 throw new CustomerAlreadyRegisteredException(command.CustomerId);
             }
 
-            customer.CompleteRegistration(command.FullName, command.Address);
+            customer.CompleteRegistration(command.FirstName, command.LastName, command.Address);
             await _customerRepository.UpdateAsync(customer);
 
             var events = _eventMapper.MapAll(customer.Events);

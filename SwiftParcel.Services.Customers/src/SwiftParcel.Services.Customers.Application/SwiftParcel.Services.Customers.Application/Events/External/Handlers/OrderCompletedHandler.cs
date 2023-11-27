@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
+using SwiftParcel.Services.Customers.Application.Services;
 using SwiftParcel.Services.Customers.Core.Exceptions;
 using SwiftParcel.Services.Customers.Core.Repositories;
 using SwiftParcel.Services.Customers.Core.Services;
