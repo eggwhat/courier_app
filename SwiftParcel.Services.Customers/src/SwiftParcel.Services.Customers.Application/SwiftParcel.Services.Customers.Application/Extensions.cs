@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SwiftParcel.Services.Customers.Api
+namespace SwiftParcel.Services.Customers.Application
 {
-    public class Program
+    public static class Extensions
     {
         
     }
