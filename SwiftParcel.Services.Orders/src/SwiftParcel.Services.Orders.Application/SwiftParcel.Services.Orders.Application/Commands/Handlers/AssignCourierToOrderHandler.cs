@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using SwiftParcel.Services.Orders.Application.Services;
-using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Application.Events;
 using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Application.Services.Clients;
+using SwiftParcel.Services.Orders.Core.Repositories;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {

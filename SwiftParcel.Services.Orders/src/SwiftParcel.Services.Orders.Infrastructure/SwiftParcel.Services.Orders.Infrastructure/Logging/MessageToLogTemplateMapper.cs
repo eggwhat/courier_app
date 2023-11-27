@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Convey.Logging.CQRS;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Application.Exceptions;
+using SwiftParcel.Services.Orders.Application.Events.External;
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Logging
 {
@@ -90,6 +91,13 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     }
                 },
                 {
+                    typeof(DeliveryCourierFailed),     
+                    new HandlerLogTemplate
+                    {
+                        After = "Order with id: {OrderId} has been canceled due to the courier problems, reason: {Reason}"
+                    }
+                },
+                {
                     typeof(DeliveryStarted),     
                     new HandlerLogTemplate
                     {
@@ -104,7 +112,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     }
                 },
                 {
-                    typeof(ResourceReservationCanceled),     
+                    typeof(ResourceReservationCancelled),     
                     new HandlerLogTemplate
                     {
                         After = "Reservation for the resource with id: {ResourceId}, date:  {DateTime} has been canceled."

@@ -29,9 +29,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwiftParcel.Services.Orders.Application;
+using SwiftParcel.Services.Orders.Application.Services;
+using SwiftParcel.Services.Orders.Application.Services.Clients;
 using SwiftParcel.Services.Orders.Application.Commands;
+using SwiftParcel.Services.Orders.Application.Events.External;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Infrastructure.Contexts;
+using SwiftParcel.Services.Orders.Infrastructure.Decorators;
+using SwiftParcel.Services.Orders.Infrastructure.Exceptions;
+using SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents;
+using SwiftParcel.Services.Orders.Infrastructure.Mongo.Repositories;
+using SwiftParcel.Services.Orders.Infrastructure.Services;
+using SwiftParcel.Services.Orders.Infrastructure.Services.Clients;
+using SwiftParcel.Services.Orders.Infrastructure.Logging;
+
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
@@ -46,7 +57,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelsServiceClient, ParcelsServiceClient>();
             builder.Services.AddTransient<IPricingServiceClient, PricingServiceClient>();
-            builder.Services.AddTransient<IVehiclesServiceClient, VehiclesServiceClient>();
+            builder.Services.AddTransient<ICouriersServiceClient, CouriersServiceClient>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
@@ -92,10 +103,11 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
+                .SubscribeEvent<DeliveryCourierFailed>()
                 .SubscribeEvent<DeliveryStarted>()
                 .SubscribeEvent<ParcelDeleted>()
                 .SubscribeEvent<ResourceReserved>()
-                .SubscribeEvent<ResourceReservationCanceled>();
+                .SubscribeEvent<ResourceReservationCancelled>();
 
             return app;
         }
