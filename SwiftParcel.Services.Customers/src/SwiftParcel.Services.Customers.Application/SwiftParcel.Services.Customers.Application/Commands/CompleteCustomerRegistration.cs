@@ -13,13 +13,15 @@ namespace SwiftParcel.Services.Customers.Application.Commands
         public string LastName { get; private set; }  
         public string FullName => $"{FirstName} {LastName}";
         public string Address { get; }
+        public string SourceAddress { get; private set; }
 
-        public CompleteCustomerRegistration(Guid customerId, string firstName, string lastName, string address)
+        public CompleteCustomerRegistration(Guid customerId, string firstName, string lastName, string address, string sourceAddress)
         {
             CustomerId = customerId;
             FirstName = firstName;
             LastName = lastName;
             Address = address;
+            SourceAddress = sourceAddress;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Customers.Application.Dto
         public string LastName { get; private set; }  
         public string FullName => $"{FirstName} {LastName}";
         public string Address { get; set; }
+        public string SourceAddress { get; set; }
         public bool IsVip { get; set; }
         public IEnumerable<Guid> CompletedOrders { get; set; }
     }
