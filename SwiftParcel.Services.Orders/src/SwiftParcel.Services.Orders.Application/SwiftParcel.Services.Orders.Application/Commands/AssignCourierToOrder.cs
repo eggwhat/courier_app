@@ -2,15 +2,15 @@
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class AssignCurrierToOrder: ICommand
+    public class AssignCourierToOrder: ICommand
     {
         public Guid OrderId { get; set; }
-        public Guid CurrierId { get; set; }
+        public Guid CourierId { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public AssignCurrierToOrder(Guid orderId, Guid currierId, DateTime deliveryDate)
+        public AssignCourierToOrder(Guid orderId, Guid courierID, DateTime deliveryDate)
         {
             OrderId = orderId;
-            CurrierId = currierId;
+            CourierId = courierID;
             DeliveryDate = deliveryDate;
         }
     }
