@@ -1,4 +1,5 @@
 ﻿using SwiftParcel.Services.Orders.Core.Exceptions;
+using SwiftParcel.Services.Orders.Core.Events;
 
 namespace SwiftParcel.Services.Orders.Core.Entities
 {
