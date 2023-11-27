@@ -14,6 +14,15 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public string City { get; set; }
         public string ZipCode { get; set; }
 
+        public Address()
+        {
+            Street = string.Empty;
+            BuildingNumber = string.Empty;
+            ApartmentNumber = string.Empty;
+            City = string.Empty;
+            ZipCode = string.Empty;
+        }
+
         public Address(string street, string buildingNumber, string apartmentNumber, string city, string zipCode)
         {
             Street = street;
