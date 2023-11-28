@@ -6,7 +6,7 @@ using SwiftParcel.Services.Customers.Core.Entities;
 
 namespace SwiftParcel.Services.Customers.Core.Events
 {
-    public class CustomerStateChanged
+    public class CustomerStateChanged : IDomainEvent
     {
         public Customer Customer { get; }
         public State PreviousState { get; }

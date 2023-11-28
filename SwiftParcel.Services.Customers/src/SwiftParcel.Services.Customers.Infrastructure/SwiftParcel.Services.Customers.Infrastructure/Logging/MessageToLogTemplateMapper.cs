@@ -41,4 +41,5 @@ namespace SwiftParcel.Services.Customers.Infrastructure.Logging
             var key = message.GetType();
             return MessageTemplates.TryGetValue(key, out var template) ? template : null;
         }
+    }
 }
