@@ -7,7 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: [ 'SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api/SwiftParcel.Services.Availability.Api', 'SwiftParcel.Services.Couriers', 'SwiftParcel.Services.Customers', 'SwiftParcel.Services.Orders', 'SwiftParcel.Services.OrdersCreator', 'SwiftParcel.Services.Parcels', 'SwifttParcel.Services.Identity' ]
+        project: [ 
+          'SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api',
+          'SwiftParcel.Services.Couriers/src/SwiftParcel.Services.Couriers.Api',
+          'SwiftParcel.Services.Customers/src/SwiftParcel.Services.Customers.Api',
+          'SwiftParcel.Services.Orders/src/SwiftParcel.Services.Orders.Api',
+          'SwiftParcel.Services.OrdersCreator/src/SwiftParcel.Services.OrdersCreator',
+          'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels',
+          'SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api'
+          ]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
