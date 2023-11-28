@@ -5,15 +5,19 @@ on: [push, pull_request]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [ 'SwiftParcel.Services.Availability', 'SwiftParcel.Services.Couriers', 'SwiftParcel.Services.Customers', 'SwiftParcel.Services.Orders', 'SwiftParcel.Services.OrdersCreator', 'SwiftParcel.Services.Parcels', 'SwifttParcel.Services.Identity' ]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
-    - name: Build and Test
+        dotnet-version: '6.0.x'
+    - name: Build and Test ${{ matrix.project }}
       run: |
+        cd ${{ matrix.project }}/src
         dotnet restore
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal
-        # Add Docker build and push steps here
+        # Add additional steps for Docker build and push here, if needed
