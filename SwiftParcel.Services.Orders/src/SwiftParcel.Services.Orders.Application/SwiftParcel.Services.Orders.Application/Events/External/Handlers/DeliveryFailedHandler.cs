@@ -28,7 +28,7 @@ namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
                 throw new OrderNotFoundException(@event.OrderId);
             }
 
-            order.Cancel(@event.Reason);
+            order.SetCannotDeliver(@event.Reason, @event.DateTime);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
