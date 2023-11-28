@@ -15,6 +15,7 @@ namespace SwiftParcel.Services.Customers.Core.Entities
         public string LastName { get; private set; }  
         public string FullName => $"{FirstName} {LastName}";
         public string Address { get; private set; }
+         public string SourceAddress { get; private set; } 
         public bool IsVip { get; private set; }
         public State State { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -26,11 +27,11 @@ namespace SwiftParcel.Services.Customers.Core.Entities
         }
 
         public Customer(Guid id, string email, DateTime createdAt) : this(id, email, createdAt, string.Empty,
-            string.Empty, string.Empty, false, State.Incomplete, Enumerable.Empty<Guid>())
+            string.Empty, string.Empty, false, string.Empty, State.Incomplete, Enumerable.Empty<Guid>())
         {
         }
 
-        public Customer(Guid id, string email, DateTime createdAt, string firstName, string lastName, string address, bool isVip,
+        public Customer(Guid id, string email, DateTime createdAt, string firstName, string lastName, string address, string sourceAddress, bool isVip,
             State state, IEnumerable<Guid> completedOrders = null)
         {
             Id = id;
@@ -39,22 +40,27 @@ namespace SwiftParcel.Services.Customers.Core.Entities
             FirstName = firstName; 
             LastName = lastName; 
             Address = address;
+            SourceAddress = sourceAddress;
             IsVip = isVip;
             CompletedOrders = completedOrders ?? Enumerable.Empty<Guid>();
             State = state;
         }
 
-        public void CompleteRegistration(string firstName, string lastName, string address)
+        public void CompleteRegistration(string firstName, string lastName, string address, string sourceAddress)
         {
-
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                throw new InvalidCustomerFullNameException(Id,  $"{firstName} {lastName}");
+                throw new InvalidCustomerFullNameException(Id, $"{firstName} {lastName}");
             }
 
             if (string.IsNullOrWhiteSpace(address))
             {
                 throw new InvalidCustomerAddressException(Id, address);
+            }
+
+            if (string.IsNullOrWhiteSpace(sourceAddress))
+            {
+                throw new InvalidCustomerSourceAddressException(Id, sourceAddress); 
             }
 
             if (State != State.Incomplete)
@@ -65,6 +71,7 @@ namespace SwiftParcel.Services.Customers.Core.Entities
             FirstName = firstName;
             LastName = lastName;
             Address = address;
+            SourceAddress = sourceAddress; // Ensure the source address is set during registration
             State = State.Valid;
             AddEvent(new CustomerRegistrationCompleted(this));
         }
