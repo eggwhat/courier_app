@@ -20,4 +20,3 @@ namespace SwiftParcel.Services.Customers.Application.Events.Rejected
         }
     }
 }
-}

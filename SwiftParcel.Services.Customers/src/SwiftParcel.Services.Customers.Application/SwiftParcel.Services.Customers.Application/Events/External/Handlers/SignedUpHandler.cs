@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using Microsoft.Extensions.Logging;
 using SwiftParcel.Services.Customers.Application.Exceptions;
+using SwiftParcel.Services.Customers.Application.Services;
 using SwiftParcel.Services.Customers.Core.Repositories;
 
 namespace SwiftParcel.Services.Customers.Application.Events.External.Handlers
