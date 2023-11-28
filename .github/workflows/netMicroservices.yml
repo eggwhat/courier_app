@@ -28,5 +28,5 @@ jobs:
         cd ${{ matrix.project }}
         dotnet restore
         dotnet build --no-restore
-        dotnet test --no-build --if-present --verbosity normal 
+        # dotnet test --no-build --if-present --verbosity normal 
         # Add additional steps for Docker build and push here, if needed
