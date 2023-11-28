@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
     {
         public Guid Id { get; protected set; }
         public Guid OrderId { get; protected set; }
+        public Guid CustomerId { get; protected set; }
         public string Description { get; protected set; }
         public double Width { get; protected set; }
         public double Height { get; protected set; }
@@ -25,20 +26,21 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public bool AtWeekend { get; protected set; }
         public bool IsFragile { get; protected set; }
 
-        public Parcel(AggregateId id, Guid orderId, string description, double width,
-            double height, double depth, double weight, decimal price)
-            : this(id, orderId, description, width, height, depth, weight, price, new Address(),
-                  new Address(), Variant.Standard, Priority.Low, false, false)
+        public Parcel(AggregateId id, Guid orderId, Guid customerId, string description,
+            double width, double height, double depth, double weight, decimal price)
+            : this(id, orderId, customerId, description, width, height, depth, weight, price,
+                  new Address(), new Address(), Variant.Standard, Priority.Low, false, false)
         {
 
         }
 
-        public Parcel(AggregateId id, Guid orderId, string description, double width, double height, double depth,
-            double weight, decimal price, Address source, Address destination,
+        public Parcel(AggregateId id, Guid orderId, Guid customerId, string description, double width,
+            double height, double depth, double weight, decimal price, Address source, Address destination,
             Variant variant, Priority priority, bool atWeekend, bool isFragile)
         {
             Id = id;
             OrderId = orderId;
+            CustomerId = customerId;
             CheckDescription(description);
             Description = description;
             CheckDimensions(width, height, depth);

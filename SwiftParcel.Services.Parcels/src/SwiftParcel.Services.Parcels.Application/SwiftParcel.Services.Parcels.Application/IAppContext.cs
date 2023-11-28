@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SwiftParcel.Services.Parcels.Application
 {
-    public class IAppContext
+    public interface IAppContext
     {
         string RequestId { get; }
         IIdentityContext Identity { get; }

@@ -8,8 +8,8 @@ namespace SwiftParcel.Services.Parcels.Application.DTO
 {
     public class VolumeDto
     {
-        public double Width { get; protected set; }
-        public double Height { get; protected set; }
-        public double Depth { get; protected set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Depth { get; set; }
     }
 }

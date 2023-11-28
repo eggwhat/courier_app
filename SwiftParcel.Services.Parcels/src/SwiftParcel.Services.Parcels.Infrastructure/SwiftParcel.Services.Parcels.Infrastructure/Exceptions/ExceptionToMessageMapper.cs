@@ -12,7 +12,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Exceptions
 {
     public class ExceptionToMessageMapper: IExceptionToMessageMapper
     {
-        public object? Map(Exception exception, object message)
+        public object Map(Exception exception, object message)
             => exception switch
             {
                 InvalidAddressElementException ex => message switch

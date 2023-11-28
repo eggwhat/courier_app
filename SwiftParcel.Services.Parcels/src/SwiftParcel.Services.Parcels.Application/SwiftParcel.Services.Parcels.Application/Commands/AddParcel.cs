@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
     {
         public Guid ParcelId { get; protected set; }
         public Guid OrderId { get; protected set; }
+        public Guid CustomerId { get; protected set; }
         public string Description { get; protected set; }
         public double Width { get; protected set; }
         public double Height { get; protected set; }
@@ -25,11 +26,12 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
         public bool AtWeekend { get; protected set; }
         public bool IsFragile { get; protected set; }
 
-        public AddParcel(Guid parcelId, Guid orderId, string description, double width,
-            double height, double depth, double weight)
+        public AddParcel(Guid parcelId, Guid orderId, Guid customerId, string description,
+            double width, double height, double depth, double weight)
         {
             ParcelId = parcelId == Guid.Empty ? Guid.NewGuid() : parcelId;
             OrderId = orderId;
+            CustomerId = customerId;
             Description = description;
             Width = width;
             Height = height;

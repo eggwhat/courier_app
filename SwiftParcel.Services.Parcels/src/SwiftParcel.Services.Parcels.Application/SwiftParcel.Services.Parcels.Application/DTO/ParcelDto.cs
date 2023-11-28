@@ -9,19 +9,20 @@ namespace SwiftParcel.Services.Parcels.Application.DTO
 {
     public class ParcelDto
     {
-        public Guid Id { get; protected set; }
-        public Guid OrderId { get; protected set; }
-        public string Description { get; protected set; }
-        public double Width { get; protected set; }
-        public double Height { get; protected set; }
-        public double Depth { get; protected set; }
-        public double Weight { get; protected set; }
-        public decimal Price { get; protected set; }
-        public IEnumerable<string> Source { get; protected set; }
-        public IEnumerable<string> Destination { get; protected set; }
-        public string Variant { get; protected set; }
-        public string Priority { get; protected set; }
-        public bool AtWeekend { get; protected set; }
-        public bool IsFragile { get; protected set; }
+        public Guid Id { get; set; }
+        public Guid OrderId { get; set; }
+        public Guid CustomerId { get; set; }
+        public string Description { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Depth { get; set; }
+        public double Weight { get; set; }
+        public decimal Price { get; set; }
+        public AddressDto Source { get; set; }
+        public AddressDto Destination { get; set; }
+        public string Variant { get; set; }
+        public string Priority { get; set; }
+        public bool AtWeekend { get; set; }
+        public bool IsFragile { get; set; }
     }
 }
