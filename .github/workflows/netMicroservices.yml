@@ -24,7 +24,7 @@ jobs:
         dotnet-version: '6.0.x'
     - name: Build and Test ${{ matrix.project }}
       run: |
-        cd ${{ matrix.project }}/src
+        cd ${{ matrix.project }}
         dotnet restore
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal
