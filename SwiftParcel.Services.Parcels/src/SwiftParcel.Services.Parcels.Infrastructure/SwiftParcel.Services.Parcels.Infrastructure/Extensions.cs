@@ -47,7 +47,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
     { 
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
-            builder.Services.AddTransient<IParcelRepository, CouriersMongoRepository>();
+            builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
@@ -70,7 +70,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .AddJaeger()
                 .AddMongo()
                 .AddHandlersLogging()
-                .AddMongoRepository<CourierDocument, Guid>("couriers")
+                .AddMongoRepository<ParcelDocument, Guid>("parcels")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }
@@ -84,9 +84,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseRabbitMq()
-                .SubscribeCommand<AddCourier>()
-                .SubscribeCommand<UpdateCourier>()
-                .SubscribeCommand<DeleteCourier>();
+                .SubscribeCommand<AddParcel>()
+                .SubscribeCommand<DeleteParcel>();
 
             return app;
         }
