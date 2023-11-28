@@ -91,13 +91,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     }
                 },
                 {
-                    typeof(DeliveryCourierFailed),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Order with id: {OrderId} has been canceled due to the courier problems, reason: {Reason}"
-                    }
-                },
-                {
                     typeof(DeliveryStarted),     
                     new HandlerLogTemplate
                     {

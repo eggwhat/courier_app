@@ -103,7 +103,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
-                .SubscribeEvent<DeliveryCourierFailed>()
                 .SubscribeEvent<DeliveryStarted>()
                 .SubscribeEvent<ParcelDeleted>()
                 .SubscribeEvent<ResourceReserved>()
