@@ -7,7 +7,7 @@ using SwiftParcel.Services.Customers.Application.Dto;
 
 namespace SwiftParcel.Services.Customers.Application.Queries
 {
-    public class GetCustomerStatee : IQuery<CustomerStateDto>
+    public class GetCustomerState : IQuery<CustomerStateDto>
     {
         public Guid CustomerId { get; set; }
     }

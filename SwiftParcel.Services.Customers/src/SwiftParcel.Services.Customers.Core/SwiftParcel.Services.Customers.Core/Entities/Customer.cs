@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SwiftParcel.Services.Customers.Core.Events;
 using SwiftParcel.Services.Customers.Core.Exceptions;
 
 namespace SwiftParcel.Services.Customers.Core.Entities
@@ -27,7 +28,7 @@ namespace SwiftParcel.Services.Customers.Core.Entities
         }
 
         public Customer(Guid id, string email, DateTime createdAt) : this(id, email, createdAt, string.Empty,
-            string.Empty, string.Empty, false, string.Empty, State.Incomplete, Enumerable.Empty<Guid>())
+            string.Empty, string.Empty, string.Empty, false, State.Incomplete, Enumerable.Empty<Guid>())
         {
         }
 
