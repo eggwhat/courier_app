@@ -28,6 +28,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
         public async Task<IEnumerable<ParcelDto>> HandleAsync(GetParcels query, CancellationToken cancellationToken)
         {
             var documents = _repository.Collection.AsQueryable();
+
             if (query.CustomerId.HasValue)
             {
                 var identity = _appContext.Identity;
@@ -40,7 +41,6 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
             }
 
             var orders = await documents.ToListAsync();
-
             return orders.Select(p => p.AsDto());
         }
     }
