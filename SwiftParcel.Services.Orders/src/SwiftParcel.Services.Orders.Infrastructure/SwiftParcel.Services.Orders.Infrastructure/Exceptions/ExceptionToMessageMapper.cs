@@ -11,7 +11,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
 {
     public class ExceptionToMessageMapper : IExceptionToMessageMapper
     {
-        public object? Map(Exception exception, object message)
+        public object Map(Exception exception, object message)
             => exception switch
             {
                 CannotDeleteOrderException ex => (object) new DeleteOrderRejected(ex.Id, ex.Message, ex.Code),

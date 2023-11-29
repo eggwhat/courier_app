@@ -111,12 +111,12 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             return app;
         }
 
-        internal static CorrelationContext? GetCorrelationContext(this IHttpContextAccessor accessor)
+        internal static CorrelationContext GetCorrelationContext(this IHttpContextAccessor accessor)
             => accessor.HttpContext?.Request.Headers.TryGetValue("Correlation-Context", out var json) is true
                 ? JsonConvert.DeserializeObject<CorrelationContext>(json.FirstOrDefault() ?? string.Empty)
                 : null;
         
-        internal static IDictionary<string, object>? GetHeadersToForward(this IMessageProperties messageProperties)
+        internal static IDictionary<string, object> GetHeadersToForward(this IMessageProperties messageProperties)
         {
             const string sagaHeader = "Saga";
             if (messageProperties?.Headers is null || !messageProperties.Headers.TryGetValue(sagaHeader, out var saga))
