@@ -14,6 +14,7 @@ using SwiftParcel.Services.Parcels.Application.Queries;
 using SwiftParcel.Services.Parcels.Application.DTO;
 using SwiftParcel.Services.Parcels.Application.Commands;
 using SwiftParcel.Services.Parcels.Infrastructure;
+using Convey.Docs.Swagger;
 
 namespace SwiftParcel.Services.Parcels.Api
 {
@@ -28,6 +29,8 @@ namespace SwiftParcel.Services.Parcels.Api
                     .AddInfrastructure()
                     .Build())
                 .Configure(app => app
+                    .UseSwagger()
+                    .UseSwaggerUI()
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))

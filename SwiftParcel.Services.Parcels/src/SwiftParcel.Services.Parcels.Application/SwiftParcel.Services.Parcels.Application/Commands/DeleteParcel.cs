@@ -11,6 +11,6 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
     {
         public Guid ParcelId { get; }
 
-        public DeleteParcel(Guid id) => ParcelId = id;
+        public DeleteParcel(Guid parcelId) => ParcelId = parcelId;
     }
 }

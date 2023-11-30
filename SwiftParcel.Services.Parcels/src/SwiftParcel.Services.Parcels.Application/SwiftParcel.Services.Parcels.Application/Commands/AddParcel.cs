@@ -27,7 +27,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
         public bool IsFragile { get; protected set; }
 
         public AddParcel(Guid parcelId, Guid orderId, Guid customerId, string description,
-            double width, double height, double depth, double weight)
+            double width, double height, double depth, double weight, decimal price)
         {
             ParcelId = parcelId == Guid.Empty ? Guid.NewGuid() : parcelId;
             OrderId = orderId;
@@ -37,6 +37,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
             Height = height;
             Depth = depth;
             Weight = weight;
+            Price = price;
             Source = new Address();
             Destination = new Address();
         }
