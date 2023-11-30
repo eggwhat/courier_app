@@ -48,8 +48,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
             builder.Services.AddTransient<ICustomerRepository, CustomerMongoRepository>();
+            builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
@@ -72,6 +72,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .AddJaeger()
                 .AddMongo()
                 .AddHandlersLogging()
+                .AddMongoRepository<CustomerDocument, Guid>("customers")
                 .AddMongoRepository<ParcelDocument, Guid>("parcels")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
