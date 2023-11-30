@@ -13,8 +13,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
         public static Parcel AsEntity(this ParcelDocument document)
             => document is null? null : new Parcel(
                 document.Id,
-                document.OrderId,
                 document.CustomerId,
+                document.Name,
                 document.Description,
                 document.Width,
                 document.Height,
@@ -34,7 +34,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 document.Variant,
                 document.Priority,
                 document.AtWeekend,
-                document.IsFragile);
+                document.IsFragile,
+                document.CreatedAt,
+                document.OrderId);
 
         public static async Task<Parcel> AsEntityAsync(this Task<ParcelDocument> task)
             => (await task).AsEntity();
@@ -43,7 +45,6 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
             => new ParcelDocument
             {
                 Id = entity.Id,
-                OrderId = entity.OrderId,
                 CustomerId = entity.CustomerId,
                 Description = entity.Description,
                 Width = entity.Width,
@@ -70,7 +71,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 Variant = entity.Variant,
                 Priority = entity.Priority,
                 AtWeekend = entity.AtWeekend,
-                IsFragile = entity.IsFragile
+                IsFragile = entity.IsFragile,
+                CreatedAt = entity.CreatedAt,
+                OrderId = entity.OrderId
             };
         
         public static async Task<ParcelDocument> AsDocumentAsync(this Task<Parcel> task)
@@ -80,7 +83,6 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
             => new ParcelDto
             {
                 Id = document.Id,
-                OrderId = document.OrderId,
                 CustomerId = document.CustomerId,
                 Description = document.Description,
                 Width = document.Width,
@@ -107,7 +109,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 Variant = document.Variant.ToString().ToLowerInvariant(),
                 Priority = document.Priority.ToString().ToLowerInvariant(),
                 AtWeekend = document.AtWeekend,
-                IsFragile = document.IsFragile
+                IsFragile = document.IsFragile,
+                CreatedAt = document.CreatedAt,
+                OrderId = document.OrderId
             };
     }
 }

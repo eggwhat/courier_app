@@ -11,8 +11,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
     internal class ParcelDocument : IIdentifiable<Guid>
     {
         public Guid Id { get; set; }
-        public Guid OrderId { get; set; }
+        public Guid? OrderId { get; set; }
         public Guid CustomerId { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
@@ -25,6 +26,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
         public Priority Priority { get; set; }
         public bool AtWeekend { get; set; }
         public bool IsFragile { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public class Address
         {
