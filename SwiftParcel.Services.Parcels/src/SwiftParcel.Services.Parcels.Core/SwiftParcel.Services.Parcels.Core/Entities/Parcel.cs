@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Parcels.Core.Exceptions;
 using SwiftParcel.Services.Parcels.Core.Exceptions.SwiftParcel.Services.Parcels.Core.Exceptions;
@@ -146,13 +147,22 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             CheckAddressElement("city", city);
             address.City = city;
 
-            CheckAddressElement("zip code", zipCode);
+            CheckAddressZipCode("zip code", zipCode);
             address.ZipCode = zipCode;
         }
 
         public void CheckAddressElement(string element, string value)
         {
             if (string.IsNullOrEmpty(value))
+            {
+                throw new InvalidAddressElementException(element, value);
+            }
+        }
+
+        public void CheckAddressZipCode(string element, string value)
+        {
+            string pattern = @"\d{2}[-]\d{3}";
+            if (!Regex.IsMatch(value, pattern))
             {
                 throw new InvalidAddressElementException(element, value);
             }
