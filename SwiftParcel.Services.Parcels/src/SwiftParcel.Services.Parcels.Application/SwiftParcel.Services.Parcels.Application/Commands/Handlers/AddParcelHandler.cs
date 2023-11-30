@@ -9,7 +9,6 @@ using SwiftParcel.Services.Parcels.Application.Exceptions;
 using SwiftParcel.Services.Parcels.Application.Services;
 using SwiftParcel.Services.Parcels.Core.Entities;
 using SwiftParcel.Services.Parcels.Core.Repositories;
-using System.Drawing;
 
 namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 {
