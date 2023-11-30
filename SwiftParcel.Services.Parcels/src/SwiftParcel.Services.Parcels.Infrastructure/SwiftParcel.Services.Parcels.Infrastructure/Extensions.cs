@@ -47,9 +47,11 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
     { 
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
+            builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
-            builder.Services.AddTransient<IMessageBroker, MessageBroker>();
+            builder.Services.AddTransient<ICustomerRepository, CustomerMongoRepository>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
+            builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
