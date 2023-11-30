@@ -46,6 +46,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
             {
                 Id = entity.Id,
                 CustomerId = entity.CustomerId,
+                Name = entity.Name,
                 Description = entity.Description,
                 Width = entity.Width,
                 Height = entity.Height,
@@ -84,6 +85,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
             {
                 Id = document.Id,
                 CustomerId = document.CustomerId,
+                Name = document.Name,
                 Description = document.Description,
                 Width = document.Width,
                 Height = document.Height,
