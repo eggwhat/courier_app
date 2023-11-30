@@ -17,12 +17,12 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Exceptions
             {
                 InvalidAddressElementException ex => message switch
                 {
-                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message,ex.Code),
+                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message, ex.Code),
                     _ => null,
                 },
                 InvalidParcelDescriptionException ex => message switch
                 {
-                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message,ex.Code),
+                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message, ex.Code),
                     _ => null,
                 },
                 InvalidParcelDimensionException ex => message switch
@@ -32,7 +32,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Exceptions
                 },
                 InvalidParcelPriceException ex => message switch
                 {
-                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message,ex.Code),
+                    AddParcel command => new AddParcelRejected(command.ParcelId, ex.Message, ex.Code),
                     _ => null,
                 },
                 InvalidParcelWeightException ex => message switch

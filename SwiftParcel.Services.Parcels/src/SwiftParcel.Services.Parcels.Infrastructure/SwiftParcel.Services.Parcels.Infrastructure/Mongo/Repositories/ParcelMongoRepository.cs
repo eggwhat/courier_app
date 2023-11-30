@@ -28,7 +28,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Repositories
         public Task UpdateAsync(Parcel parcel)
             => _repository.UpdateAsync(parcel.AsDocument());
 
-        public Task DeleteAsync(Parcel parcel)
-            => _repository.DeleteAsync(parcel.Id);
+        public Task DeleteAsync(Guid id)
+            => _repository.DeleteAsync(id);
     }
 }

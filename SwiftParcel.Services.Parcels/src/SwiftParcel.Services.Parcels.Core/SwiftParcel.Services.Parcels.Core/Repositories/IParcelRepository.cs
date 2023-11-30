@@ -11,7 +11,7 @@ namespace SwiftParcel.Services.Parcels.Core.Repositories
     public interface IParcelRepository
     {
         Task<Parcel> GetAsync(Guid id);
-        Task AddAsync(Parcel courier);
-        Task DeleteAsync(Parcel courier);
+        Task AddAsync(Parcel parcel);
+        Task DeleteAsync(Guid id);
     }
 }
