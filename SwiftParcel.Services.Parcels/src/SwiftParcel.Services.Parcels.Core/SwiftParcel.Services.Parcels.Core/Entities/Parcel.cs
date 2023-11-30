@@ -29,8 +29,8 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public bool IsFragile { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
 
-        public Parcel(AggregateId id, Guid orderId, Guid customerId, string name, string description,
-            double width, double height, double depth, double weight, decimal price, DateTime createdAt)
+        public Parcel(AggregateId id, Guid customerId, string name, string description, double width,
+            double height, double depth, double weight, decimal price, DateTime createdAt, Guid? orderId = null)
             : this(id, customerId, name, description, width, height, depth, weight, price, new Address(),
                   new Address(), Variant.Standard, Priority.Low, false, false, createdAt, orderId)
         {
@@ -158,7 +158,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             }
         }
 
-        public void SetVariants(Variant variant) => Variant = variant;
+        public void SetVariant(Variant variant) => Variant = variant;
 
         public void SetPriority(Priority priority) => Priority = priority;
 
