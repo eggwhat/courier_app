@@ -31,16 +31,17 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public Parcel(AggregateId id, Guid orderId, Guid customerId, string name, string description,
             double width, double height, double depth, double weight, decimal price, DateTime createdAt)
-            : this(id, customerId, name, description, width, height, depth, weight, price, createdAt, orderId)
+            : this(id, customerId, name, description, width, height, depth, weight, price, new Address(),
+                  new Address(), Variant.Standard, Priority.Low, false, false, createdAt, orderId)
         {
 
         }
 
-        public Parcel(AggregateId id, Guid customerId, string name, string description, double width,
-            double height, double depth, double weight, decimal price, DateTime createdAt, Guid? orderId = null)
+        public Parcel(AggregateId id, Guid customerId, string name, string description, double width, double height,
+            double depth, double weight, decimal price, Address source, Address destination, Variant variant,
+            Priority priority, bool atWeekend, bool isFragile, DateTime createdAt, Guid? orderId = null)
         {
             Id = id;
-            OrderId = orderId;
             CustomerId = customerId;
 
             CheckName(name);
@@ -60,11 +61,14 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             CheckPrice(price);
             Price = price;
             
-            Source = new Address();
-            Destination = new Address();
-            Variant = Variant.Standard;
-            Priority = Priority.Low;
+            Source = source;
+            Destination = destination;
+            Variant = variant;
+            Priority = priority;
+            AtWeekend = atWeekend;
+            IsFragile = isFragile;
             CreatedAt = createdAt;
+            OrderId = orderId;
         }
 
         public void CheckName(string name)
