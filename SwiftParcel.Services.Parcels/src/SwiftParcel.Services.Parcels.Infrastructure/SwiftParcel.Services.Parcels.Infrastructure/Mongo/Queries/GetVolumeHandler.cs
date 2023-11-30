@@ -9,6 +9,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using SwiftParcel.Services.Parcels.Application.DTO;
 using SwiftParcel.Services.Parcels.Application.Queries;
+using SwiftParcel.Services.Parcels.Core.Services;
 using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
@@ -16,23 +17,20 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
     internal sealed class GetVolumeHandler : IQueryHandler<GetVolume, VolumeDto>
     {
         private readonly IMongoRepository<ParcelDocument, Guid> _repository;
+        private readonly IParcelService _parcelService;
 
-        public GetVolumeHandler(IMongoRepository<ParcelDocument, Guid> repository)
+        public GetVolumeHandler(IMongoRepository<ParcelDocument, Guid> repository, IParcelService parcelService)
         {
             _repository = repository;
+            _parcelService = parcelService;
         }
 
         public async Task<VolumeDto> HandleAsync(GetVolume query, CancellationToken cancellationToken)
         {
             var documents = await _repository.Collection.FindAsync(FilterDefinition<ParcelDocument>.Empty);
-            var documentList = await documents.ToListAsync();
-            double volume = 0.0;
+            var parcels = documents.ToList().Select(d => d.AsEntity());
 
-            foreach (var document in documentList)
-            {
-                volume += document.Width * document.Height * document.Depth;
-            }
-
+            double volume = _parcelService.CalculateVolume(parcels);
             return new VolumeDto { Volume = volume };
         }
     }
