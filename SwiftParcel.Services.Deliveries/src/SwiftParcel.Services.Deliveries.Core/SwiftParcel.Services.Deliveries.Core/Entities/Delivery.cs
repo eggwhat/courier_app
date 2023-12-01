@@ -1,4 +1,8 @@
-﻿namespace SwiftParcel.Services.Deliveries.Core.Entities
+﻿using SwiftParcel.Services.Deliveries.Core.Exceptions;
+using SwiftParcel.Services.Deliveries.Core.Events;
+using SwiftParcel.Services.Deliveries.Core.ValueObjects;
+
+namespace SwiftParcel.Services.Deliveries.Core.Entities
 {
     public class Delivery : AggregateRoot
     {
