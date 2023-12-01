@@ -13,4 +13,8 @@
     <PackageReference Include="Convey.WebApi.CQRS" Version="0.4.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.Services.Deliveries.Infrastructure\SwiftParcel.Services.Deliveries.Infrastructure\SwiftParcel.Services.Deliveries.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
