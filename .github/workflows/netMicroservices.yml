@@ -16,6 +16,9 @@ jobs:
           'SwiftParcel.Services.OrdersCreator/src/SwiftParcel.Services.OrdersCreator',
           'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels.Api/SwiftParcel.Services.Parcels.Api',
           'SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api'
+          'SwiftParcel.Services.Deliveries/src/SwiftParcel.Services.Deliveries.Api/SwiftParcel.Services.Deliveries'
+          'SwiftParcel.API.Gateway/src/SwiftParcel.API.Gateway'
+
           ]
     steps:
     - uses: actions/checkout@v2
