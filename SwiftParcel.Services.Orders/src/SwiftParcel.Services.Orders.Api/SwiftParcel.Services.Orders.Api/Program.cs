@@ -1,25 +1,47 @@
-var builder = WebApplication.CreateBuilder(args);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Convey;
+using Convey.WebApi;
+using Convey.WebApi.CQRS;
+using Convey.Types;
+using Convey.CQRS.Queries;
+using Convey.Logging;
+using Convey.Secrets.Vault;
+using SwiftParcel.Services.Orders.Infrastructure;
+using SwiftParcel.Services.Orders.Application;
+using SwiftParcel.Services.Orders.Application.DTO;
+using SwiftParcel.Services.Orders.Application.Queries;
+using SwiftParcel.Services.Orders.Application.Commands;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace SwiftParcel.Services.Orders.Api
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static async Task Main(string[] args)
+            => await WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services
+                    .AddConvey()
+                    .AddWebApi()
+                    .AddApplication()
+                    .AddInfrastructure()
+                    .Build())
+                .Configure(app => app
+                    .UseInfrastructure()
+                    .UseDispatcherEndpoints(endpoints => endpoints
+                        .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
+                        .Get<GetOrder, OrderDto>("orders/{orderId}")
+                        .Get<GetOrders, IEnumerable<OrderDto>>("orders")
+                        .Delete<DeleteOrder>("orders/{orderId}")
+                        .Post<CreateOrder>("orders",
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}"))
+                        .Post<AddParcelToOrder>("orders/{orderId}/parcels/{parcelId}")
+                        .Delete<DeleteParcelFromOrder>("orders/{orderId}/parcels/{parcelId}")))
+                .UseLogging()
+                .UseVault()
+                .Build()
+                .RunAsync();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
