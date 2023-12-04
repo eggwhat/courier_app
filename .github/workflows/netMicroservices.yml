@@ -14,7 +14,7 @@ jobs:
           'SwiftParcel.Services.Customers/src/SwiftParcel.Services.Customers.Api/SwiftParcel.Services.Customers.Api',
           'SwiftParcel.Services.Orders/src/SwiftParcel.Services.Orders.Api/SwiftParcel.Services.Orders.Api',
           'SwiftParcel.Services.OrdersCreator/src/SwiftParcel.Services.OrdersCreator',
-          'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels/SwiftParcel.Services.Parcels',
+          'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels.Api/SwiftParcel.Services.Parcels.Api',
           'SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api'
           ]
     steps:
