@@ -23,10 +23,10 @@ namespace SwiftParcel.Services.OrdersCreator.Services.Clients
         {
             // the most potential resource of the issues to resolve in the api connection
             var couriers = await _httpClient.GetAsync<PagedResult<CourierDto>>($"{_url}/courier");
-            var bestCourier = vehicles?.Items?.FirstOrDefault();
+            var bestCourier = couriers?.Items?.FirstOrDefault();
             if (bestCourier is null)
             {
-                throw new InvalidOperationException("The best vehicle was not found.");
+                throw new InvalidOperationException("The best courier was not found.");
             }
 
             return bestCourier;
