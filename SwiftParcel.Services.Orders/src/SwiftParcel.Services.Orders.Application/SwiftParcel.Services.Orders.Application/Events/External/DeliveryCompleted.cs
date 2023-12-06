@@ -3,6 +3,7 @@ using Convey.MessageBrokers;
 
 namespace SwiftParcel.Services.Orders.Application.Events.External
 {
+    [Message("deliveries")]
     public class DeliveryCompleted : IEvent
     {
         public Guid DeliveryId { get; }
