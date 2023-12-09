@@ -18,7 +18,7 @@ namespace SwiftParcel.Services.Customers.Infrastructure.Services
         {
             switch (@event)
             {
-                case CustomerRegistrationCompleted e: return new Application.Events.CustomerCreated(e.Customer.Id);
+                case CustomerRegistrationCompleted e: return new Application.Events.CustomerCreated(e.Customer.Id, e.Customer.Email, e.Customer.FullName);
                 case CustomerBecameVip e: return new Application.Events.CustomerBecameVip(e.Customer.Id);
                 case CustomerStateChanged e:
                     return new Application.Events.CustomerStateChanged(e.Customer.Id,

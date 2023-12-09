@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj" />
@@ -8,6 +8,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <UserSecretsId>9d6bc744-3812-45d6-8b40-7cb1d8f55a57</UserSecretsId>
   </PropertyGroup>
 
 <ItemGroup>
@@ -16,6 +17,7 @@
     <PackageReference Include="Convey.CQRS.Events" Version="1.1.448" />
     <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
     <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
+    <PackageReference Include="sib_api_v3_sdk" Version="4.0.2" />
 </ItemGroup>
 
 <ItemGroup>

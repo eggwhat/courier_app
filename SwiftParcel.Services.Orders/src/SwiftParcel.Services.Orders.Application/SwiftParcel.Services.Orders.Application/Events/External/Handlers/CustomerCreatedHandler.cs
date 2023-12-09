@@ -22,7 +22,7 @@ namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
                 throw new CustomerAlreadyAddedException(@event.CustomerId);
             }
 
-            await _customerRepository.AddAsync(new Customer(@event.CustomerId));
+            await _customerRepository.AddAsync(new Customer(@event.CustomerId, @event.Email, @event.FullName));
         }
     }
 }
