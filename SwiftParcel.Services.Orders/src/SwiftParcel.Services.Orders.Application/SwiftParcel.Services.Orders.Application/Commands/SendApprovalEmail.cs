@@ -2,16 +2,14 @@
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class SendCancellationEmail: ICommand
+    public class SendApprovalEmail: ICommand
     {
         public Guid CustomerId { get; }
         public Guid OrderId { get; }
-        public string Reason { get; }
-        public SendCancellationEmail(Guid orderId, Guid customerId, string reason)
+        public SendApprovalEmail(Guid orderId, Guid customerId)
         {
             OrderId = orderId;
             CustomerId = customerId;
-            Reason = reason;
         }
     }
 }
