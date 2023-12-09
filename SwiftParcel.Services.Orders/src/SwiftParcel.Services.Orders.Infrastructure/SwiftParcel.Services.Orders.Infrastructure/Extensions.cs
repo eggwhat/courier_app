@@ -42,9 +42,12 @@ using SwiftParcel.Services.Orders.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Orders.Infrastructure.Services;
 using SwiftParcel.Services.Orders.Infrastructure.Services.Clients;
 using SwiftParcel.Services.Orders.Infrastructure.Logging;
+using SwiftParcel.Services.Orders.Infrastructure.Brevo;
 using Microsoft.Extensions.Configuration;
 using Jaeger;
-using sib_api_v3_sdk.Client;
+using QuestPDF;
+using QuestPDF.Infrastructure;
+
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
@@ -79,6 +82,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .AddRedis()
                 .AddMetrics()
                 .AddJaeger()
+                .AddBrevo()
                 .AddHandlersLogging()
                 .AddMongoRepository<CustomerDocument, Guid>("customers")
                 .AddMongoRepository<OrderDocument, Guid>("orders")
@@ -150,5 +154,13 @@ namespace SwiftParcel.Services.Orders.Infrastructure
 
             return string.Empty;
         }
+        internal static IConveyBuilder AddBrevo(this IConveyBuilder builder)
+        {
+            // this should be replaces with some cloud key vault
+            var apiKey = builder.GetOptions<BrevoOptions>("brevoApiKey");
+            sib_api_v3_sdk.Client.Configuration.Default.ApiKey.Add("api-key", apiKey.ApiKey);
+            Settings.License = LicenseType.Community;
+            return builder;
+        }  
     }
 }
