@@ -74,7 +74,7 @@ namespace SwiftParcel.Services.Customers.Infrastructure.Services
 
                 var messageId = Guid.NewGuid().ToString("N");
                 _logger.LogTrace($"Publishing integration event: {@event.GetType().Name} [id: '{messageId}'].");
-                if (!_outbox.Enabled)
+                if (_outbox.Enabled)
                 {
                     await _outbox.SendAsync(@event, originatedMessageId, messageId, correlationId, spanContext,
                         correlationContext, headers);
