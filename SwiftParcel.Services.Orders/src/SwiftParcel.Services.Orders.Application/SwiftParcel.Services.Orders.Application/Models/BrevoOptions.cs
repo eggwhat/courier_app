@@ -1,4 +1,4 @@
-﻿namespace SwiftParcel.Services.Orders.Infrastructure.Models
+﻿namespace SwiftParcel.Services.Orders.Application.Models
 {
     public class BrevoOptions
     {

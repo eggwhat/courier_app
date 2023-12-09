@@ -38,7 +38,8 @@ namespace SwiftParcel.Services.Orders.Api
                         .Post<CreateOrder>("orders",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}"))
                         .Post<AddParcelToOrder>("orders/{orderId}/parcels/{parcelId}")
-                        .Delete<DeleteParcelFromOrder>("orders/{orderId}/parcels/{parcelId}")))
+                        .Delete<DeleteParcelFromOrder>("orders/{orderId}/parcels/{parcelId}")
+                        .Put<CancelOrder> ("orders/{orderId}/cancel")))
                 .UseLogging()
                 .UseVault()
                 .Build()

@@ -10,7 +10,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         public SendCancellationEmail(Guid orderId, Guid customerId)
         {
             Subject = "Order cancelled";
-            Body = $"Your order {orderId} has been cancelled.";
+            Body = $"Your order '{orderId}' has been cancelled.";
             CustomerId = customerId;
         }
     }
