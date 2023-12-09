@@ -8,6 +8,7 @@ using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using SwiftParcel.Services.Orders.Application.Services;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {
@@ -42,11 +43,14 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 { "orderId", command.OrderId.ToString()},
             };
-
+            var attachment = new List<SendSmtpEmailAttachment>
+            {
+                new SendSmtpEmailAttachment(null, "Invoice", $"Invoice_{command.OrderId}.pdf")
+            };
             try
             {
                 var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, null, null, null,
-                                                      null, null, null, 3, parameters);
+                                                      null, attachment, null, 3, parameters);
                 CreateSmtpEmail result = await _apiInstance.SendTransacEmailAsync(sendSmtpEmail);
                 _logger.LogInformation("Email sent to {email}", customer.Email);
             }
