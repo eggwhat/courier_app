@@ -119,9 +119,16 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
         }
 
-         public async Task<AuthDto> SignInWithGoogleAsync(string googleToken)
+        public async Task<AuthDto> SignInWithGoogleAsync(SignUp command)
         {
             // Example pseudocode for validating the Google token and retrieving user info
+
+            var googleToken = command.GoogleToken;
+            if (string.IsNullOrWhiteSpace(googleToken))
+            {
+                throw new ArgumentException("Google token is required for Google sign-up.");
+            }
+
             var googleUserData = await ValidateGoogleTokenAndGetUserData(googleToken);
 
             var user = await _userRepository.GetAsync(googleUserData.Email);
@@ -141,8 +148,15 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             return auth;
         }
 
-        public async Task<AuthDto> SignUpWithGoogleAsync(string googleToken)
+        public async Task<AuthDto> SignUpWithGoogleAsync(SignUp command)
         {
+            // Extract Google token from the SignUp command
+            var googleToken = command.GoogleToken;
+            if (string.IsNullOrWhiteSpace(googleToken))
+            {
+                throw new ArgumentException("Google token is required for Google sign-up.");
+            }
+
             var googleUserData = await ValidateGoogleTokenAndGetUserData(googleToken);
 
             var existingUser = await _userRepository.GetAsync(googleUserData.Email);
@@ -155,10 +169,9 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             var newUser = new User(Guid.NewGuid(), googleUserData.Email, "", "user", DateTime.UtcNow, new List<string>());
             await _userRepository.AddAsync(newUser);
 
-            var auth = _jwtProvider.Create(newUser.Id, newUser.Role, claims: null); // Update as needed
+            var auth = _jwtProvider.Create(newUser.Id, newUser.Role, claims: null);
             auth.RefreshToken = await _refreshTokenService.CreateAsync(newUser.Id);
 
-            // Log the sign-up event
             _logger.LogInformation($"User with id: {newUser.Id} signed up with Google.");
             await _messageBroker.PublishAsync(new SignedUp(newUser.Id, newUser.Email, newUser.Role));
 

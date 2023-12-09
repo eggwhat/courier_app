@@ -73,6 +73,11 @@ namespace src.SwiftParcel.Services.Identity.Api
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
                             await ctx.Response.Created("identity/me");
                         })
+                        .Post<SignUp>("google-sign-up", async (cmd, ctx) => 
+                        {
+                            await ctx.RequestServices.GetService<IIdentityService>().SignUpWithGoogleAsync(cmd);
+                            await ctx.Response.Created("identity/me");
+                        })
                         .Post<RevokeAccessToken>("access-tokens/revoke", async (cmd, ctx) =>
                         {
                             await ctx.RequestServices.GetService<IAccessTokenService>().DeactivateAsync(cmd.AccessToken);
