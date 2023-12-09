@@ -56,12 +56,14 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
             };
         
         public static Customer AsEntity(this CustomerDocument document)
-            => new Customer(document.Id);
+            => new Customer(document.Id, document.Email, document.FullName);
 
         public static CustomerDocument AsDocument(this Customer entity)
             => new CustomerDocument
             {
-                Id = entity.Id
+                Id = entity.Id,
+                Email = entity.Email,
+                FullName = entity.FullName
             };
     }
 }

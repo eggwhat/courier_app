@@ -42,7 +42,10 @@ using SwiftParcel.Services.Orders.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Orders.Infrastructure.Services;
 using SwiftParcel.Services.Orders.Infrastructure.Services.Clients;
 using SwiftParcel.Services.Orders.Infrastructure.Logging;
-
+using SwiftParcel.Services.Orders.Infrastructure.Models;
+using Microsoft.Extensions.Configuration;
+using Jaeger;
+using sib_api_v3_sdk.Client;
 
 namespace SwiftParcel.Services.Orders.Infrastructure
 {
@@ -100,6 +103,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<AddParcelToOrder>()
                 .SubscribeCommand<DeleteParcelFromOrder>()
                 .SubscribeCommand<AssignCourierToOrder>()
+                //.SubscribeCommand<SendApprovalEmail>()
+                .SubscribeCommand<SendCancellationEmail>()
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
@@ -145,6 +150,12 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             }
 
             return string.Empty;
+        }
+        internal static IConveyBuilder AddBrevo(this IConveyBuilder builder)
+        {
+            var apiKey = builder.GetOptions<BrevoOptions>("brevoApiKey");
+            sib_api_v3_sdk.Client.Configuration.Default.ApiKey.Add("api-key", apiKey.ApiKey);
+            return builder;
         }
     }
 }
