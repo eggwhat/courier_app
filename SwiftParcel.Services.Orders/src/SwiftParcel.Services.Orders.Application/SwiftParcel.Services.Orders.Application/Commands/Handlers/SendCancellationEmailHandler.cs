@@ -40,10 +40,15 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             };
             var TextContent = command.Body;
             string HtmlContent = null;
+            var parameters = new Dictionary<string, string>
+            {
+                { "orderId", command.OrderId.ToString()}
+            };
 
             try
             {
-                var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, HtmlContent, TextContent, command.Subject);
+                var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, HtmlContent, TextContent, command.Subject,
+                                                      null, null, null, 2, parameters);
                 CreateSmtpEmail result = await _apiInstance.SendTransacEmailAsync(sendSmtpEmail);
                 _logger.LogInformation("Email sent to {email}", customer.Email);
             }
