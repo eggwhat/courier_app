@@ -22,7 +22,7 @@ namespace SwiftParcel.Services.Identity.Application.Commands.Handlers
             if (!string.IsNullOrEmpty(command.GoogleToken))
             {
                 // Handle Google sign-up
-                await _identityService.SignUpWithGoogleAsync(command.GoogleToken);
+                await _identityService.SignUpWithGoogleAsync(command);
             }
             else
             {

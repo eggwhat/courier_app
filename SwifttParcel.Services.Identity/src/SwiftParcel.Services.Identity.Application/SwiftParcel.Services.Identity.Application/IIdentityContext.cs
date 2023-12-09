@@ -11,6 +11,7 @@ namespace SwiftParcel.Services.Identity.Application
         string Role { get; }
         bool IsAuthenticated { get; }
         bool IsAdmin { get; }
+        bool IsCourier { get; }
         IDictionary<string, string> Claims { get; }
     }
 }

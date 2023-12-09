@@ -13,6 +13,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Contexts
         public string Role { get; } = string.Empty;
         public bool IsAuthenticated { get; }
         public bool IsAdmin { get; }
+        public bool IsCourier { get; }
         public IDictionary<string, string> Claims { get; } = new Dictionary<string, string>();
 
         internal IdentityContext()
@@ -30,6 +31,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Contexts
             Role = role ?? string.Empty;
             IsAuthenticated = isAuthenticated;
             IsAdmin = Role.Equals("admin", StringComparison.InvariantCultureIgnoreCase);
+            IsCourier = Role.Equals("courier", StringComparison.InvariantCultureIgnoreCase);
             Claims = claims ?? new Dictionary<string, string>();
         }
         
