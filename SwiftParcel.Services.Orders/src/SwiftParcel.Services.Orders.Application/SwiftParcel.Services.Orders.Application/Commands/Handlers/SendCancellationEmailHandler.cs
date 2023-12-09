@@ -7,6 +7,7 @@ using sib_api_v3_sdk.Model;
 using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Core.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {
@@ -16,10 +17,12 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private const string _senderEmail = "switfparcel2023@gmail.com";
         private readonly TransactionalEmailsApi _apiInstance;
         private readonly ICustomerRepository _customerRepository;
-        public SendCancellationEmailHandler(ICustomerRepository customerRepository)
+        private readonly ILogger<SendCancellationEmailHandler> _logger;
+        public SendCancellationEmailHandler(ICustomerRepository customerRepository, ILogger<SendCancellationEmailHandler> logger)
         {
             _apiInstance = new TransactionalEmailsApi();
             _customerRepository = customerRepository;
+            _logger = logger;
         }
 
         public async System.Threading.Tasks.Task HandleAsync(SendCancellationEmail command, CancellationToken cancellationToken)
@@ -42,6 +45,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, HtmlContent, TextContent, command.Subject);
                 CreateSmtpEmail result = await _apiInstance.SendTransacEmailAsync(sendSmtpEmail);
+                _logger.LogInformation("Email sent to {email}", customer.Email);
             }
             catch (Exception e)
             {
