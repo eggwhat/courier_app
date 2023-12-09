@@ -42,7 +42,8 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             string HtmlContent = null;
             var parameters = new Dictionary<string, string>
             {
-                { "orderId", command.OrderId.ToString()}
+                { "orderId", command.OrderId.ToString()},
+                { "reason", command.Reason}
             };
 
             try

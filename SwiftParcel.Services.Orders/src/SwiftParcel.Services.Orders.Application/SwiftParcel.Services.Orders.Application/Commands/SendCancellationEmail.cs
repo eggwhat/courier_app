@@ -8,11 +8,13 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         public string Body { get; }
         public Guid CustomerId { get; }
         public Guid OrderId { get; }
-        public SendCancellationEmail(Guid orderId, Guid customerId)
+        public string Reason { get; }
+        public SendCancellationEmail(Guid orderId, Guid customerId, string reason)
         {
             Subject = "Order cancelled";
             OrderId = orderId;
             CustomerId = customerId;
+            Reason = reason;
         }
     }
 }
