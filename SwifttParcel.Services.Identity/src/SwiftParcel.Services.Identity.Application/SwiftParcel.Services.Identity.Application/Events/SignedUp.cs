@@ -11,6 +11,7 @@ namespace SwiftParcel.Services.Identity.Application.Events
         public Guid UserId { get; }
         public string Email { get; }
         public string Role { get; }
+        public string GoogleToken { get; set; }
 
         public SignedUp(Guid userId, string email, string role)
         {
