@@ -7,7 +7,7 @@ namespace SwiftParcel.Services.Identity.Application.UserDTO
 {
     public class GoogleUserDto
     {
-         public string Email { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string GivenName { get; set; }
