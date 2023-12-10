@@ -8,7 +8,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
     {
         public static Order AsEntity(this OrderDocument document)
             => new Order(document.Id, document.CustomerId, document.Status, document.CreatedAt,
-                document.Parcels.Select(p => new Parcel(p.Id, p.Name, p.Variant, p.Size)),
+                document.Parcels.Select(p => new Parcel(p.Id, p.Name, p.Variant, p.Description, p.Width, p.Height,
+                    p.Depth, p.Weight, p.Price, p.Source, p.Destination)),
                 document.CourierId, document.DeliveryDate, document.TotalPrice);
 
         public static OrderDocument AsDocument(this Order entity)
@@ -28,8 +29,15 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Size = p.Size,
-                    Variant = p.Variant
+                    Variant = p.Variant,
+                    Description = p.Description,
+                    Width = p.Width,
+                    Height = p.Height,
+                    Depth = p.Depth,
+                    Weight = p.Weight,
+                    Price = p.Price,
+                    Source = p.Source,
+                    Destination = p.Destination
                 })
             };
 
@@ -50,8 +58,15 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Size = p.Size,
-                    Variant = p.Variant
+                    Variant = p.Variant,
+                    Description = p.Description,
+                    Width = p.Width,
+                    Height = p.Height,
+                    Depth = p.Depth,
+                    Weight = p.Weight,
+                    Price = p.Price,
+                    Source = p.Source,
+                    Destination = p.Destination
                 })
             };
         

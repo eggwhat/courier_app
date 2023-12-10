@@ -9,15 +9,13 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         public Guid CustomerId { get; }
         public Guid OrderId { get; }
         public decimal TotalPrice { get; }
-        public IEnumerable<Parcel> Parcels { get; }
-        public Address CustomerAddress { get; }
-        public SendApprovalEmail(Guid orderId, Guid customerId, decimal totalPrice, IEnumerable<Parcel> parcels, Address customerAddress)
+        public Parcel Parcel { get; }
+        public SendApprovalEmail(Guid orderId, Guid customerId, decimal totalPrice, Parcel parcel)
         {
             OrderId = orderId;
             CustomerId = customerId;
             TotalPrice = totalPrice;
-            Parcels = parcels;
-            CustomerAddress = customerAddress;
+            Parcel = parcel;
         }
     }
 }

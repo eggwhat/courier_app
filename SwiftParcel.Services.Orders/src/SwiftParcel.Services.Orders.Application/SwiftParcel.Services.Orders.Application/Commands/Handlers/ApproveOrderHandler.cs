@@ -45,7 +45,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
 
-            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, order.CustomerId, order.TotalPrice, order.Parcels));
+            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, order.CustomerId, order.TotalPrice, order.Parcels.First()));
         }
     }
 }
