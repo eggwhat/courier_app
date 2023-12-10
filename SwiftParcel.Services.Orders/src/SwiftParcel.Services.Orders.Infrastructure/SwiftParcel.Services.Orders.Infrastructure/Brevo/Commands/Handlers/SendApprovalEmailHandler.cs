@@ -9,8 +9,15 @@ using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Core.Exceptions;
 using Microsoft.Extensions.Logging;
 using SwiftParcel.Services.Orders.Application.Services;
+using System.Reflection.Metadata;
+using SwiftParcel.Services.Orders.Application.Commands;
+using SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents;
+using SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Models;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
 
-namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
+namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
 {
     public class SendApprovalEmailHandler: ICommandHandler<SendApprovalEmail>
     {
@@ -33,7 +40,6 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 throw new CustomerNotFoundException(command.CustomerId);
             }
-
             var sender = new SendSmtpEmailSender(_senderName, _senderEmail);
             var to = new List<SendSmtpEmailTo>
             {
@@ -43,9 +49,23 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 { "orderId", command.OrderId.ToString()},
             };
+            
+            var model = new InvoiceModel()
+            {
+                OrderId = command.OrderId.ToString(),
+                IssueDate = DateTime.Now,
+                TotalPrice = command.TotalPrice,
+                CustomerAddress = command.CustomerAddress
+            };
+            
+            var document = new InvoiceDocument(model);
+            document.ShowInPreviewer();
+            var invoice = document.GeneratePdf();
+            
+
             var attachment = new List<SendSmtpEmailAttachment>
             {
-                new SendSmtpEmailAttachment(null, "Invoice", $"Invoice_{command.OrderId}.pdf")
+                new SendSmtpEmailAttachment(null, invoice, $"Invoice_{command.OrderId}.pdf")
             };
             try
             {

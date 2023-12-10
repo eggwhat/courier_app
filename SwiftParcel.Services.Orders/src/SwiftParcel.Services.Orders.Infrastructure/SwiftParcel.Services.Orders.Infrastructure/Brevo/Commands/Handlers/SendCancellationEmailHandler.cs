@@ -8,8 +8,9 @@ using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using SwiftParcel.Services.Orders.Application.Commands;
 
-namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
+namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
 {
     public class SendCancellationEmailHandler: ICommandHandler<SendCancellationEmail>
     {
