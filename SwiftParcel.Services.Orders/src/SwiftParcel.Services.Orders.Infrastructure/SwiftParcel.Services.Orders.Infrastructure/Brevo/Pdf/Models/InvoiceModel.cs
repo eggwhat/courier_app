@@ -7,6 +7,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Models
         public string OrderId { get; set; }
         public DateTime IssueDate { get; set; }        
         public string CustomerEmail { get; set; }
+        public string CustomerName { get; set; }
         public Parcel Parcel { get; set; }
         public decimal TotalPrice { get; set; }
     }

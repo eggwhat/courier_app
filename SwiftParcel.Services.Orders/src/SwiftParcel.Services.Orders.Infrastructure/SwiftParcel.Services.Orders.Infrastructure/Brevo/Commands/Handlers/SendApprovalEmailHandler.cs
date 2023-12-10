@@ -57,10 +57,10 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
                 TotalPrice = command.TotalPrice,
                 Parcel = command.Parcel,
                 CustomerEmail = customer.Email,
+                CustomerName = customer.FullName
             };
             
             var document = new InvoiceDocument(model);
-            document.ShowInPreviewer();
             var invoice = document.GeneratePdf();
             
 
