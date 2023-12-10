@@ -67,16 +67,15 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 
                 column.Item().Row(row =>
                 {
-                    row.RelativeItem().Component(new AddressComponent("From", Model.SellerAddress, Model.CustomerEmail));
+                    row.RelativeItem().Component(new AddressComponent("From", Model.Parcel.Source, Model.CustomerEmail));
                     row.ConstantItem(50);
-                    row.RelativeItem().Component(new AddressComponent("For", Model.CustomerAddress, Model.CustomerEmail));
+                    row.RelativeItem().Component(new AddressComponent("For", Model.Parcel.Destination, Model.CustomerEmail));
                 });
 
                 column.Item().Element(ComposeTable);
 
-                //var totalPrice = Model.Items.Sum(x => x.Price * x.Quantity);
-                //column.Item().PaddingRight(5).AlignRight().Text($"Grand total: {totalPrice:C}").SemiBold();
-
+                var totalPrice = Model.TotalPrice;
+                column.Item().PaddingRight(5).AlignRight().Text($"Grand total: {totalPrice:C}").SemiBold();
             });
         }
 
@@ -98,37 +97,23 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 table.Header(header =>
                 {
                     header.Cell().Text("#");
-                    header.Cell().Text("Product").Style(headerStyle);
+                    header.Cell().Text("Name").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Variant").Style(headerStyle);
                     header.Cell().AlignRight().Text("Unit price").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Quantity").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Total").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Size [cm]").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Weight [kg]").Style(headerStyle);
                     
                     header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
                 });
                 
-                // foreach (var item in Model.Items)
-                // {
-                //     var index = Model.Items.IndexOf(item) + 1;
-
-                //     table.Cell().Element(CellStyle).Text($"{index}");
-                //     table.Cell().Element(CellStyle).Text(item.Name);
-                //     table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price:C}");
-                //     table.Cell().Element(CellStyle).AlignRight().Text($"{item.Quantity}");
-                //     table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price * item.Quantity:C}");
-                    
-                //     static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
-                // }
+                table.Cell().Element(CellStyle).Text($"{Model.Parcel.Id}");
+                table.Cell().Element(CellStyle).Text($"{Model.Parcel.Name}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Price:C}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Width}x{Model.Parcel.Height}x{Model.Parcel.Depth}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Weight}");            
+                static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
             });
         }
-
-        // void ComposeComments(IContainer container)
-        // {
-        //     container.ShowEntire().Background(Colors.Grey.Lighten3).Padding(10).Column(column => 
-        //     {
-        //         column.Spacing(5);
-        //         column.Item().Text("Comments").FontSize(14).SemiBold();
-        //     });
-        // }
     }
     
     public class AddressComponent : IComponent
@@ -153,9 +138,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 column.Item().Text(Title).SemiBold();
                 column.Item().PaddingBottom(5).LineHorizontal(1); 
                 
-                column.Item().Text(Address.CompanyName);
                 column.Item().Text(Address.Street);
-                column.Item().Text($"{Address.City}, {Address.Country}");
+                column.Item().Text($"{Address.City}, {Address.ZipCode}");
                 column.Item().Text(Email);
             });
         }

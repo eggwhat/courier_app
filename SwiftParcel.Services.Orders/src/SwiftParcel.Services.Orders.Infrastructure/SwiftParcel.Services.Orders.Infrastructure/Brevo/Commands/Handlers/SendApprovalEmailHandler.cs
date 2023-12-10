@@ -55,7 +55,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
                 OrderId = command.OrderId.ToString(),
                 IssueDate = DateTime.Now,
                 TotalPrice = command.TotalPrice,
-                CustomerAddress = command.CustomerAddress
+                Parcel = command.Parcel,
+                CustomerEmail = customer.Email,
             };
             
             var document = new InvoiceDocument(model);
