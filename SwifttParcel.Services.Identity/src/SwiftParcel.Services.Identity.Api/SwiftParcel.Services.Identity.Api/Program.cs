@@ -37,8 +37,8 @@ namespace src.SwiftParcel.Services.Identity.Api
 
                     services.AddAuthentication().AddGoogle(options =>
                     {
-                        options.ClientId = "<Google-Client-Id>";
-                        options.ClientSecret = "<Google-Client-Secret>";
+                        options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+                        options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
                     });
 
                     services.AddConvey()
