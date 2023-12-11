@@ -14,7 +14,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
     {
         public Guid Id { get; protected set; }
         public Guid? OrderId { get; protected set; }
-        public Guid CustomerId { get; protected set; }
+        public Guid CustomerId { get; protected set; }  
         public string Name { get; protected set; }
         public string Description { get; protected set; }
         public double Width { get; protected set; }

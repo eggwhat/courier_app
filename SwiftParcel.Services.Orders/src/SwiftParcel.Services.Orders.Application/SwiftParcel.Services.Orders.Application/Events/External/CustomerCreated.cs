@@ -7,10 +7,14 @@ namespace SwiftParcel.Services.Orders.Application.Events.External
     public class CustomerCreated : IEvent
     {
         public Guid CustomerId { get; }
+        public string Email { get; }
+        public string FullName { get; }
 
-        public CustomerCreated(Guid customerId)
+        public CustomerCreated(Guid customerId, string email, string fullName)
         {
             CustomerId = customerId;
+            Email = email;
+            FullName = fullName;
         }
     }
 }
