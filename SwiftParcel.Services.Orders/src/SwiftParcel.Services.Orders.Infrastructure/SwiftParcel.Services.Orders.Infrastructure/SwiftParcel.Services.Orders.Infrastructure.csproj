@@ -32,6 +32,8 @@
     <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="1.1.448" />
     <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
     <PackageReference Include="Convey.WebApi.Swagger" Version="1.1.448" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="7.3.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
   </ItemGroup>
 
   <ItemGroup>

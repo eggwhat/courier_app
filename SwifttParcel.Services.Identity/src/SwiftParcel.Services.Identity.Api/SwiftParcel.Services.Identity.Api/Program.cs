@@ -18,26 +18,34 @@ using Convey.Secrets.Vault;
 using SwiftParcel.Services.Identity.Infrastructure;
 using MongoDB.Driver;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.Google;
 namespace src.SwiftParcel.Services.Identity.Api
 {
     public class Program
     {
         public static async Task Main(string[] args)
             => await WebHost.CreateDefaultBuilder(args)
-                .ConfigureServices(services => services
-                    .AddCors(options =>
+                .ConfigureServices(services =>
+                {
+                    services.AddCors(options =>
                     {
                         options.AddPolicy("AllowSpecificOrigin", builder =>
                             builder.WithOrigins("http://localhost:3001") // Replace with the React app's URL if it's not running on localhost:3000
                                 .AllowAnyMethod()
                                 .AllowAnyHeader());
-                    })
-                    .AddConvey()
-                    .AddWebApi()
-                    .AddApplication()
-                    .AddInfrastructure()
-                    .Build()
-                    )
+                    });
+
+                    services.AddAuthentication().AddGoogle(options =>
+                    {
+                        options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+                        options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+                    });
+
+                    services.AddConvey()
+                            .AddWebApi()
+                            .AddApplication()
+                            .AddInfrastructure();
+                })
                 .Configure(app => app
                     .UseCors("AllowSpecificOrigin")
                     .UseInfrastructure()
@@ -63,6 +71,11 @@ namespace src.SwiftParcel.Services.Identity.Api
                         .Post<SignUp>("sign-up", async (cmd, ctx) =>
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
+                            await ctx.Response.Created("identity/me");
+                        })
+                        .Post<SignUp>("google-sign-up", async (cmd, ctx) => 
+                        {
+                            await ctx.RequestServices.GetService<IIdentityService>().SignUpWithGoogleAsync(cmd);
                             await ctx.Response.Created("identity/me");
                         })
                         .Post<RevokeAccessToken>("access-tokens/revoke", async (cmd, ctx) =>

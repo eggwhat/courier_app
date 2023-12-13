@@ -17,6 +17,7 @@ namespace SwiftParcel.Services.Identity.Application.Commands
         public string Email { get; }
         public string Password { get; }
         public string Role { get; }
+        public string GoogleToken { get; set; }
         public IEnumerable<string> Permissions { get; }
 
         public SignUp(Guid userId, string email, string password, string role, IEnumerable<string> permissions)
