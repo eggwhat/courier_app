@@ -70,6 +70,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
+            
 
             return builder
                 .AddErrorHandler<ExceptionToResponseMapper>()

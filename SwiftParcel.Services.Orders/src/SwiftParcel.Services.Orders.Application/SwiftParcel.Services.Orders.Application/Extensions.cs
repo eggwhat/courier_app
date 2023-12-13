@@ -1,6 +1,8 @@
 ﻿using Convey;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace SwiftParcel.Services.Orders.Application
 {
@@ -12,5 +14,5 @@ namespace SwiftParcel.Services.Orders.Application
                 .AddEventHandlers()
                 .AddInMemoryCommandDispatcher()
                 .AddInMemoryEventDispatcher();
-    }
+    }    
 }

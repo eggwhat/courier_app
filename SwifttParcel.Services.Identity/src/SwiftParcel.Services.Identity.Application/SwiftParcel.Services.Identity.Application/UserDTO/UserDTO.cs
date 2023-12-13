@@ -20,8 +20,6 @@ namespace SwiftParcel.Services.Identity.Identity.Application.UserDTO
         {
 
         }
-
-        
         public UserDto(User user)
         {
             Id = user.Id;

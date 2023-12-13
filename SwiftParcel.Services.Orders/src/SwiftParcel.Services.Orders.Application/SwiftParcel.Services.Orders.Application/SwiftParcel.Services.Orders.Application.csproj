@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\..\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj" />
@@ -16,6 +16,8 @@
     <PackageReference Include="Convey.CQRS.Events" Version="1.1.448" />
     <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
     <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
+    <PackageReference Include="QuestPDF" Version="2023.12.0" />
+    <PackageReference Include="sib_api_v3_sdk" Version="4.0.2" />
 </ItemGroup>
 
 <ItemGroup>

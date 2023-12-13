@@ -9,7 +9,6 @@ namespace SwiftParcel.Services.Identity.Core.Entities
     {
         public const string User = "user";
         public const string Admin = "admin";
-
         public const string Courier = "courier";
 
         public static bool IsValid(string role)
