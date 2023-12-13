@@ -165,7 +165,6 @@ modules:
         localUrl: localhost:5004
         url: identity-service
       
-  # Future order service   
   orders:
     path: orders
     routes:
@@ -217,19 +216,95 @@ modules:
       - upstream: /{orderId}/vehicles/{vehicleId}
         method: POST
         use: downstream
-        downstream: orders-service/orders/{orderId}/vehicles/{vehicleId}
+        downstream: orders-service/orders/{orderId}/couriers/{courierId}
         auth: true
         bind:
           - orderId:{orderId}
-          - vehicleId:{vehicleId}
+          - vehicleId:{courierId}
           - customerId:@user_id
+
+      - upstream: /{orderId}/approve
+        method: PUT
+        use: downstream
+        downstream: orders-service/orders/{orderId}/approve
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /{orderId}/cancel
+        method: PUT
+        use: downstream
+        downstream: orders-service/orders/{orderId}/cancel
+        auth: true
+        bind:
+          - orderId:{orderId}
     
     services:
       orders-service:
         localUrl: localhost:5006
         url: orders-service
 
-  # Future parcels service   
+  customers:
+    path: customers
+    routes:
+      - upstream: /
+        method: GET
+        use: downstream
+        downstream: customers-service/customers
+        auth: true
+        claims:
+          role: admin
+    
+      - upstream: /me
+        method: GET
+        use: downstream
+        downstream: customers-service/customers/@user_id
+        auth: true
+    
+      - upstream: /{customerId}
+        method: GET
+        use: downstream
+        downstream: customers-service/customers/{customerId}
+        auth: true
+        claims:
+          role: admin
+    
+      - upstream: /{customerId}/state
+        method: GET
+        use: downstream
+        downstream: customers-service/customers/{customerId}/state
+        auth: true
+        claims:
+          role: admin
+    
+      - upstream: /
+        method: POST
+        use: downstream
+        downstream: customers-service/customers
+        bind:
+          - customerId:@user_id
+        auth: true
+        payload: create_customer
+        schema: create_customer.schema
+    
+      - upstream: /{customerId}/state/{state}
+        method: PUT
+        use: downstream
+        downstream: customers-service/customers/{customerId}/state/{state}
+        bind:
+          - customerId:{customerId}
+          - state:{state}
+        auth: true
+        claims:
+          role: admin
+    
+    services:
+      customers-service:
+        localUrl: localhost:5002
+        url: customers-service
+      
+      
+ 
   parcels:
     path: parcels
     routes:
@@ -331,3 +406,51 @@ modules:
       couriers-service:
         localUrl: localhost:5009
         url: couriers-service
+
+  deliveries:
+    path: deliveries
+    routes:
+      - upstream: /{deliveryId}
+        method: GET
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}
+        auth: true
+    
+      - upstream: /
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries
+        auth: true
+        resourceId:
+          property: deliveryId
+          generate: true
+    
+      - upstream: /{deliveryId}/fail
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}/fail
+        auth: true
+        bind:
+          - deliveryId:{deliveryId}
+    
+      - upstream: /{deliveryId}/complete
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}/complete
+        auth: true
+        bind:
+          - deliveryId:{deliveryId}
+    
+      - upstream: /{deliveryId}/registrations
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}/registrations
+        auth: true
+        bind:
+          - deliveryId:{deliveryId}
+    
+    services:
+      deliveries-service:
+        localUrl: localhost:5003
+        url: deliveries-service
+
