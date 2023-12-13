@@ -216,12 +216,28 @@ modules:
       - upstream: /{orderId}/vehicles/{vehicleId}
         method: POST
         use: downstream
-        downstream: orders-service/orders/{orderId}/vehicles/{vehicleId}
+        downstream: orders-service/orders/{orderId}/couriers/{courierId}
         auth: true
         bind:
           - orderId:{orderId}
-          - vehicleId:{vehicleId}
+          - vehicleId:{courierId}
           - customerId:@user_id
+
+      - upstream: /{orderId}/approve
+        method: PUT
+        use: downstream
+        downstream: orders-service/orders/{orderId}/approve
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /{orderId}/cancel
+        method: PUT
+        use: downstream
+        downstream: orders-service/orders/{orderId}/cancel
+        auth: true
+        bind:
+          - orderId:{orderId}
     
     services:
       orders-service:
