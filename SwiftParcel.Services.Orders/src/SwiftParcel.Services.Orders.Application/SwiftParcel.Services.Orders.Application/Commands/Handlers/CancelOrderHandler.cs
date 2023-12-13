@@ -4,6 +4,7 @@ using Convey.CQRS.Commands;
 using SwiftParcel.Services.Orders.Application.Services;
 using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Core.Repositories;
+using SwiftParcel.Services.Orders.Core.Exceptions;
 
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
@@ -14,14 +15,16 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IAppContext _appContext;
+        private readonly ICommandDispatcher _commandDispatcher;
 
         public CancelOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
-            IEventMapper eventMapper, IAppContext appContext)
+            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher)
         {
             _orderRepository = orderRepository;
             _messageBroker = messageBroker;
             _eventMapper = eventMapper;
             _appContext = appContext;
+            _commandDispatcher = commandDispatcher;
         }
         public async Task HandleAsync(CancelOrder command, CancellationToken cancellationToken)
         {
@@ -41,6 +44,8 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
+
+            await _commandDispatcher.SendAsync(new SendCancellationEmail(order.Id, order.CustomerId, command.Reason));
         }
     }
 }

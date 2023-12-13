@@ -5,14 +5,29 @@
         public Guid Id { get; }
         public string Name { get; }
         public string Variant { get; }
-        public string Size { get; }
+        public string Description { get; protected set; }
+        public double Width { get; protected set; }
+        public double Height { get; protected set; }
+        public double Depth { get; protected set; }
+        public double Weight { get; protected set; }
+        public decimal Price { get; protected set; }
+        public Address Source { get; protected set; }
+        public Address Destination { get; protected set; }
 
-        public Parcel(Guid id, string name, string variant, string size)
+        public Parcel(Guid id, string name, string variant, string description, double width, double height,
+            double depth, double weight, decimal price, Address source, Address destination)
         {
             Id = id;
             Name = name;
             Variant = variant;
-            Size = size;
+            Description = description;
+            Width = width;
+            Height = height;
+            Depth = depth;
+            Weight = weight;
+            Price = price;
+            Source = source;
+            Destination = destination;
         }
 
         public bool Equals(Parcel other)
