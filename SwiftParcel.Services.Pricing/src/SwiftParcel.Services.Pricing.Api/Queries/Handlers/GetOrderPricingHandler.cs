@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Queries;
+using SwiftParcel.Services.Pricing.Api.Core.Services;
+using SwiftParcel.Services.Pricing.Api.dto;
+using SwiftParcel.Services.Pricing.Api.Exceptions;
+using SwiftParcel.Services.Pricing.Api.Services;
 
 namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
 {
-    public class GetOrderPricingHandler: IQueryHandler<GetOrderPricing, OrderPricingDto>
+    internal sealed class GetOrderPricingHandler: IQueryHandler<GetOrderPricing, OrderPricingDto>
     {
         private readonly ICustomersServiceClient _client;
         private readonly ICustomerDiscountsService _service;
@@ -19,7 +24,7 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
             _logger = logger;
         }
 
-        public async Task<OrderPricingDto> HandleAsync(GetOrderPricing query)
+        public async Task<OrderPricingDto> HandleAsync(GetOrderPricing query, CancellationToken cancellationToken)
         {
             var customer = await _client.GetAsync(query.CustomerId);
 

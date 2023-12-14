@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Convey.CQRS.Queries;
+using SwiftParcel.Services.Pricing.Api.dto;
 
 namespace SwiftParcel.Services.Pricing.Api.Queries
 {
