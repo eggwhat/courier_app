@@ -404,7 +404,7 @@ modules:
 
       # The upodate for the courier accepr/reject functionality
 
-       - upstream: /orders/{orderId}/offers
+      - upstream: /orders/{orderId}/offers
         method: GET
         use: downstream
         downstream: couriers-service/orders/{orderId}/offers
