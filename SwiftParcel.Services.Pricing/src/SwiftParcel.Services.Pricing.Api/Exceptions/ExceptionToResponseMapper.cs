@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Convey;
+using Convey.WebApi.Exceptions;
 
 namespace SwiftParcel.Services.Pricing.Api.Exceptions
 {
