@@ -401,6 +401,34 @@ modules:
         use: downstream
         downstream: couriers-service/couriers/{courierId}
         auth: true
+
+      # The upodate for the courier accepr/reject functionality
+
+       - upstream: /orders/{orderId}/offers
+        method: GET
+        use: downstream
+        downstream: couriers-service/orders/{orderId}/offers
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /orders/{orderId}/offers/{offerId}/accept
+        method: POST
+        use: downstream
+        downstream: couriers-service/orders/{orderId}/offers/{offerId}/accept
+        auth: true
+        bind:
+          - orderId:{orderId}
+          - offerId:{offerId}
+
+      - upstream: /orders/{orderId}/offers/{offerId}/reject
+        method: POST
+        use: downstream
+        downstream: couriers-service/orders/{orderId}/offers/{offerId}/reject
+        auth: true
+        bind:
+          - orderId:{orderId}
+          - offerId:{offerId}
     
     services:
       couriers-service:
