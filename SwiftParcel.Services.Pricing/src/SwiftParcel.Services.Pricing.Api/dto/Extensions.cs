@@ -6,5 +6,10 @@ namespace SwiftParcel.Services.Pricing.Api.dto
     {
         public static Customer AsEntity(this CustomerDto dto)
             => new Customer(dto.Id, dto.IsVip, dto.CompletedOrders.Count());
+
+        public static Parcel AsEntity(this ParcelDto dto)
+        {
+            return new Parcel(dto.Length, dto.Width, dto.Height, dto.Weight, dto.HighPriority, dto.DeliverAtWeekend);
+        }
     }
 }

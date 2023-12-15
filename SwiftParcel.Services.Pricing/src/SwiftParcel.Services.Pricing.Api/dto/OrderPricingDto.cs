@@ -7,6 +7,7 @@ namespace SwiftParcel.Services.Pricing.Api.dto
 {
     public class OrderPricingDto
     {
+        public ParcelDto Parcel { get; set; }
         public decimal OrderPrice { get; set; }
         public decimal CustomerDiscount { get; set; }
         public decimal OrderDiscountPrice { get; set; }

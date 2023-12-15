@@ -11,5 +11,6 @@ namespace SwiftParcel.Services.Pricing.Api.Queries
     {
         public Guid CustomerId { get; set; }
         public decimal OrderPrice { get; set; }
+        public ParcelDto Parcel { get; set; }
     }
 }
