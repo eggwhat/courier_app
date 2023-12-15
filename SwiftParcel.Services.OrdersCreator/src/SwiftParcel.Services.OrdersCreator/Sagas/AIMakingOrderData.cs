@@ -8,7 +8,7 @@ namespace SwiftParcel.Services.OrdersCreator.Sagas
     public class AIMakingOrderData
     {
         public Guid OrderId { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public Guid CourierId { get; set; }
         public DateTime ReservationDate { get; set; }
         public int ReservationPriority { get; set; }

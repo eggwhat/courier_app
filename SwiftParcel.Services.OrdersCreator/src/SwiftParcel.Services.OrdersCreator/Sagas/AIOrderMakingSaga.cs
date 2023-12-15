@@ -60,7 +60,7 @@ namespace SwiftParcel.Services.OrdersCreator.Sagas
             Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
 
-            await _publisher.PublishAsync(new CreateOrder(Data.OrderId, message.CustomerId),
+            await _publisher.PublishAsync(new CreateOrder(Data.OrderId, message.CustomerId ?? Guid.Empty),
                 messageContext: _accessor.CorrelationContext,
                 headers: new Dictionary<string, object>
                 {

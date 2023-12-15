@@ -9,11 +9,11 @@ namespace SwiftParcel.Services.OrdersCreator.Commands.External
     public class ReserveResource : ICommand
     {
         public Guid ResourceId { get; }
-        public Guid CustomerId { get; }
+        public Guid? CustomerId { get; }
         public DateTime DateTime { get; }
         public int Priority { get; }
 
-        public ReserveResource(Guid resourceId, Guid customerId, DateTime dateTime, int priority)
+        public ReserveResource(Guid resourceId, Guid? customerId, DateTime dateTime, int priority)
         {
             ResourceId = resourceId;
             DateTime = dateTime;
