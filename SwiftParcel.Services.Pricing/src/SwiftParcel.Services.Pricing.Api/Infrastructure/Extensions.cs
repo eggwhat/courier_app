@@ -21,6 +21,7 @@ namespace SwiftParcel.Services.Pricing.Api.Infrastructure
         {
             builder.Services.AddTransient<ICustomersServiceClient, CustomersServiceClient>();
             builder.Services.AddTransient<ICustomerDiscountsService, CustomerDiscountsService>();
+            builder.Services.AddTransient<IPricingService, PricingService>(); 
 
             return builder
                 .AddErrorHandler<ExceptionToResponseMapper>()
