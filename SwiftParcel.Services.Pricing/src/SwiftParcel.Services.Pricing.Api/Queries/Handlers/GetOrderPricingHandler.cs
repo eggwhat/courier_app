@@ -14,7 +14,6 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
     {
         private readonly ICustomersServiceClient _client;
         private readonly ICustomerDiscountsService _service;
-
         private readonly IPricingService _pricingService;
         private readonly ILogger<GetOrderPricingHandler> _logger;
 
@@ -29,18 +28,21 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
 
         public async Task<OrderPricingDto> HandleAsync(GetOrderPricing query, CancellationToken cancellationToken)
         {
-            var customerDto = await _client.GetAsync(query.CustomerId);
+            CustomerDto customerDto = null;
+            decimal customerDiscount = 0m;
 
-            if (customerDto is null)
+            if (query.CustomerId != Guid.Empty)
             {
-                throw new CustomerNotFoundException(query.CustomerId);
+                customerDto = await _client.GetAsync(query.CustomerId);
+                if (customerDto != null)
+                {
+                    var customer = customerDto.AsEntity();
+                    customerDiscount = _service.CalculateDiscount(customer); // Corrected to use _service
+                }
             }
-
-            var customer = customerDto.AsEntity();
-            var customerDiscount = _service.CalculateDiscount(customer);
-
+            
             var parcel = query.Parcel.AsEntity(); 
-            var parcelPrice = _pricingService.CalculateParcelPrice(parcel, customer);
+            var parcelPrice = _pricingService.CalculateParcelPrice(parcel, customer: null);
 
             var discountedPrice = parcelPrice - customerDiscount;
             var finalPrice = discountedPrice > 0 ? discountedPrice : 0m; // Ensure final price is not negative
