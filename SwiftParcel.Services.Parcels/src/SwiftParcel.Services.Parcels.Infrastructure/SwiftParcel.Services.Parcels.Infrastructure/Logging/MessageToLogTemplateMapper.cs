@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.Logging.CQRS;
 using SwiftParcel.Services.Parcels.Application.Commands;
+using SwiftParcel.Services.Parcels.Application.Events.External;
+using SwiftParcel.Services.Parcels.Application.Exceptions;
 
 namespace SwiftParcel.Services.Parcels.Infrastructure.Logging
 {
@@ -24,6 +26,21 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Logging
                     new HandlerLogTemplate
                     {
                         After = "Deleted a parcel with id: {ParcelId}."
+                    }
+                },
+                {
+                    typeof(CustomerCreated),    
+                    new HandlerLogTemplate
+                    {
+                        After = "Added a customer with id: {CustomerId}",
+                        OnError = new Dictionary<Type, string>
+                        {
+                            {
+                                typeof(CustomerAlreadyAddedException),
+                                "Customer with id: {CustomerId} was already added."
+
+                            }
+                        }
                     }
                 },
             };
