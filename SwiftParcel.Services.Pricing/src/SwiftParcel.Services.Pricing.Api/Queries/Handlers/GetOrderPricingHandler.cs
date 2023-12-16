@@ -41,7 +41,17 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
                 }
             }
             
-            var parcel = query.Parcel.AsEntity(); 
+            var parcelDto = new ParcelDto
+            {
+                Length = query.Length,
+                Width = query.Width,
+                Height = query.Height,
+                Weight = query.Weight,
+                HighPriority = query.HighPriority,
+                DeliverAtWeekend = query.DeliverAtWeekend
+            };
+            
+            var parcel = parcelDto.AsEntity(); 
             var parcelPrice = _pricingService.CalculateParcelPrice(parcel, customer: null);
 
             var discountedPrice = parcelPrice - customerDiscount;
@@ -56,7 +66,7 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
 
             return new OrderPricingDto
             {
-                Parcel = query.Parcel,
+                Parcel = parcelDto,
                 CustomerDiscount = customerDiscount,
                 OrderPrice = parcelPrice,
                 OrderDiscountPrice = discountedPrice,

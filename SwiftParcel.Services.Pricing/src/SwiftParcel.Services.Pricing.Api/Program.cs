@@ -12,6 +12,7 @@ using SwiftParcel.Services.Pricing.Api.dto;
 using Convey.Types;
 using Convey.Logging;
 using Convey.Secrets.Vault;
+using Convey.CQRS.Queries;
 
 namespace SwiftParcel.Services.Pricing.Api
 {
@@ -28,7 +29,23 @@ namespace SwiftParcel.Services.Pricing.Api
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
-                        .Get<GetOrderPricing, OrderPricingDto>("pricing")))
+                        .Get<GetOrderPricing, OrderPricingDto>("pricing", (query, ctx) => 
+                        {
+                            var queryDispatcher = ctx.RequestServices.GetService<IQueryDispatcher>();
+                            var getQuery = new GetOrderPricing
+                            {
+                                CustomerId = query.CustomerId,
+                                OrderPrice = query.OrderPrice,
+                                Length = query.Length,
+                                Width = query.Width,
+                                Height = query.Height,
+                                Weight = query.Weight,
+                                HighPriority = query.HighPriority,
+                                DeliverAtWeekend = query.DeliverAtWeekend
+                            };
+                            return queryDispatcher.QueryAsync<GetOrderPricing, OrderPricingDto>(getQuery);
+                            })
+                        ))
                 .UseLogging()
                 .UseVault()
                 .Build()
