@@ -141,7 +141,6 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             CheckAddressElement("building number", buildingNumber);
             address.BuildingNumber = buildingNumber;
 
-            CheckAddressElement("apartment number", apartmentNumber);
             address.ApartmentNumber = apartmentNumber;
 
             CheckAddressElement("city", city);
