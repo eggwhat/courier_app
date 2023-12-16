@@ -66,7 +66,7 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
 
             return new OrderPricingDto
             {
-                Parcel = parcelDto,
+                //Parcel = parcelDto,
                 CustomerDiscount = customerDiscount,
                 OrderPrice = parcelPrice,
                 OrderDiscountPrice = discountedPrice,
