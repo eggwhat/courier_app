@@ -13,6 +13,7 @@ namespace SwiftParcel.Services.Pricing.Api.Core.Entities
         
         public Customer(Guid id, bool isVip, int completedOrdersNumber)
         {
+            Id = id;
             IsVip = isVip;
             CompletedOrdersNumber = completedOrdersNumber;
         }
