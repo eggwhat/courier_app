@@ -39,7 +39,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             }
 
             var identity = AppContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsAdmin)
+            if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsOfficeWorker)
             {
                 throw new UnauthorizedParcelAccessException(command.ParcelId, identity.Id);
             }
