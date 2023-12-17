@@ -31,6 +31,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwiftParcel.Services.Parcels.Application;
 using SwiftParcel.Services.Parcels.Application.Commands;
+using SwiftParcel.Services.Parcels.Application.Events.External;
 using SwiftParcel.Services.Parcels.Application.Services;
 using SwiftParcel.Services.Parcels.Core.Repositories;
 using SwiftParcel.Services.Parcels.Infrastructure.Contexts;
@@ -88,7 +89,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .UseMetrics()
                 .UseRabbitMq()
                 .SubscribeCommand<AddParcel>()
-                .SubscribeCommand<DeleteParcel>();
+                .SubscribeCommand<DeleteParcel>()
+                .SubscribeEvent<CustomerCreated>();
 
             return app;
         }
