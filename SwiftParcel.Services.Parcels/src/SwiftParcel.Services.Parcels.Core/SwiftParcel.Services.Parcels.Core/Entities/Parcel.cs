@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Parcels.Core.Exceptions;
 using SwiftParcel.Services.Parcels.Core.Exceptions.SwiftParcel.Services.Parcels.Core.Exceptions;
@@ -33,9 +35,9 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public Parcel(AggregateId id, string description, double width,
             double height, double depth, double weight, DateTime pickupDate, DateTime deliveryDate,
-            DateTime createdAt, Guid? customerId = null, decimal? calculatedPrice = null, DateTime? validTo = null)
-            : this(id, description, width, height, depth, weight, new Address(),
-                  new Address(), Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, customerId, calculatedPrice, validTo)
+            DateTime createdAt, Guid? customerId, decimal? calculatedPrice = null, DateTime? validTo = null)
+            : this(id, description, width, height, depth, weight, new Address(), new Address(),
+             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, customerId, calculatedPrice, validTo)
         {
 
         }
@@ -178,5 +180,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public void SetPriority(Priority priority) => Priority = priority;
 
         public void SetAtWeekend(bool atWeekend) => AtWeekend = atWeekend;
+
+        
     }
 }

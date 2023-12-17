@@ -20,8 +20,6 @@ namespace SwiftParcel.Services.Parcels.Application
                 .AddInMemoryCommandDispatcher()
                 .AddInMemoryEventDispatcher();
 
-            builder.Services.AddSingleton<IParcelService>(new ParcelService());
-
             return builder;
         }
     }

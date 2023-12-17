@@ -33,11 +33,6 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
                 throw new ParcelNotFoundException(command.ParcelId);
             }
 
-            if (!parcel.OrderId.HasValue)
-            {
-                throw new CannotDeleteParcelException(command.ParcelId);
-            }
-
             var identity = AppContext.Identity;
             if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsOfficeWorker)
             {
