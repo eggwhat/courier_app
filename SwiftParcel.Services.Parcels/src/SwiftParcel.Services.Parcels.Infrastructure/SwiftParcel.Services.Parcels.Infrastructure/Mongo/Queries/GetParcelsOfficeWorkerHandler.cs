@@ -30,7 +30,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
             var documents = _repository.Collection.AsQueryable();
 
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && !identity.IsOfficeWorker)
+            if (!identity.IsOfficeWorker)
             {
                 return Enumerable.Empty<ParcelDto>();
             }
