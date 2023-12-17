@@ -35,6 +35,7 @@ namespace SwiftParcel.Services.Parcels.Api
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetParcels, IEnumerable<ParcelDto>>("parcels")
+                        .Get<GetParcelsOfficeWorker, ParcelDto>("parcels/office-worker")
                         .Get<GetParcel, ParcelDto>("parcels/{parcelId}")
                         .Post<AddParcel>("parcels",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}"))

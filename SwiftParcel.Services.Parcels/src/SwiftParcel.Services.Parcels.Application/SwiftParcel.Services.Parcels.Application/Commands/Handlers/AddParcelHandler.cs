@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using Convey.CQRS.Commands;
 using SwiftParcel.Services.Parcels.Application.Events;
 using SwiftParcel.Services.Parcels.Application.Exceptions;
 using SwiftParcel.Services.Parcels.Application.Services;
 using SwiftParcel.Services.Parcels.Core.Entities;
 using SwiftParcel.Services.Parcels.Core.Repositories;
+using SwiftParcel.Services.Parcels.Core.Exceptions;
 
 namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 {
@@ -18,6 +20,8 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
         private readonly ICustomerRepository CustomerRepository;
         private readonly IDateTimeProvider DateTimeProvider;
         private readonly IMessageBroker MessageBroker;
+        private readonly string expectedFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+
 
         public AddParcelHandler(IParcelRepository parcelRepository, ICustomerRepository customerRepository,
             IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker)
@@ -30,34 +34,37 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken = default)
         {
-            if (!(await CustomerRepository.ExistsAsync(command.CustomerId)))
+            Guid? customerId = command.CustomerId == Guid.Empty ? null : command.CustomerId;
+            if (customerId != null && !await CustomerRepository.ExistsAsync(command.CustomerId))
             {
                 throw new CustomerNotFoundException(command.CustomerId);
             }
-
-            if (!Enum.TryParse<Variant>(command.Variant, true, out var variant))
-            {
-                throw new InvalidParcelVariantException(command.Variant);
-            }
-
             if (!Enum.TryParse<Priority>(command.Priority, true, out var priority))
             {
                 throw new InvalidParcelPriorityException(command.Priority);
             }
-
-            var parcel = new Parcel(command.ParcelId, command.CustomerId, command.Name, command.Description,
-                command.Width, command.Height, command.Depth, command.Weight, command.Price, DateTimeProvider.Now);
+            if (!DateTime.TryParseExact(command.PickupDate, expectedFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime pickupDate))
+            {
+                throw new InvalidParcelDateTimeException("pickup_date",command.PickupDate);
+            }
+            if (!DateTime.TryParseExact(command.DeliveryDate, expectedFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime deliveryDate))
+            {
+                throw new InvalidParcelDateTimeException("delivery_date", command.DeliveryDate);
+            }
+            var parcel = new Parcel(command.ParcelId, command.Description, command.Width, 
+            command.Height, command.Depth, command.Weight, pickupDate, deliveryDate,
+            DateTimeProvider.Now, customerId, null, null);
 
             parcel.SetSourceAddress(command.SourceStreet, command.SourceBuildingNumber,
-                command.SourceApartmentNumber, command.SourceCity, command.SourceZipCode);
+                command.SourceApartmentNumber, command.SourceCity, command.SourceZipCode,
+                command.SourceCountry);
             parcel.SetDestinationAddress(command.DestinationStreet, command.DestinationBuildingNumber,
-                command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode);
+                command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode,
+                command.DestinationCountry);
 
-            parcel.SetVariant(variant);
             parcel.SetPriority(priority);
 
             parcel.SetAtWeekend(command.AtWeekend);
-            parcel.SetIsFragile(command.IsFragile);
 
             await ParcelRepository.AddAsync(parcel);
 
