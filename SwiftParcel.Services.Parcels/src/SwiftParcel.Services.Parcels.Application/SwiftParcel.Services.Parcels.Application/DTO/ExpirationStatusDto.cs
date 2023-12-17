@@ -1,6 +1,6 @@
 ﻿namespace SwiftParcel.Services.Parcels.Application.DTO
 {
-    public class ValidationStatusDto
+    public class ExpirationStatusDto
     {
         public Guid ParcelId { get; set; } 
         public decimal TotalPrice { get; set; }
