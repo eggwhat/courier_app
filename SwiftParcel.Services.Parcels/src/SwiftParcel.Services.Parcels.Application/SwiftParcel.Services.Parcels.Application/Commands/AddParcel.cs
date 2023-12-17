@@ -37,7 +37,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
         public bool VipPackage { get; protected set; }
 
         public AddParcel(Guid parcelId, Guid customerId, string description,
-            double width, double height, double depth, double weight, decimal price,
+            double width, double height, double depth, double weight,
             string sourceStreet, string sourceBuildingNumber,
             string sourceApartmentNumber, string sourceCity, string sourceZipCode,
             string sourceCountry, string destinationStreet, string destinationBuildingNumber,
