@@ -38,9 +38,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 document.IsCompany,
                 document.VipPackage,
                 document.CreatedAt,
-                document.CustomerId,
                 document.CalculatedPrice,
-                document.ValidTo
+                document.ValidTo,
+                document.CustomerId
                 );
 
         public static async Task<Parcel> AsEntityAsync(this Task<ParcelDocument> task)

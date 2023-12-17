@@ -29,14 +29,14 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public bool IsCompany { get; protected set; }
         public bool VipPackage { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
-        public DateTime? ValidTo { get; protected set; }
-        public decimal? CalculatedPrice { get; protected set; }
+        public DateTime ValidTo { get; protected set; }
+        public decimal CalculatedPrice { get; protected set; }
 
         public Parcel(AggregateId id, string description, double width,
             double height, double depth, double weight, DateTime pickupDate, DateTime deliveryDate,
-            DateTime createdAt, Guid? customerId, decimal? calculatedPrice = null, DateTime? validTo = null)
+            DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
             : this(id, description, width, height, depth, weight, new Address(), new Address(),
-             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, customerId, calculatedPrice, validTo)
+             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, calculatedPrice, validTo, customerId)
         {
 
         }
@@ -44,7 +44,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public Parcel(AggregateId id, string description, double width, double height,
             double depth, double weight, Address source, Address destination,
             Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
-             DateTime createdAt, Guid? customerId = null, decimal? calculatedPrice = null, DateTime? validTo = null)
+             DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
         {
             Id = id;
             CustomerId = customerId;
