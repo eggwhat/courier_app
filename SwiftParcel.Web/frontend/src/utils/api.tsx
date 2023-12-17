@@ -6,7 +6,8 @@ const API_BASE_URL = 'http://localhost:6001';
 
 
 const api = axios.create({
-  baseURL: "http://localhost:9999",
+  baseURL: "http://localhost:5292",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -54,7 +55,7 @@ export const register = async (
   email: string
 ) => {
   try {
-    const response = await api.post(`/sign-up`, {
+    const response = await api.post(`/identity/sign-up`, {
       username,
       password,
       email,
@@ -62,10 +63,8 @@ export const register = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // If the error is from Axios, you'll have a response object
       console.error('Error during registration (Axios error):', error.response?.data || error.message);
     } else {
-      // If the error is not from Axios, log the whole error
       console.error('Error during registration:', error);
     }
     throw error;
