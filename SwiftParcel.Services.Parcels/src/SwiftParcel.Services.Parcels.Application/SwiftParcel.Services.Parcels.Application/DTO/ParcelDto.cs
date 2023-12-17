@@ -25,7 +25,7 @@ namespace SwiftParcel.Services.Parcels.Application.DTO
         public bool IsCompany { get; set; }
         public bool VipPackage { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? ValidTo { get; set; }
-        public decimal? CalculatedPrice { get; set; }
+        public DateTime ValidTo { get; set; }
+        public decimal CalculatedPrice { get; set; }
     }
 }
