@@ -32,7 +32,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
             if (query.CustomerId.HasValue)
             {
                 var identity = _appContext.Identity;
-                if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsAdmin)
+                if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
                 {
                     return Enumerable.Empty<ParcelDto>();
                 }
