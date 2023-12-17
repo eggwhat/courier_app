@@ -36,7 +36,6 @@ namespace SwiftParcel.Services.Parcels.Api
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetParcels, IEnumerable<ParcelDto>>("parcels")
                         .Get<GetParcel, ParcelDto>("parcels/{parcelId}")
-                        .Get<GetVolume, VolumeDto>("parcels/volume")
                         .Post<AddParcel>("parcels",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}"))
                         .Delete<DeleteParcel>("parcels/{parcelId}")
