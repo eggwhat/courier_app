@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Parcels.Core.Exceptions;
-using SwiftParcel.Services.Parcels.Core.Exceptions.SwiftParcel.Services.Parcels.Core.Exceptions;
 
 namespace SwiftParcel.Services.Parcels.Core.Entities
 {
