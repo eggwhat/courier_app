@@ -27,14 +27,6 @@ namespace src.SwiftParcel.Services.Identity.Api
             => await WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
-                    services.AddCors(options =>
-                    {
-                        options.AddPolicy("AllowSpecificOrigin", builder =>
-                            builder.WithOrigins("http://localhost:3001") // Replace with the React app's URL if it's not running on localhost:3000
-                                .AllowAnyMethod()
-                                .AllowAnyHeader());
-                    });
-
                     services.AddAuthentication().AddGoogle(options =>
                     {
                         options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
@@ -47,7 +39,6 @@ namespace src.SwiftParcel.Services.Identity.Api
                             .AddInfrastructure();
                 })
                 .Configure(app => app
-                    .UseCors("AllowSpecificOrigin")
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx =>  ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
