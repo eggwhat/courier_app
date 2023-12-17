@@ -58,12 +58,12 @@ export function Header(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userToken]);
 
-  // const logoutUser = async () => {
-  //   logout();
-  //   setUserToken(null);
-  //   localStorage.removeItem("parcelId");
-  //   navigate("/");
-  // };
+  const logoutUser = async () => {
+    logout();
+    setUserToken(null);
+    localStorage.removeItem("parcelId");
+    navigate("/");
+  };
 
   return (
     <>
@@ -89,7 +89,7 @@ export function Header(props: {
                   {userToken?.user?.email}
                 </span>
               </Dropdown.Header>
-              {/* <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item> */}
+              <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item>
             </Dropdown>
           ) : (
             <Button className="mr-2" onClick={() => setShowLoginModal(true)}>

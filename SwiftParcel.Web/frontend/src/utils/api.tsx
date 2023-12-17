@@ -6,7 +6,7 @@ const API_BASE_URL = 'http://localhost:6001';
 
 
 const api = axios.create({
-  baseURL: "http://localhost:6001",
+  baseURL: "http://localhost:9999",
 });
 
 api.interceptors.response.use(
@@ -32,12 +32,11 @@ const defaultPageLimit = 10;
 export const login = async (email: string, password: string) => {
   // const response = await api.post('/sign-in', { email, password });
   // return response.data;
-
   try {
-    const response = await api.post('/sign-in', { email, password });
+    const response = await api.post('/identity/sign-in', { email, password });
     const { accessToken, refreshToken, role, expires } = response.data;
-  
-    saveUserInfo({ token: accessToken, refreshToken, role, expires }); // Save the user info with the role
+
+    saveUserInfo({ token: accessToken, refreshToken, role, expires }); 
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -76,11 +75,13 @@ export const register = async (
 export const logout = async () => {
   try {
     const headers = getAuthHeader();
-    await api.get('/auth/logout', { headers });
+    await api.get('/identity/logout', { headers });
   } catch (error) {
     console.error('Logout failed:', error);
+  } finally {
+    saveUserInfo(null);
+    window.location.href = '/login';
   }
-  saveUserInfo(null);
 };
 
 export const getProfile = async () => {
