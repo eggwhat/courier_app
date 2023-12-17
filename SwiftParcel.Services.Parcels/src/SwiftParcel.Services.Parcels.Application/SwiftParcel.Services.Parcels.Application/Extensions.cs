@@ -6,7 +6,7 @@ using Convey;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
 using Microsoft.Extensions.DependencyInjection;
-using SwiftParcel.Services.Parcels.Core.Services;
+using SwiftParcel.Services.Parcels.Core;
 
 namespace SwiftParcel.Services.Parcels.Application
 {
