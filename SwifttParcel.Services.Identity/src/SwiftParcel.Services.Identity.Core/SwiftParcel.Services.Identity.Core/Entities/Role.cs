@@ -8,7 +8,7 @@ namespace SwiftParcel.Services.Identity.Core.Entities
     public class Role
     {
         public const string User = "user";
-        public const string Admin = "admin";
+        public const string OfficeWorker = "officeworker";
         public const string Courier = "courier";
 
         public static bool IsValid(string role)
@@ -20,7 +20,7 @@ namespace SwiftParcel.Services.Identity.Core.Entities
 
             role = role.ToLowerInvariant();
 
-            return role == User || role == Courier ||role == Admin;
+            return role == User || role == Courier || role == OfficeWorker;
         }
     }
 }

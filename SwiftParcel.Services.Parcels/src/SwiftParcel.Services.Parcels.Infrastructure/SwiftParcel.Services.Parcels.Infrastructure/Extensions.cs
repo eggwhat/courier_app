@@ -41,6 +41,9 @@ using SwiftParcel.Services.Parcels.Infrastructure.Logging;
 using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Parcels.Infrastructure.Services;
+using SwiftParcel.Services.Parcels.Application.Services.Clients;
+using SwiftParcel.Services.Parcels.Infrastructure.Services.Clients;
+
 
 namespace SwiftParcel.Services.Parcels.Infrastructure
 {
@@ -53,6 +56,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
             builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
+            builder.Services.AddTransient<IPricingServiceClient, PricingServiceClient>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));

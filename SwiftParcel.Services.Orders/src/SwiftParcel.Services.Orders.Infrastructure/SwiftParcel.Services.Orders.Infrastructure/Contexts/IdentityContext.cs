@@ -7,7 +7,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Contexts
         public Guid Id { get; }
         public string Role { get; } = string.Empty;
         public bool IsAuthenticated { get; }
-        public bool IsAdmin { get; }
+        public bool IsOfficeWorker { get; }
+        public bool IsCourier { get; }
         public IDictionary<string, string> Claims { get; } = new Dictionary<string, string>();
 
         internal IdentityContext()
@@ -24,7 +25,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Contexts
             Id = Guid.TryParse(id, out var userId) ? userId : Guid.Empty;
             Role = role ?? string.Empty;
             IsAuthenticated = isAuthenticated;
-            IsAdmin = Role.Equals("admin", StringComparison.InvariantCultureIgnoreCase);
+            IsOfficeWorker = Role.Equals("officeworker", StringComparison.InvariantCultureIgnoreCase);
+            IsCourier = Role.Equals("courier", StringComparison.InvariantCultureIgnoreCase);
             Claims = claims ?? new Dictionary<string, string>();
         }
         

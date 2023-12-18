@@ -14,30 +14,25 @@ using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
 {
-    internal sealed class GetParcelsHandler : IQueryHandler<GetParcels, IEnumerable<ParcelDto>>
+    internal sealed class GetParcelsOfficeWorkerHandler : IQueryHandler<GetParcelsOfficeWorker, IEnumerable<ParcelDto>>
     {
         private readonly IMongoRepository<ParcelDocument, Guid> _repository;
         private readonly IAppContext _appContext;
 
-        public GetParcelsHandler(IMongoRepository<ParcelDocument, Guid> repository, IAppContext appContext)
+        public GetParcelsOfficeWorkerHandler(IMongoRepository<ParcelDocument, Guid> repository, IAppContext appContext)
         {
             _repository = repository;
             _appContext = appContext;
         }
 
-        public async Task<IEnumerable<ParcelDto>> HandleAsync(GetParcels query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ParcelDto>> HandleAsync(GetParcelsOfficeWorker query, CancellationToken cancellationToken)
         {
             var documents = _repository.Collection.AsQueryable();
 
-            if (query.CustomerId.HasValue)
+            var identity = _appContext.Identity;
+            if (!identity.IsOfficeWorker)
             {
-                var identity = _appContext.Identity;
-                if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
-                {
-                    return Enumerable.Empty<ParcelDto>();
-                }
-
-                documents = documents.Where(p => p.CustomerId == query.CustomerId);
+                return Enumerable.Empty<ParcelDto>();
             }
 
             var orders = await documents.ToListAsync();

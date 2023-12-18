@@ -47,8 +47,8 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
                 Width = query.Width,
                 Height = query.Height,
                 Weight = query.Weight,
-                HighPriority = query.HighPriority,
-                DeliverAtWeekend = query.DeliverAtWeekend
+                HighPriority = query.HighPriority == "true",
+                DeliverAtWeekend = query.DeliverAtWeekend == "true"
             };
             
             var parcel = parcelDto.AsEntity(); 
