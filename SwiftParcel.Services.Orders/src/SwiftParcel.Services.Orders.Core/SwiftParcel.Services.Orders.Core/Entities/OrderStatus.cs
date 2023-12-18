@@ -2,10 +2,10 @@
 {
     public enum OrderStatus
     {
-        New,
+        WaitingForDecision,
         Approved,
         Cancelled,
-        Received,
+        PickedUp,
         Delivered,
         CannotDeliver,
 

@@ -21,11 +21,11 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                 case OrderStateChanged e:
                     switch (e.Order.Status)
                     {
-                        case OrderStatus.New:
+                        case OrderStatus.WaitingForDecision:
                             return new OrderCreated(e.Order.Id);
                         case OrderStatus.Approved:
                             return new OrderApproved(e.Order.Id);
-                        case OrderStatus.Received:
+                        case OrderStatus.PickedUp:
                             return new OrderReceived(e.Order.Id);
                         case OrderStatus.Delivered:
                             return new OrderDelivered(e.Order.Id);

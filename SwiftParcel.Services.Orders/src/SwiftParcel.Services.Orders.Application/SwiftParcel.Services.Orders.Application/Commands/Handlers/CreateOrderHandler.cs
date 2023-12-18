@@ -50,7 +50,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             var requestDate = _dateTimeProvider.Now;
             parcel.ValidateRequest(requestDate);
 
-            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.New, requestDate,
+            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.WaitingForDecision, requestDate,
                 command.Name, command.Email, command.Address);
             order.AddParcel(parcel);
 

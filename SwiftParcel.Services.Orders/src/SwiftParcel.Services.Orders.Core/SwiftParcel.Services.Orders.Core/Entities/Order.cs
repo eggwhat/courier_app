@@ -65,7 +65,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
         public void Approve(DateTime decidedAt)
         {
-            if (Status != OrderStatus.New && Status != OrderStatus.Cancelled)
+            if (Status != OrderStatus.WaitingForDecision && Status != OrderStatus.Cancelled)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Approved);
             }
@@ -91,7 +91,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
         public void Deliver(DateTime deliveredAt)
         {
-            if (Status != OrderStatus.Received)
+            if (Status != OrderStatus.PickedUp)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Delivered);
             }
@@ -105,17 +105,17 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         {
             if (Status != OrderStatus.Approved)
             {
-                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Received);
+                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.PickedUp);
             }
 
             ReceivedAt = receivedAt;
-            Status = OrderStatus.Received;
+            Status = OrderStatus.PickedUp;
             AddEvent(new OrderStateChanged(this));
         }
         
         public void SetCannotDeliver(string reason, DateTime cannotDeliverAt)
         {
-            if (Status != OrderStatus.Received)
+            if (Status != OrderStatus.PickedUp)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.CannotDeliver);
             }
