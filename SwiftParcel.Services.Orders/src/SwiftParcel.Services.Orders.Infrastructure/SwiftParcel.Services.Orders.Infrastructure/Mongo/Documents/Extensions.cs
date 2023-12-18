@@ -7,38 +7,26 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
     public static class Extensions
     {
         public static Order AsEntity(this OrderDocument document)
-            => new Order(document.Id, document.CustomerId, document.Status, document.CreatedAt,
-                document.Parcels.Select(p => new Parcel(p.Id, p.Name, p.Variant, p.Description, p.Width, p.Height,
-                    p.Depth, p.Weight, p.Price, p.Source, p.Destination)),
-                document.CourierId, document.DeliveryDate, document.TotalPrice);
+            => new Order(document.Id, document.CustomerId, document.Status, document.OrderRequestDate,
+                document.BuyerName, document.BuyerEmail, document.BuyerAddress, document.Parcel);
 
         public static OrderDocument AsDocument(this Order entity)
             => new OrderDocument
             {
                 Id = entity.Id,
                 CustomerId = entity.CustomerId,
-                CourierId = entity.CourierId,
+                Parcel = entity.Parcel,
                 Status = entity.Status,
-                CreatedAt = entity.OrderRequestDate,
+                OrderRequestDate = entity.OrderRequestDate,
+                BuyerName = entity.BuyerName,
+                BuyerEmail = entity.BuyerEmail,
+                BuyerAddress = entity.BuyerAddress,
+                DecisionDate = entity.DecisionDate,
                 ReceivedAt = entity.ReceivedAt,
                 DeliveredAt = entity.DeliveredAt,
                 CannotDeliverAt = entity.CannotDeliverAt,
-                DeliveryDate = entity.DeliveryDate,
-                TotalPrice = entity.TotalPrice,
-                Parcels = entity.Parcels.Select(p => new OrderDocument.Parcel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Variant = p.Variant,
-                    Description = p.Description,
-                    Width = p.Width,
-                    Height = p.Height,
-                    Depth = p.Depth,
-                    Weight = p.Weight,
-                    Price = p.Price,
-                    Source = p.Source,
-                    Destination = p.Destination
-                })
+                CancellationReason = entity.CancellationReason,
+                CannotDeliverReason = entity.CannotDeliverReason,
             };
 
         public static OrderDto AsDto(this OrderDocument document)
@@ -46,28 +34,18 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
             {
                 Id = document.Id,
                 CustomerId = document.CustomerId,
-                CourierId = document.CourierId,
+                Parcel = new ParcelDto(document.Parcel),
                 Status = document.Status.ToString().ToLowerInvariant(),
-                CreatedAt = document.CreatedAt,
+                OrderRequestDate = document.OrderRequestDate,
+                BuyerName = document.BuyerName,
+                BuyerEmail = document.BuyerEmail,
+                BuyerAddress = new AddressDto(document.BuyerAddress),
+                DecisionDate = document.DecisionDate,
                 ReceivedAt = document.ReceivedAt,
                 DeliveredAt = document.DeliveredAt,
                 CannotDeliverAt = document.CannotDeliverAt,
-                DeliveryDate = document.DeliveryDate,
-                TotalPrice = document.TotalPrice,
-                Parcels = document.Parcels.Select(p => new ParcelDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Variant = p.Variant,
-                    Description = p.Description,
-                    Width = p.Width,
-                    Height = p.Height,
-                    Depth = p.Depth,
-                    Weight = p.Weight,
-                    Price = p.Price,
-                    Source = p.Source,
-                    Destination = p.Destination
-                })
+                CancellationReason = document.CancellationReason,
+                CannotDeliverReason = document.CannotDeliverReason
             };
         
         public static Customer AsEntity(this CustomerDocument document)

@@ -6,15 +6,20 @@ namespace SwiftParcel.Services.Orders.Application.Commands
 {
     public class SendApprovalEmail: ICommand
     {
-        public Guid CustomerId { get; }
         public Guid OrderId { get; }
-        public decimal TotalPrice { get; }
+        public DateTime IssueDate { get; }
+        public string CustomerName { get; }
+        public string CustomerEmail { get; }
+        public Address CustomerAddress { get; }
         public Parcel Parcel { get; }
-        public SendApprovalEmail(Guid orderId, Guid customerId, decimal totalPrice, Parcel parcel)
+        public SendApprovalEmail(Guid orderId, DateTime issueDate, string customerName, 
+            string customerEmail, Address customerAddress, Parcel parcel)
         {
             OrderId = orderId;
-            CustomerId = customerId;
-            TotalPrice = totalPrice;
+            IssueDate = issueDate;
+            CustomerName = customerName;
+            CustomerEmail = customerEmail;
+            CustomerAddress = customerAddress;
             Parcel = parcel;
         }
     }

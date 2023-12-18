@@ -23,7 +23,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
 
         public Order(AggregateId id, Guid? customerId, OrderStatus status, DateTime createdAt,
-            string buyerName, string buyerEmail, Address buyerAddress)
+            string buyerName, string buyerEmail, Address buyerAddress, Parcel parcel = null)
         {
             Id = id;
             CustomerId = customerId;
@@ -32,7 +32,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             BuyerName = buyerName;
             BuyerEmail = buyerEmail;
             BuyerAddress = buyerAddress;
-            Parcel = null;
+            Parcel = parcel;
 
             DecisionDate = null;
             ReceivedAt = null;

@@ -5,6 +5,8 @@ using SwiftParcel.Services.Orders.Application.Services;
 using SwiftParcel.Services.Orders.Core.Entities;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Core.Exceptions;
+using SwiftParcel.Services.Orders.Application.Services.Clients;
+using SwiftParcel.Services.Orders.Application.Exceptions;
 
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
@@ -16,18 +18,18 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IParcelsServiceClient _parcelsServiceClient;
 
         public CreateOrderHandler(IOrderRepository orderRepository, ICustomerRepository customerRepository,
             IMessageBroker messageBroker, IEventMapper eventMapper, IDateTimeProvider dateTimeProvider, 
-            ICommandDispatcher commandDispatcher)
+             IParcelsServiceClient parcelsServiceClient)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
             _messageBroker = messageBroker;
             _eventMapper = eventMapper;
             _dateTimeProvider = dateTimeProvider;
-            _commandDispatcher = commandDispatcher;
+            _parcelsServiceClient = parcelsServiceClient;
         }
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
@@ -36,8 +38,22 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new CustomerNotFoundException(command.CustomerId);
             }
 
-            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.New, _dateTimeProvider.Now,
+            var parcelDto = await _parcelsServiceClient.GetAsync(command.ParcelId);
+            if (parcelDto is null)
+            {
+                throw new ParcelNotFoundException(command.ParcelId);
+            }
+            var parcel = new Parcel(command.ParcelId, parcelDto.Description, 
+                            parcelDto.Width, parcelDto.Height, parcelDto.Depth, parcelDto.Weight, parcelDto.Source, parcelDto.Destination,
+                            parcelDto.Priority, parcelDto.AtWeekend, parcelDto.PickupDate, parcelDto.DeliveryDate, parcelDto.IsCompany, 
+                            parcelDto.VipPackage, parcelDto.CreatedAt, parcelDto.ValidTo, parcelDto.CalculatedPrice);
+            var requestDate = _dateTimeProvider.Now;
+            parcel.ValidateRequest(requestDate);
+
+            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.New, requestDate,
                 command.Name, command.Email, command.Address);
+            order.AddParcel(parcel);
+
             await _orderRepository.AddAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());

@@ -1,4 +1,6 @@
-﻿namespace SwiftParcel.Services.Orders.Core.Entities
+﻿using SwiftParcel.Services.Orders.Core.Exceptions;
+
+namespace SwiftParcel.Services.Orders.Core.Entities
 {
     public class Parcel : IEquatable<Parcel>
     {
@@ -42,6 +44,13 @@
             InquireDate = createdAt;
             ValidTo = validTo;
             CalculatedPrice = calculatedPrice;
+        }
+        public void ValidateRequest(DateTime requestDate)
+        {
+            if (requestDate > ValidTo)
+            {
+                throw new ParcelRequestExpiredException(Id, ValidTo, requestDate);
+            }
         }
 
         public bool Equals(Parcel other)

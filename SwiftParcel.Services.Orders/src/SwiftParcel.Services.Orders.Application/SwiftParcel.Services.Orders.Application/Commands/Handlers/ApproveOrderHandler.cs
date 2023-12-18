@@ -16,15 +16,18 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IEventMapper _eventMapper;
         private readonly IAppContext _appContext;
         private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public ApproveOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
-            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher)
+            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher.
+            IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
             _messageBroker = messageBroker;
             _eventMapper = eventMapper;
             _appContext = appContext;
             _commandDispatcher = commandDispatcher;
+            _dateTimeProvider = dateTimeProvider;
         }
         public async Task HandleAsync(ApproveOrder command, CancellationToken cancellationToken)
         {
@@ -40,12 +43,13 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
             
-            order.Approve();
+            order.Approve(_dateTimeProvider.Now);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
 
-            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, order.CustomerId, order.TotalPrice, order.Parcels.First()));
+            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, order.BuyerName, 
+                order.BuyerEmail, order.BuyerAddress, order.Parcel));
         }
     }
 }
