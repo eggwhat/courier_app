@@ -13,13 +13,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
             => new Dictionary<Type, HandlerLogTemplate>
             {
                 {
-                    typeof(AddParcelToOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Added a parcel with id: {ParcelId} to the order with id: {OrderId}."
-                    }
-                },
-                {
                     typeof(ApproveOrder),     
                     new HandlerLogTemplate
                     {

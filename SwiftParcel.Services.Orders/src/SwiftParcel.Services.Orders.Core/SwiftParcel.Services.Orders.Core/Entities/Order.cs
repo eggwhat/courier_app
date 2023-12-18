@@ -19,6 +19,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         public string CancellationReason { get; private set; }
         public string CannotDeliverReason { get; private set; }
         public bool CanRequestDelivery => Status == OrderStatus.Approved;
+        public bool CanBeDeleted => Status == OrderStatus.Cancelled;
         public bool HasParcel => Parcel != null;
 
 
