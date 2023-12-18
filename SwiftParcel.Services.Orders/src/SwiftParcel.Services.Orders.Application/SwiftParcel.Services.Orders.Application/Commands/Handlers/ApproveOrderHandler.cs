@@ -19,7 +19,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public ApproveOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
-            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher.
+            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher,
             IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
@@ -42,14 +42,14 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
-            
-            order.Approve(_dateTimeProvider.Now);
+            var decisionDate = _dateTimeProvider.Now;
+            order.Approve(decisionDate);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
 
-            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, order.BuyerName, 
-                order.BuyerEmail, order.BuyerAddress, order.Parcel));
+            await _commandDispatcher.SendAsync(new SendApprovalEmail(order.Id, decisionDate,
+            order.BuyerName, order.BuyerEmail, order.BuyerAddress, order.Parcel));
         }
     }
 }

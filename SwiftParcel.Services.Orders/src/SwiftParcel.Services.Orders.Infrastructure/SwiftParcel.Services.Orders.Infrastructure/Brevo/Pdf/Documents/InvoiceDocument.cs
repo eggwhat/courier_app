@@ -66,12 +66,14 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
             container.PaddingVertical(40).Column(column => 
             {
                 column.Spacing(20);
+
+                column.Item().Element(ComposeCustomerDetails);
                 
                 column.Item().Row(row =>
                 {
-                    row.RelativeItem().Component(new AddressComponent("From", Model.Parcel.Source, Model.CustomerEmail, Model.CustomerName));
+                    row.RelativeItem().Component(new AddressComponent("Source", Model.Parcel.Source));
                     row.ConstantItem(50);
-                    row.RelativeItem().Component(new AddressComponent("Delivery address", Model.Parcel.Destination, Model.CustomerEmail));
+                    row.RelativeItem().Component(new AddressComponent("Destination", Model.Parcel.Destination));
                 });
 
                 column.Item().Element(ComposeTable);
@@ -81,6 +83,24 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
 
                 var totalPrice = Model.Parcel.CalculatedPrice;
                 column.Item().PaddingRight(5).AlignRight().Text($"Grand total: {totalPrice:C}").SemiBold();
+            });
+        }
+        
+        void ComposeCustomerDetails(IContainer container)
+        {
+            container.ShowEntire().Column(column =>
+            {
+                column.Spacing(2);
+
+                column.Item().Text("Customer details").SemiBold();
+                column.Item().PaddingBottom(5).LineHorizontal(1); 
+
+                column.Item().Text($"{Model.CustomerName}");
+                column.Item().Text($"{Model.CustomerEmail}");
+                column.Item().Text($"{Model.CustomerAddress.Street} {Model.CustomerAddress.BuildingNumber}" + 
+                    (string.IsNullOrWhiteSpace(Model.CustomerAddress.ApartmentNumber) ? "" : $"/{Model.CustomerAddress.ApartmentNumber}"));
+                column.Item().Text($"{Model.CustomerAddress.City}, {Model.CustomerAddress.ZipCode}");
+                column.Item().Text($"{Model.CustomerAddress.Country}");
             });
         }
 
@@ -101,20 +121,30 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 
                 table.Header(header =>
                 {
-                    header.Cell().Text("Name").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Variant").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Unit price").Style(headerStyle);
+                    header.Cell().Text("Inquire date").Style(headerStyle);
                     header.Cell().AlignRight().Text("Size [cm]").Style(headerStyle);
                     header.Cell().AlignRight().Text("Weight [kg]").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Priority").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Delivery date").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Pickup date").Style(headerStyle);
+                    if (Model.Parcel.AtWeekend)
+                        header.Cell().AlignRight().Text("At weekend").Style(headerStyle);
+                    if(Model.Parcel.VipPackage)
+                        header.Cell().AlignRight().Text("Vip package").Style(headerStyle);
                     
                     header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
                 });
                 
-                table.Cell().Element(CellStyle).Text($"{Model.Parcel.Name}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Variant}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Price:C}");
+                table.Cell().Element(CellStyle).Text($"{Model.Parcel.InquireDate}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Width}x{Model.Parcel.Height}x{Model.Parcel.Depth}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Weight}");            
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Weight}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Priority}"); 
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.DeliveryDate}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.PickupDate}"); 
+                if (Model.Parcel.AtWeekend) 
+                    table.Cell().Element(CellStyle).AlignRight().Text($"✓");
+                if (Model.Parcel.VipPackage) 
+                    table.Cell().Element(CellStyle).AlignRight().Text($"✓");         
                 static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
             });
         }
@@ -133,15 +163,10 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
     {
         private string Title { get; }
         private Address Address { get; }
-        private string Email { get; }
-        private string Name { get; }
-
-        public AddressComponent(string title, Address address, string email, string name = null)
+        public AddressComponent(string title, Address address)
         {
             Title = title;
             Address = address;
-            Email = email;
-            Name = name;
         }
         
         public void Compose(IContainer container)
@@ -152,13 +177,11 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
 
                 column.Item().Text(Title).SemiBold();
                 column.Item().PaddingBottom(5).LineHorizontal(1); 
-                
-                if (!string.IsNullOrWhiteSpace(Name))
-                    column.Item().Text(Name);
-                column.Item().Text(Address.Street);
+
+                column.Item().Text($"{Address.Street} {Address.BuildingNumber}" + 
+                    (string.IsNullOrWhiteSpace(Address.ApartmentNumber) ? "" : $"/{Address.ApartmentNumber}"));
                 column.Item().Text($"{Address.City}, {Address.ZipCode}");
-                if (!string.IsNullOrWhiteSpace(Name))
-                    column.Item().Text(Email);
+                column.Item().Text($"{Address.Country}");
             });
         }
     }
