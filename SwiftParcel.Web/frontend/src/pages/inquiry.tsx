@@ -12,10 +12,13 @@ import {
   import { Header } from "../components/header";
   import { Loader } from "../components/loader";
   import { createInquiry, register } from "../utils/api";
+import stringToBoolean from "../components/parsing/stringToBoolean";
+import booleanToString from "../components/parsing/booleanToString";
 
 export default function Inquiry() {
     const [loading, setLoading] = React.useState(true);
   
+    const [description, setDescription] = React.useState("");
     const [packageWidth, setPackageWidth] = React.useState(0);
     const [packageHeight, setPackageHeight] = React.useState(0);
     const [packageDepth, setPackageDepth] = React.useState(0);
@@ -35,8 +38,9 @@ export default function Inquiry() {
     const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
     const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
 
+    const [pickupDate, setPickupDate] = React.useState("");
     const [deliveryDate, setDeliveryDate] = React.useState("");
-    const [priority, setPriority] = React.useState("");
+    const [priority, setPriority] = React.useState("low");
     const [deliveryAtWeekend, setDeliveryAtWeekend] = React.useState(false);
   
     const [error, setError] = React.useState("");
@@ -51,16 +55,17 @@ export default function Inquiry() {
       setSuccess("");
       setInquiryLoading(true);
   
-      createInquiry(packageWidth, packageHeight, packageDepth, packageWeight,
+      createInquiry(description, packageWidth, packageHeight, packageDepth, packageWeight,
         sourceAddressStreet, sourceAddressBuildingNumber, sourceAddressApartmentNumber,
         sourceAddressCity, sourceAddressZipCode, sourceAddressCountry,
         destinationAddressStreet, destinationAddressBuildingNumber, destinationAddressApartmentNumber,
         destinationAddressCity, destinationAddressZipCode, destinationAddressCountry,
-        deliveryDate, priority, deliveryAtWeekend)
+        pickupDate, deliveryDate, priority, deliveryAtWeekend)
         .then((res) => {
           setSuccess(
             res?.data?.message || "Inquiry created successfully!"
           );
+          setDescription("");
           setPackageWidth(0);
           setPackageHeight(0);
           setPackageDepth(0);
@@ -77,6 +82,9 @@ export default function Inquiry() {
           setDestinationAddressCity("");
           setDestinationAddressZipCode("");
           setDestinationAddressCountry("");
+          setPickupDate("");
+          setDeliveryDate("");
+          setPriority("low");
           setDeliveryAtWeekend(false);
         })
         .catch((err) => {
@@ -167,7 +175,6 @@ export default function Inquiry() {
                         onChange={(e) => setPackageWeight(parseFloat(e.target.value))}
                     />
                 </div>
-
             </div>
 
             <div className="flex gap-6">
@@ -207,7 +214,7 @@ export default function Inquiry() {
                         </div>
                         <div className="flex-grow">
                             <div className="mb-2 block">
-                                <Label htmlFor="source-address-apartment-number" value="Apartment number" />
+                                <Label htmlFor="source-address-apartment-number" value="Apartment number (optional)" />
                             </div>
                             <TextInput
                                 id="source-address-apartment-number"
@@ -254,7 +261,7 @@ export default function Inquiry() {
                             <TextInput
                                 id="source-address-country"
                                 type="text"
-                                required={false}
+                                required={true}
                                 shadow={true}
                                 value={sourceAddressCountry}
                                 onChange={(e) => setSourceAddressCountry(e.target.value)}
@@ -301,7 +308,7 @@ export default function Inquiry() {
                         </div>
                         <div className="flex-grow">
                             <div className="mb-2 block">
-                                <Label htmlFor="destination-address-apartment-number" value="Apartment number" />
+                                <Label htmlFor="destination-address-apartment-number" value="Apartment number (optional)" />
                             </div>
                             <TextInput
                                 id="destination-address-apartment-number"
@@ -348,7 +355,7 @@ export default function Inquiry() {
                             <TextInput
                                 id="destination-address-country"
                                 type="text"
-                                required={false}
+                                required={true}
                                 shadow={true}
                                 value={destinationAddressCountry}
                                 onChange={(e) => setDestinationAddressCountry(e.target.value)}
@@ -361,6 +368,19 @@ export default function Inquiry() {
             <div className="flex gap-6">
                 <div className="flex-grow">
                     <div className="mb-2 block">
+                        <Label htmlFor="pickup-date" value="Pickup date" />
+                    </div>
+                    <TextInput
+                        id="pickup-date"
+                        type="date"
+                        required={true}
+                        shadow={true}
+                        value={pickupDate}
+                        onChange={(e) => setPickupDate(`${e.target.value}T00:00:00.000Z`)}
+                    />
+                </div>
+                <div className="flex-grow">
+                    <div className="mb-2 block">
                         <Label htmlFor="delivery-date" value="Delivery date" />
                     </div>
                     <TextInput
@@ -369,28 +389,45 @@ export default function Inquiry() {
                         required={true}
                         shadow={true}
                         value={deliveryDate}
-                        onChange={(e) => setDeliveryDate(e.target.value)}
+                        onChange={(e) => setDeliveryDate(`${e.target.value}T00:00:00.000Z`)}
                     />
                 </div>
                 <div className="flex-grow">
                     <div className="mb-2 block">
                         <Label htmlFor="priority" value="Priority" />
                     </div>
-                    <TextInput
+                    <select
                         id="priority"
-                        type="text"
-                        required={true}
-                        shadow={true}
-                        value={priority}
-                        onChange={(e) => setPriority(e.target.value)}
-                    />
+                        onChange={(e) => setPriority(e.target.value)}>
+                        <option value="low" selected>Low</option>
+                        <option value="high">High</option>
+                    </select>
                 </div>
                 <div className="flex-grow">
-                    <div className="mb-3 block">
+                    <div className="mb-2 block">
                         <Label htmlFor="delivery-at-weekend" value="Delivery at weekend" />
                     </div>
-                    <Checkbox id="delivery-at-weekend" checked={deliveryAtWeekend}/>
+                    <select
+                        id="delivery-at-weekend"
+                        onChange={(e) => setDeliveryAtWeekend(stringToBoolean(e.target.value))}>
+                        <option value="false" selected>No</option>
+                        <option value="true">Yes</option>
+                    </select>
                 </div>
+            </div>
+
+            <div className="flex gap-6">
+                <div className="mb-2 block">
+                    <Label htmlFor="description" value="Description (optional):" />
+                </div>
+                <TextInput className="flex-grow"
+                    id="description"
+                    type="text"
+                    required={false}
+                    shadow={true}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
             </div>
 
             {inquiryLoading ? (

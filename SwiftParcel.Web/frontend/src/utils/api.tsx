@@ -128,6 +128,7 @@ export const getUsers = async (
 };
 
 export const createInquiry = async (
+  description: string,
   width: number,
   height: number,
   depth: number,
@@ -144,12 +145,14 @@ export const createInquiry = async (
   destinationCity: string,
   destinationZipCode: string,
   destinationCountry: string,
+  pickupDate: string,
   deliveryDate: string,
   priority: string,
   deliveryAtWeekend: boolean
 ) => {
   try {
     const response = await api.post(`/parcels`, {
+      description,
       width,
       height,
       depth,
@@ -166,6 +169,7 @@ export const createInquiry = async (
       destinationCity,
       destinationZipCode,
       destinationCountry,
+      pickupDate,
       deliveryDate,
       priority,
       deliveryAtWeekend
