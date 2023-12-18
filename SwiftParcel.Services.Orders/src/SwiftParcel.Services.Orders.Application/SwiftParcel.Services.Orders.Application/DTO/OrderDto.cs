@@ -26,7 +26,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             CustomerId = order.CustomerId;
             CourierId = order.CourierId;
             Status = order.Status.ToString().ToLowerInvariant();
-            CreatedAt = order.CreatedAt;
+            CreatedAt = order.OrderRequestDate;
             ReceivedAt = order.ReceivedAt;
             DeliveredAt = order.DeliveredAt;
             CannotDeliverAt = order.CannotDeliverAt;
