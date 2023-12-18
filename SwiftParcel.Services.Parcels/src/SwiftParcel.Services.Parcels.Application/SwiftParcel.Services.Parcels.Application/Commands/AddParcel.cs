@@ -12,62 +12,67 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
     {
         public Guid ParcelId { get; protected set; }
         public Guid CustomerId { get; protected set; }
-        public string Name { get; protected set; }
         public string Description { get; protected set; }
         public double Width { get; protected set; }
         public double Height { get; protected set; }
         public double Depth { get; protected set; }
         public double Weight { get; protected set; }
-        public decimal Price { get; protected set; }
         public string SourceStreet { get; protected set; }
         public string SourceBuildingNumber { get; protected set; }
         public string SourceApartmentNumber { get; protected set; }
         public string SourceCity { get; protected set; }
         public string SourceZipCode { get; protected set; }
+        public string SourceCountry { get; protected set; }
         public string DestinationStreet { get; protected set; }
         public string DestinationBuildingNumber { get; protected set; }
         public string DestinationApartmentNumber { get; protected set; }
         public string DestinationCity { get; protected set; }
         public string DestinationZipCode { get; protected set; }
-        public string Variant { get; protected set; }
+        public string DestinationCountry { get; protected set; }
         public string Priority { get; protected set; }
         public bool AtWeekend { get; protected set; }
-        public bool IsFragile { get; protected set; }
+        public string PickupDate { get; protected set; }
+        public string DeliveryDate { get; protected set; }
+        public bool IsCompany { get; protected set; }
+        public bool VipPackage { get; protected set; }
 
-        public AddParcel(Guid parcelId, Guid customerId, string name, string description,
-            double width, double height, double depth, double weight, decimal price,
+        public AddParcel(Guid parcelId, Guid customerId, string description,
+            double width, double height, double depth, double weight,
             string sourceStreet, string sourceBuildingNumber,
             string sourceApartmentNumber, string sourceCity, string sourceZipCode,
-            string destinationStreet, string destinationBuildingNumber,
+            string sourceCountry, string destinationStreet, string destinationBuildingNumber,
             string destinationApartmentNumber, string destinationCity, string destinationZipCode,
-            string variant, string priority, bool atWeekend, bool isFragile)
+            string destinationCountry, string priority, bool atWeekend, string pickupDate, 
+            string deliveryDate, bool isCompany, bool vipPackage)
         {
             ParcelId = parcelId == Guid.Empty ? Guid.NewGuid() : parcelId;
             CustomerId = customerId;
-            Name = name;
             Description = description;
             Width = width;
             Height = height;
             Depth = depth;
             Weight = weight;
-            Price = price;
 
             SourceStreet = sourceStreet;
             SourceBuildingNumber = sourceBuildingNumber;
             SourceApartmentNumber = sourceApartmentNumber;
             SourceCity = sourceCity;
             SourceZipCode = sourceZipCode;
+            SourceCountry = sourceCountry;
 
             DestinationStreet = destinationStreet;
             DestinationBuildingNumber = destinationBuildingNumber;
             DestinationApartmentNumber = destinationApartmentNumber;
             DestinationCity = destinationCity;
             DestinationZipCode = destinationZipCode;
+            DestinationCountry = destinationCountry;
 
-            Variant = variant;
             Priority = priority;
             AtWeekend = atWeekend;
-            IsFragile = isFragile;
+            PickupDate = pickupDate;
+            DeliveryDate = deliveryDate;
+            IsCompany = isCompany;
+            VipPackage = vipPackage;
         }
     }
 }
