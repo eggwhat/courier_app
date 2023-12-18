@@ -19,7 +19,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 CustomerId = entity.CustomerId,
                 CourierId = entity.CourierId,
                 Status = entity.Status,
-                CreatedAt = entity.CreatedAt,
+                CreatedAt = entity.OrderRequestDate,
                 ReceivedAt = entity.ReceivedAt,
                 DeliveredAt = entity.DeliveredAt,
                 CannotDeliverAt = entity.CannotDeliverAt,

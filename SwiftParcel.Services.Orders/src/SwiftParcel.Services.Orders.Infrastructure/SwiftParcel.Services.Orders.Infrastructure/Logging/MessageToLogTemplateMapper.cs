@@ -27,13 +27,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     }
                 },
                 {
-                    typeof(AssignCourierToOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Assigned a courier with id: {CourierId} to the order with id: {OrderId}."
-                    }
-                },
-                {
                     typeof(CancelOrder),     
                     new HandlerLogTemplate
                     {
@@ -52,13 +45,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     new HandlerLogTemplate
                     {
                         After = "Order with id: {OrderId} has been deleted."
-                    }
-                },
-                {
-                    typeof(DeleteParcelFromOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Deleted a parcel with id: {ParcelId} from the order with id: {OrderId}."
                     }
                 },
                 {
@@ -95,13 +81,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     new HandlerLogTemplate
                     {
                         After = "Delivery for the order with id: {OrderId} has started"
-                    }
-                },
-                {
-                    typeof(ParcelDeleted),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Parcel with id: {ParcelId} has been deleted from the order"
                     }
                 },
                 {

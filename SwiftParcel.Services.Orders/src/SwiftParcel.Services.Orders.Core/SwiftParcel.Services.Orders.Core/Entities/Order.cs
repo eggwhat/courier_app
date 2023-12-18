@@ -5,127 +5,84 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 {
     public class Order : AggregateRoot
     {
-        private ISet<Parcel> _parcels = new HashSet<Parcel>();
-        public Guid CustomerId { get; private set; }
-        public Guid? CourierId { get; private set; }
+        public Guid? CustomerId { get; private set; }
+        public Parcel Parcel { get; private set; }
         public OrderStatus Status { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public DateTime? ReceivedAt { get; private set; }
+        public DateTime OrderRequestDate { get; private set; }
+        public string BuyerName { get; private set; }
+        public string BuyerEmail { get; private set; }
+        public Address BuyerAddress { get; private set; }
+        public DateTime? DecisionDate { get; private set; }
+        public DateTime? ReceivedAt { get; private set; } 
         public DateTime? DeliveredAt { get; private set; }
         public DateTime? CannotDeliverAt { get; private set; }
-        public DateTime? DeliveryDate { get; private set; }
-        public decimal TotalPrice { get; private set; }
         public string CancellationReason { get; private set; }
         public string CannotDeliverReason { get; private set; }
-        public bool CanBeDeleted => Status == OrderStatus.New;
-        public bool CanAssignCourier => Status == OrderStatus.New || Status == OrderStatus.Cancelled;
-        public bool HasParcels => Parcels.Any();
+        public bool CanRequestDelivery => Status == OrderStatus.Approved;
+        public bool HasParcel => Parcel != null;
 
-        public IEnumerable<Parcel> Parcels
-        {
-            get => _parcels;
-            private set => _parcels = new HashSet<Parcel>(value);
-        }
 
-        public Order(AggregateId id, Guid customerId, OrderStatus status, DateTime createdAt,
-            IEnumerable<Parcel> parcels = null, Guid? courierId = null, DateTime? deliveryDate = null,
-            decimal totalPrice = 0)
+        public Order(AggregateId id, Guid? customerId, OrderStatus status, DateTime createdAt,
+            string buyerName, string buyerEmail, Address buyerAddress)
         {
             Id = id;
             CustomerId = customerId;
             Status = status;
-            CreatedAt = createdAt;
-            Parcels = parcels ?? Enumerable.Empty<Parcel>();
-            if (courierId.HasValue)
-            {
-                SetCourier(courierId.Value);
-            }
+            OrderRequestDate = createdAt;
+            BuyerName = buyerName;
+            BuyerEmail = buyerEmail;
+            BuyerAddress = buyerAddress;
+            Parcel = null;
 
-            if (deliveryDate.HasValue)
-            {
-                SetDeliveryDate(deliveryDate.Value);
-            }
+            DecisionDate = null;
             ReceivedAt = null;
             DeliveredAt = null;
             CannotDeliverAt = null;
-            TotalPrice = totalPrice;
             CancellationReason = string.Empty;
             CannotDeliverReason = string.Empty;
         }
 
-        public static Order Create(AggregateId id, Guid customerId, OrderStatus status, DateTime createdAt)
+        public static Order Create(AggregateId id, Guid customerId, OrderStatus status, DateTime createdAt,
+            string buyerName, string buyerEmail, Address buyerAddress)
         {
-            var order = new Order(id, customerId, status, createdAt);
+            var order = new Order(id, customerId == Guid.Empty ? null : customerId,
+                        status, createdAt, buyerName, buyerEmail, buyerAddress);
             order.AddEvent(new OrderStateChanged(order));
 
             return order;
         }
 
-        public void SetTotalPrice(decimal totalPrice)
-        {
-            if (Status != OrderStatus.New)
-            {
-                throw new CannotChangeOrderPriceException(Id);
-            }
-
-            if (totalPrice < 0)
-            {
-                throw new InvalidOrderPriceException(Id, totalPrice);
-            }
-
-            TotalPrice = totalPrice;
-        }
-
-        public void SetCourier(Guid courierId)
-        {
-            CourierId = courierId;
-        }
-
-        public void SetDeliveryDate(DateTime deliveryDate)
-        {
-            DeliveryDate = deliveryDate.Date;
-        }
-
         public void AddParcel(Parcel parcel)
         {
-            if (!_parcels.Add(parcel))
+            if (HasParcel)
             {
                 throw new ParcelAlreadyAddedToOrderException(Id, parcel.Id);
             }
-
+            Parcel = parcel;
             AddEvent(new ParcelAdded(this, parcel));
         }
 
-        public void DeleteParcel(Guid parcelId)
-        {
-            var parcel = _parcels.SingleOrDefault(p => p.Id == parcelId);
-            if (parcel is null)
-            {
-                throw new OrderParcelNotFoundException(parcelId, Id);
-            }
-
-            AddEvent(new ParcelDeleted(this, parcel));
-        }
-
-        public void Approve()
+        public void Approve(DateTime decidedAt)
         {
             if (Status != OrderStatus.New && Status != OrderStatus.Cancelled)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Approved);
             }
 
+            DecisionDate = decidedAt;
             Status = OrderStatus.Approved;
             CancellationReason = string.Empty;
             AddEvent(new OrderStateChanged(this));
         }
 
-        public void Cancel(string reason)
+        public void Cancel(DateTime decidedAt, string reason)
         {
             if (Status == OrderStatus.Delivered || Status == OrderStatus.Cancelled)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Cancelled);
             }
 
+            DecisionDate = decidedAt;
             Status = OrderStatus.Cancelled;
             CancellationReason = reason ?? string.Empty;
             AddEvent(new OrderStateChanged(this));
