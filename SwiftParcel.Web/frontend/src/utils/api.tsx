@@ -127,6 +127,78 @@ export const getUsers = async (
   return response;
 };
 
+export const createInquiry = async (
+  description: string,
+  width: number,
+  height: number,
+  depth: number,
+  weight: number,
+  sourceStreet: string,
+  sourceBuildingNumber: string,
+  sourceApartmentNumber: string,
+  sourceCity: string,
+  sourceZipCode: string,
+  sourceCountry: string,
+  destinationStreet: string,
+  destinationBuildingNumber: string,
+  destinationApartmentNumber: string,
+  destinationCity: string,
+  destinationZipCode: string,
+  destinationCountry: string,
+  priority: string,
+  atWeekend: boolean,
+  pickupDate: string,
+  deliveryDate: string,
+  isCompany: boolean,
+  vipPackage: boolean
+) => {
+  try {
+    const response = await api.post(`/parcels`, {
+      description,
+      width,
+      height,
+      depth,
+      weight,
+      sourceStreet,
+      sourceBuildingNumber,
+      sourceApartmentNumber,
+      sourceCity,
+      sourceZipCode,
+      sourceCountry,
+      destinationStreet,
+      destinationBuildingNumber,
+      destinationApartmentNumber,
+      destinationCity,
+      destinationZipCode,
+      destinationCountry,
+      priority,
+      atWeekend,
+      pickupDate,
+      deliveryDate,
+      isCompany,
+      vipPackage
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during inquiry creation (Axios error):', error.response?.data || error.message);
+    } else {
+      console.error('Error during inquiry creation:', error);
+    }
+    throw error;
+  }
+};
+
+export const getInquiries = async () => {
+  try {
+    const response = await api.get(`/parcels`);
+    return response.data;
+  } catch (error) {
+    console.error('Error during getting inquiries:', error);
+    throw error;
+  }
+};
+
 export const createCar = async (data: any) => {
   const token = getUserInfo()?.token;
   const res = await api.post(`/cars`, data, {

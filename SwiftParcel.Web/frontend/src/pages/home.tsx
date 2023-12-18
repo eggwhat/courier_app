@@ -1,4 +1,4 @@
-import { Badge, Button, Spinner, TextInput, Select, Datepicker } from "flowbite-react";
+import { Badge, Button, Datepicker, Select, Spinner, TextInput } from "flowbite-react";
 import React from "react";
 import { BsBoxSeam } from "react-icons/bs";
 import { HiExclamation } from "react-icons/hi";
@@ -6,6 +6,7 @@ import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { Loader } from "../components/loader";
 import { getParcel } from "../utils/api";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true);
@@ -18,8 +19,6 @@ export default function Home() {
   const [destinationAddress, setDestinationAddress] = React.useState("");
   const [priority, setPriority] = React.useState("low");
   const [weekendDelivery, setWeekendDelivery] = React.useState(false);
-
-
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
@@ -63,19 +62,19 @@ export default function Home() {
     }, 1000);
   };
 
+
+
   return (
     <>
       {loading ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loading} setLoading={setLoading} />
-
         <div className="flex flex-row justify-between my-20">
          {/* Anonymous Delivery Request Inquiry Form */}
 
          {/* Left Side: Empty Container */}
          <div className="flex-1">
           <h2 className=" bg-blue-200 text-red-600">...Plese insert something interesting here...</h2>
-            {/* You can add content here if needed */}
          </div>
 
 
@@ -127,6 +126,27 @@ export default function Home() {
             </div>
           </form>
         </div>
+
+        </div>
+        
+        <div className="flex flex-col items-center justify-center my-20">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+              Post Your Parcel
+          </h1>
+          <p className="mb-4 text-gray-600 dark:text-gray-400">
+              Give your requirements and get many options to choose the best one.
+          </p>
+          <Link
+            to="/inquiry" 
+            className="mt-4 w-full md:w-1/2">
+            <Button
+              gradientDuoTone="cyanToBlue"
+              size="xl"
+              className="mt-4 w-full"
+              type="submit">
+              Create an inquiry
+            </Button>
+          </Link>
         </div>
 
         <form onSubmit={onSubmit}>

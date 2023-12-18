@@ -71,7 +71,7 @@ export function Header(props: {
         <Link to="/" className="flex items-center">
           <FaShippingFast className="mr-2 h-10 w-10 text-blue-700" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Parcel delivery
+            Swift Parcel
           </span>
         </Link>
         <div className="flex md:order-2">
