@@ -1,4 +1,4 @@
-import { Badge, Button, Spinner, TextInput } from "flowbite-react";
+import { Badge, Button, Spinner, TextInput, Select, Datepicker } from "flowbite-react";
 import React from "react";
 import { BsBoxSeam } from "react-icons/bs";
 import { HiExclamation } from "react-icons/hi";
@@ -11,11 +11,24 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
 
   const [trackingNumber, setTrackingNumber] = React.useState("");
+  const [packageDimensions, setPackageDimensions] = React.useState("");
+  const [weight, setWeight] = React.useState("");
+  const [deliveryDate, setDeliveryDate] = React.useState(new Date());
+  const [sourceAddress, setSourceAddress] = React.useState("");
+  const [destinationAddress, setDestinationAddress] = React.useState("");
+  const [priority, setPriority] = React.useState("low");
+  const [weekendDelivery, setWeekendDelivery] = React.useState(false);
+
+
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
   const [parcel, setParcel] = React.useState<any>(null);
   const [loadingParcel, setLoadingParcel] = React.useState(false);
+
+  const handleAnonymousInquirySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +68,67 @@ export default function Home() {
       {loading ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loading} setLoading={setLoading} />
+
+        <div className="flex flex-row justify-between my-20">
+         {/* Anonymous Delivery Request Inquiry Form */}
+
+         {/* Left Side: Empty Container */}
+         <div className="flex-1">
+          <h2 className=" bg-blue-200 text-red-600">...Plese insert something interesting here...</h2>
+            {/* You can add content here if needed */}
+         </div>
+
+
+         <div className="flex-1">
+          <form onSubmit={handleAnonymousInquirySubmit}>
+            <div className="my-20">
+              <h2 className="text-3xl font-bold">Quick Delivery Inquiry</h2>
+              <TextInput
+                placeholder="Package Dimensions"
+                value={packageDimensions}
+                onChange={(e) => setPackageDimensions(e.target.value)}
+              />
+              <TextInput
+                placeholder="Weight (kg)"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+              />
+              <Datepicker
+                value={deliveryDate.toISOString().split('T')[0]} // TODO:  (_CHECK_) Assuming the value expects a string in YYYY-MM-DD format
+                onChange={(e) => {
+                  const newDate = new Date(e.target.value);
+                  setDeliveryDate(newDate);
+                }}
+              />
+
+              <TextInput
+                placeholder="Source Address"
+                value={sourceAddress}
+                onChange={(e) => setSourceAddress(e.target.value)}
+              />
+              <TextInput
+                placeholder="Destination Address"
+                value={destinationAddress}
+                onChange={(e) => setDestinationAddress(e.target.value)}
+              />
+              <Select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                <option value="low">Low Priority</option>
+                <option value="high">High Priority</option>
+              </Select>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={weekendDelivery}
+                  onChange={(e) => setWeekendDelivery(e.target.checked)}
+                />
+                Delivery on Weekends
+              </label>
+              <Button type="submit">Submit Inquiry</Button>
+            </div>
+          </form>
+        </div>
+        </div>
+
         <form onSubmit={onSubmit}>
           <div className="flex flex-col items-center justify-center my-20">
             <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
