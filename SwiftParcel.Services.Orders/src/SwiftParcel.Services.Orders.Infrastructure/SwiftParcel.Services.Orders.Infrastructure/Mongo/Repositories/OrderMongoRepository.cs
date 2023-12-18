@@ -25,17 +25,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Repositories
             return order?.AsEntity();
         }
 
-        public async Task<Order> GetAsync(Guid courierId, DateTime deliveryDate)
-        {
-            var order = await _repository.GetAsync(o => o.CourierId == courierId &&
-                                                        o.DeliveryDate == deliveryDate.Date);
-
-            return order?.AsEntity();
-        }
-
         public async Task<Order> GetContainingParcelAsync(Guid parcelId)
         {
-            var order = await _repository.GetAsync(o => o.Parcels.Any(p => p.Id == parcelId));
+            var order = await _repository.GetAsync(o => o.Parcel.Id == parcelId);
 
             return order?.AsEntity();
         }
