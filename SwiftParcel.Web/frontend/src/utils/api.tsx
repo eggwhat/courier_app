@@ -189,6 +189,16 @@ export const createInquiry = async (
   }
 };
 
+export const getInquiries = async () => {
+  try {
+    const response = await api.get(`/parcels`);
+    return response.data;
+  } catch (error) {
+    console.error('Error during getting inquiries:', error);
+    throw error;
+  }
+};
+
 export const createCar = async (data: any) => {
   const token = getUserInfo()?.token;
   const res = await api.post(`/cars`, data, {

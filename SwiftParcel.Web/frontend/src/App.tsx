@@ -7,11 +7,12 @@ import ManageParcels from "./pages/parcels/manage";
 import Register from "./pages/register";
 import ManageParcelsCourier from "./pages/parcels/courier";
 import Home from "./pages/home";
-import Inquiry from "./pages/inquiry";
 import Deliveries from "./pages/deliveries";
 import ManageCouriers from "./pages/couriers/manage";
 import ManageCars from "./pages/cars/manage";
 import ManageParcelsCar from "./pages/cars/parcels";
+import Inquiry from "./pages/inquiry";
+import Inquiries from "./pages/inquiries";
 
 
 export function App() {
@@ -27,6 +28,14 @@ export function App() {
             element={
               <RolesAuthRoute role={null}>
                 <Inquiry/>
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/inquiries"
+            element={
+              <RolesAuthRoute role={null}>
+                <Inquiries />
               </RolesAuthRoute>
             }
           />
@@ -49,7 +58,7 @@ export function App() {
           <Route
             path="/parcels"
             element={
-              <RolesAuthRoute role="Courier">
+              <RolesAuthRoute role={null}>
                 <Parcels />
               </RolesAuthRoute>
             }
