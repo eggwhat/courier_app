@@ -35,7 +35,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             }
 
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsAdmin)
+            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsOfficeWorker)
             {
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }

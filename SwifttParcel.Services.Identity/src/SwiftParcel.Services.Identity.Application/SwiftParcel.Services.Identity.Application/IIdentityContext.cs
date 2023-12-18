@@ -10,7 +10,7 @@ namespace SwiftParcel.Services.Identity.Application
         Guid Id { get; }
         string Role { get; }
         bool IsAuthenticated { get; }
-        bool IsAdmin { get; }
+        bool IsOfficeWorker { get; }
         bool IsCourier { get; }
         IDictionary<string, string> Claims { get; }
     }
