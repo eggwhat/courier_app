@@ -29,7 +29,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public ParcelDto(Parcel parcel)
         {
             Id = parcel.Id;
-            CustomerId = parcel.CustomerId;
+            CustomerId = Guid.Empty;
             Description = parcel.Description;
             Width = parcel.Width;
             Height = parcel.Height;

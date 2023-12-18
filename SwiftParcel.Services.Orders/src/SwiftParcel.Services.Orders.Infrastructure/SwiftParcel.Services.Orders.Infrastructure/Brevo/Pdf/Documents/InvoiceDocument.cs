@@ -79,7 +79,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 if (!string.IsNullOrWhiteSpace(Model.Parcel.Description))
                     column.Item().PaddingTop(5).Element(ComposeDescription);
 
-                var totalPrice = Model.TotalPrice;
+                var totalPrice = Model.Parcel.CalculatedPrice;
                 column.Item().PaddingRight(5).AlignRight().Text($"Grand total: {totalPrice:C}").SemiBold();
             });
         }
