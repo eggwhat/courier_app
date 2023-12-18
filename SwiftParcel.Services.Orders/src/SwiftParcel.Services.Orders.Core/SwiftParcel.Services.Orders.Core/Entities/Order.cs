@@ -125,6 +125,15 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             CannotDeliverReason = reason ?? string.Empty;
             AddEvent(new OrderStateChanged(this));
         }
+        
+        public void AddCustomer(Guid customerId)
+        {
+            if(CustomerId != null)
+            {
+                throw new CustomerAlreadyAddedToOrderException(customerId, Id);
+            }
+            CustomerId = customerId;
+        }
     }
 }
 
