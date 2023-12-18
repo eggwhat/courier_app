@@ -49,10 +49,12 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
         }
+
+        // TODO: please, check is there is a need of exception for the IsCourier 
         private void ValidateAccessOrFail(Order order)
         {
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsAdmin)
+            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsOfficeWorker)
             {
                 throw new UnauthorizedOrderAccessException(order.Id, identity.Id);
             }
