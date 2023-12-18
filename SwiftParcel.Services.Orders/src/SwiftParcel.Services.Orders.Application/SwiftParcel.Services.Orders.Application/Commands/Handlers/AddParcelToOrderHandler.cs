@@ -43,8 +43,10 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new ParcelNotFoundException(command.ParcelId);
             }
 
-            order.AddParcel(new Parcel(parcel.Id, parcel.Name, parcel.Variant, parcel.Description, parcel.Width,
-                                        parcel.Height, parcel.Depth, parcel.Weight, parcel.Price, parcel.Source, parcel.Destination));
+            order.AddParcel(new Parcel(command.ParcelId, parcel.Description, 
+                            parcel.Width, parcel.Height, parcel.Depth, parcel.Weight, parcel.Source, parcel.Destination,
+                            parcel.Priority, parcel.AtWeekend, parcel.PickupDate, parcel.DeliveryDate, parcel.IsCompany, 
+                            parcel.VipPackage, parcel.CreatedAt, parcel.ValidTo, parcel.CalculatedPrice));
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());

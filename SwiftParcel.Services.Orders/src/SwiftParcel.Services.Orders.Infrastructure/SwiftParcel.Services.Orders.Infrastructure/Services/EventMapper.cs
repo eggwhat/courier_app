@@ -38,8 +38,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                     break;
                 case ParcelAdded e:
                     return new ParcelAddedToOrder(e.Order.Id, e.Parcel.Id);
-                case ParcelDeleted e:
-                    return new ParcelDeletedFromOrder(e.Order.Id, e.Parcel.Id);
             }
 
             return null;

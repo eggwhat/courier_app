@@ -16,24 +16,28 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly ICommandDispatcher _commandDispatcher;
 
         public CreateOrderHandler(IOrderRepository orderRepository, ICustomerRepository customerRepository,
-            IMessageBroker messageBroker, IEventMapper eventMapper, IDateTimeProvider dateTimeProvider)
+            IMessageBroker messageBroker, IEventMapper eventMapper, IDateTimeProvider dateTimeProvider, 
+            ICommandDispatcher commandDispatcher)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
             _messageBroker = messageBroker;
             _eventMapper = eventMapper;
             _dateTimeProvider = dateTimeProvider;
+            _commandDispatcher = commandDispatcher;
         }
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
-            if (!await _customerRepository.ExistsAsync(command.CustomerId))
+            if (command.CustomerId != Guid.Empty && !await _customerRepository.ExistsAsync(command.CustomerId))
             {
                 throw new CustomerNotFoundException(command.CustomerId);
             }
 
-            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.New, _dateTimeProvider.Now);
+            var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.New, _dateTimeProvider.Now,
+                command.Name, command.Email, command.Address);
             await _orderRepository.AddAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
