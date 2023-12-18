@@ -15,7 +15,7 @@ namespace SwiftParcel.Services.Pricing.Api.Queries
         public double Width { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
-        public bool HighPriority { get; set; }
-        public bool DeliverAtWeekend { get; set; }
+        public string HighPriority { get; set; }
+        public string DeliverAtWeekend { get; set; }
     }
 }

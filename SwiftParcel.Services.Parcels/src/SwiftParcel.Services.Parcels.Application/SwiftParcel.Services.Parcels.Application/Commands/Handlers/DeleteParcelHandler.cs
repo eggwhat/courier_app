@@ -13,40 +13,35 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 {
     public class DeleteParcelHandler : ICommandHandler<DeleteParcel>
     {
-        private readonly IParcelRepository ParcelRepository;
-        private readonly IAppContext AppContext;
-        private readonly IMessageBroker MessageBroker;
+        private readonly IParcelRepository _parcelRepository;
+        private readonly IAppContext _appContext;
+        private readonly IMessageBroker _messageBroker;
 
         public DeleteParcelHandler(IParcelRepository parcelRepository, IAppContext appContext, IMessageBroker messageBroker)
         {
-            ParcelRepository = parcelRepository;
-            AppContext = appContext;
-            MessageBroker = messageBroker;
+            _parcelRepository = parcelRepository;
+            _appContext = appContext;
+            _messageBroker = messageBroker;
         }
 
         public async Task HandleAsync(DeleteParcel command, CancellationToken cancellationToken = default)
         {
-            var parcel = await ParcelRepository.GetAsync(command.ParcelId);
+            var parcel = await _parcelRepository.GetAsync(command.ParcelId);
 
             if (parcel is null)
             {
                 throw new ParcelNotFoundException(command.ParcelId);
             }
 
-            if (!parcel.OrderId.HasValue)
-            {
-                throw new CannotDeleteParcelException(command.ParcelId);
-            }
-
-            var identity = AppContext.Identity;
+            var identity = _appContext.Identity;
             if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsOfficeWorker)
             {
                 throw new UnauthorizedParcelAccessException(command.ParcelId, identity.Id);
             }
 
-            await ParcelRepository.DeleteAsync(command.ParcelId);
+            await _parcelRepository.DeleteAsync(command.ParcelId);
 
-            await MessageBroker.PublishAsync(new ParcelDeleted(command.ParcelId));
+            await _messageBroker.PublishAsync(new ParcelDeleted(command.ParcelId));
         }
     }
 }

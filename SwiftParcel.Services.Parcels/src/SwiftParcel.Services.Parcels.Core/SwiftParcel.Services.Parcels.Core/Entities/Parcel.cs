@@ -1,52 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Parcels.Core.Exceptions;
-using SwiftParcel.Services.Parcels.Core.Exceptions.SwiftParcel.Services.Parcels.Core.Exceptions;
 
 namespace SwiftParcel.Services.Parcels.Core.Entities
 {
     public class Parcel
     {
         public Guid Id { get; protected set; }
-        public Guid? OrderId { get; protected set; }
-        public Guid CustomerId { get; protected set; }  
-        public string Name { get; protected set; }
+        public Guid? CustomerId { get; protected set; }  
         public string Description { get; protected set; }
         public double Width { get; protected set; }
         public double Height { get; protected set; }
         public double Depth { get; protected set; }
         public double Weight { get; protected set; }
-        public decimal Price { get; protected set; }
         public Address Source { get; protected set; }
         public Address Destination { get; protected set; }
-        public Variant Variant { get; protected set; }
         public Priority Priority { get; protected set; }
         public bool AtWeekend { get; protected set; }
-        public bool IsFragile { get; protected set; }
+        public DateTime PickupDate { get; protected set; }
+        public DateTime DeliveryDate { get; protected set; }
+        public bool IsCompany { get; protected set; }
+        public bool VipPackage { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
+        public DateTime ValidTo { get; protected set; }
+        public decimal CalculatedPrice { get; protected set; }
 
-        public Parcel(AggregateId id, Guid customerId, string name, string description, double width,
-            double height, double depth, double weight, decimal price, DateTime createdAt, Guid? orderId = null)
-            : this(id, customerId, name, description, width, height, depth, weight, price, new Address(),
-                  new Address(), Variant.Standard, Priority.Low, false, false, createdAt, orderId)
+        public Parcel(AggregateId id, string description, double width,
+            double height, double depth, double weight, DateTime pickupDate, DateTime deliveryDate,
+            DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
+            : this(id, description, width, height, depth, weight, new Address(), new Address(),
+             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, calculatedPrice, validTo, customerId)
         {
 
         }
 
-        public Parcel(AggregateId id, Guid customerId, string name, string description, double width, double height,
-            double depth, double weight, decimal price, Address source, Address destination, Variant variant,
-            Priority priority, bool atWeekend, bool isFragile, DateTime createdAt, Guid? orderId = null)
+        public Parcel(AggregateId id, string description, double width, double height,
+            double depth, double weight, Address source, Address destination,
+            Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
+             DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
         {
             Id = id;
             CustomerId = customerId;
-
-            CheckName(name);
-            Name = name;
 
             CheckDescription(description);
             Description = description;
@@ -58,26 +59,18 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             
             CheckWeight(weight);
             Weight = weight;
-            
-            CheckPrice(price);
-            Price = price;
-            
+                        
             Source = source;
             Destination = destination;
-            Variant = variant;
             Priority = priority;
             AtWeekend = atWeekend;
-            IsFragile = isFragile;
+            PickupDate = pickupDate;
+            DeliveryDate = deliveryDate;
+            IsCompany = isCompany;
+            VipPackage = vipPackage;
             CreatedAt = createdAt;
-            OrderId = orderId;
-        }
-
-        public void CheckName(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new InvalidParcelNameException(name);
-            }
+            ValidTo = validTo;
+            CalculatedPrice = calculatedPrice;
         }
 
         public void CheckDescription(string description)
@@ -121,19 +114,24 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
                 throw new InvalidParcelPriceException(price);
             }
         }
-
-        public void SetSourceAddress(string street, string buildingNumber, string apartmentNumber, string city, string zipCode)
+        public void SetCalculatedPrice(decimal price)
         {
-            SetAddress(Source, street, buildingNumber, apartmentNumber, city, zipCode);
+            CheckPrice(price);
+            CalculatedPrice = price;
         }
 
-        public void SetDestinationAddress(string street, string buildingNumber, string apartmentNumber, string city, string zipCode)
+        public void SetSourceAddress(string street, string buildingNumber, string apartmentNumber, string city, string zipCode, string country)
         {
-            SetAddress(Destination, street, buildingNumber, apartmentNumber, city, zipCode);
+            SetAddress(Source, street, buildingNumber, apartmentNumber, city, zipCode, country);
+        }
+
+        public void SetDestinationAddress(string street, string buildingNumber, string apartmentNumber, string city, string zipCode, string country)
+        {
+            SetAddress(Destination, street, buildingNumber, apartmentNumber, city, zipCode, country);
         }
 
         private void SetAddress(Address address, string street, string buildingNumber, string apartmentNumber,
-            string city, string zipCode)
+            string city, string zipCode, string country)
         {
             CheckAddressElement("street", street);
             address.Street = street;
@@ -149,6 +147,9 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
             CheckAddressZipCode("zip code", zipCode);
             address.ZipCode = zipCode;
+
+            CheckAddressElement("country", country);
+            address.Country = country;
         }
 
         public void CheckAddressElement(string element, string value)
@@ -175,23 +176,10 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
                 throw new InvalidAddressElementException(element, value);
             }
         }
-
-        public void SetVariant(Variant variant) => Variant = variant;
-
         public void SetPriority(Priority priority) => Priority = priority;
 
         public void SetAtWeekend(bool atWeekend) => AtWeekend = atWeekend;
 
-        public void SetIsFragile(bool isFragile) => IsFragile = isFragile;
-
-        public void AddToOrder(Guid orderId)
-        {
-            OrderId = orderId;
-        }
-
-        public void DeleteFromOrder()
-        {
-            OrderId = null;
-        }
+        
     }
 }
