@@ -54,7 +54,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                     column.Item().Text(text =>
                     {
                         text.Span("Issue date: ").SemiBold();
-                        text.Span($"{Model.IssueDate:d}");
+                        text.Span($"{Model.IssueDate:h:mm tt, d MMMM yyyy}");
                     });
                 });
 
@@ -77,6 +77,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                 });
 
                 column.Item().Element(ComposeTable);
+                column.Item().Element(ComposeTableDetails);
                 
                 if (!string.IsNullOrWhiteSpace(Model.Parcel.Description))
                     column.Item().PaddingTop(5).Element(ComposeDescription);
@@ -116,7 +117,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                     columns.RelativeColumn();
                     columns.RelativeColumn();
                     columns.RelativeColumn();
-                    columns.RelativeColumn();                    
                 });
                 
                 table.Header(header =>
@@ -125,26 +125,48 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents
                     header.Cell().AlignRight().Text("Size [cm]").Style(headerStyle);
                     header.Cell().AlignRight().Text("Weight [kg]").Style(headerStyle);
                     header.Cell().AlignRight().Text("Priority").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Delivery date").Style(headerStyle);
-                    header.Cell().AlignRight().Text("Pickup date").Style(headerStyle);
-                    if (Model.Parcel.AtWeekend)
-                        header.Cell().AlignRight().Text("At weekend").Style(headerStyle);
-                    if(Model.Parcel.VipPackage)
-                        header.Cell().AlignRight().Text("Vip package").Style(headerStyle);
-                    
-                    header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                    header.Cell().ColumnSpan(4).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
                 });
                 
-                table.Cell().Element(CellStyle).Text($"{Model.Parcel.InquireDate}");
+                table.Cell().Element(CellStyle).Text($"{Model.Parcel.InquireDate.Date:d}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Width}x{Model.Parcel.Height}x{Model.Parcel.Depth}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Weight}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.Priority}"); 
-                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.DeliveryDate}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.PickupDate}"); 
-                if (Model.Parcel.AtWeekend) 
-                    table.Cell().Element(CellStyle).AlignRight().Text($"✓");
-                if (Model.Parcel.VipPackage) 
-                    table.Cell().Element(CellStyle).AlignRight().Text($"✓");         
+                     
+                static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
+            });            
+        }
+        void ComposeTableDetails(IContainer container)
+        {
+            var headerStyle = TextStyle.Default.SemiBold();
+            container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn(3);
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+                    columns.RelativeColumn();
+
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Text("Delivery date").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Pickup date").Style(headerStyle);
+                    header.Cell().AlignRight().Text("Delivery at weekend").Style(headerStyle);
+                    header.Cell().AlignRight().Text("VIP package").Style(headerStyle);
+
+                    header.Cell().ColumnSpan(4).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                });
+
+                table.Cell().Element(CellStyle).Text($"{Model.Parcel.DeliveryDate.Date:d}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{Model.Parcel.PickupDate.Date:d}"); 
+                var atWeekend = Model.Parcel.AtWeekend ? "Yes" : "No";
+                table.Cell().Element(CellStyle).AlignRight().Text($"{atWeekend}");
+                var isVipPackage = Model.Parcel.VipPackage ? "Yes" : "No";
+                table.Cell().Element(CellStyle).AlignRight().Text($"{isVipPackage}");
+
                 static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
             });
         }
