@@ -41,7 +41,9 @@ export default function Inquiry() {
     const [pickupDate, setPickupDate] = React.useState("");
     const [deliveryDate, setDeliveryDate] = React.useState("");
     const [priority, setPriority] = React.useState("low");
-    const [deliveryAtWeekend, setDeliveryAtWeekend] = React.useState(false);
+    const [atWeekend, setAtWeekend] = React.useState(false);
+    const [isCompany, setIsCompany] = React.useState(false);
+    const [vipPackage, setVipPackage] = React.useState(false);
   
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
@@ -59,8 +61,8 @@ export default function Inquiry() {
         sourceAddressStreet, sourceAddressBuildingNumber, sourceAddressApartmentNumber,
         sourceAddressCity, sourceAddressZipCode, sourceAddressCountry,
         destinationAddressStreet, destinationAddressBuildingNumber, destinationAddressApartmentNumber,
-        destinationAddressCity, destinationAddressZipCode, destinationAddressCountry,
-        pickupDate, deliveryDate, priority, deliveryAtWeekend)
+        destinationAddressCity, destinationAddressZipCode, destinationAddressCountry, priority, atWeekend,
+        `${pickupDate}T00:00:00.000Z`, `${deliveryDate}T00:00:00.000Z`, isCompany, vipPackage)
         .then((res) => {
           setSuccess(
             res?.data?.message || "Inquiry created successfully!"
@@ -85,7 +87,9 @@ export default function Inquiry() {
           setPickupDate("");
           setDeliveryDate("");
           setPriority("low");
-          setDeliveryAtWeekend(false);
+          setAtWeekend(false);
+          setIsCompany(false);
+          setVipPackage(false);
         })
         .catch((err) => {
           setError(err?.response?.data?.message || "Something went wrong!");
@@ -179,7 +183,7 @@ export default function Inquiry() {
 
             <div className="flex gap-6">
 
-                <div className="flex-grow">
+                <div className="flex-grow" style={{ width: '5%' }}>
                     <Label value="Source address:" />
                 </div>
 
@@ -273,12 +277,11 @@ export default function Inquiry() {
 
             <div className="flex gap-6">
 
-                <div className="flex-grow">
+                <div className="flex-grow" style={{ width: '5%' }}>
                     <Label value="Destination address:" />
                 </div>
 
                 <div className="flex flex-col gap-3 mb-5 flex-grow">
-
                     <div className="flex gap-6">
                         <div className="flex-grow">
                             <div className="mb-2 block">
@@ -376,7 +379,7 @@ export default function Inquiry() {
                         required={true}
                         shadow={true}
                         value={pickupDate}
-                        onChange={(e) => setPickupDate(`${e.target.value}T00:00:00.000Z`)}
+                        onChange={(e) => setPickupDate(e.target.value)}
                     />
                 </div>
                 <div className="flex-grow">
@@ -389,27 +392,49 @@ export default function Inquiry() {
                         required={true}
                         shadow={true}
                         value={deliveryDate}
-                        onChange={(e) => setDeliveryDate(`${e.target.value}T00:00:00.000Z`)}
+                        onChange={(e) => setDeliveryDate(e.target.value)}
                     />
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow" style={{ width: '5%' }}>
                     <div className="mb-2 block">
                         <Label htmlFor="priority" value="Priority" />
                     </div>
-                    <select
+                    <select style={{ width: '100%' }}
                         id="priority"
                         onChange={(e) => setPriority(e.target.value)}>
                         <option value="low" selected>Low</option>
                         <option value="high">High</option>
                     </select>
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow" style={{ width: '5%' }}>
                     <div className="mb-2 block">
-                        <Label htmlFor="delivery-at-weekend" value="Delivery at weekend" />
+                        <Label htmlFor="at-weekend" value="Delivery at weekend" />
                     </div>
-                    <select
-                        id="delivery-at-weekend"
-                        onChange={(e) => setDeliveryAtWeekend(stringToBoolean(e.target.value))}>
+                    <select style={{ width: '100%' }}
+                        id="at-weekend"
+                        onChange={(e) => setAtWeekend(stringToBoolean(e.target.value))}>
+                        <option value="false" selected>No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div className="flex-grow" style={{ width: '5%' }}>
+                    <div className="mb-2 block">
+                        <Label htmlFor="is-company" value="Created by company" />
+                    </div>
+                    <select style={{ width: '100%' }}
+                        id="is-company"
+                        onChange={(e) => setIsCompany(stringToBoolean(e.target.value))}>
+                        <option value="false" selected>No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <div className="flex-grow" style={{ width: '5%' }}>
+                    <div className="mb-2 block">
+                        <Label htmlFor="vip-package" value="VIP delivery" />
+                    </div>
+                    <select style={{ width: '100%' }}
+                        id="vip-package"
+                        onChange={(e) => setVipPackage(stringToBoolean(e.target.value))}>
                         <option value="false" selected>No</option>
                         <option value="true">Yes</option>
                     </select>
@@ -418,12 +443,12 @@ export default function Inquiry() {
 
             <div className="flex gap-6">
                 <div className="mb-2 block">
-                    <Label htmlFor="description" value="Description (optional):" />
+                    <Label htmlFor="description" value="Short description:" />
                 </div>
                 <TextInput className="flex-grow"
                     id="description"
                     type="text"
-                    required={false}
+                    required={true}
                     shadow={true}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

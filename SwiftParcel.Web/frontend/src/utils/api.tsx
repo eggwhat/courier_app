@@ -145,10 +145,12 @@ export const createInquiry = async (
   destinationCity: string,
   destinationZipCode: string,
   destinationCountry: string,
+  priority: string,
+  atWeekend: boolean,
   pickupDate: string,
   deliveryDate: string,
-  priority: string,
-  deliveryAtWeekend: boolean
+  isCompany: boolean,
+  vipPackage: boolean
 ) => {
   try {
     const response = await api.post(`/parcels`, {
@@ -169,10 +171,12 @@ export const createInquiry = async (
       destinationCity,
       destinationZipCode,
       destinationCountry,
+      priority,
+      atWeekend,
       pickupDate,
       deliveryDate,
-      priority,
-      deliveryAtWeekend
+      isCompany,
+      vipPackage
     });
     return response.data;
   } catch (error) {
