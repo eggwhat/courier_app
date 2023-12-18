@@ -6,6 +6,7 @@ import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { Loader } from "../components/loader";
 import { getParcel } from "../utils/api";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true);
@@ -55,6 +56,27 @@ export default function Home() {
       {loading ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loading} setLoading={setLoading} />
+
+        <div className="flex flex-col items-center justify-center my-20">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+              Post Your Parcel
+          </h1>
+          <p className="mb-4 text-gray-600 dark:text-gray-400">
+              Give your requirements and get many options to choose the best one.
+          </p>
+          <Link
+            to="/inquiry" 
+            className="mt-4 w-full md:w-1/2">
+            <Button
+              gradientDuoTone="cyanToBlue"
+              size="xl"
+              className="mt-4 w-full"
+              type="submit">
+              Create an inquiry
+            </Button>
+          </Link>
+        </div>
+
         <form onSubmit={onSubmit}>
           <div className="flex flex-col items-center justify-center my-20">
             <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
