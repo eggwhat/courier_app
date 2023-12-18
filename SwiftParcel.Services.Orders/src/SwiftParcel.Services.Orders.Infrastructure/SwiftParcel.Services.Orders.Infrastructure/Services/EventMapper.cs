@@ -28,7 +28,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                         case OrderStatus.Received:
                             return new OrderReceived(e.Order.Id);
                         case OrderStatus.Delivered:
-                            return new OrderDelivered(e.Order.Id, e.Order.CustomerId);
+                            return new OrderDelivered(e.Order.Id);
                         case OrderStatus.Cancelled:
                             return new OrderCancelled(e.Order.Id, e.Order.CancellationReason);
                         case OrderStatus.CannotDeliver:

@@ -82,21 +82,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     {
                         After = "Delivery for the order with id: {OrderId} has started"
                     }
-                },
-                {
-                    typeof(ResourceReservationCancelled),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Reservation for the resource with id: {ResourceId}, date:  {DateTime} has been canceled."
-                    }
-                },
-                {
-                    typeof(ResourceReserved),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Reservation for the resource with id: {ResourceId}, date: {DateTime} has been made."
-                    }
-                },
+                }
             };
         
         public HandlerLogTemplate Map<TMessage>(TMessage message) where TMessage : class
