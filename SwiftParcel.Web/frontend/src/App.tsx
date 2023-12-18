@@ -7,6 +7,7 @@ import ManageParcels from "./pages/parcels/manage";
 import Register from "./pages/register";
 import ManageParcelsCourier from "./pages/parcels/courier";
 import Home from "./pages/home";
+import Inquiry from "./pages/inquiry";
 import Deliveries from "./pages/deliveries";
 import ManageCouriers from "./pages/couriers/manage";
 import ManageCars from "./pages/cars/manage";
@@ -21,6 +22,14 @@ export function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/inquiry"
+            element={
+              <RolesAuthRoute role={null}>
+                <Inquiry/>
+              </RolesAuthRoute>
+            }
+          />
           <Route
             path="/register"
             element={
