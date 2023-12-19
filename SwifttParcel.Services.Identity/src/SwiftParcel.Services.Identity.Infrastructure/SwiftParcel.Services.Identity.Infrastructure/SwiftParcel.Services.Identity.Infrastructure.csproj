@@ -33,6 +33,8 @@
      <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="1.1.448" />
      <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
      <PackageReference Include="Convey.WebApi.Swagger" Version="1.1.448" />
+     <PackageReference Include="Google.Apis.Auth" Version="1.64.0" />
+     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.0" />
    </ItemGroup>
 
    <ItemGroup>

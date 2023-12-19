@@ -31,7 +31,6 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
-        private readonly IJwtHandler _jwtHandler;
         private readonly IMessageBroker _messageBroker;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ILogger<IdentityService> _logger;
@@ -119,7 +118,7 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
         }
 
-        public async Task<AuthDto> SignInWithGoogleAsync(SignUp command)
+        public async Task<AuthDto> SignInWithGoogleAsync(SignUpGoogle command)
         {
             // Example pseudocode for validating the Google token and retrieving user info
 
@@ -148,7 +147,7 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             return auth;
         }
 
-        public async Task<AuthDto> SignUpWithGoogleAsync(SignUp command)
+        public async Task<AuthDto> SignUpWithGoogleAsync(SignUpGoogle command)
         {
             // Extract Google token from the SignUp command
             var googleToken = command.GoogleToken;

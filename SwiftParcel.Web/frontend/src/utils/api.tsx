@@ -6,7 +6,8 @@ const API_BASE_URL = 'http://localhost:6001';
 
 
 const api = axios.create({
-  baseURL: "http://localhost:6001",
+  baseURL: "http://localhost:5292",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -32,12 +33,11 @@ const defaultPageLimit = 10;
 export const login = async (email: string, password: string) => {
   // const response = await api.post('/sign-in', { email, password });
   // return response.data;
-
   try {
-    const response = await api.post('/sign-in', { email, password });
+    const response = await api.post('/identity/sign-in', { email, password });
     const { accessToken, refreshToken, role, expires } = response.data;
-  
-    saveUserInfo({ token: accessToken, refreshToken, role, expires }); // Save the user info with the role
+
+    saveUserInfo({ token: accessToken, refreshToken, role, expires }); 
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -55,7 +55,7 @@ export const register = async (
   email: string
 ) => {
   try {
-    const response = await api.post(`/sign-up`, {
+    const response = await api.post(`/identity/sign-up`, {
       username,
       password,
       email,
@@ -63,10 +63,8 @@ export const register = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // If the error is from Axios, you'll have a response object
       console.error('Error during registration (Axios error):', error.response?.data || error.message);
     } else {
-      // If the error is not from Axios, log the whole error
       console.error('Error during registration:', error);
     }
     throw error;
@@ -76,11 +74,13 @@ export const register = async (
 export const logout = async () => {
   try {
     const headers = getAuthHeader();
-    await api.get('/auth/logout', { headers });
+    await api.get('/identity/logout', { headers });
   } catch (error) {
     console.error('Logout failed:', error);
+  } finally {
+    saveUserInfo(null);
+    window.location.href = '/login';
   }
-  saveUserInfo(null);
 };
 
 export const getProfile = async () => {
@@ -125,6 +125,78 @@ export const getUsers = async (
   }
 
   return response;
+};
+
+export const createInquiry = async (
+  description: string,
+  width: number,
+  height: number,
+  depth: number,
+  weight: number,
+  sourceStreet: string,
+  sourceBuildingNumber: string,
+  sourceApartmentNumber: string,
+  sourceCity: string,
+  sourceZipCode: string,
+  sourceCountry: string,
+  destinationStreet: string,
+  destinationBuildingNumber: string,
+  destinationApartmentNumber: string,
+  destinationCity: string,
+  destinationZipCode: string,
+  destinationCountry: string,
+  priority: string,
+  atWeekend: boolean,
+  pickupDate: string,
+  deliveryDate: string,
+  isCompany: boolean,
+  vipPackage: boolean
+) => {
+  try {
+    const response = await api.post(`/parcels`, {
+      description,
+      width,
+      height,
+      depth,
+      weight,
+      sourceStreet,
+      sourceBuildingNumber,
+      sourceApartmentNumber,
+      sourceCity,
+      sourceZipCode,
+      sourceCountry,
+      destinationStreet,
+      destinationBuildingNumber,
+      destinationApartmentNumber,
+      destinationCity,
+      destinationZipCode,
+      destinationCountry,
+      priority,
+      atWeekend,
+      pickupDate,
+      deliveryDate,
+      isCompany,
+      vipPackage
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during inquiry creation (Axios error):', error.response?.data || error.message);
+    } else {
+      console.error('Error during inquiry creation:', error);
+    }
+    throw error;
+  }
+};
+
+export const getInquiries = async () => {
+  try {
+    const response = await api.get(`/parcels`);
+    return response.data;
+  } catch (error) {
+    console.error('Error during getting inquiries:', error);
+    throw error;
+  }
 };
 
 export const createCar = async (data: any) => {

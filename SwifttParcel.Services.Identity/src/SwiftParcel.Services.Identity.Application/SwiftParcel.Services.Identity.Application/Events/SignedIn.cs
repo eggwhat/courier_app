@@ -8,6 +8,7 @@ namespace SwiftParcel.Services.Identity.Application.Events
 {
     public class SignedIn: IEvent
     {
+        [Contract]
         // [PublicMessage]
         public Guid UserId { get; }
         public string Role { get; }

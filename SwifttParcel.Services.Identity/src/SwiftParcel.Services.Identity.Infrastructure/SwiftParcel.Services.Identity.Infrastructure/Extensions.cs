@@ -50,6 +50,7 @@ using SwiftParcel.Services.Identity.Application;
 using Convey.HTTP;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo;
 using SwiftParcel.Services.Identity.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
@@ -57,6 +58,14 @@ namespace SwiftParcel.Services.Identity.Infrastructure
     {
        public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
+
+             var googleAuthSettings = new GoogleAuthSettings
+            {
+                ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID"),
+                ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")
+            };
+
+
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
@@ -71,6 +80,15 @@ namespace SwiftParcel.Services.Identity.Infrastructure
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
             
+
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "";
+                    options.ClientSecret = "";
+
+                });
+
 
             return builder
                 .AddErrorHandler<ExceptionToResponseMapper>()

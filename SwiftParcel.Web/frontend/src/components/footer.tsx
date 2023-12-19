@@ -9,7 +9,7 @@ export function Footer() {
         <Link to="/" className="flex items-center mb-4 sm:mb-0">
           <FaShippingFast className="mr-2 h-10 w-10 dark:text-white" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-blue-700">
-            Parcel delivery
+            Swift Parcel
           </span>
         </Link>
         <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
@@ -26,7 +26,7 @@ export function Footer() {
         </ul>
       </div>
       <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-      <Foot.Copyright href="/" by="Parcel delivery" year={2022} />
+      <Foot.Copyright href="/" by="SwiftParcel" year={2023} />
     </footer>
   );
 }

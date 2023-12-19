@@ -58,12 +58,12 @@ export function Header(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userToken]);
 
-  // const logoutUser = async () => {
-  //   logout();
-  //   setUserToken(null);
-  //   localStorage.removeItem("parcelId");
-  //   navigate("/");
-  // };
+  const logoutUser = async () => {
+    logout();
+    setUserToken(null);
+    localStorage.removeItem("parcelId");
+    navigate("/");
+  };
 
   return (
     <>
@@ -71,7 +71,7 @@ export function Header(props: {
         <Link to="/" className="flex items-center">
           <FaShippingFast className="mr-2 h-10 w-10 text-blue-700" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Parcel delivery
+            Swift Parcel
           </span>
         </Link>
         <div className="flex md:order-2">
@@ -89,7 +89,7 @@ export function Header(props: {
                   {userToken?.user?.email}
                 </span>
               </Dropdown.Header>
-              {/* <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item> */}
+              <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item>
             </Dropdown>
           ) : (
             <Button className="mr-2" onClick={() => setShowLoginModal(true)}>

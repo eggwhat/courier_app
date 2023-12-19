@@ -4,10 +4,7 @@ import { Navigate } from "react-router-dom";
 
 
 
-export function RolesAuthRoute({
-  children,
-  role,
-}: {
+export function RolesAuthRoute({children, role,}: {
   children: ReactNode;
   role: any;
 }) {
