@@ -27,6 +27,22 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                     CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
                     _ => null
                 },
+                
+                InvalidBuyerNameException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
+                InvalidBuyerEmailException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
+                InvalidAddressElementException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
 
                 OrderNotFoundException ex
                 => message switch
