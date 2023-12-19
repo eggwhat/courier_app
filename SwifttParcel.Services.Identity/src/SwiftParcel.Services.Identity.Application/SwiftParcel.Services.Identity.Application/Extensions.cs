@@ -30,32 +30,5 @@ namespace SwiftParcel.Services.Identity.Application
                 .AddEventHandlers()
                 .AddInMemoryCommandDispatcher()
                 .AddInMemoryEventDispatcher();
-        // public static IConveyBuilder AddInfrastructureModule(this IConveyBuilder builder)
-        // {
-        //     builder.Services.AddSingleton<IIdentityService, IdentityService>();
-        //     builder.Services.AddSingleton<IPasswordService, PasswordService>();
-        //     builder.Services.AddTransient<IMessageBroker, MessageBrokers>();
-        //     builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
-        //     builder.Services.AddTransient<IUserRepository, UserRepository>();
-        //     builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
-
-        //     return builder.AddJwt()
-        //         .AddCommandHandlers()
-        //         .AddEventHandlers()
-        //         .AddQueryHandlers()
-        //         .AddRabbitMq()
-        //         .AddMongo()
-        //         .AddMongoRepository<RefreshToken, Guid>("refreshTokens")
-        //         .AddMongoRepository<User, Guid>("users");
-                
-        // }
-
-        // public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
-        // {
-        //     // TODO:  devide the extenstion in the mongo repositories and the genegral 
-            
-        //     app.UseInitializers().UseRebbitMq();
-        //     return app;
-        // }
     }
 }

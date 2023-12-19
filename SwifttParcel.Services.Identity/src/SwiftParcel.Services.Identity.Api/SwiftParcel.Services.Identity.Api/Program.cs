@@ -25,19 +25,12 @@ namespace src.SwiftParcel.Services.Identity.Api
     {
         public static async Task Main(string[] args)
             => await WebHost.CreateDefaultBuilder(args)
-                .ConfigureServices(services =>
-                {
-                    services.AddAuthentication().AddGoogle(options =>
-                    {
-                        options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-                        options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
-                    });
-
-                    services.AddConvey()
-                            .AddWebApi()
-                            .AddApplication()
-                            .AddInfrastructure();
-                })
+                .ConfigureServices(services => services
+                    .AddConvey()
+                    .AddWebApi()
+                    .AddApplication()
+                    .AddInfrastructure()
+                    .Build())
                 .Configure(app => app
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
@@ -64,7 +57,7 @@ namespace src.SwiftParcel.Services.Identity.Api
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
                             await ctx.Response.Created("identity/me");
                         })
-                        .Post<SignUp>("google-sign-up", async (cmd, ctx) => 
+                        .Post<SignUpGoogle>("google-sign-up", async (cmd, ctx) => 
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpWithGoogleAsync(cmd);
                             await ctx.Response.Created("identity/me");

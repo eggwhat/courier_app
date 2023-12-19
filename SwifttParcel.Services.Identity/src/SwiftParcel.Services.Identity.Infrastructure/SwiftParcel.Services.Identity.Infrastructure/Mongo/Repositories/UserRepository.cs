@@ -22,14 +22,14 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Reposit
         {
             var user = await _repository.GetAsync(id);
 
-            return user.AsEntity();
+            return user?.AsEntity();
         }
 
         public async Task<User> GetAsync(string email)
         {
             var user = await _repository.GetAsync(x => x.Email == email.ToLowerInvariant());
 
-            return user.AsEntity();
+            return user?.AsEntity();
         }
 
         public Task AddAsync(User user) => _repository.AddAsync(user.AsDocument());
