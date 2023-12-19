@@ -19,16 +19,16 @@ namespace SwiftParcel.Services.Identity.Application.Commands.Handlers
         // public Task HandleAsync(SignUp command) => _identityService.SignUpAsync(command);
         public  async Task HandleAsync(SignUp command, CancellationToken cancellationToken = default) 
         {
-            if (!string.IsNullOrEmpty(command.GoogleToken))
-            {
-                // Handle Google sign-up
-                await _identityService.SignUpWithGoogleAsync(command);
-            }
-            else
-            {
+            // if (!string.IsNullOrEmpty(command.GoogleToken))
+            // {
+            //     // Handle Google sign-up
+            //     await _identityService.SignUpWithGoogleAsync(command);
+            // }
+            // else
+            // {
                 // Handle regular sign-up
                 await _identityService.SignUpAsync(command);
-            }
+            //}
         }
     }
 }
