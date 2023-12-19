@@ -34,11 +34,13 @@ namespace SwiftParcel.Services.Orders.Api
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetOrder, OrderDto>("orders/{orderId}")
                         .Get<GetOrders, IEnumerable<OrderDto>>("orders")
+                        .Get<GetOrdersOfficeWorker, IEnumerable<OrderDto>>("orders/office-worker")
+                        .Get<GetOrderStatus, OrderStatusDto>("orders/{orderId}/status")
                         .Delete<DeleteOrder>("orders/{orderId}")
                         .Post<CreateOrder>("orders",
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}/status"))
+                        .Post<AddCustomerToOrder>("orders/{orderId}/customer",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}"))
-                        .Post<AddParcelToOrder>("orders/{orderId}/parcels/{parcelId}")
-                        .Delete<DeleteParcelFromOrder>("orders/{orderId}/parcels/{parcelId}")
                         .Put<ApproveOrder>("orders/{orderId}/approve")
                         .Put<CancelOrder> ("orders/{orderId}/cancel")))
                 .UseLogging()
