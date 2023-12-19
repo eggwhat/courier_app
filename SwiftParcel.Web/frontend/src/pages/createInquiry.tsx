@@ -15,7 +15,7 @@ import {
 import stringToBoolean from "../components/parsing/stringToBoolean";
 import booleanToString from "../components/parsing/booleanToString";
 
-export default function Inquiry() {
+export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
   
     const [description, setDescription] = React.useState("");

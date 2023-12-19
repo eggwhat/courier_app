@@ -11,7 +11,7 @@ import Deliveries from "./pages/deliveries";
 import ManageCouriers from "./pages/couriers/manage";
 import ManageCars from "./pages/cars/manage";
 import ManageParcelsCar from "./pages/cars/parcels";
-import Inquiry from "./pages/inquiry";
+import CreateInquiry from "./pages/createInquiry";
 import Inquiries from "./pages/inquiries";
 
 
@@ -24,10 +24,10 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="/inquiry"
+            path="/create-inquiry"
             element={
               <RolesAuthRoute role={null}>
-                <Inquiry/>
+                <CreateInquiry/>
               </RolesAuthRoute>
             }
           />
