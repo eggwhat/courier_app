@@ -1,4 +1,5 @@
-﻿using SwiftParcel.Services.Orders.Core.Exceptions;
+﻿using System.Text.RegularExpressions;
+using SwiftParcel.Services.Orders.Core.Exceptions;
 using SwiftParcel.Services.Orders.Core.Events;
 
 namespace SwiftParcel.Services.Orders.Core.Entities
@@ -30,9 +31,14 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             CustomerId = customerId;
             Status = status;
             OrderRequestDate = createdAt;
+
+            CheckBuyerName(buyerName);
             BuyerName = buyerName;
+            CheckBuyerEmail(buyerEmail);
             BuyerEmail = buyerEmail;
-            BuyerAddress = buyerAddress;
+            SetAddress(BuyerAddress, buyerAddress.Street, buyerAddress.BuildingNumber, buyerAddress.ApartmentNumber,
+                buyerAddress.City, buyerAddress.ZipCode, buyerAddress.Country);
+
             Parcel = parcel;
 
             DecisionDate = null;
@@ -133,6 +139,68 @@ namespace SwiftParcel.Services.Orders.Core.Entities
                 throw new CustomerAlreadyAddedToOrderException(customerId, Id);
             }
             CustomerId = customerId;
+        }
+        public void CheckBuyerName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new InvalidBuyerNameException(name);
+            }
+        }
+        public void CheckBuyerEmail(string email)
+        {
+            string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            if (!Regex.IsMatch(email, pattern))
+            {
+                throw new InvalidBuyerEmailException(email);
+            }
+        }
+
+        private void SetAddress(Address address, string street, string buildingNumber, string apartmentNumber,
+            string city, string zipCode, string country)
+        {
+            CheckAddressElement("street", street);
+            address.Street = street;
+
+            CheckAddressElement("building number", buildingNumber);
+            address.BuildingNumber = buildingNumber;
+
+            CheckAddressApartmentNumber("apartment number", ref apartmentNumber);
+            address.ApartmentNumber = apartmentNumber;
+
+            CheckAddressElement("city", city);
+            address.City = city;
+
+            CheckAddressZipCode("zip code", zipCode);
+            address.ZipCode = zipCode;
+
+            CheckAddressElement("country", country);
+            address.Country = country;
+        }
+
+        public void CheckAddressElement(string element, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new InvalidAddressElementException(element, value);
+            }
+        }
+
+        public void CheckAddressApartmentNumber(string element, ref string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                value = string.Empty;
+            }
+        }
+
+        public void CheckAddressZipCode(string element, string value)
+        {
+            string pattern = @"\d{2}[-]\d{3}";
+            if (!Regex.IsMatch(value, pattern))
+            {
+                throw new InvalidAddressElementException(element, value);
+            }
         }
     }
 }
