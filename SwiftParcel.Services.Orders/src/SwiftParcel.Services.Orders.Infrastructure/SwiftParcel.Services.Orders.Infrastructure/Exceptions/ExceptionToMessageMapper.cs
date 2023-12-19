@@ -5,6 +5,7 @@ using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Application.Events.Rejected;
 using SwiftParcel.Services.Orders.Application.Events.External;
 using SwiftParcel.Services.Orders.Core.Exceptions;
+using SwiftParcel.Services.Orders.Application.Queries;
 
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
