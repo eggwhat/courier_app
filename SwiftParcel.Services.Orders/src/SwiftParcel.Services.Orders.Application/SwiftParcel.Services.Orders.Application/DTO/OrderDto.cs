@@ -5,16 +5,19 @@ namespace SwiftParcel.Services.Orders.Application.DTO
     public class OrderDto
     {
         public Guid Id { get; set; }
-        public Guid CustomerId { get; set; }
-        public Guid? CourierId { get; set; }
+        public Guid? CustomerId { get; set; }
+        public ParcelDto Parcel { get; set; }
         public string Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? ReceivedAt { get; set; }
+        public DateTime OrderRequestDate { get; set; }
+        public string BuyerName { get; set; }
+        public string BuyerEmail { get; set; }
+        public AddressDto BuyerAddress { get; set; }
+        public DateTime? DecisionDate { get; set; }
+        public DateTime? ReceivedAt { get; set; } 
         public DateTime? DeliveredAt { get; set; }
         public DateTime? CannotDeliverAt { get; set; }
-        public DateTime? DeliveryDate { get; set; }
-        public decimal TotalPrice { get; set; }
-        public IEnumerable<ParcelDto> Parcels { get; set; }
+        public string CancellationReason { get; set; }
+        public string CannotDeliverReason { get; set; }
 
         public OrderDto()
         {
@@ -24,15 +27,18 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         {
             Id = order.Id;
             CustomerId = order.CustomerId;
-            CourierId = order.CourierId;
+            Parcel = order.Parcel == null ? null : new ParcelDto(order.Parcel);
             Status = order.Status.ToString().ToLowerInvariant();
-            CreatedAt = order.CreatedAt;
+            OrderRequestDate = order.OrderRequestDate;
+            BuyerName = order.BuyerName;
+            BuyerEmail = order.BuyerEmail;
+            BuyerAddress = new AddressDto(order.BuyerAddress);
+            DecisionDate = order.DecisionDate;
             ReceivedAt = order.ReceivedAt;
             DeliveredAt = order.DeliveredAt;
             CannotDeliverAt = order.CannotDeliverAt;
-            DeliveryDate = order.DeliveryDate;
-            TotalPrice = order.TotalPrice;
-            Parcels = order.Parcels.Select(p => new ParcelDto(p));
+            CancellationReason = order.CancellationReason;
+            CannotDeliverReason = order.CannotDeliverReason;
         }
     }
 }

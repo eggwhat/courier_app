@@ -2,15 +2,15 @@
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class AddParcelToOrder: ICommand
+    public class AddCustomerToOrder : ICommand
     {
         public Guid OrderId { get; }
-        public Guid ParcelId { get; }
-        public AddParcelToOrder(Guid orderId, Guid parcelId)
+        public Guid CustomerId { get; }
+
+        public AddCustomerToOrder(Guid orderId, Guid customerId)
         {
             OrderId = orderId;
-            ParcelId = parcelId;
+            CustomerId = customerId;
         }
     }
 }
-

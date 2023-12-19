@@ -13,7 +13,7 @@ using System.Reflection.Metadata;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Documents;
 using SwiftParcel.Services.Orders.Infrastructure.Brevo.Pdf.Models;
-﻿using QuestPDF.Fluent;
+using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 
@@ -24,26 +24,19 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
         private const string _senderName = "SwiftParcel";
         private const string _senderEmail = "switfparcel2023@gmail.com";
         private readonly TransactionalEmailsApi _apiInstance;
-        private readonly ICustomerRepository _customerRepository;
         private readonly ILogger<SendApprovalEmailHandler> _logger;
-        public SendApprovalEmailHandler(ICustomerRepository customerRepository, ILogger<SendApprovalEmailHandler> logger)
+        public SendApprovalEmailHandler(ILogger<SendApprovalEmailHandler> logger)
         {
             _apiInstance = new TransactionalEmailsApi();
-            _customerRepository = customerRepository;
             _logger = logger;
         }
 
         public async System.Threading.Tasks.Task HandleAsync(SendApprovalEmail command, CancellationToken cancellationToken)
         {
-            var customer = await _customerRepository.GetAsync(command.CustomerId);
-            if(customer is null)
-            {
-                throw new CustomerNotFoundException(command.CustomerId);
-            }
             var sender = new SendSmtpEmailSender(_senderName, _senderEmail);
             var to = new List<SendSmtpEmailTo>
             {
-                new SendSmtpEmailTo(customer.Email, customer.FullName)
+                new SendSmtpEmailTo(command.CustomerEmail, command.CustomerName)
             };
             var parameters = new Dictionary<string, string>
             {
@@ -53,11 +46,11 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
             var model = new InvoiceModel()
             {
                 OrderId = command.OrderId.ToString(),
-                IssueDate = DateTime.Now,
-                TotalPrice = command.TotalPrice,
+                IssueDate = command.IssueDate,
                 Parcel = command.Parcel,
-                CustomerEmail = customer.Email,
-                CustomerName = customer.FullName
+                CustomerEmail = command.CustomerEmail,
+                CustomerName = command.CustomerName,
+                CustomerAddress = command.CustomerAddress
             };
             
             var document = new InvoiceDocument(model);
@@ -73,7 +66,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
                 var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, null, null, null,
                                                       null, attachment, null, 3, parameters);
                 CreateSmtpEmail result = await _apiInstance.SendTransacEmailAsync(sendSmtpEmail);
-                _logger.LogInformation("Email sent to {email}", customer.Email);
+                _logger.LogInformation("Email sent to {email}", command.CustomerEmail);
             }
             catch (Exception e)
             {

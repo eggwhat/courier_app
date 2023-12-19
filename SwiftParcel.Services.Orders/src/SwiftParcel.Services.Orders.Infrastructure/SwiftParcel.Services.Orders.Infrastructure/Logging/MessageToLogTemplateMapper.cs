@@ -13,24 +13,10 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
             => new Dictionary<Type, HandlerLogTemplate>
             {
                 {
-                    typeof(AddParcelToOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Added a parcel with id: {ParcelId} to the order with id: {OrderId}."
-                    }
-                },
-                {
                     typeof(ApproveOrder),     
                     new HandlerLogTemplate
                     {
                         After = "Order with id: {OrderId} has been approved."
-                    }
-                },
-                {
-                    typeof(AssignCourierToOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Assigned a courier with id: {CourierId} to the order with id: {OrderId}."
                     }
                 },
                 {
@@ -52,13 +38,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     new HandlerLogTemplate
                     {
                         After = "Order with id: {OrderId} has been deleted."
-                    }
-                },
-                {
-                    typeof(DeleteParcelFromOrder),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Deleted a parcel with id: {ParcelId} from the order with id: {OrderId}."
                     }
                 },
                 {
@@ -96,28 +75,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     {
                         After = "Delivery for the order with id: {OrderId} has started"
                     }
-                },
-                {
-                    typeof(ParcelDeleted),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Parcel with id: {ParcelId} has been deleted from the order"
-                    }
-                },
-                {
-                    typeof(ResourceReservationCancelled),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Reservation for the resource with id: {ResourceId}, date:  {DateTime} has been canceled."
-                    }
-                },
-                {
-                    typeof(ResourceReserved),     
-                    new HandlerLogTemplate
-                    {
-                        After = "Reservation for the resource with id: {ResourceId}, date: {DateTime} has been made."
-                    }
-                },
+                }
             };
         
         public HandlerLogTemplate Map<TMessage>(TMessage message) where TMessage : class

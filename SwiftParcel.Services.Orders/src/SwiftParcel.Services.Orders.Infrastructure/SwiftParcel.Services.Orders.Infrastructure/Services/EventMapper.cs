@@ -21,14 +21,14 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                 case OrderStateChanged e:
                     switch (e.Order.Status)
                     {
-                        case OrderStatus.New:
+                        case OrderStatus.WaitingForDecision:
                             return new OrderCreated(e.Order.Id);
                         case OrderStatus.Approved:
                             return new OrderApproved(e.Order.Id);
-                        case OrderStatus.Received:
+                        case OrderStatus.PickedUp:
                             return new OrderReceived(e.Order.Id);
                         case OrderStatus.Delivered:
-                            return new OrderDelivered(e.Order.Id, e.Order.CustomerId);
+                            return new OrderDelivered(e.Order.Id);
                         case OrderStatus.Cancelled:
                             return new OrderCancelled(e.Order.Id, e.Order.CancellationReason);
                         case OrderStatus.CannotDeliver:
@@ -38,8 +38,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                     break;
                 case ParcelAdded e:
                     return new ParcelAddedToOrder(e.Order.Id, e.Parcel.Id);
-                case ParcelDeleted e:
-                    return new ParcelDeletedFromOrder(e.Order.Id, e.Parcel.Id);
             }
 
             return null;

@@ -61,8 +61,6 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             builder.Services.AddTransient<IOrderRepository, OrderMongoRepository>();
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelsServiceClient, ParcelsServiceClient>();
-            builder.Services.AddTransient<IPricingServiceClient, PricingServiceClient>();
-            builder.Services.AddTransient<ICouriersServiceClient, CouriersServiceClient>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
@@ -103,19 +101,12 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<CreateOrder>()
                 .SubscribeCommand<CancelOrder>()
                 .SubscribeCommand<DeleteOrder>()
-                .SubscribeCommand<AddParcelToOrder>()
-                .SubscribeCommand<DeleteParcelFromOrder>()
-                .SubscribeCommand<AssignCourierToOrder>()
                 .SubscribeCommand<SendApprovalEmail>()
                 .SubscribeCommand<SendCancellationEmail>()
                 .SubscribeEvent<CustomerCreated>()
                 .SubscribeEvent<DeliveryCompleted>()
                 .SubscribeEvent<DeliveryFailed>()
-                .SubscribeEvent<DeliveryStarted>()
-                .SubscribeEvent<ParcelDeleted>()
-                .SubscribeEvent<ResourceReserved>()
-                .SubscribeEvent<ResourceReservationCancelled>();
-
+                .SubscribeEvent<DeliveryStarted>();
             return app;
         }
 

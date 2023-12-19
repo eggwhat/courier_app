@@ -17,27 +17,19 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
         private const string _senderName = "SwiftParcel";
         private const string _senderEmail = "switfparcel2023@gmail.com";
         private readonly TransactionalEmailsApi _apiInstance;
-        private readonly ICustomerRepository _customerRepository;
         private readonly ILogger<SendCancellationEmailHandler> _logger;
-        public SendCancellationEmailHandler(ICustomerRepository customerRepository, ILogger<SendCancellationEmailHandler> logger)
+        public SendCancellationEmailHandler(ILogger<SendCancellationEmailHandler> logger)
         {
             _apiInstance = new TransactionalEmailsApi();
-            _customerRepository = customerRepository;
             _logger = logger;
         }
 
         public async System.Threading.Tasks.Task HandleAsync(SendCancellationEmail command, CancellationToken cancellationToken)
         {
-            var customer = await _customerRepository.GetAsync(command.CustomerId);
-            if(customer is null)
-            {
-                throw new CustomerNotFoundException(command.CustomerId);
-            }
-
             var sender = new SendSmtpEmailSender(_senderName, _senderEmail);
             var to = new List<SendSmtpEmailTo>
             {
-                new SendSmtpEmailTo(customer.Email, customer.FullName)
+                new SendSmtpEmailTo(command.CustomerEmail, command.CustomerName)
             };
             var parameters = new Dictionary<string, string>
             {
@@ -50,7 +42,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Brevo.Commands.Handlers
                 var sendSmtpEmail = new SendSmtpEmail(sender, to, null, null, null, null, null,
                                                       null, null, null, 2, parameters);
                 CreateSmtpEmail result = await _apiInstance.SendTransacEmailAsync(sendSmtpEmail);
-                _logger.LogInformation("Email sent to {email}", customer.Email);
+                _logger.LogInformation("Email sent to {email}", command.CustomerEmail);
             }
             catch (Exception e)
             {
