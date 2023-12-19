@@ -114,6 +114,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                     ApartmentNumber = document.Destination.ApartmentNumber,
                     City = document.Destination.City,
                     ZipCode = document.Destination.ZipCode,
+                    Country = document.Destination.Country
                 },
                 Priority = document.Priority.ToString().ToLowerInvariant(),
                 AtWeekend = document.AtWeekend,
