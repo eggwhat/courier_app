@@ -12,8 +12,5 @@ namespace SwiftParcel.Services.Identity.Application.Services
     public interface IMessageBroker
     {
         Task PublishAsync<T>(T @event) where T : class, IEvent;
-        // Task<UserDto> GetAsync(Guid id);
-        // Task<JwtDTO> SignInAsync(SignIn command);
-        // Task SignUpAsync(SignUp command);
     }
 }

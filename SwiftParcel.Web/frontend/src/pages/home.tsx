@@ -1,4 +1,4 @@
-import { Badge, Button, Spinner, TextInput } from "flowbite-react";
+import { Badge, Button, Datepicker, Select, Spinner, TextInput } from "flowbite-react";
 import React from "react";
 import { BsBoxSeam } from "react-icons/bs";
 import { HiExclamation } from "react-icons/hi";
@@ -17,6 +17,10 @@ export default function Home() {
 
   const [parcel, setParcel] = React.useState<any>(null);
   const [loadingParcel, setLoadingParcel] = React.useState(false);
+
+  const handleAnonymousInquirySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,12 +55,13 @@ export default function Home() {
     }, 1000);
   };
 
+
+
   return (
     <>
       {loading ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loading} setLoading={setLoading} />
-
         <div className="flex flex-col items-center justify-center my-20">
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
               Post Your Parcel
