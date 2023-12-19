@@ -22,7 +22,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Repositories
         {
             var refreshToken = await _repository.GetAsync(x => x.Token == token);
 
-            return refreshToken.AsEntity();
+            return refreshToken?.AsEntity();
         }
 
         public Task AddAsync(RefreshToken token) => _repository.AddAsync(token.AsDocument());
