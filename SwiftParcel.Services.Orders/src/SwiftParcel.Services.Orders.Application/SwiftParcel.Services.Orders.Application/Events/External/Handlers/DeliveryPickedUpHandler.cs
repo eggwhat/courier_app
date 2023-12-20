@@ -6,13 +6,13 @@ using SwiftParcel.Services.Orders.Application.Services;
 
 namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
 {
-    public class DeliveryStartedHandler : IEventHandler<DeliveryStarted>
+    public class DeliveryPickedUpHandler : IEventHandler<DeliveryPickedUp>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
 
-        public DeliveryStartedHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
+        public DeliveryPickedUpHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
             IEventMapper eventMapper)
         {
             _orderRepository = orderRepository;
@@ -20,7 +20,7 @@ namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
             _eventMapper = eventMapper;
         }
 
-        public async Task HandleAsync(DeliveryStarted @event, CancellationToken cancellationToken)
+        public async Task HandleAsync(DeliveryPickedUp @event, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetAsync(@event.OrderId);
             if (order is null)
@@ -28,7 +28,7 @@ namespace SwiftParcel.Services.Orders.Application.Events.External.Handlers
                 throw new OrderNotFoundException(@event.OrderId);
             }
 
-            order.SetReceived(@event.DateTime);
+            order.SetPickedUp(@event.DateTime);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
