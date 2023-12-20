@@ -6,7 +6,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { getUserInfo, saveUserInfo } from "../utils/storage";
 import { LoginModal } from "./modals/loginModal";
-import React from "react";
+import React, { useState } from "react";
 import { getProfile, logout } from "../utils/api";
 import AppNavLink from "./appNavLink";
 
@@ -19,11 +19,10 @@ export function Header(props: {
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = React.useState<any>(null);
-  const [userEmail, setUserEmail] = React.useState('');
-
+  const [userEmail, setUserEmail] = useState('');
+  const [isCourier, setIsCourier] = useState(false);
   
   const [userToken, setUserToken] = React.useState<any>(false);
-  const [isCourier, setIsCourier] = React.useState<any>(false);
 
   React.useEffect(() => {
     setUserToken(getUserInfo());
@@ -37,12 +36,17 @@ export function Header(props: {
     if (userToken) {
       getProfile()
         .then((res) => {
+          console.log("res", res);
+          setUserEmail(res.email);
           if (res?.status === 200) {
-            const newUserInfo = { ...getUserInfo(), courier: res.data.courier };
-            console.log("res.data.", res)
+           
+            setIsCourier(res.role === "courier");
+
+            const newUserInfo = { ...getUserInfo(), courier: res.courier };
             saveUserInfo(newUserInfo);
-            setUserEmail(res.data.email);
-            if (res.data.courier) {
+          
+
+            if (res.courier) {
               setIsCourier(true);
             }
           } else {
