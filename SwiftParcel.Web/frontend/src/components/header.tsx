@@ -38,6 +38,8 @@ export function Header(props: {
         .then((res) => {
           console.log("res", res);
           setUserEmail(res.email);
+          setIsCourier(res.role === "courier");
+
           if (res?.status === 200) {
            
             setIsCourier(res.role === "courier");
@@ -114,12 +116,14 @@ export function Header(props: {
         <Navbar.Collapse>
           <AppNavLink to="/" text="Track Parcel" />
           {userToken?.user?.role === "User" ? <></> : null}
-          {isCourier ? (
+          {isCourier && (
             <>
-              <AppNavLink to="/deliveries" text="Deliveries" />
-              <AppNavLink to="/parcels" text="All Parcels" />
+              <AppNavLink to="/inquiries" text="Inquiries" />
+              <AppNavLink to="/offers" text="Offer Requests" />
+              <AppNavLink to="/sent-data" text="Sent Data" />
+              <AppNavLink to="/pending-offers" text="Pending Offers" />
             </>
-          ) : null}
+          )}
           {userToken?.user?.role === "admin" ? (
             <>
               <AppNavLink to="/couriers/manage" text="Couriers" />
