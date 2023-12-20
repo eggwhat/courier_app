@@ -18,7 +18,7 @@ import booleanToString from "../components/parsing/booleanToString";
 
 const TextInputWithLabel = ({ id, label, value, onChange }) => (
     <div className="mb-4 flex-col flex">
-      <Label htmlFor={id}  className="mb-2 block text-sm font-medium text-gray-700">{label}</Label>
+      <Label htmlFor={id}  className="mb-2 block text-sm font-medium text-gray-700 ">{label}</Label>
       <TextInput id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} 
          className="border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"/>
     </div>
@@ -33,7 +33,7 @@ const DateInputWithLabel = ({ id, label, value, onChange }) => (
 
   
 const SectionTitle = ({ title }) => (
-    <div className="mb-4">
+    <div className="mb-4 border-b border-gray-300 pb-1">
       <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
     </div>
 );
@@ -47,9 +47,11 @@ const Alerts = ({ error, success }) => (
 
 
 const SubmitButton = ({ inquiryLoading }) => (
-    <Button type="submit" disabled={inquiryLoading}>
-        {inquiryLoading ? <Spinner /> : "Create new inquiry"}
-    </Button>
+    <div className="flex justify-end">
+        <Button type="submit" disabled={inquiryLoading}>
+            {inquiryLoading ? <Spinner /> : "Create new inquiry"}
+        </Button>
+    </div>
 );
 
 const ShortDescriptionSection = ({ description, setDescription }) => (
