@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\SwiftParcel.Services.Deliveries.Core\SwiftParcel.Services.Deliveries.Core\SwiftParcel.Services.Deliveries.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\External\Handlers\" />
+  </ItemGroup>
+
 </Project>

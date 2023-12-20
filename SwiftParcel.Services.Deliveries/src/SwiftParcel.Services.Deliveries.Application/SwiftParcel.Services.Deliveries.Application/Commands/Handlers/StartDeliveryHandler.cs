@@ -29,8 +29,7 @@ namespace SwiftParcel.Services.Deliveries.Application.Commands.Handlers
                 throw new DeliveryAlreadyStartedException(command.OrderId);
             }
 
-            delivery = Delivery.Create(command.DeliveryId, command.OrderId, DeliveryStatus.InProgress);
-            delivery.AddRegistration(new DeliveryRegistration(command.Description, command.DateTime));
+            delivery = Delivery.Create(command.DeliveryId, command.OrderId, DeliveryStatus.Unassigned);
             await _repository.AddAsync(delivery);
             var events = _eventMapper.MapAll(delivery.Events);
             await _messageBroker.PublishAsync(events.ToArray());
