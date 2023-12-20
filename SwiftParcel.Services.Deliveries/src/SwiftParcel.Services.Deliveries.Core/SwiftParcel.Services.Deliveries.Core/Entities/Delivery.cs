@@ -1,6 +1,5 @@
 ﻿using SwiftParcel.Services.Deliveries.Core.Exceptions;
 using SwiftParcel.Services.Deliveries.Core.Events;
-using SwiftParcel.Services.Deliveries.Core.ValueObjects;
 
 namespace SwiftParcel.Services.Deliveries.Core.Entities
 {
@@ -17,7 +16,8 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
         public bool AtWeekend { get; protected set; }
         public DateTime PickupDate { get; protected set; }
         public DateTime DeliveryDate { get; protected set; }
-        public string Notes { get; protected set; }
+        public DateTime DeliveryAttemptDate { get; protected set; }
+        public string CannotDeliverReason { get; protected set; }
         public DateTime LastUpdate { get; protected set; }
 
         public Delivery(AggregateId id, Guid orderId, DateTime createdAt, DeliveryStatus status, 
@@ -36,21 +36,21 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             AtWeekend = atWeekend;
             PickupDate = pickupDate;
             DeliveryDate = deliveryDate;
-            Notes = string.Empty;
+            CannotDeliverReason = string.Empty;
             LastUpdate = createdAt;
         }
 
-        public static Delivery Create(AggregateId id, Guid orderId, DateTime dateTime, DeliveryStatus status,
+        public static Delivery Create(AggregateId id, Guid orderId, DateTime updateDateTime, DeliveryStatus status,
             double volume, double weight, Address source, Address destination, Priority priority, 
             bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
         {
-            var delivery = new Delivery(id, orderId, dateTime, status, volume, weight, source, destination, 
+            var delivery = new Delivery(id, orderId, updateDateTime, status, volume, weight, source, destination, 
                 priority, atWeekend, pickupDate, deliveryDate);
             delivery.AddEvent(new DeliveryStateChanged(delivery));
 
             return delivery;
         }
-        public void AssignCourier(DateTime dateTime, Guid courierId)
+        public void AssignCourier(DateTime updateDateTime, Guid courierId)
         {
             if(Status is not DeliveryStatus.Unassigned)
             {
@@ -63,10 +63,10 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
 
             CourierId = courierId;
             Status = DeliveryStatus.Assigned;
-            LastUpdate = dateTime;
+            LastUpdate = updateDateTime;
             AddEvent(new DeliveryStateChanged(this));
         }
-        public void PickUp(DateTime dateTime)
+        public void PickUp(DateTime updateDateTime)
         {
             if(Status is not DeliveryStatus.Assigned)
             {
@@ -74,11 +74,11 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             }
 
             Status = DeliveryStatus.InProgress;
-            LastUpdate = dateTime;
+            LastUpdate = updateDateTime;
             AddEvent(new DeliveryStateChanged(this));
         }
 
-        public void Complete(DateTime dateTime)
+        public void Complete(DateTime updateDateTime, DateTime deliveryAttemptDate)
         {
             if (Status is not DeliveryStatus.InProgress)
             {
@@ -86,11 +86,12 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             }
 
             Status = DeliveryStatus.Completed;
-            LastUpdate = dateTime;
+            LastUpdate = updateDateTime;
+            DeliveryAttemptDate = deliveryAttemptDate;
             AddEvent(new DeliveryStateChanged(this));
         }
 
-        public void Fail(DateTime dateTime, string reason)
+        public void Fail(DateTime updateDateTime, DateTime deliveryAttemptDate, string reason)
         {
             if(Status is not DeliveryStatus.InProgress)
             {
@@ -98,8 +99,9 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             }
 
             Status = DeliveryStatus.CannotDeliver;
-            LastUpdate = dateTime;
-            Notes = reason;
+            LastUpdate = updateDateTime;
+            CannotDeliverReason = reason;
+            DeliveryAttemptDate = deliveryAttemptDate;
             AddEvent(new DeliveryStateChanged(this));
         }
     }
