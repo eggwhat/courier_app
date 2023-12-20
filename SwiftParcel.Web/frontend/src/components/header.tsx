@@ -19,6 +19,8 @@ export function Header(props: {
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = React.useState<any>(null);
+  const [userEmail, setUserEmail] = React.useState('');
+
   
   const [userToken, setUserToken] = React.useState<any>(false);
   const [isCourier, setIsCourier] = React.useState<any>(false);
@@ -37,8 +39,9 @@ export function Header(props: {
         .then((res) => {
           if (res?.status === 200) {
             const newUserInfo = { ...getUserInfo(), courier: res.data.courier };
+            console.log("res.data.", res)
             saveUserInfo(newUserInfo);
-            console.log("newUserInfo in header: ", newUserInfo)
+            setUserEmail(res.data.email);
             if (res.data.courier) {
               setIsCourier(true);
             }
@@ -89,7 +92,7 @@ export function Header(props: {
                   {userToken?.user?.username}
                 </span>
                 <span className="block truncate text-sm font-medium">
-                  {userToken?.user?.email}
+                  {userEmail || 'Email not available'}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item>
