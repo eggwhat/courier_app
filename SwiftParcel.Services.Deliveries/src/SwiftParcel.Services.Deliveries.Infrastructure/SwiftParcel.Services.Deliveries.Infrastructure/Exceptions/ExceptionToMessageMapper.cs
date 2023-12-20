@@ -28,9 +28,13 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Exceptions
                     StartDelivery command => new StartDeliveryRejected(command.DeliveryId, command.OrderId, ex.Message, ex.Code),
                     _ => null,
                 },
+                DeliveryHasAlreadyAssignedCourierException ex => message switch
+                {
+                    AssignCourierToDelivery command => new AssignCourierToDeliveryRejected(command.DeliveryId, command.OrderId, ex.Message, ex.Code),
+                    _ => null,
+                },
                 DeliveryNotFoundException ex => message switch
                 {
-                    AddDeliveryRegistration command => new AddDeliveryRegistrationRejected(command.DeliveryId, ex.Message, ex.Code),
                     CompleteDelivery command => new CompleteDeliveryRejected(command.DeliveryId, ex.Message, ex.Code),
                     FailDelivery command => new FailDeliveryRejected(command.DeliveryId, ex.Message, ex.Code),
                     _ => null
