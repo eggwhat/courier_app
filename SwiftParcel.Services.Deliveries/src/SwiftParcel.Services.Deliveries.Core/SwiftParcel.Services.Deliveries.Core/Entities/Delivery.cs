@@ -40,9 +40,12 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             LastUpdate = createdAt;
         }
 
-        public static Delivery Create(AggregateId id, Guid orderId, DateTime dateTime, DeliveryStatus status)
+        public static Delivery Create(AggregateId id, Guid orderId, DateTime dateTime, DeliveryStatus status,
+            double volume, double weight, Address source, Address destination, Priority priority, 
+            bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
         {
-            var delivery = new Delivery(id, orderId, status);
+            var delivery = new Delivery(id, orderId, dateTime, status, volume, weight, source, destination, 
+                priority, atWeekend, pickupDate, deliveryDate);
             delivery.AddEvent(new DeliveryStateChanged(delivery));
 
             return delivery;
@@ -51,7 +54,7 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
         {
             if (CourierId != null)
             {
-                throw new CannotAssignCourierToDeliveryException(Id, CourierId.Value);
+                throw new DeliveryHasAlreadyAssignedCourierException(Id, CourierId.Value);
             }
             if(Status is not DeliveryStatus.Unassigned)
             {
@@ -61,7 +64,18 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             CourierId = courierId;
             Status = DeliveryStatus.Assigned;
             LastUpdate = dateTime;
-            AddEvent(new CourierAssignedToDelivery(this));
+            AddEvent(new DeliveryStateChanged(this));
+        }
+        public void PickUp(DateTime dateTime)
+        {
+            if(Status is not DeliveryStatus.Assigned)
+            {
+                throw new CannotChangeDeliveryStateException(Id, Status, DeliveryStatus.InProgress);
+            }
+
+            Status = DeliveryStatus.InProgress;
+            LastUpdate = dateTime;
+            AddEvent(new DeliveryStateChanged(this));
         }
 
         public void Complete(DateTime dateTime)
