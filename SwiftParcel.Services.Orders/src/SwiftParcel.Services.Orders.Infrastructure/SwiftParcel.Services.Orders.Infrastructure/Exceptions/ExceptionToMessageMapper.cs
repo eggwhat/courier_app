@@ -36,7 +36,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeliveryCompleted _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
                     DeliveryFailed _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
-                    DeliveryStarted _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
+                    DeliveryPickedUp _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
                     _ => null
                 },
 

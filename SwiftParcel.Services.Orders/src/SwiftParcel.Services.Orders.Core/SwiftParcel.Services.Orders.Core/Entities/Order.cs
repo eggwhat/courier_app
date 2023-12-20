@@ -14,7 +14,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         public string BuyerEmail { get; private set; }
         public Address BuyerAddress { get; private set; }
         public DateTime? DecisionDate { get; private set; }
-        public DateTime? ReceivedAt { get; private set; } 
+        public DateTime? PickedUpAt { get; private set; } 
         public DateTime? DeliveredAt { get; private set; }
         public DateTime? CannotDeliverAt { get; private set; }
         public string CancellationReason { get; private set; }
@@ -42,7 +42,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             Parcel = parcel;
 
             DecisionDate = null;
-            ReceivedAt = null;
+            PickedUpAt = null;
             DeliveredAt = null;
             CannotDeliverAt = null;
             CancellationReason = string.Empty;
@@ -107,14 +107,14 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             AddEvent(new OrderStateChanged(this));
         }
 
-        public void SetReceived(DateTime receivedAt)
+        public void SetPickedUp(DateTime pickedUpAt)
         {
             if (Status != OrderStatus.Approved)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.PickedUp);
             }
 
-            ReceivedAt = receivedAt;
+            PickedUpAt = pickedUpAt;
             Status = OrderStatus.PickedUp;
             AddEvent(new OrderStateChanged(this));
         }
