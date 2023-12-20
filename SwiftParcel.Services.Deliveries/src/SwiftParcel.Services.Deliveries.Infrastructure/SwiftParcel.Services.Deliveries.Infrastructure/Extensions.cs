@@ -86,6 +86,8 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure
                 .UseMetrics()
                 .UseRabbitMq()
                 .SubscribeCommand<StartDelivery>()
+                .SubscribeCommand<AssignCourierToDelivery>()
+                .SubscribeCommand<PickUpDelivery>()
                 .SubscribeCommand<CompleteDelivery>()
                 .SubscribeCommand<FailDelivery>()
                 .SubscribeEvent<OrderApproved>();
