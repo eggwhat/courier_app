@@ -32,7 +32,8 @@ namespace SwiftParcel.Services.Deliveries.Api
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetDelivery, DeliveryDto>("deliveries/{deliveryId}")
-                        //.Get<GetDeliveries, IEnumerable<DeliveryDto>>("deliveries")
+                        .Get<GetDeliveries, IEnumerable<DeliveryDto>>("deliveries")
+                        .Get<GetDeliveriesPending, IEnumerable<DeliveryDto>>("deliveries/pending")
                         .Post<AssignCourierToDelivery>("deliveries/{deliveryId}/courier",
                             afterDispatch: (cmd, ctx) => ctx.Response.Ok($"deliveries/{cmd.DeliveryId}"))
                         .Post<PickUpDelivery>("deliveries/{deliveryId}/pick-up")
