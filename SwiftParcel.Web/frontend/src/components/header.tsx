@@ -85,7 +85,7 @@ export function Header(props: {
             <AppNavLink to="/pending-offers" text="Pending Offers" />
           </>
         );
-      case 'officeWorker':
+      case 'officeworker':
         return (
           <>
             <AppNavLink to="/bank-inquiries" text="Bank Inquiries" />
