@@ -12,17 +12,11 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Mongo.Documents
                 Id = delivery.Id,
                 OrderId = delivery.OrderId,
                 Status = delivery.Status,
-                Notes = delivery.Notes,
-                Registrations = delivery.Registrations.Select(r => new DeliveryRegistrationDocument
-                {
-                    Description = r.Description,
-                    DateTime = r.DateTime
-                })
+                Notes = delivery.Notes
             };
  
         public static Delivery AsEntity(this DeliveryDocument document)
-            => new Delivery(document.Id, document.OrderId, document.Status, 
-                document.Registrations.Select(r => new DeliveryRegistration(r.Description, r.DateTime)));
+            => new Delivery(document.Id, document.OrderId, document.Status, ));
 
         public static DeliveryDto AsDto(this DeliveryDocument document)
             => new DeliveryDto

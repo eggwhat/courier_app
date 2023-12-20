@@ -32,11 +32,12 @@ namespace SwiftParcel.Services.Deliveries.Api
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetDelivery, DeliveryDto>("deliveries/{deliveryId}")
+                        //.Get<GetDeliveries, IEnumerable<DeliveryDto>>("deliveries")
                         .Post<StartDelivery>("deliveries",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"deliveries/{cmd.DeliveryId}"))
+                        .Post<AssignCourierToDelivery>("deliveries/{deliveryId}/courier")
                         .Post<FailDelivery>("deliveries/{deliveryId}/fail")
-                        .Post<CompleteDelivery>("deliveries/{deliveryId}/complete")
-                        .Post<AddDeliveryRegistration>("deliveries/{deliveryId}/registrations")))
+                        .Post<CompleteDelivery>("deliveries/{deliveryId}/complete")))
                 .UseLogging()
                 .UseVault()
                 .Build()
