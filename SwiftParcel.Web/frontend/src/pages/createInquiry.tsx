@@ -22,6 +22,8 @@ type FormFields = {
     packageHeight: number;
     packageDepth: number;
     packageWeight: number;
+    sourceAddressStreet: string;
+    destinationAddress: string;
     // Add other fields
 };
   
@@ -30,13 +32,20 @@ type FormErrors = {
     [K in keyof FormFields]?: string;
 };
 
-const TextInputWithLabel = ({ id, label, value, onChange }) => (
-    <div className="mb-4 flex-col flex">
-      <Label htmlFor={id}  className="mb-2 block text-sm font-medium text-gray-700 ">{label}</Label>
-      <TextInput id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} 
-         className="border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"/>
+const TextInputWithLabel = ({ id, label, value, onChange, error }) => (
+    <div className="mb-4 flex flex-col">
+      <Label htmlFor={id} className="mb-2 block text-sm font-medium text-gray-700">{label}</Label>
+      <TextInput 
+        id={id} 
+        type="text" 
+        value={value} 
+        onChange={(e) => onChange(e.target.value)} 
+        className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md ${error ? 'border-red-500' : ''}`}
+      />
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
-  );
+);
+
   
 const DateInputWithLabel = ({ id, label, value, onChange }) => (
     <div className="mb-4">
@@ -76,12 +85,12 @@ const ShortDescriptionSection = ({ description, setDescription }) => (
 );
   
 
-const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight }) => (
+const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth} />
-      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight} />
-      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth} />
-      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight} />
+      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth} error={errors.packageWidth}/>
+      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight} error={errors.packageHeight}/>
+      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth} error={errors.packageDepth}/>
+      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight} error={errors.packageWeight}/>
     </div>
 );
 
@@ -100,15 +109,16 @@ const AddressSection = ({
     apartmentNumber, setApartmentNumber,
     city, setCity,
     zipCode, setZipCode,
-    country, setCountry
+    country, setCountry,
+    errors
 }) => (
     <div className="grid grid-cols-2 gap-4">
-        <TextInputWithLabel id={`${prefix}-address-street`} label="Street" value={street} onChange={e => setStreet(e.target.value)} />
-        <TextInputWithLabel id={`${prefix}-address-building-number`} label="Building Number" value={buildingNumber} onChange={e => setBuildingNumber(e.target.value)} />
-        <TextInputWithLabel id={`${prefix}-address-apartment-number`} label="Apartment Number (optional)" value={apartmentNumber} onChange={e => setApartmentNumber(e.target.value)} />
-        <TextInputWithLabel id={`${prefix}-address-city`} label="City" value={city} onChange={e => setCity(e.target.value)} />
-        <TextInputWithLabel id={`${prefix}-address-zip-code`} label="Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
-        <TextInputWithLabel id={`${prefix}-address-country`} label="Country" value={country} onChange={e => setCountry(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-street`} label="Street" value={street} onChange={e => setStreet(e.target.value)} error={errors?.sourceAddressStreet}/>
+        <TextInputWithLabel id={`${prefix}-address-building-number`} label="Building Number" value={buildingNumber} onChange={e => setBuildingNumber(e.target.value)} error={errors?.buildingNumber}/>
+        <TextInputWithLabel id={`${prefix}-address-apartment-number`} label="Apartment Number (optional)" value={apartmentNumber} onChange={e => setApartmentNumber(e.target.value)} error={errors.appartmentNumber}/>
+        <TextInputWithLabel id={`${prefix}-address-city`} label="City" value={city} onChange={e => setCity(e.target.value)} error={errors.city}/>
+        <TextInputWithLabel id={`${prefix}-address-zip-code`} label="Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} error={errors.city}/>
+        <TextInputWithLabel id={`${prefix}-address-country`} label="Country" value={country} onChange={e => setCountry(e.target.value)} error={errors.country}/>
     </div>
 );
 
@@ -129,6 +139,8 @@ export default function CreateInquiry() {
         packageHeight: 0,
         packageDepth: 0,
         packageWeight: 0,
+        sourceAddressStreet: "",
+        destinationAddress: ""
         // Initialize other fields
     });
     
@@ -259,7 +271,7 @@ export default function CreateInquiry() {
 
                 <SectionTitle title="Package Details" />
 
-                <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight }} />
+                <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors: formErrors }} />
 
 
                 <SectionTitle title="Source Address" />
@@ -277,6 +289,7 @@ export default function CreateInquiry() {
                     setZipCode={setSourceAddressZipCode}
                     country={sourceAddressCountry} 
                     setCountry={setSourceAddressCountry}
+                    errors={formErrors}
                 />
 
 
@@ -295,6 +308,7 @@ export default function CreateInquiry() {
                     setZipCode={setDestinationAddressZipCode}
                     country={destinationAddressCountry} 
                     setCountry={setDestinationAddressCountry}
+                    errors={formErrors}
                 />
 
                 <SectionTitle title="Delivery Details" />
