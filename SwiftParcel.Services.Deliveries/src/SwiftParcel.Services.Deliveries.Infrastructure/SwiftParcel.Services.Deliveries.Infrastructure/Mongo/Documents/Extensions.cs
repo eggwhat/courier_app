@@ -12,7 +12,7 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Mongo.Documents
                 Id = delivery.Id,
                 OrderId = delivery.OrderId,
                 Status = delivery.Status,
-                Notes = delivery.Notes
+                Notes = delivery.CannotDeliverReason
             };
  
         public static Delivery AsEntity(this DeliveryDocument document)

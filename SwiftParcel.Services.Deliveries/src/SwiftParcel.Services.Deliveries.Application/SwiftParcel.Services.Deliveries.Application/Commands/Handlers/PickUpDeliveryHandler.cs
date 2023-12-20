@@ -6,14 +6,13 @@ using SwiftParcel.Services.Deliveries.Core.Repositories;
 
 namespace SwiftParcel.Services.Deliveries.Application.Commands.Handlers
 {
-    internal sealed class StartDeliveryHandler : ICommandHandler<StartDelivery>
+    public class PickUpDeliveryHandler : ICommandHandler<PickUpDelivery>
     {
         private readonly IDeliveriesRepository _repository;
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IDateTimeProvider _dateTimeProvider;
-
-        public StartDeliveryHandler(IDeliveriesRepository repository, IMessageBroker messageBroker,
+        public PickUpDeliveryHandler(IDeliveriesRepository repository, IMessageBroker messageBroker, 
             IEventMapper eventMapper, IDateTimeProvider dateTimeProvider)
         {
             _repository = repository;
@@ -21,19 +20,16 @@ namespace SwiftParcel.Services.Deliveries.Application.Commands.Handlers
             _eventMapper = eventMapper;
             _dateTimeProvider = dateTimeProvider;
         }
-
-        public async Task HandleAsync(StartDelivery command)
+        public async Task HandleAsync(PickUpDelivery command)
         {
-            var delivery = await _repository.GetForOrderAsync(command.OrderId);
-            if (delivery is {} && delivery.Status != DeliveryStatus.CannotDeliver)
+            var delivery = await _repository.GetAsync(command.DeliveryId);
+            if (delivery is null)
             {
-                throw new DeliveryAlreadyStartedException(command.OrderId);
+                throw new DeliveryNotFoundException(command.DeliveryId);
             }
-
-            delivery = Delivery.Create(command.DeliveryId, command.OrderId, _dateTimeProvider.Now,
-                DeliveryStatus.Unassigned, command.Volume, command.Weight, command.Source, command.Destination,
-                command.Priority, command.AtWeekend, command.PickupDate, command.DeliveryDate);
-            await _repository.AddAsync(delivery);
+            
+            delivery.PickUp(_dateTimeProvider.Now);
+            await _repository.UpdateAsync(delivery);
             var events = _eventMapper.MapAll(delivery.Events);
             await _messageBroker.PublishAsync(events.ToArray());
         }

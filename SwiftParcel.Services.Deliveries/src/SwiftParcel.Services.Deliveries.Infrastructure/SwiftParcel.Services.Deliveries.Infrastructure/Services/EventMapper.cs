@@ -23,7 +23,7 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Services
                         case DeliveryStatus.Completed:
                             return new DeliveryCompleted(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate);
                         case DeliveryStatus.CannotDeliver:
-                            return new DeliveryFailed(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate, e.Delivery.Notes);
+                            return new DeliveryFailed(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate, e.Delivery.CannotDeliverReason);
                     }
                     break;
             }
