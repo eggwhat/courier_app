@@ -15,6 +15,94 @@ import {
 import stringToBoolean from "../components/parsing/stringToBoolean";
 import booleanToString from "../components/parsing/booleanToString";
 
+
+const TextInputWithLabel = ({ id, label, value, onChange }) => (
+    <div className="mb-4 flex-col flex">
+      <Label htmlFor={id}  className="mb-2 block text-sm font-medium text-gray-700">{label}</Label>
+      <TextInput id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} 
+         className="border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md"/>
+    </div>
+  );
+  
+const DateInputWithLabel = ({ id, label, value, onChange }) => (
+    <div className="mb-4">
+        <Label htmlFor={id}>{label}</Label>
+        <TextInput id={id} type="date" value={value} onChange={(e) => onChange(e.target.value)} />
+    </div>
+);
+
+  
+const SectionTitle = ({ title }) => (
+    <div className="mb-4">
+      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+    </div>
+);
+
+const Alerts = ({ error, success }) => (
+    <>
+        {error && <Alert color="failure">{error}</Alert>}
+        {success && <Alert color="success">{success}</Alert>}
+    </>
+);
+
+
+const SubmitButton = ({ inquiryLoading }) => (
+    <Button type="submit" disabled={inquiryLoading}>
+        {inquiryLoading ? <Spinner /> : "Create new inquiry"}
+    </Button>
+);
+
+const ShortDescriptionSection = ({ description, setDescription }) => (
+    <div>
+      <Label htmlFor="description">Short Description:</Label>
+      <TextInput id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+    </div>
+);
+  
+
+const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight }) => (
+    <div className="grid grid-rows-2 gap-4">
+      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth} />
+      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight} />
+      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth} />
+      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight} />
+    </div>
+);
+
+const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDeliveryDate, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }) => (
+    <div className="grid grid-cols-2 gap-4">
+      <DateInputWithLabel id="pickup-date" label="Pickup Date" value={pickupDate} onChange={setPickupDate} />
+      <DateInputWithLabel id="delivery-date" label="Delivery Date" value={deliveryDate} onChange={setDeliveryDate} />
+      {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
+    </div>
+);
+  
+const AddressSection = ({
+    prefix,
+    street, setStreet,
+    buildingNumber, setBuildingNumber,
+    apartmentNumber, setApartmentNumber,
+    city, setCity,
+    zipCode, setZipCode,
+    country, setCountry
+}) => (
+    <div className="grid grid-cols-2 gap-4">
+        <TextInputWithLabel id={`${prefix}-address-street`} label="Street" value={street} onChange={e => setStreet(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-building-number`} label="Building Number" value={buildingNumber} onChange={e => setBuildingNumber(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-apartment-number`} label="Apartment Number (optional)" value={apartmentNumber} onChange={e => setApartmentNumber(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-city`} label="City" value={city} onChange={e => setCity(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-zip-code`} label="Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+        <TextInputWithLabel id={`${prefix}-address-country`} label="Country" value={country} onChange={e => setCountry(e.target.value)} />
+    </div>
+);
+
+
+  
+  
+  
+
+  
+
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
   
@@ -111,15 +199,61 @@ export default function CreateInquiry() {
             Please fill all fields below and click blue button located at the bottom of this page.
           </p>
 
-          <form className="flex flex-col gap-10 mb-5" onSubmit={onSubmit}>
+          <form className="flex flex-col gap-6" onSubmit={onSubmit}>
 
             <div className="flex gap-6">
 
-                <div className="flex-grow">
-                    <Label value="Package parameters:" />
+                <SectionTitle title="Package Details" />
+
+                <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight }} />
+
+
+                <SectionTitle title="Source Address" />
+                <AddressSection 
+                    prefix="source" 
+                    street={sourceAddressStreet} 
+                    setStreet={setSourceAddressStreet}
+                    buildingNumber={sourceAddressBuildingNumber} 
+                    setBuildingNumber={setSourceAddressBuildingNumber}
+                    apartmentNumber={sourceAddressApartmentNumber} 
+                    setApartmentNumber={setSourceAddressApartmentNumber}
+                    city={sourceAddressCity} 
+                    setCity={setSourceAddressCity}
+                    zipCode={sourceAddressZipCode} 
+                    setZipCode={setSourceAddressZipCode}
+                    country={sourceAddressCountry} 
+                    setCountry={setSourceAddressCountry}
+                />
+
+
+                <SectionTitle title="Destination Address" />
+                <AddressSection 
+                    prefix="destination" 
+                    street={destinationAddressStreet} 
+                    setStreet={setDestinationAddressStreet}
+                    buildingNumber={destinationAddressBuildingNumber} 
+                    setBuildingNumber={setDestinationAddressBuildingNumber}
+                    apartmentNumber={destinationAddressApartmentNumber} 
+                    setApartmentNumber={setDestinationAddressApartmentNumber}
+                    city={destinationAddressCity} 
+                    setCity={setDestinationAddressCity}
+                    zipCode={destinationAddressZipCode} 
+                    setZipCode={setDestinationAddressZipCode}
+                    country={destinationAddressCountry} 
+                    setCountry={setDestinationAddressCountry}
+                />
+
+                <SectionTitle title="Delivery Details" />
+                <DeliveryDetailsSection {...{ pickupDate, setPickupDate, deliveryDate, setDeliveryDate, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }} />
+
+                <ShortDescriptionSection description={description} setDescription={setDescription} />
+
+                <SubmitButton inquiryLoading={inquiryLoading} />
+
+                <Alerts error={error} success={success} />
                 </div>
 
-                <div className="flex-grow">
+                {/* <div className="flex-grow">
                     <div className="mb-2 block">
                         <Label htmlFor="package-width" value="Width" />
                     </div>
@@ -472,8 +606,9 @@ export default function CreateInquiry() {
               <span>
                 <span className="font-bold">Error!</span> {error}
               </span>
-            </Alert>
-          ) : null}
+            </Alert> 
+          ) : null}*/}
+          </form>
           {success ? (
             <Alert color="success" icon={HiCheckCircle} className="mb-3">
               <span>
