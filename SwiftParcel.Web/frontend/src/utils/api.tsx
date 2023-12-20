@@ -29,7 +29,7 @@ const getAuthHeader = () => {
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
-  return { Authorization: `Bearer ${userInfo.accessToken}` };
+  return { Authorization: `${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
@@ -93,7 +93,7 @@ export const getProfile = async () => {
       throw new Error('User ID not found');
     }
 
-    const response = await api.get(`/users/${userId}`, { headers });
+    const response = await api.get(`identity/users/${userId}`, { headers });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -135,9 +135,8 @@ modules:
         method: GET
         use: downstream
         downstream: identity-service/users/{userId}
-        auth: true
-        claims:
-          role: courier
+        
+        
     
       - upstream: /me
         method: GET
