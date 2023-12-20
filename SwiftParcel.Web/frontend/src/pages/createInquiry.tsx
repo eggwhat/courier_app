@@ -16,6 +16,20 @@ import stringToBoolean from "../components/parsing/stringToBoolean";
 import booleanToString from "../components/parsing/booleanToString";
 
 
+type FormFields = {
+    description: string;
+    packageWidth: number;
+    packageHeight: number;
+    packageDepth: number;
+    packageWeight: number;
+    // Add other fields
+};
+  
+
+type FormErrors = {
+    [K in keyof FormFields]?: string;
+};
+
 const TextInputWithLabel = ({ id, label, value, onChange }) => (
     <div className="mb-4 flex-col flex">
       <Label htmlFor={id}  className="mb-2 block text-sm font-medium text-gray-700 ">{label}</Label>
@@ -107,7 +121,19 @@ const AddressSection = ({
 
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
-  
+
+    const [formIsValid, setFormIsValid] = React.useState(true); 
+    const [formFields, setFormFields] = React.useState<FormFields>({
+        description: "",
+        packageWidth: 0,
+        packageHeight: 0,
+        packageDepth: 0,
+        packageWeight: 0,
+        // Initialize other fields
+    });
+    
+    const [formErrors, setFormErrors] = React.useState<FormErrors>({});
+
     const [description, setDescription] = React.useState("");
     const [packageWidth, setPackageWidth] = React.useState(0);
     const [packageHeight, setPackageHeight] = React.useState(0);
@@ -140,8 +166,34 @@ export default function CreateInquiry() {
   
     const [inquiryLoading, setInquiryLoading] = React.useState(false);
 
+    const validateForm = () => {
+        const errors: FormErrors = {};
+
+        if (!formFields.description) {
+          errors.description = "Description is required";
+        }
+        // Add your other validation checks here and update the errors object accordingly
+        // For example:
+        if (formFields.packageWidth <= 0) {
+          errors.packageWidth = "Width must be greater than 0";
+        }
+        // Continue for other fields...
+    
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0; 
+      };
+
     const onSubmit = (e: any) => {
       e.preventDefault();
+
+    const isFormValid = validateForm();
+    setFormIsValid(isFormValid);
+
+    if (!isFormValid) {
+        return;
+    }
+
+
       if (inquiryLoading) return;
       setError("");
       setSuccess("");
@@ -250,9 +302,12 @@ export default function CreateInquiry() {
 
                 <ShortDescriptionSection description={description} setDescription={setDescription} />
 
-                <SubmitButton inquiryLoading={inquiryLoading} />
+                {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
                 <Alerts error={error} success={success} />
+
+                <SubmitButton inquiryLoading={inquiryLoading} />
+                
                 </div>
 
                 {/* <div className="flex-grow">
