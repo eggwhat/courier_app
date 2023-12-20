@@ -7,7 +7,6 @@ const API_BASE_URL = 'http://localhost:6001';
 
 const api = axios.create({
   baseURL: "http://localhost:5292",
-  // baseURL: "http://localhost:5007",
   withCredentials: true,
 });
 
@@ -22,7 +21,6 @@ api.interceptors.response.use(
   }
 );
 
-// Helper function to get the authorization header
 const getAuthHeader = () => {
   const userInfo = getUserInfo();
   if (!userInfo || !userInfo.accessToken) {
@@ -37,8 +35,6 @@ const getAuthHeader = () => {
 const defaultPageLimit = 10;
 
 export const login = async (email: string, password: string) => {
-  // const response = await api.post('/sign-in', { email, password });
-  // return response.data;
   try {
     const response = await api.post('/identity/sign-in', { email, password });
     const { accessToken, refreshToken, role, expires } = response.data;
