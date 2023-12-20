@@ -43,10 +43,10 @@ extensions:
       - Total-Count
 
   jwt:
-    issuerSigningKey: eiquief5phee9pazo0Faegaez9gohThailiur5woy2befiech1oarai4aiLi6ahVecah3ie9Aiz6Peij
+    issuerSigningKey: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODYwMTg3NSwiaWF0IjoxNjk4NjAxODc1fQ.nxJlaEy9xNO4noVh84qD9BSoLvjq1xu4LGhwBaEF9Ec
     validIssuer: swiftparcel
     validateAudience: false
-    validateIssuer: true
+    validateIssuer: false
     validateLifetime: true
 
   swagger:
@@ -137,7 +137,7 @@ modules:
         downstream: identity-service/users/{userId}
         auth: true
         claims:
-          role: admin
+          role: courier
     
       - upstream: /me
         method: GET

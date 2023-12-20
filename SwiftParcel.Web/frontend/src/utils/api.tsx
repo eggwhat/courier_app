@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUserInfo, saveUserInfo } from "./storage";
+import { getUserIdFromStorage, getUserInfo, saveUserInfo } from "./storage";
 
 
 const API_BASE_URL = 'http://localhost:6001';
@@ -24,9 +24,14 @@ api.interceptors.response.use(
 
 // Helper function to get the authorization header
 const getAuthHeader = () => {
-  const token = getUserInfo()?.token;
-  if (!token) throw new Error('No token found');
-  return { Authorization: `Bearer ${token}` };
+  const userInfo = getUserInfo();
+  if (!userInfo || !userInfo.accessToken) {
+    console.warn('No user token found. Redirecting to login.');
+    window.location.href = '/login';
+    return null;
+  }
+  console.log({Authorization: `Bearer ${userInfo.accessToken}`})
+  return { Authorization: `Bearer ${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
@@ -85,24 +90,29 @@ export const logout = async () => {
 };
 
 export const getProfile = async () => {
-  // const token = getUserInfo()?.token;
-  // if (!token) return Promise.reject();
+  try {
+    const headers = getAuthHeader();
+    const userId = getUserIdFromStorage(); 
+    if (!userId) {
+      throw new Error('User ID not found');
+    }
 
-  // const res = await api.get("/auth/me", {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-
-  // if (res.status === 401) {
-  //   // saveUserInfo(null);
-  //   return Promise.reject();
-  // }
-
-  // return res;
-  const response = await api.get("/me", { headers: getAuthHeader() });
-  return response.data;
+    const response = await api.get(`/users/${userId}`, { headers });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching profile:', error.response?.data || error.message);
+      if (error.response?.status === 401) {
+        saveUserInfo(null);
+        window.location.href = '/login';
+      }
+    } else {
+      console.error('Error fetching profile:', error);
+    }
+    throw error;
+  }
 };
+
 
 export const getUsers = async (
   page: number,

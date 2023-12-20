@@ -18,6 +18,8 @@ export function Header(props: {
 
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = React.useState<any>(null);
+  
   const [userToken, setUserToken] = React.useState<any>(false);
   const [isCourier, setIsCourier] = React.useState<any>(false);
 
@@ -36,6 +38,7 @@ export function Header(props: {
           if (res?.status === 200) {
             const newUserInfo = { ...getUserInfo(), courier: res.data.courier };
             saveUserInfo(newUserInfo);
+            console.log("newUserInfo in header: ", newUserInfo)
             if (res.data.courier) {
               setIsCourier(true);
             }

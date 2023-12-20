@@ -84,8 +84,8 @@ namespace SwiftParcel.Services.Identity.Infrastructure
             builder.Services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "";
-                    options.ClientSecret = "";
+                    options.ClientId = "396949671840-ojodge4lc03jf2jn15kljfi4krpt2c6k.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
 
                 });
 

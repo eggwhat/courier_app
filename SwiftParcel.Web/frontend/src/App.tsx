@@ -50,7 +50,7 @@ export function App() {
           <Route
             path="/deliveries"
             element={
-              <RolesAuthRoute role="Courier">
+              <RolesAuthRoute role="courier">
                 <Deliveries />
               </RolesAuthRoute>
             }
