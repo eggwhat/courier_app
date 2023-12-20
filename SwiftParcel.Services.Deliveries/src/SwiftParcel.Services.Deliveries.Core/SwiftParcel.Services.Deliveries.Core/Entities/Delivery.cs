@@ -52,13 +52,13 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
         }
         public void AssignCourier(DateTime dateTime, Guid courierId)
         {
-            if (CourierId != null)
-            {
-                throw new DeliveryHasAlreadyAssignedCourierException(Id, CourierId.Value);
-            }
             if(Status is not DeliveryStatus.Unassigned)
             {
                 throw new CannotChangeDeliveryStateException(Id, Status, DeliveryStatus.Assigned);
+            }
+            if (CourierId != null)
+            {
+                throw new DeliveryHasAlreadyAssignedCourierException(Id, CourierId.Value);
             }
 
             CourierId = courierId;
