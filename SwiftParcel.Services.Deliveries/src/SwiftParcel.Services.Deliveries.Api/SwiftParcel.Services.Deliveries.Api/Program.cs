@@ -33,9 +33,9 @@ namespace SwiftParcel.Services.Deliveries.Api
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetDelivery, DeliveryDto>("deliveries/{deliveryId}")
                         //.Get<GetDeliveries, IEnumerable<DeliveryDto>>("deliveries")
-                        .Post<StartDelivery>("deliveries",
-                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"deliveries/{cmd.DeliveryId}"))
-                        .Post<AssignCourierToDelivery>("deliveries/{deliveryId}/courier")
+                        .Post<AssignCourierToDelivery>("deliveries/{deliveryId}/courier",
+                            afterDispatch: (cmd, ctx) => ctx.Response.Ok($"deliveries/{cmd.DeliveryId}"))
+                        .Post<PickUpDelivery>("deliveries/{deliveryId}/pick-up")
                         .Post<FailDelivery>("deliveries/{deliveryId}/fail")
                         .Post<CompleteDelivery>("deliveries/{deliveryId}/complete")))
                 .UseLogging()
