@@ -53,7 +53,7 @@ const SubmitButton = ({ inquiryLoading }) => (
 );
 
 const ShortDescriptionSection = ({ description, setDescription }) => (
-    <div>
+    <div className="my-5">
       <Label htmlFor="description">Short Description:</Label>
       <TextInput id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
     </div>
@@ -61,7 +61,7 @@ const ShortDescriptionSection = ({ description, setDescription }) => (
   
 
 const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight }) => (
-    <div className="grid grid-rows-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth} />
       <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight} />
       <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth} />
@@ -199,9 +199,9 @@ export default function CreateInquiry() {
             Please fill all fields below and click blue button located at the bottom of this page.
           </p>
 
-          <form className="flex flex-col gap-6" onSubmit={onSubmit}>
+          <form className="flex flex-col gap-6 px-10" onSubmit={onSubmit}>
 
-            <div className="flex gap-6">
+            <div className=" gap-6">
 
                 <SectionTitle title="Package Details" />
 
