@@ -26,7 +26,7 @@ export function App() {
           <Route
             path="/create-inquiry"
             element={
-              <RolesAuthRoute role="user">
+              <RolesAuthRoute roles={['user', null]}>
                 <CreateInquiry/>
               </RolesAuthRoute>
             }
@@ -34,7 +34,7 @@ export function App() {
           <Route
             path="/inquiries"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={null}>
                 <Inquiries />
               </RolesAuthRoute>
             }
@@ -42,7 +42,7 @@ export function App() {
           <Route
             path="/register"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={null}>
                 <Register />
               </RolesAuthRoute>
             }
@@ -50,7 +50,7 @@ export function App() {
           <Route
             path="/deliveries"
             element={
-              <RolesAuthRoute role="courier">
+              <RolesAuthRoute roles={["courier"]}>
                 <Deliveries />
               </RolesAuthRoute>
             }
@@ -58,7 +58,7 @@ export function App() {
           <Route
             path="/parcels"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={null}>
                 <Parcels />
               </RolesAuthRoute>
             }
@@ -66,7 +66,7 @@ export function App() {
           <Route
             path="/couriers/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageCouriers />
               </RolesAuthRoute>
             }
@@ -74,7 +74,7 @@ export function App() {
           <Route
             path="/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcels />
               </RolesAuthRoute>
             }
@@ -82,7 +82,7 @@ export function App() {
           <Route
             path="/couriers/:courierId/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcelsCourier />
               </RolesAuthRoute>
             }
@@ -90,7 +90,7 @@ export function App() {
           <Route
             path="/cars/:carId/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcelsCar />
               </RolesAuthRoute>
             }
@@ -98,7 +98,7 @@ export function App() {
           <Route
             path="/cars/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageCars />
               </RolesAuthRoute>
             }
