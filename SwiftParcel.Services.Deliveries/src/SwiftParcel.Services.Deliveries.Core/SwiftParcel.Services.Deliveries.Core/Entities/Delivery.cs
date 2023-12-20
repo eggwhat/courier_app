@@ -16,17 +16,19 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
         public bool AtWeekend { get; protected set; }
         public DateTime PickupDate { get; protected set; }
         public DateTime DeliveryDate { get; protected set; }
-        public DateTime DeliveryAttemptDate { get; protected set; }
+        public DateTime? DeliveryAttemptDate { get; protected set; }
         public string CannotDeliverReason { get; protected set; }
         public DateTime LastUpdate { get; protected set; }
 
-        public Delivery(AggregateId id, Guid orderId, DateTime createdAt, DeliveryStatus status, 
+        public Delivery(AggregateId id, Guid orderId, Guid? courierId, DateTime createdAt, DeliveryStatus status, 
             double volume, double weight, Address source, Address destination, Priority priority, 
-            bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
+            bool atWeekend, DateTime pickupDate, DateTime deliveryDate, DateTime? deliveryAttemptDate,
+            string cannotDeliverReason)
         {
             Id = id;
             OrderId = orderId;
-            CourierId = null;
+            LastUpdate = createdAt;
+            CourierId = courierId;
             Status = status;
             Volume = volume;
             Weight = weight;
@@ -36,16 +38,16 @@ namespace SwiftParcel.Services.Deliveries.Core.Entities
             AtWeekend = atWeekend;
             PickupDate = pickupDate;
             DeliveryDate = deliveryDate;
-            CannotDeliverReason = string.Empty;
-            LastUpdate = createdAt;
+            DeliveryAttemptDate = deliveryAttemptDate;
+            CannotDeliverReason = cannotDeliverReason;
         }
 
         public static Delivery Create(AggregateId id, Guid orderId, DateTime updateDateTime, DeliveryStatus status,
             double volume, double weight, Address source, Address destination, Priority priority, 
             bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
         {
-            var delivery = new Delivery(id, orderId, updateDateTime, status, volume, weight, source, destination, 
-                priority, atWeekend, pickupDate, deliveryDate);
+            var delivery = new Delivery(id, orderId, null, updateDateTime, status, volume, weight, source, destination, 
+                priority, atWeekend, pickupDate, deliveryDate, null, null);
             delivery.AddEvent(new DeliveryStateChanged(delivery));
 
             return delivery;
