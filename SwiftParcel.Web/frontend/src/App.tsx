@@ -26,7 +26,7 @@ export function App() {
           <Route
             path="/create-inquiry"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute role="user">
                 <CreateInquiry/>
               </RolesAuthRoute>
             }

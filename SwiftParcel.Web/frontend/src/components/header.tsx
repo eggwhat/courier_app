@@ -20,7 +20,7 @@ export function Header(props: {
 
   const [userInfo, setUserInfo] = React.useState<any>(null);
   const [userEmail, setUserEmail] = useState('');
-  const [isCourier, setIsCourier] = useState(false);
+  const [userRole, setUserRole] = useState('');
   
   const [userToken, setUserToken] = React.useState<any>(false);
 
@@ -38,19 +38,15 @@ export function Header(props: {
         .then((res) => {
           console.log("res", res);
           setUserEmail(res.email);
-          setIsCourier(res.role === "courier");
+          setUserRole(res.role);
 
           if (res?.status === 200) {
            
-            setIsCourier(res.role === "courier");
+          
 
             const newUserInfo = { ...getUserInfo(), courier: res.courier };
             saveUserInfo(newUserInfo);
           
-
-            if (res.courier) {
-              setIsCourier(true);
-            }
           } else {
             throw new Error();
           }
@@ -65,7 +61,7 @@ export function Header(props: {
         });
     } else if (userToken === null) {
       props.setLoading(false);
-      setIsCourier(false);
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userToken]);
@@ -75,6 +71,34 @@ export function Header(props: {
     setUserToken(null);
     localStorage.removeItem("parcelId");
     navigate("/");
+  };
+
+
+  const renderNavLinks = () => {
+    switch (userRole) {
+      case 'courier':
+        return (
+          <>
+            <AppNavLink to="/inquiries" text="Inquiries" />
+            <AppNavLink to="/offers" text="Offer Requests" />
+            <AppNavLink to="/sent-data" text="Sent Data" />
+            <AppNavLink to="/pending-offers" text="Pending Offers" />
+          </>
+        );
+      case 'officeWorker':
+        return (
+          <>
+            <AppNavLink to="/bank-inquiries" text="Bank Inquiries" />
+            <AppNavLink to="/bank-offers" text="Bank Offer Requests" />
+            <AppNavLink to="/manage-data" text="Manage Sent Data" />
+          </>
+        );
+      case 'user':
+      default:
+        return (
+          <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+        );
+    }
   };
 
   return (
@@ -115,22 +139,7 @@ export function Header(props: {
         </div>
         <Navbar.Collapse>
           <AppNavLink to="/" text="Track Parcel" />
-          {userToken?.user?.role === "User" ? <></> : null}
-          {isCourier && (
-            <>
-              <AppNavLink to="/inquiries" text="Inquiries" />
-              <AppNavLink to="/offers" text="Offer Requests" />
-              <AppNavLink to="/sent-data" text="Sent Data" />
-              <AppNavLink to="/pending-offers" text="Pending Offers" />
-            </>
-          )}
-          {userToken?.user?.role === "admin" ? (
-            <>
-              <AppNavLink to="/couriers/manage" text="Couriers" />
-              <AppNavLink to="/parcels/manage" text="Parcels" />
-              <AppNavLink to="/cars/manage" text="Cars" />
-            </>
-          ) : null}
+          {renderNavLinks()}
         </Navbar.Collapse>
       </Navbar>
       <LoginModal show={showLoginModal} setShow={setShowLoginModal} />
