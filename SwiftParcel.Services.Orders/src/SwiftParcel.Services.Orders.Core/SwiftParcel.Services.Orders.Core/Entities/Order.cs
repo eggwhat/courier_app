@@ -36,6 +36,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             BuyerName = buyerName;
             CheckBuyerEmail(buyerEmail);
             BuyerEmail = buyerEmail;
+            BuyerAddress = new Address();
             SetAddress(BuyerAddress, buyerAddress.Street, buyerAddress.BuildingNumber, buyerAddress.ApartmentNumber,
                 buyerAddress.City, buyerAddress.ZipCode, buyerAddress.Country);
 

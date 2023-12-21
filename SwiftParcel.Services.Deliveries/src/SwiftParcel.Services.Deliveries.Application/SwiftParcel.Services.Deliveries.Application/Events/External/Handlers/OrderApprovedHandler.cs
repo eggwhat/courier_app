@@ -14,7 +14,8 @@ namespace SwiftParcel.Services.Deliveries.Application.Events.External.Handlers
 
         public async Task HandleAsync(OrderApproved @event)
         {
-            await _commandDispatcher.SendAsync(new StartDelivery(Guid.Empty, @event.OrderId, @event.Volume, 
+            var volume = @event.Width * @event.Height * @event.Depth;
+            await _commandDispatcher.SendAsync(new StartDelivery(Guid.Empty, @event.OrderId, volume, 
             @event.Weight, @event.Source, @event.Destination, @event.Priority, @event.AtWeekend, @event.PickupDate, @event.DeliveryDate));
         }
     }
