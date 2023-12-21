@@ -323,21 +323,43 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}
         auth: true
+        claims:
+          role: courier
+
+      - upstream: /
+        method: GET
+        use: downstream
+        downstream: deliveries-service/deliveries?courierId=@user_id
+        auth: true
+        claims:
+          role: courier
+          
+      - upstream: /
+        method: GET
+        use: downstream
+        downstream: deliveries-service/deliveries/pending
+        auth: true
+        claims:
+          role: courier
     
       - upstream: /
         method: POST
         use: downstream
-        downstream: deliveries-service/deliveries
+        downstream: deliveries-service/deliveries/{deliveryId}/courier
         auth: true
-        resourceId:
-          property: deliveryId
-          generate: true
+        claims:
+          role: courier
+        bind:
+          - courierId:@user_id
+          - deliveryId:{deliveryId}
     
       - upstream: /{deliveryId}/fail
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/fail
         auth: true
+        claims:
+          role: courier
         bind:
           - deliveryId:{deliveryId}
     
@@ -346,16 +368,21 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/complete
         auth: true
+        claims:
+          role: courier
+        bind:
+          - deliveryId:{deliveryId}
+
+      - upstream: /{deliveryId}/pick-up
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}/pick-up
+        auth: true
+        claims:
+          role: courier
         bind:
           - deliveryId:{deliveryId}
     
-      - upstream: /{deliveryId}/registrations
-        method: POST
-        use: downstream
-        downstream: deliveries-service/deliveries/{deliveryId}/registrations
-        auth: true
-        bind:
-          - deliveryId:{deliveryId}
     
     services:
       deliveries-service:
