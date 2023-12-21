@@ -58,7 +58,7 @@ export function App() {
           <Route
             path="/parcels"
             element={
-              <RolesAuthRoute roles={null}>
+              <RolesAuthRoute roles={['officeworker', 'courier']}>
                 <Parcels />
               </RolesAuthRoute>
             }

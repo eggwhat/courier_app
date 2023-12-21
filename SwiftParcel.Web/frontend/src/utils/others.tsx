@@ -2,8 +2,6 @@ import { Fragment, ReactNode } from "react";
 import { getUserInfo } from "./storage";
 import { Navigate } from "react-router-dom";
 
-
-
 export function RolesAuthRoute({children, roles,}: {
   children: ReactNode;
   roles: (string | null)[];
@@ -11,16 +9,14 @@ export function RolesAuthRoute({children, roles,}: {
   const userInfo = getUserInfo();
   console.log("UserInfo: ", userInfo)
 
-  console.log("Required role: ", roles); // Log the required role
-  console.log("User's role: ", userInfo?.role); // Log the user's actual role
-
+  console.log("Required role: ", roles);
+  console.log("User's role: ", userInfo?.role); 
 
   const allowed = roles.includes(userInfo?.role) || (roles.includes(null) && !userInfo);
 
   if (allowed) {
     return <Fragment>{children}</Fragment>;
   }
-
 
   if (allowed) {
     return <Fragment>{children}</Fragment>;

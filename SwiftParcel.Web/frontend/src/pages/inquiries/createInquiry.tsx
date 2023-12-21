@@ -32,7 +32,7 @@ type FormErrors = {
     [K in keyof FormFields]?: string;
 };
 
-const TextInputWithLabel = ({ id, label, value, onChange, error }) => (
+const TextInputWithLabel = ({ id, label, value, onChange, type = "text",  error }) => (
     <div className="mb-4 flex flex-col">
       <Label htmlFor={id} className="mb-2 block text-sm font-medium text-gray-700">{label}</Label>
       <TextInput 
@@ -87,10 +87,10 @@ const ShortDescriptionSection = ({ description, setDescription }) => (
 
 const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth} error={errors.packageWidth}/>
-      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight} error={errors.packageHeight}/>
-      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth} error={errors.packageDepth}/>
-      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight} error={errors.packageWeight}/>
+      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth}  type="number" error={errors.packageWidth}/>
+      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight}  type="number" error={errors.packageHeight}/>
+      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth}  type="number" error={errors.packageDepth}/>
+      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight}  type="number" error={errors.packageWeight}/>
     </div>
 );
 
@@ -99,6 +99,61 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
       <DateInputWithLabel id="pickup-date" label="Pickup Date" value={pickupDate} onChange={setPickupDate} />
       <DateInputWithLabel id="delivery-date" label="Delivery Date" value={deliveryDate} onChange={setDeliveryDate} />
       {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
+
+      <div className="col-span-2 grid grid-cols-4 gap-4">
+      <div>
+        <Label htmlFor="priority">Priority</Label>
+        <select 
+          id="priority"
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+          <option value="low">Low</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+
+      <div>
+        <Label htmlFor="at-weekend">Delivery at Weekend</Label>
+        <select
+          id="at-weekend"
+          value={atWeekend}
+          onChange={(e) => setAtWeekend(stringToBoolean(e.target.value))}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+
+      <div>
+        <Label htmlFor="is-company">Created by Company</Label>
+        <select
+          id="is-company"
+          value={isCompany}
+          onChange={(e) => setIsCompany(stringToBoolean(e.target.value))}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+
+      <div>
+        <Label htmlFor="vip-package">VIP Delivery</Label>
+        <select
+          id="vip-package"
+          value={vipPackage}
+          onChange={(e) => setVipPackage(stringToBoolean(e.target.value))}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+    </div>
+
     </div>
 );
   
@@ -113,21 +168,52 @@ const AddressSection = ({
     errors
 }) => (
     <div className="grid grid-cols-2 gap-4">
-        <TextInputWithLabel id={`${prefix}-address-street`} label="Street" value={street} onChange={e => setStreet(e.target.value)} error={errors?.sourceAddressStreet}/>
-        <TextInputWithLabel id={`${prefix}-address-building-number`} label="Building Number" value={buildingNumber} onChange={e => setBuildingNumber(e.target.value)} error={errors?.buildingNumber}/>
-        <TextInputWithLabel id={`${prefix}-address-apartment-number`} label="Apartment Number (optional)" value={apartmentNumber} onChange={e => setApartmentNumber(e.target.value)} error={errors.appartmentNumber}/>
-        <TextInputWithLabel id={`${prefix}-address-city`} label="City" value={city} onChange={e => setCity(e.target.value)} error={errors.city}/>
-        <TextInputWithLabel id={`${prefix}-address-zip-code`} label="Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} error={errors.city}/>
-        <TextInputWithLabel id={`${prefix}-address-country`} label="Country" value={country} onChange={e => setCountry(e.target.value)} error={errors.country}/>
+        <TextInputWithLabel 
+            id={`${prefix}-address-street`} 
+            label="Street" 
+            value={street} 
+            onChange={setStreet} 
+            error={errors?.sourceAddressStreet}
+        />
+        <TextInputWithLabel 
+            id={`${prefix}-address-building-number`} 
+            label="Building Number" 
+            value={buildingNumber} 
+            onChange={setBuildingNumber} 
+            error={errors?.buildingNumber}
+        />
+        <TextInputWithLabel 
+            id={`${prefix}-address-apartment-number`} 
+            label="Apartment Number (optional)" 
+            value={apartmentNumber} 
+            onChange={setApartmentNumber} 
+            error={errors?.apartmentNumber}
+        />
+        <TextInputWithLabel 
+            id={`${prefix}-address-city`} 
+            label="City" 
+            value={city} 
+            onChange={setCity} 
+            error={errors?.city}
+        />
+        <TextInputWithLabel 
+            id={`${prefix}-address-zip-code`} 
+            label="Zip Code" 
+            value={zipCode} 
+            onChange={setZipCode} 
+            error={errors?.zipCode}
+        />
+        <TextInputWithLabel 
+            id={`${prefix}-address-country`} 
+            label="Country" 
+            value={country} 
+            onChange={setCountry} 
+            error={errors?.country}
+        />
     </div>
 );
 
 
-  
-  
-  
-
-  
 
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
@@ -140,7 +226,7 @@ export default function CreateInquiry() {
         packageDepth: 0,
         packageWeight: 0,
         sourceAddressStreet: "",
-        destinationAddress: ""
+        destinationAddress: "",
         // Initialize other fields
     });
     
@@ -181,14 +267,14 @@ export default function CreateInquiry() {
     const validateForm = () => {
         const errors: FormErrors = {};
 
-        if (!formFields.description) {
-          errors.description = "Description is required";
-        }
+        // if (!formFields.description) {
+        //   errors.description = "Description is required";
+        // }
         // Add your other validation checks here and update the errors object accordingly
         // For example:
-        if (formFields.packageWidth <= 0) {
-          errors.packageWidth = "Width must be greater than 0";
-        }
+        // if (formFields.packageWidth <= 0) {
+        //   errors.packageWidth = "Width must be greater than 0";
+        // }
         // Continue for other fields...
     
         setFormErrors(errors);
@@ -275,6 +361,7 @@ export default function CreateInquiry() {
 
 
                 <SectionTitle title="Source Address" />
+
                 <AddressSection 
                     prefix="source" 
                     street={sourceAddressStreet} 

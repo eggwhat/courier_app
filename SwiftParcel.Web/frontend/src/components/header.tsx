@@ -89,7 +89,7 @@ export function Header(props: {
         return (
           <>
             <AppNavLink to="/inquiries" text="Bank Inquiries" />
-            <AppNavLink to="/bank-offers" text="Bank Offer Requests" />
+            <AppNavLink to="/parcels" text="Bank Offer Requests" />
             <AppNavLink to="/manage-data" text="Manage Sent Data" />
           </>
         );
