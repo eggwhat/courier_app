@@ -56,7 +56,7 @@ const TextInputWithLabel = ({ id, label, value, onChange, type = "text",  error 
         id={id} 
         type="text" 
         value={value} 
-        onChange={(e) => onChange(e.target.value)} 
+        onChange={(e) => onChange(e)}
         className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md ${error ? 'border-red-500' : ''}`}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
@@ -102,12 +102,12 @@ const ShortDescriptionSection = ({ description, setDescription }) => (
 );
   
 
-const PackageDetailsSection = ({ formFields, onChangeWidth, onChangeHeight, onChangeDepth, onChangeWeight, errors }) => (
+const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={formFields.packageWidth} onChange={onChangeWidth} type="number" error={errors.packageWidth}/>
-      <TextInputWithLabel id="package-height" label="Height" value={formFields.packageHeight} onChange={onChangeHeight}  type="number" error={errors.packageHeight}/>
-      <TextInputWithLabel id="package-depth" label="Depth" value={formFields.packageDepth} onChange={onChangeDepth}  type="number" error={errors.packageDepth}/>
-      <TextInputWithLabel id="package-weight" label="Weight" value={formFields.packageWeight} onChange={onChangeWeight}  type="number" error={errors.packageWeight}/>
+      <TextInputWithLabel id="package-width" label="Width" value={formFields.packageWidth} onChange={handleNumberChange('packageWidth')} type="number" error={errors.packageWidth}/>
+      <TextInputWithLabel id="package-height" label="Height" value={formFields.packageHeight} onChange={handleNumberChange('packageHeight')}  type="number" error={errors.packageHeight}/>
+      <TextInputWithLabel id="package-depth" label="Depth" value={formFields.packageDepth} onChange={handleNumberChange('packageDepth')}  type="number" error={errors.packageDepth}/>
+      <TextInputWithLabel id="package-weight" label="Weight" value={formFields.packageWeight} onChange={handleNumberChange('packageWeight')}  type="number" error={errors.packageWeight}/>
     </div>
 );
 
@@ -264,35 +264,19 @@ export default function CreateInquiry() {
         vipPackage: false
     });
     
-    const onChangeWidth = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newPackageWidth = parseFloat(event.target.value);
+    const handleNumberChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = parseFloat(event.target.value);
         setFormFields(prevState => ({
             ...prevState,
-            packageWidth: isNaN(newPackageWidth) ? 0 : newPackageWidth
+            [field]: isNaN(newValue) ? 0 : newValue
         }));
     };
 
-    const onChangeHeight = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newPackageWidth = parseFloat(event.target.value);
+    const handleStringChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
         setFormFields(prevState => ({
             ...prevState,
-            packageHeight: isNaN(newPackageWidth) ? 0 : newPackageWidth
-        }));
-    };
-
-    const onChangeDepth = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newPackageWidth = parseFloat(event.target.value);
-        setFormFields(prevState => ({
-            ...prevState,
-            packageDepth: isNaN(newPackageWidth) ? 0 : newPackageWidth
-        }));
-    };
-
-    const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newPackageWidth = parseFloat(event.target.value);
-        setFormFields(prevState => ({
-            ...prevState,
-            packageWeight: isNaN(newPackageWidth) ? 0 : newPackageWidth
+            [field]: newValue
         }));
     };
 
@@ -301,32 +285,32 @@ export default function CreateInquiry() {
     const [offers, setOffers] = React.useState(null);
     const [showOffers, setShowOffers] = React.useState(false); // New state to control display
 
-    // const [description, setDescription] = React.useState("");
+    const [description, setDescription] = React.useState("");
     // const [packageWidth, setPackageWidth] = React.useState(0);
     // const [packageHeight, setPackageHeight] = React.useState(0);
     // const [packageDepth, setPackageDepth] = React.useState(0);
     // const [packageWeight, setPackageWeight] = React.useState(0);
 
-    // const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
-    // const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
-    // const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
-    // const [sourceAddressCity, setSourceAddressCity] = React.useState("");
-    // const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
-    // const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
+    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
+    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
+    const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
+    const [sourceAddressCity, setSourceAddressCity] = React.useState("");
+    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
+    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
 
-    // const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
-    // const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
-    // const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
-    // const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
-    // const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
-    // const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
+    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
+    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
+    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
+    const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
+    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
+    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
 
-    // const [pickupDate, setPickupDate] = React.useState("");
-    // const [deliveryDate, setDeliveryDate] = React.useState("");
-    // const [priority, setPriority] = React.useState("low");
-    // const [atWeekend, setAtWeekend] = React.useState(false);
-    // const [isCompany, setIsCompany] = React.useState(false);
-    // const [vipPackage, setVipPackage] = React.useState(false);
+    const [pickupDate, setPickupDate] = React.useState("");
+    const [deliveryDate, setDeliveryDate] = React.useState("");
+    const [priority, setPriority] = React.useState("low");
+    const [atWeekend, setAtWeekend] = React.useState(false);
+    const [isCompany, setIsCompany] = React.useState(false);
+    const [vipPackage, setVipPackage] = React.useState(false);
   
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
@@ -456,7 +440,7 @@ export default function CreateInquiry() {
 
                 <SectionTitle title="Package Details" />
 
-                <PackageDetailsSection {...{ formFields, onChangeWidth, onChangeHeight, onChangeDepth, onChangeWeight, errors: formErrors }} />
+                <PackageDetailsSection {...{ formFields, handleNumberChange, errors: formErrors }} />
                 
                 <SectionTitle title="Source Address" />
 
