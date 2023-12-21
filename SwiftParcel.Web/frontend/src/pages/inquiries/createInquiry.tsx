@@ -14,8 +14,10 @@ import {
   import { createInquiry, register } from "../../utils/api";
 import stringToBoolean from "../../components/parsing/stringToBoolean";
 import booleanToString from "../../components/parsing/booleanToString";
+import { CourierOffers } from "../couriers/courierOffers";
 
 
+ // TODO: add this interface 
 type FormFields = {
     description: string;
     packageWidth: number;
@@ -218,7 +220,10 @@ const AddressSection = ({
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
 
+     // TODO: implement the form validators
     const [formIsValid, setFormIsValid] = React.useState(true); 
+
+    // TODO: implement the form fields
     const [formFields, setFormFields] = React.useState<FormFields>({
         description: "",
         packageWidth: 0,
@@ -231,6 +236,9 @@ export default function CreateInquiry() {
     });
     
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
+
+    const [offers, setOffers] = React.useState(null);
+    const [showOffers, setShowOffers] = React.useState(false); // New state to control display
 
     const [description, setDescription] = React.useState("");
     const [packageWidth, setPackageWidth] = React.useState(0);
@@ -264,6 +272,7 @@ export default function CreateInquiry() {
   
     const [inquiryLoading, setInquiryLoading] = React.useState(false);
 
+     // TODO: implement the form validator
     const validateForm = () => {
         const errors: FormErrors = {};
 
@@ -281,15 +290,21 @@ export default function CreateInquiry() {
         return Object.keys(errors).length === 0; 
       };
 
+    const handleSelectOffer = (offer) => {
+        // Logic to proceed with the selected offer
+        console.log("Selected Offer: ", offer);
+        // Additional logic here
+    };
+
     const onSubmit = (e: any) => {
       e.preventDefault();
 
-    const isFormValid = validateForm();
-    setFormIsValid(isFormValid);
+      const isFormValid = validateForm();
+      setFormIsValid(isFormValid);
 
-    if (!isFormValid) {
-        return;
-    }
+      if (!isFormValid) {
+         return;
+      }
 
 
       if (inquiryLoading) return;
@@ -303,10 +318,8 @@ export default function CreateInquiry() {
         destinationAddressStreet, destinationAddressBuildingNumber, destinationAddressApartmentNumber,
         destinationAddressCity, destinationAddressZipCode, destinationAddressCountry, priority, atWeekend,
         `${pickupDate}T00:00:00.000Z`, `${deliveryDate}T00:00:00.000Z`, isCompany, vipPackage)
-        .then((res) => {
-          setSuccess(
-            res?.data?.message || "Inquiry created successfully!"
-          );
+        .then(({ inquiry, offers }) => {
+          setSuccess("Inquiry created successfully!");
           setDescription("");
           setPackageWidth(0);
           setPackageHeight(0);
@@ -330,7 +343,19 @@ export default function CreateInquiry() {
           setAtWeekend(false);
           setIsCompany(false);
           setVipPackage(false);
+
+
+          setOffers(offers);
+          if (offers && offers.length > 0) {
+            setShowOffers(true); // Show offers if available
+          } else {
+            setShowOffers(false); // Hide offers if none are available
+          }
+          if (offers) {
+            // TODO: Implement logic to display the offers
+          }
         })
+
         .catch((err) => {
           setError(err?.response?.data?.message || "Something went wrong!");
         })
@@ -340,8 +365,17 @@ export default function CreateInquiry() {
     };
   
     return (
+
+        
       <>
         {loading ? <Loader /> : null}
+
+        {showOffers ? (
+          <>
+            <h2 className="text-2xl font-bold mb-4">Select a Courier Offer</h2>
+            <CourierOffers offers={offers} onSelectOffer={handleSelectOffer} />
+          </>
+        ) : (
         <div className="container mx-auto px-4">
           <Header loading={loading} setLoading={setLoading} />
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
@@ -358,8 +392,7 @@ export default function CreateInquiry() {
                 <SectionTitle title="Package Details" />
 
                 <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors: formErrors }} />
-
-
+                
                 <SectionTitle title="Source Address" />
 
                 <AddressSection 
@@ -772,11 +805,15 @@ export default function CreateInquiry() {
               <span>
                 <span className="font-bold">Success!</span> {success}
               </span>
+
+              <CourierOffers offers={offers} onSelectOffer={handleSelectOffer} />
             </Alert>
           ) : null}
           <Footer />
         </div>
+        )}
       </>
+    
     );
   }
   

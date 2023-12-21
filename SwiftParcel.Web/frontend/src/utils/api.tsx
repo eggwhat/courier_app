@@ -147,7 +147,7 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-    const response = await api.post(`/parcels`, {
+    const inquiryResponse = await api.post(`/parcels-service/parcels`, {
       description,
       width,
       height,
@@ -171,15 +171,34 @@ export const createInquiry = async (
       deliveryDate,
       isCompany,
       vipPackage
-    });
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Error during inquiry creation (Axios error):', error.response?.data || error.message);
-    } else {
-      console.error('Error during inquiry creation:', error);
+    }, {
+      headers: getAuthHeader()});
+
+    // return response.data;
+
+    try {
+      const offerResponse = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          api.get(`deliveries-service/deliveries`, { params: { parcelId: inquiryResponse.data.parcelId } })
+            .then(resolve)
+            .catch(reject);
+        }, 30000); // Wait for 30 seconds
+      });
+
+      return { inquiry: inquiryResponse, offers: offerResponse };
+    } catch (offerError) {
+      console.error('Error fetching courier offers:', offerError);
+      // Return the inquiry response even if fetching offers fails
+      return { inquiry: inquiryResponse.data, offers: null };
     }
-    throw error;
+
+  } catch (inquiryError) {
+    if (axios.isAxiosError(inquiryError)) {
+      console.error('Error during inquiry creation (Axios error):', inquiryError.response?.data || inquiryError.message);
+    } else {
+      console.error('Error during inquiry creation:', inquiryError);
+    }
+    throw inquiryError;
   }
 };
 
