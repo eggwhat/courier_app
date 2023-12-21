@@ -8,7 +8,9 @@ namespace SwiftParcel.Services.Deliveries.Application.Events.External
     public class OrderApproved: IEvent
     {
         public Guid OrderId { get; set; }
-        public double Volume { get; set; }
+        public double Width { get; protected set; }
+        public double Height { get; protected set; }
+        public double Depth { get; protected set; }
         public double Weight { get; set; }
         public Address Source { get; set; }
         public Address Destination { get; set; }
@@ -16,11 +18,13 @@ namespace SwiftParcel.Services.Deliveries.Application.Events.External
         public bool AtWeekend { get; set; }
         public DateTime PickupDate { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public OrderApproved(Guid orderId, double volume, double weight, Address source, 
+        public OrderApproved(Guid orderId, double width, double height, double depth, double weight, Address source, 
             Address destination, Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
         {
             OrderId = orderId;
-            Volume = volume;
+            Width = width;
+            Height = height;
+            Depth = depth;
             Weight = weight;
             Source = source;
             Destination = destination;
