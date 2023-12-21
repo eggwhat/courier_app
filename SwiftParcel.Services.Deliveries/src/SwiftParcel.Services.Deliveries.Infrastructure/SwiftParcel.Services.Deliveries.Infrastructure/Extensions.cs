@@ -39,6 +39,7 @@ using SwiftParcel.Services.Deliveries.Infrastructure.Logging;
 using SwiftParcel.Services.Deliveries.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Deliveries.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Deliveries.Infrastructure.Services;
+using SwiftParcel.Services.Deliveries.Application.Events.External;
 
 namespace SwiftParcel.Services.Deliveries.Infrastructure
 {
@@ -85,9 +86,11 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure
                 .UseMetrics()
                 .UseRabbitMq()
                 .SubscribeCommand<StartDelivery>()
+                .SubscribeCommand<AssignCourierToDelivery>()
+                .SubscribeCommand<PickUpDelivery>()
                 .SubscribeCommand<CompleteDelivery>()
                 .SubscribeCommand<FailDelivery>()
-                .SubscribeCommand<AddDeliveryRegistration>();
+                .SubscribeEvent<OrderApproved>();
 
             return app;
         }

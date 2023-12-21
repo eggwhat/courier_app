@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Convey.MessageBrokers;
 using Convey.CQRS.Events;
-using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Deliveries.Core.Entities;
 
-namespace SwiftParcel.Services.Orders.Application.Events
+namespace SwiftParcel.Services.Deliveries.Application.Events.External
 {
-    public class OrderApproved : IEvent
+    [Message("orders")]
+    public class OrderApproved: IEvent
     {
         public Guid OrderId { get; set; }
         public double Width { get; protected set; }
