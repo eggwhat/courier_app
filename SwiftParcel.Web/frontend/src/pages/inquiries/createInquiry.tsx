@@ -102,12 +102,12 @@ const ShortDescriptionSection = ({ description, setDescription }) => (
 );
   
 
-const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors }) => (
+const PackageDetailsSection = ({ formFields, onChangeWidth, onChangeHeight, onChangeDepth, onChangeWeight, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth}  type="number" error={errors.packageWidth}/>
-      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight}  type="number" error={errors.packageHeight}/>
-      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth}  type="number" error={errors.packageDepth}/>
-      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight}  type="number" error={errors.packageWeight}/>
+      <TextInputWithLabel id="package-width" label="Width" value={formFields.packageWidth} onChange={onChangeWidth} type="number" error={errors.packageWidth}/>
+      <TextInputWithLabel id="package-height" label="Height" value={formFields.packageHeight} onChange={onChangeHeight}  type="number" error={errors.packageHeight}/>
+      <TextInputWithLabel id="package-depth" label="Depth" value={formFields.packageDepth} onChange={onChangeDepth}  type="number" error={errors.packageDepth}/>
+      <TextInputWithLabel id="package-weight" label="Weight" value={formFields.packageWeight} onChange={onChangeWeight}  type="number" error={errors.packageWeight}/>
     </div>
 );
 
@@ -115,7 +115,6 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
     <div className="grid grid-cols-2 gap-4">
       <DateInputWithLabel id="pickup-date" label="Pickup Date" value={pickupDate} onChange={setPickupDate} />
       <DateInputWithLabel id="delivery-date" label="Delivery Date" value={deliveryDate} onChange={setDeliveryDate} />
-      {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
 
       <div className="col-span-2 grid grid-cols-4 gap-4">
       <div>
@@ -265,37 +264,69 @@ export default function CreateInquiry() {
         vipPackage: false
     });
     
+    const onChangeWidth = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPackageWidth = parseFloat(event.target.value);
+        setFormFields(prevState => ({
+            ...prevState,
+            packageWidth: isNaN(newPackageWidth) ? 0 : newPackageWidth
+        }));
+    };
+
+    const onChangeHeight = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPackageWidth = parseFloat(event.target.value);
+        setFormFields(prevState => ({
+            ...prevState,
+            packageHeight: isNaN(newPackageWidth) ? 0 : newPackageWidth
+        }));
+    };
+
+    const onChangeDepth = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPackageWidth = parseFloat(event.target.value);
+        setFormFields(prevState => ({
+            ...prevState,
+            packageDepth: isNaN(newPackageWidth) ? 0 : newPackageWidth
+        }));
+    };
+
+    const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPackageWidth = parseFloat(event.target.value);
+        setFormFields(prevState => ({
+            ...prevState,
+            packageWeight: isNaN(newPackageWidth) ? 0 : newPackageWidth
+        }));
+    };
+
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
 
     const [offers, setOffers] = React.useState(null);
     const [showOffers, setShowOffers] = React.useState(false); // New state to control display
 
-    const [description, setDescription] = React.useState("");
-    const [packageWidth, setPackageWidth] = React.useState(0);
-    const [packageHeight, setPackageHeight] = React.useState(0);
-    const [packageDepth, setPackageDepth] = React.useState(0);
-    const [packageWeight, setPackageWeight] = React.useState(0);
+    // const [description, setDescription] = React.useState("");
+    // const [packageWidth, setPackageWidth] = React.useState(0);
+    // const [packageHeight, setPackageHeight] = React.useState(0);
+    // const [packageDepth, setPackageDepth] = React.useState(0);
+    // const [packageWeight, setPackageWeight] = React.useState(0);
 
-    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
-    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
-    const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
-    const [sourceAddressCity, setSourceAddressCity] = React.useState("");
-    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
-    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
+    // const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
+    // const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
+    // const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
+    // const [sourceAddressCity, setSourceAddressCity] = React.useState("");
+    // const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
+    // const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
 
-    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
-    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
-    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
-    const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
-    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
-    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
+    // const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
+    // const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
+    // const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
+    // const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
+    // const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
+    // const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
 
-    const [pickupDate, setPickupDate] = React.useState("");
-    const [deliveryDate, setDeliveryDate] = React.useState("");
-    const [priority, setPriority] = React.useState("low");
-    const [atWeekend, setAtWeekend] = React.useState(false);
-    const [isCompany, setIsCompany] = React.useState(false);
-    const [vipPackage, setVipPackage] = React.useState(false);
+    // const [pickupDate, setPickupDate] = React.useState("");
+    // const [deliveryDate, setDeliveryDate] = React.useState("");
+    // const [priority, setPriority] = React.useState("low");
+    // const [atWeekend, setAtWeekend] = React.useState(false);
+    // const [isCompany, setIsCompany] = React.useState(false);
+    // const [vipPackage, setVipPackage] = React.useState(false);
   
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
@@ -342,39 +373,43 @@ export default function CreateInquiry() {
       setSuccess("");
       setInquiryLoading(true);
   
-      createInquiry(description, packageWidth, packageHeight, packageDepth, packageWeight,
-        sourceAddressStreet, sourceAddressBuildingNumber, sourceAddressApartmentNumber,
-        sourceAddressCity, sourceAddressZipCode, sourceAddressCountry,
-        destinationAddressStreet, destinationAddressBuildingNumber, destinationAddressApartmentNumber,
-        destinationAddressCity, destinationAddressZipCode, destinationAddressCountry, priority, atWeekend,
-        `${pickupDate}T00:00:00.000Z`, `${deliveryDate}T00:00:00.000Z`, isCompany, vipPackage)
+      createInquiry(formFields.description, formFields.packageWidth, formFields.packageHeight, formFields.packageDepth,
+        formFields.packageWeight, formFields.sourceAddressStreet, formFields.sourceAddressBuildingNumber,
+        formFields.sourceAddressApartmentNumber, formFields.sourceAddressCity, formFields.sourceAddressZipCode,
+        formFields.sourceAddressCountry, formFields.destinationAddressStreet, formFields.destinationAddressBuildingNumber,
+        formFields.destinationAddressApartmentNumber, formFields.destinationAddressCity, formFields.destinationAddressZipCode,
+        formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, `${formFields.pickupDate}T00:00:00.000Z`,
+        `${formFields.deliveryDate}T00:00:00.000Z`, formFields.isCompany, formFields.vipPackage)
         .then(({ inquiry, offers }) => {
           setSuccess("Inquiry created successfully!");
-          setDescription("");
-          setPackageWidth(0);
-          setPackageHeight(0);
-          setPackageDepth(0);
-          setPackageWeight(0);
-          setSourceAddressCity("");
-          setSourceAddressBuildingNumber("");
-          setSourceAddressApartmentNumber("");
-          setSourceAddressCity("");
-          setSourceAddressZipCode("");
-          setSourceAddressCountry("");
-          setDestinationAddressCity("");
-          setDestinationAddressBuildingNumber("");
-          setDestinationAddressApartmentNumber("");
-          setDestinationAddressCity("");
-          setDestinationAddressZipCode("");
-          setDestinationAddressCountry("");
-          setPickupDate("");
-          setDeliveryDate("");
-          setPriority("low");
-          setAtWeekend(false);
-          setIsCompany(false);
-          setVipPackage(false);
+          setFormFields(
+          {
+            description: "",
+            packageWidth: 0,
+            packageHeight: 0,
+            packageDepth: 0,
+            packageWeight: 0,
+            sourceAddressStreet: "",
+            sourceAddressBuildingNumber: "",
+            sourceAddressApartmentNumber: "",
+            sourceAddressCity: "",
+            sourceAddressZipCode: "",
+            sourceAddressCountry: "",
+            destinationAddressStreet: "",
+            destinationAddressBuildingNumber: "",
+            destinationAddressApartmentNumber: "",
+            destinationAddressCity: "",
+            destinationAddressZipCode: "",
+            destinationAddressCountry: "",
+            pickupDate: "",
+            deliveryDate: "",
+            priority: "low",
+            atWeekend: false,
+            isCompany: false,
+            vipPackage: false
+        });
 
-          console.log("pickupDate: ", pickupDate)
+          console.log("pickupDate: ", formFields.pickupDate)
           setOffers(offers);
           if (offers && offers.length > 0) {
             setShowOffers(true); // Show offers if available
@@ -421,13 +456,13 @@ export default function CreateInquiry() {
 
                 <SectionTitle title="Package Details" />
 
-                <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors: formErrors }} />
+                <PackageDetailsSection {...{ formFields, onChangeWidth, onChangeHeight, onChangeDepth, onChangeWeight, errors: formErrors }} />
                 
                 <SectionTitle title="Source Address" />
 
                 <AddressSection 
                     prefix="source" 
-                    street={sourceAddressStreet} 
+                    street={formFields.sourceAddressStreet} 
                     setStreet={setSourceAddressStreet}
                     buildingNumber={sourceAddressBuildingNumber} 
                     setBuildingNumber={setSourceAddressBuildingNumber}
