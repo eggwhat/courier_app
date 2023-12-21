@@ -25,8 +25,23 @@ type FormFields = {
     packageDepth: number;
     packageWeight: number;
     sourceAddressStreet: string;
-    destinationAddress: string;
-    // Add other fields
+    sourceAddressBuildingNumber: string;
+    sourceAddressApartmentNumber: string;
+    sourceAddressCity: string;
+    sourceAddressZipCode: string;
+    sourceAddressCountry: string;
+    destinationAddressStreet: string;
+    destinationAddressBuildingNumber: string;
+    destinationAddressApartmentNumber: string;
+    destinationAddressCity: string;
+    destinationAddressZipCode: string;
+    destinationAddressCountry: string;
+    pickupDate: string;
+    deliveryDate: string;
+    priority: string;
+    atWeekend: boolean;
+    isCompany: boolean;
+    vipPackage: boolean;
 };
   
 
@@ -231,8 +246,23 @@ export default function CreateInquiry() {
         packageDepth: 0,
         packageWeight: 0,
         sourceAddressStreet: "",
-        destinationAddress: "",
-        // Initialize other fields
+        sourceAddressBuildingNumber: "",
+        sourceAddressApartmentNumber: "",
+        sourceAddressCity: "",
+        sourceAddressZipCode: "",
+        sourceAddressCountry: "",
+        destinationAddressStreet: "",
+        destinationAddressBuildingNumber: "",
+        destinationAddressApartmentNumber: "",
+        destinationAddressCity: "",
+        destinationAddressZipCode: "",
+        destinationAddressCountry: "",
+        pickupDate: "",
+        deliveryDate: "",
+        priority: "low",
+        atWeekend: false,
+        isCompany: false,
+        vipPackage: false
     });
     
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
