@@ -312,3 +312,14 @@ export const getDelivery = async (deliveryId) => {
     throw error;
   }
 };
+
+export const getCarPersonal = {};
+export const deleteCar = {};
+export const getParcels = {};
+export const createCar = {};
+export const updateCar = {};
+export const getCar = {};
+export const getCars = {};
+export const createParcel = {};
+export const getParcelsForCar = {};
+export const getParcelsForCourier = {};
