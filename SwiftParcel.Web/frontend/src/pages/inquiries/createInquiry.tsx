@@ -172,58 +172,49 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
 
     </div>
 );
-  
-const AddressSection = ({
-    prefix,
-    street, setStreet,
-    buildingNumber, setBuildingNumber,
-    apartmentNumber, setApartmentNumber,
-    city, setCity,
-    zipCode, setZipCode,
-    country, setCountry,
-    errors
-}) => (
+
+const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
     <div className="grid grid-cols-2 gap-4">
         <TextInputWithLabel 
             id={`${prefix}-address-street`} 
             label="Street" 
-            value={street} 
-            onChange={setStreet} 
-            error={errors?.sourceAddressStreet}
+            value={formFields[`${prefix}AddressStreet`]} 
+            onChange={handleStringChange(`${prefix}AddressStreet`)} 
+            error={errors?.street}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-building-number`} 
             label="Building Number" 
-            value={buildingNumber} 
-            onChange={setBuildingNumber} 
+            value={formFields[`${prefix}AddressBuildingNumber`]} 
+            onChange={handleStringChange(`${prefix}AddressBuildingNumber`)} 
             error={errors?.buildingNumber}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-apartment-number`} 
             label="Apartment Number (optional)" 
-            value={apartmentNumber} 
-            onChange={setApartmentNumber} 
+            value={formFields[`${prefix}AddressApartmentNumber`]} 
+            onChange={handleStringChange(`${prefix}AddressApartmentNumber`)} 
             error={errors?.apartmentNumber}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-city`} 
             label="City" 
-            value={city} 
-            onChange={setCity} 
+            value={formFields[`${prefix}AddressCity`]} 
+            onChange={handleStringChange(`${prefix}AddressCity`)} 
             error={errors?.city}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-zip-code`} 
             label="Zip Code" 
-            value={zipCode} 
-            onChange={setZipCode} 
+            value={formFields[`${prefix}AddressZipCode`]} 
+            onChange={handleStringChange(`${prefix}AddressZipCode`)} 
             error={errors?.zipCode}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-country`} 
             label="Country" 
-            value={country} 
-            onChange={setCountry} 
+            value={formFields[`${prefix}AddressCountry`]} 
+            onChange={handleStringChange(`${prefix}AddressCountry`)} 
             error={errors?.country}
         />
     </div>
@@ -291,19 +282,19 @@ export default function CreateInquiry() {
     // const [packageDepth, setPackageDepth] = React.useState(0);
     // const [packageWeight, setPackageWeight] = React.useState(0);
 
-    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
-    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
-    const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
-    const [sourceAddressCity, setSourceAddressCity] = React.useState("");
-    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
-    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
+    // const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
+    // const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
+    // const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
+    // const [sourceAddressCity, setSourceAddressCity] = React.useState("");
+    // const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
+    // const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
 
-    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
-    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
-    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
-    const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
-    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
-    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
+    // const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
+    // const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
+    // const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
+    // const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
+    // const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
+    // const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
 
     const [pickupDate, setPickupDate] = React.useState("");
     const [deliveryDate, setDeliveryDate] = React.useState("");
@@ -440,43 +431,25 @@ export default function CreateInquiry() {
 
                 <SectionTitle title="Package Details" />
 
-                <PackageDetailsSection {...{ formFields, handleNumberChange, errors: formErrors }} />
+                <PackageDetailsSection
+                    formFields={formFields}
+                    handleNumberChange={handleNumberChange}
+                    errors={formErrors} />
                 
                 <SectionTitle title="Source Address" />
 
                 <AddressSection 
                     prefix="source" 
-                    street={formFields.sourceAddressStreet} 
-                    setStreet={setSourceAddressStreet}
-                    buildingNumber={sourceAddressBuildingNumber} 
-                    setBuildingNumber={setSourceAddressBuildingNumber}
-                    apartmentNumber={sourceAddressApartmentNumber} 
-                    setApartmentNumber={setSourceAddressApartmentNumber}
-                    city={sourceAddressCity} 
-                    setCity={setSourceAddressCity}
-                    zipCode={sourceAddressZipCode} 
-                    setZipCode={setSourceAddressZipCode}
-                    country={sourceAddressCountry} 
-                    setCountry={setSourceAddressCountry}
+                    formFields={formFields}
+                    handleStringChange={handleStringChange}
                     errors={formErrors}
                 />
-
 
                 <SectionTitle title="Destination Address" />
                 <AddressSection 
                     prefix="destination" 
-                    street={destinationAddressStreet} 
-                    setStreet={setDestinationAddressStreet}
-                    buildingNumber={destinationAddressBuildingNumber} 
-                    setBuildingNumber={setDestinationAddressBuildingNumber}
-                    apartmentNumber={destinationAddressApartmentNumber} 
-                    setApartmentNumber={setDestinationAddressApartmentNumber}
-                    city={destinationAddressCity} 
-                    setCity={setDestinationAddressCity}
-                    zipCode={destinationAddressZipCode} 
-                    setZipCode={setDestinationAddressZipCode}
-                    country={destinationAddressCountry} 
-                    setCountry={setDestinationAddressCountry}
+                    formFields={formFields}
+                    handleStringChange={handleStringChange}
                     errors={formErrors}
                 />
 
