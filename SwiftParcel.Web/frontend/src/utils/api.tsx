@@ -199,7 +199,7 @@ export const createInquiry = async (
 
 export const getInquiries = async () => {
   try {
-    const response = await api.get(`/parcels`);
+    const response = await api.get(` parcels-service/parcels`);
     return response.data;
   } catch (error) {
     console.error('Error during getting inquiries:', error);

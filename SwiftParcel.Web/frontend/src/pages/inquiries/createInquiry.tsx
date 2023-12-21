@@ -8,12 +8,12 @@ import {
   } from "flowbite-react";
   import React from "react";
   import { HiInformationCircle, HiCheckCircle } from "react-icons/hi";
-  import { Footer } from "../components/footer";
-  import { Header } from "../components/header";
-  import { Loader } from "../components/loader";
-  import { createInquiry, register } from "../utils/api";
-import stringToBoolean from "../components/parsing/stringToBoolean";
-import booleanToString from "../components/parsing/booleanToString";
+  import { Footer } from "../../components/footer";
+  import { Header } from "../../components/header";
+  import { Loader } from "../../components/loader";
+  import { createInquiry, register } from "../../utils/api";
+import stringToBoolean from "../../components/parsing/stringToBoolean";
+import booleanToString from "../../components/parsing/booleanToString";
 
 
 type FormFields = {

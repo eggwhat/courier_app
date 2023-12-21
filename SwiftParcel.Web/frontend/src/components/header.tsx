@@ -88,7 +88,7 @@ export function Header(props: {
       case 'officeworker':
         return (
           <>
-            <AppNavLink to="/bank-inquiries" text="Bank Inquiries" />
+            <AppNavLink to="/inquiries" text="Bank Inquiries" />
             <AppNavLink to="/bank-offers" text="Bank Offer Requests" />
             <AppNavLink to="/manage-data" text="Manage Sent Data" />
           </>
@@ -96,7 +96,10 @@ export function Header(props: {
       case 'user':
       default:
         return (
-          <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+          <>
+            <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+            <AppNavLink to="/" text="Track Parcel" />
+          </>
         );
     }
   };
@@ -138,7 +141,6 @@ export function Header(props: {
           ) : null}
         </div>
         <Navbar.Collapse>
-          <AppNavLink to="/" text="Track Parcel" />
           {renderNavLinks()}
         </Navbar.Collapse>
       </Navbar>

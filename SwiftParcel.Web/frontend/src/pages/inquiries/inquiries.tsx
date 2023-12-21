@@ -1,10 +1,10 @@
 import { Table, Pagination } from "flowbite-react";
 import React from "react";
-import { Header } from "../components/header";
-import { Footer } from "../components/footer";
-import { getInquiries } from "../utils/api";
-import { Loader } from "../components/loader";
-import { InquiryDetails } from "../components/details/inquiry";
+import { Header } from "../../components/header";
+import { Footer } from "../../components/footer";
+import { getInquiries } from "../../utils/api";
+import { Loader } from "../../components/loader";
+import { InquiryDetails } from "../../components/details/inquiry";
 
 export default function Inquiries() {
   const [page, setPage] = React.useState(1);
