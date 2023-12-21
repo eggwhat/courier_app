@@ -147,7 +147,7 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-    const inquiryResponse = await api.post(`/parcels/parcels`, {
+    const inquiryResponse = await api.post(`/parcels`, {
       description,
       width,
       height,

@@ -344,7 +344,7 @@ export default function CreateInquiry() {
           setIsCompany(false);
           setVipPackage(false);
 
-
+          console.log("pickupDate: ", pickupDate)
           setOffers(offers);
           if (offers && offers.length > 0) {
             setShowOffers(true); // Show offers if available
