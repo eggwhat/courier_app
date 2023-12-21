@@ -10,16 +10,16 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.response.use(
-  response => response,
-  error => {
-    if (axios.isAxiosError(error) && error.response?.status === 401) {
-      //// saveUserInfo(null);
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (axios.isAxiosError(error) && error.response?.status === 401) {
+//       //// saveUserInfo(null);
+//       window.location.href = '/login';
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 const getAuthHeader = () => {
   const userInfo = getUserInfo();
@@ -147,7 +147,7 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-    const inquiryResponse = await api.post(`/parcels-service/parcels`, {
+    const inquiryResponse = await api.post(`/parcels/parcels`, {
       description,
       width,
       height,
