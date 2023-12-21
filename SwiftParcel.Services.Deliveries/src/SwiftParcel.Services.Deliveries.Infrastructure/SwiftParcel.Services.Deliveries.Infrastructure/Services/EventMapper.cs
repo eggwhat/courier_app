@@ -19,15 +19,13 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Services
                     switch (e.Delivery.Status)
                     {
                         case DeliveryStatus.InProgress:
-                            return new DeliveryStarted(e.Delivery.Id, e.Delivery.OrderId, e.dateTime);
+                            return new DeliveryPickedUp(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate);
                         case DeliveryStatus.Completed:
-                            return new DeliveryCompleted(e.Delivery.Id, e.Delivery.OrderId, e.dateTime);
+                            return new DeliveryCompleted(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate);
                         case DeliveryStatus.CannotDeliver:
-                            return new DeliveryFailed(e.Delivery.Id, e.Delivery.OrderId, e.dateTime, e.Delivery.Notes);
+                            return new DeliveryFailed(e.Delivery.Id, e.Delivery.OrderId, e.Delivery.LastUpdate, e.Delivery.CannotDeliverReason);
                     }
                     break;
-                case DeliveryRegistrationAdded e:
-                    return new RegistrationAddedToDelivery(e.Delivery.Id, e.Delivery.OrderId, e.Registration.Description);
             }
 
             return null;

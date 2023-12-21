@@ -16,7 +16,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
         public string BuyerEmail { get; set; }
         public Address BuyerAddress { get; set; }
         public DateTime? DecisionDate { get; set; }
-        public DateTime? ReceivedAt { get; set; } 
+        public DateTime? PickedUpAt { get; set; } 
         public DateTime? DeliveredAt { get; set; }
         public DateTime? CannotDeliverAt { get; set; }
         public string CancellationReason { get; set; }

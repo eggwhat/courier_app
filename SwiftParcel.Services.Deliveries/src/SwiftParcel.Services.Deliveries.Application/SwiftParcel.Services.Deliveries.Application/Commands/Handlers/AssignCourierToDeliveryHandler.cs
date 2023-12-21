@@ -1,19 +1,17 @@
 ﻿using Convey.CQRS.Commands;
 using SwiftParcel.Services.Deliveries.Application.Exceptions;
 using SwiftParcel.Services.Deliveries.Application.Services;
-using SwiftParcel.Services.Deliveries.Core.Entities;
 using SwiftParcel.Services.Deliveries.Core.Repositories;
 
 namespace SwiftParcel.Services.Deliveries.Application.Commands.Handlers
 {
-    internal sealed class StartDeliveryHandler : ICommandHandler<StartDelivery>
+    internal sealed class AssignCourierToDeliveryHandler: ICommandHandler<AssignCourierToDelivery>
     {
         private readonly IDeliveriesRepository _repository;
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IDateTimeProvider _dateTimeProvider;
-
-        public StartDeliveryHandler(IDeliveriesRepository repository, IMessageBroker messageBroker,
+        public AssignCourierToDeliveryHandler(IDeliveriesRepository repository, IMessageBroker messageBroker, 
             IEventMapper eventMapper, IDateTimeProvider dateTimeProvider)
         {
             _repository = repository;
@@ -22,18 +20,16 @@ namespace SwiftParcel.Services.Deliveries.Application.Commands.Handlers
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task HandleAsync(StartDelivery command)
+        public async Task HandleAsync(AssignCourierToDelivery command)
         {
-            var delivery = await _repository.GetForOrderAsync(command.OrderId);
-            if (delivery is {} && delivery.Status != DeliveryStatus.CannotDeliver)
+            var delivery = await _repository.GetAsync(command.DeliveryId);
+            if (delivery is null)
             {
-                throw new DeliveryAlreadyStartedException(command.OrderId);
+                throw new DeliveryNotFoundException(command.DeliveryId);
             }
 
-            delivery = Delivery.Create(command.DeliveryId, command.OrderId, _dateTimeProvider.Now,
-                DeliveryStatus.Unassigned, command.Volume, command.Weight, command.Source, command.Destination,
-                command.Priority, command.AtWeekend, command.PickupDate, command.DeliveryDate);
-            await _repository.AddAsync(delivery);
+            delivery.AssignCourier(_dateTimeProvider.Now, command.CourierId);
+            await _repository.UpdateAsync(delivery);
             var events = _eventMapper.MapAll(delivery.Events);
             await _messageBroker.PublishAsync(events.ToArray());
         }
