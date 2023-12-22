@@ -350,29 +350,29 @@ export default function CreateInquiry() {
     // const [vipPackage, setVipPackage] = React.useState(false);
 
 
-    const [description, setDescription] = React.useState("Test");
-    const [packageWidth, setPackageWidth] = React.useState(0.05);
-    const [packageHeight, setPackageHeight] = React.useState(0.05);
-    const [packageDepth, setPackageDepth] = React.useState(0.05);
-    const [packageWeight, setPackageWeight] = React.useState(0.5);
-    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("Plac politechniki");
-    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("1");
-    const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
-    const [sourceAddressCity, setSourceAddressCity] = React.useState("Warszawa");
-    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("00-420");
-    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("Polska");
-    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("Koszykowa");
-    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("21");
-    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("37");
-    const [destinationAddressCity, setDestinationAddressCity] = React.useState("Warszawa");
-    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("00-420");
-    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("Polska");
-    const [pickupDate, setPickupDate] = React.useState("2023/12/22"); // Format this as per your requirement
-    const [deliveryDate, setDeliveryDate] = React.useState("2023/12/29"); // Format this as per your requirement
-    const [priority, setPriority] = React.useState("Low");
-    const [atWeekend, setAtWeekend] = React.useState(true);
-    const [isCompany, setIsCompany] = React.useState(false);
-    const [vipPackage, setVipPackage] = React.useState(false);
+    // const [description, setDescription] = React.useState("Test");
+    // const [packageWidth, setPackageWidth] = React.useState(0.05);
+    // const [packageHeight, setPackageHeight] = React.useState(0.05);
+    // const [packageDepth, setPackageDepth] = React.useState(0.05);
+    // const [packageWeight, setPackageWeight] = React.useState(0.5);
+    // const [sourceAddressStreet, setSourceAddressStreet] = React.useState("Plac politechniki");
+    // const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("1");
+    // const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
+    // const [sourceAddressCity, setSourceAddressCity] = React.useState("Warszawa");
+    // const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("00-420");
+    // const [sourceAddressCountry, setSourceAddressCountry] = React.useState("Polska");
+    // const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("Koszykowa");
+    // const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("21");
+    // const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("37");
+    // const [destinationAddressCity, setDestinationAddressCity] = React.useState("Warszawa");
+    // const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("00-420");
+    // const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("Polska");
+    // const [pickupDate, setPickupDate] = React.useState("2023/12/22"); // Format this as per your requirement
+    // const [deliveryDate, setDeliveryDate] = React.useState("2023/12/29"); // Format this as per your requirement
+    // const [priority, setPriority] = React.useState("Low");
+    // const [atWeekend, setAtWeekend] = React.useState(true);
+    // const [isCompany, setIsCompany] = React.useState(false);
+    // const [vipPackage, setVipPackage] = React.useState(false);
 
   
     const [error, setError] = React.useState("");
