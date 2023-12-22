@@ -75,7 +75,7 @@ modules:
           
 
   identity:
-    path: identity
+    path: /identity
     routes:
       - upstream: /users/{userId}
         method: GET
@@ -114,7 +114,7 @@ modules:
         url: identity-service
       
   orders:
-    path: orders
+    path: /orders
     routes:
       - upstream: /
         method: GET
@@ -122,7 +122,7 @@ modules:
         downstream: orders-service/orders?customerId=@user_id
         auth: true
 
-      - upstream: /
+      - upstream: /orders/office-worker
         method: GET
         use: downstream
         downstream: orders-service/orders/office-worker
@@ -334,7 +334,7 @@ modules:
         claims:
           role: courier
           
-      - upstream: /
+      - upstream: /pending
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries/pending
