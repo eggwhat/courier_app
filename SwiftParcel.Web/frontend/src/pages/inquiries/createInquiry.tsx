@@ -111,7 +111,7 @@ const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     </div>
 );
 
-const DeliveryDetailsSection = ({ formFields, handleDateChange, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }) => (
+const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }) => (
     <div className="grid grid-cols-2 gap-4">
       <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
       <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
@@ -121,8 +121,8 @@ const DeliveryDetailsSection = ({ formFields, handleDateChange, priority, setPri
         <Label htmlFor="priority">Priority</Label>
         <select 
           id="priority"
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          value={formFields.priority}
+          onChange={handlePriorityChange('priority')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="low">Low</option>
@@ -279,6 +279,14 @@ export default function CreateInquiry() {
         }));
     };
 
+    const handlePriorityChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
 
     const [offers, setOffers] = React.useState(null);
@@ -306,7 +314,7 @@ export default function CreateInquiry() {
 
     // const [pickupDate, setPickupDate] = React.useState("");
     // const [deliveryDate, setDeliveryDate] = React.useState("");
-    const [priority, setPriority] = React.useState("low");
+    // const [priority, setPriority] = React.useState("low");
     const [atWeekend, setAtWeekend] = React.useState(false);
     const [isCompany, setIsCompany] = React.useState(false);
     const [vipPackage, setVipPackage] = React.useState(false);
@@ -462,7 +470,7 @@ export default function CreateInquiry() {
                 />
 
                 <SectionTitle title="Delivery Details" />
-                <DeliveryDetailsSection {...{ formFields, handleDateChange, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }} />
+                <DeliveryDetailsSection {...{ formFields, handleDateChange, handlePriorityChange, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }} />
 
                 <ShortDescriptionSection description={description} setDescription={setDescription} />
 
