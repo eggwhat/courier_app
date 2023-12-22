@@ -331,7 +331,6 @@ modules:
         method: POST
         use: downstream
         downstream: parcels-service/parcels
-        auth: true
         resourceId:
           property: parcelId
           generate: true

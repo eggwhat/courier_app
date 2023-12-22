@@ -49,12 +49,33 @@ const TextInputWithLabel = ({ id, label, value, onChange, type = "text",  error 
 );
 
   
-const DateInputWithLabel = ({ id, label, value, onChange }) => (
-    <div className="mb-4">
-        <Label htmlFor={id}>{label}</Label>
-        <TextInput id={id} type="date" value={value} onChange={(e) => onChange(e.target.value)} />
-    </div>
-);
+const DateInputWithLabel = ({ id, label, value, onChange }) => {
+    // Function to format the date to MongoDB format
+    const formatToMongoDBDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toISOString();
+    };
+
+    // Function to handle date change
+    const handleDateChange = (e) => {
+        const formattedDate = formatToMongoDBDate(e.target.value);
+        console.log("FormattedDate is: ...", formattedDate)
+        onChange(formattedDate);
+    };
+
+    return (
+        <div className="mb-4">
+            <Label htmlFor={id}>{label}</Label>
+            <TextInput 
+                id={id} 
+                type="date" 
+                value={value ? new Date(value).toISOString().split('T')[0] : ''} 
+                onChange={handleDateChange} 
+            />
+        </div>
+    );
+};
+
 
   
 const SectionTitle = ({ title }) => (
@@ -100,6 +121,7 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
     <div className="grid grid-cols-2 gap-4">
       <DateInputWithLabel id="pickup-date" label="Pickup Date" value={pickupDate} onChange={setPickupDate} />
       <DateInputWithLabel id="delivery-date" label="Delivery Date" value={deliveryDate} onChange={setDeliveryDate} />
+      
       {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
 
       <div className="col-span-2 grid grid-cols-4 gap-4">
@@ -240,32 +262,57 @@ export default function CreateInquiry() {
     const [offers, setOffers] = React.useState(null);
     const [showOffers, setShowOffers] = React.useState(false); // New state to control display
 
-    const [description, setDescription] = React.useState("");
-    const [packageWidth, setPackageWidth] = React.useState(0);
-    const [packageHeight, setPackageHeight] = React.useState(0);
-    const [packageDepth, setPackageDepth] = React.useState(0);
-    const [packageWeight, setPackageWeight] = React.useState(0);
+    // const [description, setDescription] = React.useState("");
+    // const [packageWidth, setPackageWidth] = React.useState(0);
+    // const [packageHeight, setPackageHeight] = React.useState(0);
+    // const [packageDepth, setPackageDepth] = React.useState(0);
+    // const [packageWeight, setPackageWeight] = React.useState(0);
 
-    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
-    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
+    // const [sourceAddressStreet, setSourceAddressStreet] = React.useState("");
+    // const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("");
+    // const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
+    // const [sourceAddressCity, setSourceAddressCity] = React.useState("");
+    // const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
+    // const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
+
+    // const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
+    // const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
+    // const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
+    // const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
+    // const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
+    // const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
+
+    // const [pickupDate, setPickupDate] = React.useState("");
+    // const [deliveryDate, setDeliveryDate] = React.useState("");
+    // const [priority, setPriority] = React.useState("low");
+    // const [atWeekend, setAtWeekend] = React.useState(false);
+    // const [isCompany, setIsCompany] = React.useState(false);
+    // const [vipPackage, setVipPackage] = React.useState(false);
+
+    const [description, setDescription] = React.useState("Test");
+    const [packageWidth, setPackageWidth] = React.useState(0.05);
+    const [packageHeight, setPackageHeight] = React.useState(0.05);
+    const [packageDepth, setPackageDepth] = React.useState(0.05);
+    const [packageWeight, setPackageWeight] = React.useState(0.5);
+    const [sourceAddressStreet, setSourceAddressStreet] = React.useState("Plac politechniki");
+    const [sourceAddressBuildingNumber, setSourceAddressBuildingNumber] = React.useState("1");
     const [sourceAddressApartmentNumber, setSourceAddressApartmentNumber] = React.useState("");
-    const [sourceAddressCity, setSourceAddressCity] = React.useState("");
-    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("");
-    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("");
-
-    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("");
-    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("");
-    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("");
-    const [destinationAddressCity, setDestinationAddressCity] = React.useState("");
-    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("");
-    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("");
-
-    const [pickupDate, setPickupDate] = React.useState("");
-    const [deliveryDate, setDeliveryDate] = React.useState("");
-    const [priority, setPriority] = React.useState("low");
-    const [atWeekend, setAtWeekend] = React.useState(false);
+    const [sourceAddressCity, setSourceAddressCity] = React.useState("Warszawa");
+    const [sourceAddressZipCode, setSourceAddressZipCode] = React.useState("00-420");
+    const [sourceAddressCountry, setSourceAddressCountry] = React.useState("Polska");
+    const [destinationAddressStreet, setDestinationAddressStreet] = React.useState("Koszykowa");
+    const [destinationAddressBuildingNumber, setDestinationAddressBuildingNumber] = React.useState("21");
+    const [destinationAddressApartmentNumber, setDestinationAddressApartmentNumber] = React.useState("37");
+    const [destinationAddressCity, setDestinationAddressCity] = React.useState("Warszawa");
+    const [destinationAddressZipCode, setDestinationAddressZipCode] = React.useState("00-420");
+    const [destinationAddressCountry, setDestinationAddressCountry] = React.useState("Polska");
+    const [pickupDate, setPickupDate] = React.useState("2023/12/22"); // Format this as per your requirement
+    const [deliveryDate, setDeliveryDate] = React.useState("2023/12/29"); // Format this as per your requirement
+    const [priority, setPriority] = React.useState("Low");
+    const [atWeekend, setAtWeekend] = React.useState(true);
     const [isCompany, setIsCompany] = React.useState(false);
     const [vipPackage, setVipPackage] = React.useState(false);
+
   
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");

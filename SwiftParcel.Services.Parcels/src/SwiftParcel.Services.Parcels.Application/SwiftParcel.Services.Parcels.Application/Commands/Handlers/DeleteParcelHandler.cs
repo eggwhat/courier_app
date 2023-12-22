@@ -34,10 +34,10 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             }
 
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsOfficeWorker)
-            {
-                throw new UnauthorizedParcelAccessException(command.ParcelId, identity.Id);
-            }
+            // if (identity.IsAuthenticated && identity.Id != parcel.CustomerId && !identity.IsOfficeWorker)
+            // {
+            //     throw new UnauthorizedParcelAccessException(command.ParcelId, identity.Id);
+            // }
 
             await _parcelRepository.DeleteAsync(command.ParcelId);
 

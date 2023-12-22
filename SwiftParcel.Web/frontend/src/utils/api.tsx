@@ -29,7 +29,7 @@ const getAuthHeader = () => {
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
-  return { Authorization: `${userInfo.accessToken}` };
+  return { Authorization: `Bearer ${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
@@ -147,33 +147,51 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-    const inquiryResponse = await api.post(`/parcels`, {
-      description,
-      width,
-      height,
-      depth,
-      weight,
-      sourceStreet,
-      sourceBuildingNumber,
-      sourceApartmentNumber,
-      sourceCity,
-      sourceZipCode,
-      sourceCountry,
-      destinationStreet,
-      destinationBuildingNumber,
-      destinationApartmentNumber,
-      destinationCity,
-      destinationZipCode,
-      destinationCountry,
-      priority,
-      atWeekend,
-      pickupDate,
-      deliveryDate,
-      isCompany,
-      vipPackage
-    }, {
-      headers: getAuthHeader()});
 
+    const userInfo = getUserInfo();
+    // if (!userInfo || !userInfo.accessToken) {
+    //   console.warn('No user token found. Redirecting to login.');
+    //   window.location.href = '/login';
+    //   return;
+    // }
+
+    // Log the token for debugging
+    console.log("Using access token:", userInfo.accessToken);
+
+    const payload = {
+      // ParcelId: "00000000-0000-0000-0000-000000000000", // Remove if backend generates ID
+      Description: description,
+      Width: width,
+      Height: height,
+      Depth: depth,
+      Weight: weight,
+      Source: {
+        Street: sourceStreet,
+        BuildingNumber: sourceBuildingNumber,
+        ApartmentNumber: sourceApartmentNumber,
+        City: sourceCity,
+        ZipCode: sourceZipCode,
+        Country: sourceCountry,
+      },
+      Destination: {
+        Street: destinationStreet,
+        BuildingNumber: destinationBuildingNumber,
+        ApartmentNumber: destinationApartmentNumber,
+        City: destinationCity,
+        ZipCode: destinationZipCode,
+        Country: destinationCountry,
+      },
+      Priority: priority,
+      AtWeekend: atWeekend,
+      PickupDate: pickupDate, // Make sure this is ISO formatted string
+      DeliveryDate: deliveryDate, // Make sure this is ISO formatted string
+      IsCompany: isCompany,
+      VipPackage: vipPackage
+    };
+
+    const inquiryResponse = await api.post(`/parcels`, payload, {
+      headers: { Authorization: `Bearer ${userInfo.accessToken}` }
+    });
     // return response.data;
 
     try {
