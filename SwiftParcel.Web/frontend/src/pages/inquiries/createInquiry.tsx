@@ -25,8 +25,23 @@ type FormFields = {
     packageDepth: number;
     packageWeight: number;
     sourceAddressStreet: string;
-    destinationAddress: string;
-    // Add other fields
+    sourceAddressBuildingNumber: string;
+    sourceAddressApartmentNumber: string;
+    sourceAddressCity: string;
+    sourceAddressZipCode: string;
+    sourceAddressCountry: string;
+    destinationAddressStreet: string;
+    destinationAddressBuildingNumber: string;
+    destinationAddressApartmentNumber: string;
+    destinationAddressCity: string;
+    destinationAddressZipCode: string;
+    destinationAddressCountry: string;
+    pickupDate: string;
+    deliveryDate: string;
+    priority: string;
+    atWeekend: boolean;
+    isCompany: boolean;
+    vipPackage: boolean;
 };
   
 
@@ -41,7 +56,7 @@ const TextInputWithLabel = ({ id, label, value, onChange, type = "text",  error 
         id={id} 
         type="text" 
         value={value} 
-        onChange={(e) => onChange(e.target.value)} 
+        onChange={(e) => onChange(e)}
         className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md ${error ? 'border-red-500' : ''}`}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
@@ -76,7 +91,6 @@ const DateInputWithLabel = ({ id, label, value, onChange }) => {
     );
 };
 
-
   
 const SectionTitle = ({ title }) => (
     <div className="mb-4 border-b border-gray-300 pb-1">
@@ -100,37 +114,37 @@ const SubmitButton = ({ inquiryLoading }) => (
     </div>
 );
 
-const ShortDescriptionSection = ({ description, setDescription }) => (
+const ShortDescriptionSection = ({ formFields, handleDescriptionChange }) => (
     <div className="my-5">
       <Label htmlFor="description">Short Description:</Label>
-      <TextInput id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <TextInput id="description" value={formFields.description} onChange={handleDescriptionChange('description')} />
     </div>
 );
   
 
-const PackageDetailsSection = ({ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors }) => (
+const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={packageWidth} onChange={setPackageWidth}  type="number" error={errors.packageWidth}/>
-      <TextInputWithLabel id="package-height" label="Height" value={packageHeight} onChange={setPackageHeight}  type="number" error={errors.packageHeight}/>
-      <TextInputWithLabel id="package-depth" label="Depth" value={packageDepth} onChange={setPackageDepth}  type="number" error={errors.packageDepth}/>
-      <TextInputWithLabel id="package-weight" label="Weight" value={packageWeight} onChange={setPackageWeight}  type="number" error={errors.packageWeight}/>
+      <TextInputWithLabel id="package-width" label="Width" value={formFields.packageWidth} onChange={handleNumberChange('packageWidth')} type="number" error={errors.packageWidth}/>
+      <TextInputWithLabel id="package-height" label="Height" value={formFields.packageHeight} onChange={handleNumberChange('packageHeight')}  type="number" error={errors.packageHeight}/>
+      <TextInputWithLabel id="package-depth" label="Depth" value={formFields.packageDepth} onChange={handleNumberChange('packageDepth')}  type="number" error={errors.packageDepth}/>
+      <TextInputWithLabel id="package-weight" label="Weight" value={formFields.packageWeight} onChange={handleNumberChange('packageWeight')}  type="number" error={errors.packageWeight}/>
     </div>
 );
 
-const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDeliveryDate, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }) => (
+const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }) => (
     <div className="grid grid-cols-2 gap-4">
-      <DateInputWithLabel id="pickup-date" label="Pickup Date" value={pickupDate} onChange={setPickupDate} />
-      <DateInputWithLabel id="delivery-date" label="Delivery Date" value={deliveryDate} onChange={setDeliveryDate} />
-      
       {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
+
+      <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
+      <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
 
       <div className="col-span-2 grid grid-cols-4 gap-4">
       <div>
         <Label htmlFor="priority">Priority</Label>
         <select 
           id="priority"
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          value={formFields.priority}
+          onChange={handlePriorityChange('priority')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="low">Low</option>
@@ -142,8 +156,8 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
         <Label htmlFor="at-weekend">Delivery at Weekend</Label>
         <select
           id="at-weekend"
-          value={atWeekend}
-          onChange={(e) => setAtWeekend(stringToBoolean(e.target.value))}
+          value={formFields.atWeekend}
+          onChange={handleBooleanChange('atWeekend')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -155,8 +169,8 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
         <Label htmlFor="is-company">Created by Company</Label>
         <select
           id="is-company"
-          value={isCompany}
-          onChange={(e) => setIsCompany(stringToBoolean(e.target.value))}
+          value={formFields.isCompany}
+          onChange={handleBooleanChange('isCompany')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -168,8 +182,8 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
         <Label htmlFor="vip-package">VIP Delivery</Label>
         <select
           id="vip-package"
-          value={vipPackage}
-          onChange={(e) => setVipPackage(stringToBoolean(e.target.value))}
+          value={formFields.vipPackage}
+          onChange={handleBooleanChange('vipPackage')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -180,58 +194,49 @@ const DeliveryDetailsSection = ({ pickupDate, setPickupDate, deliveryDate, setDe
 
     </div>
 );
-  
-const AddressSection = ({
-    prefix,
-    street, setStreet,
-    buildingNumber, setBuildingNumber,
-    apartmentNumber, setApartmentNumber,
-    city, setCity,
-    zipCode, setZipCode,
-    country, setCountry,
-    errors
-}) => (
+
+const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
     <div className="grid grid-cols-2 gap-4">
         <TextInputWithLabel 
             id={`${prefix}-address-street`} 
             label="Street" 
-            value={street} 
-            onChange={setStreet} 
-            error={errors?.sourceAddressStreet}
+            value={formFields[`${prefix}AddressStreet`]} 
+            onChange={handleStringChange(`${prefix}AddressStreet`)} 
+            error={errors?.street}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-building-number`} 
             label="Building Number" 
-            value={buildingNumber} 
-            onChange={setBuildingNumber} 
+            value={formFields[`${prefix}AddressBuildingNumber`]} 
+            onChange={handleStringChange(`${prefix}AddressBuildingNumber`)} 
             error={errors?.buildingNumber}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-apartment-number`} 
             label="Apartment Number (optional)" 
-            value={apartmentNumber} 
-            onChange={setApartmentNumber} 
+            value={formFields[`${prefix}AddressApartmentNumber`]} 
+            onChange={handleStringChange(`${prefix}AddressApartmentNumber`)} 
             error={errors?.apartmentNumber}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-city`} 
             label="City" 
-            value={city} 
-            onChange={setCity} 
+            value={formFields[`${prefix}AddressCity`]} 
+            onChange={handleStringChange(`${prefix}AddressCity`)} 
             error={errors?.city}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-zip-code`} 
             label="Zip Code" 
-            value={zipCode} 
-            onChange={setZipCode} 
+            value={formFields[`${prefix}AddressZipCode`]} 
+            onChange={handleStringChange(`${prefix}AddressZipCode`)} 
             error={errors?.zipCode}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-country`} 
             label="Country" 
-            value={country} 
-            onChange={setCountry} 
+            value={formFields[`${prefix}AddressCountry`]} 
+            onChange={handleStringChange(`${prefix}AddressCountry`)} 
             error={errors?.country}
         />
     </div>
@@ -253,10 +258,65 @@ export default function CreateInquiry() {
         packageDepth: 0,
         packageWeight: 0,
         sourceAddressStreet: "",
-        destinationAddress: "",
-        // Initialize other fields
+        sourceAddressBuildingNumber: "",
+        sourceAddressApartmentNumber: "",
+        sourceAddressCity: "",
+        sourceAddressZipCode: "",
+        sourceAddressCountry: "",
+        destinationAddressStreet: "",
+        destinationAddressBuildingNumber: "",
+        destinationAddressApartmentNumber: "",
+        destinationAddressCity: "",
+        destinationAddressZipCode: "",
+        destinationAddressCountry: "",
+        pickupDate: "",
+        deliveryDate: "",
+        priority: "low",
+        atWeekend: false,
+        isCompany: false,
+        vipPackage: false
     });
     
+    const handleNumberChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = parseFloat(event.target.value);
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: isNaN(newValue) ? 0 : newValue
+        }));
+    };
+
+    const handleStringChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
+    const handleDateChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
+    const handlePriorityChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
+    const handleBooleanChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
 
     const [offers, setOffers] = React.useState(null);
@@ -288,6 +348,7 @@ export default function CreateInquiry() {
     // const [atWeekend, setAtWeekend] = React.useState(false);
     // const [isCompany, setIsCompany] = React.useState(false);
     // const [vipPackage, setVipPackage] = React.useState(false);
+
 
     const [description, setDescription] = React.useState("Test");
     const [packageWidth, setPackageWidth] = React.useState(0.05);
@@ -359,39 +420,43 @@ export default function CreateInquiry() {
       setSuccess("");
       setInquiryLoading(true);
   
-      createInquiry(description, packageWidth, packageHeight, packageDepth, packageWeight,
-        sourceAddressStreet, sourceAddressBuildingNumber, sourceAddressApartmentNumber,
-        sourceAddressCity, sourceAddressZipCode, sourceAddressCountry,
-        destinationAddressStreet, destinationAddressBuildingNumber, destinationAddressApartmentNumber,
-        destinationAddressCity, destinationAddressZipCode, destinationAddressCountry, priority, atWeekend,
-        `${pickupDate}T00:00:00.000Z`, `${deliveryDate}T00:00:00.000Z`, isCompany, vipPackage)
+      createInquiry(formFields.description, formFields.packageWidth, formFields.packageHeight, formFields.packageDepth,
+        formFields.packageWeight, formFields.sourceAddressStreet, formFields.sourceAddressBuildingNumber,
+        formFields.sourceAddressApartmentNumber, formFields.sourceAddressCity, formFields.sourceAddressZipCode,
+        formFields.sourceAddressCountry, formFields.destinationAddressStreet, formFields.destinationAddressBuildingNumber,
+        formFields.destinationAddressApartmentNumber, formFields.destinationAddressCity, formFields.destinationAddressZipCode,
+        formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, `${formFields.pickupDate}T00:00:00.000Z`,
+        `${formFields.deliveryDate}T00:00:00.000Z`, formFields.isCompany, formFields.vipPackage)
         .then(({ inquiry, offers }) => {
           setSuccess("Inquiry created successfully!");
-          setDescription("");
-          setPackageWidth(0);
-          setPackageHeight(0);
-          setPackageDepth(0);
-          setPackageWeight(0);
-          setSourceAddressCity("");
-          setSourceAddressBuildingNumber("");
-          setSourceAddressApartmentNumber("");
-          setSourceAddressCity("");
-          setSourceAddressZipCode("");
-          setSourceAddressCountry("");
-          setDestinationAddressCity("");
-          setDestinationAddressBuildingNumber("");
-          setDestinationAddressApartmentNumber("");
-          setDestinationAddressCity("");
-          setDestinationAddressZipCode("");
-          setDestinationAddressCountry("");
-          setPickupDate("");
-          setDeliveryDate("");
-          setPriority("low");
-          setAtWeekend(false);
-          setIsCompany(false);
-          setVipPackage(false);
+          setFormFields(
+          {
+            description: "",
+            packageWidth: 0,
+            packageHeight: 0,
+            packageDepth: 0,
+            packageWeight: 0,
+            sourceAddressStreet: "",
+            sourceAddressBuildingNumber: "",
+            sourceAddressApartmentNumber: "",
+            sourceAddressCity: "",
+            sourceAddressZipCode: "",
+            sourceAddressCountry: "",
+            destinationAddressStreet: "",
+            destinationAddressBuildingNumber: "",
+            destinationAddressApartmentNumber: "",
+            destinationAddressCity: "",
+            destinationAddressZipCode: "",
+            destinationAddressCountry: "",
+            pickupDate: "",
+            deliveryDate: "",
+            priority: "low",
+            atWeekend: false,
+            isCompany: false,
+            vipPackage: false
+        });
 
-          console.log("pickupDate: ", pickupDate)
+          console.log("pickupDate: ", formFields.pickupDate)
           setOffers(offers);
           if (offers && offers.length > 0) {
             setShowOffers(true); // Show offers if available
@@ -438,50 +503,40 @@ export default function CreateInquiry() {
 
                 <SectionTitle title="Package Details" />
 
-                <PackageDetailsSection {...{ packageWidth, setPackageWidth, packageHeight, setPackageHeight, packageDepth, setPackageDepth, packageWeight, setPackageWeight, errors: formErrors }} />
+                <PackageDetailsSection
+                    formFields={formFields}
+                    handleNumberChange={handleNumberChange}
+                    errors={formErrors} />
                 
                 <SectionTitle title="Source Address" />
 
                 <AddressSection 
                     prefix="source" 
-                    street={sourceAddressStreet} 
-                    setStreet={setSourceAddressStreet}
-                    buildingNumber={sourceAddressBuildingNumber} 
-                    setBuildingNumber={setSourceAddressBuildingNumber}
-                    apartmentNumber={sourceAddressApartmentNumber} 
-                    setApartmentNumber={setSourceAddressApartmentNumber}
-                    city={sourceAddressCity} 
-                    setCity={setSourceAddressCity}
-                    zipCode={sourceAddressZipCode} 
-                    setZipCode={setSourceAddressZipCode}
-                    country={sourceAddressCountry} 
-                    setCountry={setSourceAddressCountry}
+                    formFields={formFields}
+                    handleStringChange={handleStringChange}
                     errors={formErrors}
                 />
-
 
                 <SectionTitle title="Destination Address" />
                 <AddressSection 
                     prefix="destination" 
-                    street={destinationAddressStreet} 
-                    setStreet={setDestinationAddressStreet}
-                    buildingNumber={destinationAddressBuildingNumber} 
-                    setBuildingNumber={setDestinationAddressBuildingNumber}
-                    apartmentNumber={destinationAddressApartmentNumber} 
-                    setApartmentNumber={setDestinationAddressApartmentNumber}
-                    city={destinationAddressCity} 
-                    setCity={setDestinationAddressCity}
-                    zipCode={destinationAddressZipCode} 
-                    setZipCode={setDestinationAddressZipCode}
-                    country={destinationAddressCountry} 
-                    setCountry={setDestinationAddressCountry}
+                    formFields={formFields}
+                    handleStringChange={handleStringChange}
                     errors={formErrors}
                 />
 
                 <SectionTitle title="Delivery Details" />
-                <DeliveryDetailsSection {...{ pickupDate, setPickupDate, deliveryDate, setDeliveryDate, priority, setPriority, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }} />
+                <DeliveryDetailsSection
+                    formFields={formFields}
+                    handleDateChange={handleDateChange}
+                    handlePriorityChange={handlePriorityChange}
+                    handleBooleanChange={handleBooleanChange}
+                />
 
-                <ShortDescriptionSection description={description} setDescription={setDescription} />
+                <ShortDescriptionSection
+                    formFields={formFields}
+                    handleDescriptionChange={handleStringChange}
+                />
 
                 {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
