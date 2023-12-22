@@ -190,7 +190,7 @@ modules:
         url: orders-service
 
   customers:
-    path: customers
+    path: /customers
     routes:
       - upstream: /
         method: GET
@@ -251,7 +251,7 @@ modules:
       
  
   parcels:
-    path: parcels
+    path: /parcels
     routes:
       - upstream: /
         method: GET
@@ -302,7 +302,7 @@ modules:
         url: parcels-service
 
   pricing:
-    path: pricing
+    path: /pricing
     routes:
       - upstream: /
         method: GET
@@ -316,7 +316,7 @@ modules:
         url: pricing-service
 
   deliveries:
-    path: deliveries
+    path: /deliveries
     routes:
       - upstream: /{deliveryId}
         method: GET
