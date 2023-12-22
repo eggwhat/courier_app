@@ -111,7 +111,7 @@ const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     </div>
 );
 
-const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }) => (
+const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }) => (
     <div className="grid grid-cols-2 gap-4">
       <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
       <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
@@ -134,8 +134,8 @@ const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityCh
         <Label htmlFor="at-weekend">Delivery at Weekend</Label>
         <select
           id="at-weekend"
-          value={atWeekend}
-          onChange={(e) => setAtWeekend(stringToBoolean(e.target.value))}
+          value={formFields.atWeekend}
+          onChange={handleBooleanChange('atWeekend')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -147,8 +147,8 @@ const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityCh
         <Label htmlFor="is-company">Created by Company</Label>
         <select
           id="is-company"
-          value={isCompany}
-          onChange={(e) => setIsCompany(stringToBoolean(e.target.value))}
+          value={formFields.isCompany}
+          onChange={handleBooleanChange('isCompany')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -160,8 +160,8 @@ const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityCh
         <Label htmlFor="vip-package">VIP Delivery</Label>
         <select
           id="vip-package"
-          value={vipPackage}
-          onChange={(e) => setVipPackage(stringToBoolean(e.target.value))}
+          value={formFields.vipPackage}
+          onChange={handleBooleanChange('vipPackage')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         >
           <option value="false">No</option>
@@ -287,6 +287,14 @@ export default function CreateInquiry() {
         }));
     };
 
+    const handleBooleanChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFormFields(prevState => ({
+            ...prevState,
+            [field]: newValue
+        }));
+    };
+
     const [formErrors, setFormErrors] = React.useState<FormErrors>({});
 
     const [offers, setOffers] = React.useState(null);
@@ -315,9 +323,9 @@ export default function CreateInquiry() {
     // const [pickupDate, setPickupDate] = React.useState("");
     // const [deliveryDate, setDeliveryDate] = React.useState("");
     // const [priority, setPriority] = React.useState("low");
-    const [atWeekend, setAtWeekend] = React.useState(false);
-    const [isCompany, setIsCompany] = React.useState(false);
-    const [vipPackage, setVipPackage] = React.useState(false);
+    // const [atWeekend, setAtWeekend] = React.useState(false);
+    // const [isCompany, setIsCompany] = React.useState(false);
+    // const [vipPackage, setVipPackage] = React.useState(false);
   
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
@@ -470,7 +478,7 @@ export default function CreateInquiry() {
                 />
 
                 <SectionTitle title="Delivery Details" />
-                <DeliveryDetailsSection {...{ formFields, handleDateChange, handlePriorityChange, atWeekend, setAtWeekend, isCompany, setIsCompany, vipPackage, setVipPackage }} />
+                <DeliveryDetailsSection {...{ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }} />
 
                 <ShortDescriptionSection description={description} setDescription={setDescription} />
 
