@@ -94,10 +94,10 @@ const SubmitButton = ({ inquiryLoading }) => (
     </div>
 );
 
-const ShortDescriptionSection = ({ description, setDescription }) => (
+const ShortDescriptionSection = ({ formFields, handleDescriptionChange }) => (
     <div className="my-5">
       <Label htmlFor="description">Short Description:</Label>
-      <TextInput id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <TextInput id="description" value={formFields.description} onChange={handleDescriptionChange('description')} />
     </div>
 );
   
@@ -300,7 +300,7 @@ export default function CreateInquiry() {
     const [offers, setOffers] = React.useState(null);
     const [showOffers, setShowOffers] = React.useState(false); // New state to control display
 
-    const [description, setDescription] = React.useState("");
+    // const [description, setDescription] = React.useState("");
     // const [packageWidth, setPackageWidth] = React.useState(0);
     // const [packageHeight, setPackageHeight] = React.useState(0);
     // const [packageDepth, setPackageDepth] = React.useState(0);
@@ -478,9 +478,17 @@ export default function CreateInquiry() {
                 />
 
                 <SectionTitle title="Delivery Details" />
-                <DeliveryDetailsSection {...{ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }} />
+                <DeliveryDetailsSection
+                    formFields={formFields}
+                    handleDateChange={handleDateChange}
+                    handlePriorityChange={handlePriorityChange}
+                    handleBooleanChange={handleBooleanChange}
+                />
 
-                <ShortDescriptionSection description={description} setDescription={setDescription} />
+                <ShortDescriptionSection
+                    formFields={formFields}
+                    handleDescriptionChange={handleStringChange}
+                />
 
                 {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
