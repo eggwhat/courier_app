@@ -29,7 +29,7 @@ const getAuthHeader = () => {
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
-  return { Authorization: `Bearer ${userInfo.accessToken}` };
+  return { Authorization: `${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
@@ -121,6 +121,37 @@ export const getUsers = async (page = 1, perPage = defaultPageLimit) => {
   }
 };
 
+// the next reques is used for the testing purpose:
+// ──(kaliuser㉿kali)-[~/…/wisdom_source.com/courier_app]
+// └─$ curl -X POST 'http://localhost:5007/parcels' \
+// -H 'Content-Type: application/json' \
+// -d '{
+//     "Description": "TestYYYYYYYY",
+//     "Width": 0.05,
+//     "Height": 0.05,
+//     "Depth": 0.05,
+//     "Weight": 0.5,
+//     "SourceStreet": "Plac politechniki",
+//     "SourceBuildingNumber": "1",
+//     "SourceApartmentNumber": "",
+//     "SourceCity": "Warszawa",
+//     "SourceZipCode": "00-420",
+//     "SourceCountry": "Polska",
+//     "DestinationStreet": "Koszykowa",
+//     "DestinationBuildingNumber": "21",
+//     "DestinationApartmentNumber": "37",
+//     "DestinationCity": "Warszawa",
+//     "DestinationZipCode": "00-420",
+//     "DestinationCountry": "Polska",
+//     "Priority": "Low",
+//     "AtWeekend": true,
+//     "PickupDate": "2023-12-22T00:00:00.000Z",
+//     "DeliveryDate": "2023-12-29T00:00:00.000Z",
+//     "IsCompany": false,
+//     "VipPackage": false
+// }'
+
+
 export const createInquiry = async (
   description: string,
   width: number,
@@ -158,33 +189,33 @@ export const createInquiry = async (
     // Log the token for debugging
     console.log("Using access token:", userInfo.accessToken);
 
+    const userData = await getProfile();
+    const customerId = userData.id || null; 
+
     const payload = {
       // ParcelId: "00000000-0000-0000-0000-000000000000", // Remove if backend generates ID
+      //CustomerId: customerId,
       Description: description,
       Width: width,
       Height: height,
       Depth: depth,
       Weight: weight,
-      source: {
-        Street: sourceStreet,
-        BuildingNumber: sourceBuildingNumber,
-        ApartmentNumber: sourceApartmentNumber,
-        City: sourceCity,
-        ZipCode: sourceZipCode,
-        Country: sourceCountry,
-      },
-      Destination: {
-        Street: destinationStreet,
-        BuildingNumber: destinationBuildingNumber,
-        ApartmentNumber: destinationApartmentNumber,
-        City: destinationCity,
-        ZipCode: destinationZipCode,
-        Country: destinationCountry,
-      },
+      SourceStreet: sourceStreet,
+      SourceBuildingNumber: sourceBuildingNumber,
+      SourceApartmentNumber: sourceApartmentNumber,
+      SourceCity: sourceCity,
+      SourceZipCode: sourceZipCode,
+      SourceCountry: sourceCountry,
+      DestinationStreet: destinationStreet,
+      DestinationBuildingNumber: destinationBuildingNumber,
+      DestinationApartmentNumber: destinationApartmentNumber,
+      DestinationCity: destinationCity,
+      DestinationZipCode: destinationZipCode,
+      DestinationCountry: destinationCountry,
       Priority: priority,
       AtWeekend: atWeekend,
-      PickupDate: pickupDate, // Make sure this is ISO formatted string
-      DeliveryDate: deliveryDate, // Make sure this is ISO formatted string
+      PickupDate: pickupDate,
+      DeliveryDate: deliveryDate,
       IsCompany: isCompany,
       VipPackage: vipPackage
     };
@@ -193,7 +224,7 @@ export const createInquiry = async (
 
 
     const inquiryResponse = await api.post(`/parcels`, payload, {
-      headers: { Authorization: `Bearer ${userInfo.accessToken}` }
+      headers: { Authorization: `${userInfo.accessToken}` }
     });
     // return response.data;
 
