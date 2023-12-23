@@ -346,7 +346,7 @@ modules:
     services:
       parcels-service:
         localUrl: localhost:5007
-        url: parcels-service
+        url: localhost:5007
 
 
   pricing:
