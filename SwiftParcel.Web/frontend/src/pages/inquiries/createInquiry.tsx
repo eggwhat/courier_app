@@ -251,31 +251,58 @@ export default function CreateInquiry() {
     const [formIsValid, setFormIsValid] = React.useState(true); 
 
     // TODO: implement the form fields
+    // const [formFields, setFormFields] = React.useState<FormFields>({
+    //     description: "",
+    //     packageWidth: 0,
+    //     packageHeight: 0,
+    //     packageDepth: 0,
+    //     packageWeight: 0,
+    //     sourceAddressStreet: "",
+    //     sourceAddressBuildingNumber: "",
+    //     sourceAddressApartmentNumber: "",
+    //     sourceAddressCity: "",
+    //     sourceAddressZipCode: "",
+    //     sourceAddressCountry: "",
+    //     destinationAddressStreet: "",
+    //     destinationAddressBuildingNumber: "",
+    //     destinationAddressApartmentNumber: "",
+    //     destinationAddressCity: "",
+    //     destinationAddressZipCode: "",
+    //     destinationAddressCountry: "",
+    //     pickupDate: "",
+    //     deliveryDate: "",
+    //     priority: "low",
+    //     atWeekend: false,
+    //     isCompany: false,
+    //     vipPackage: false
+    // });
+
     const [formFields, setFormFields] = React.useState<FormFields>({
-        description: "",
-        packageWidth: 0,
-        packageHeight: 0,
-        packageDepth: 0,
-        packageWeight: 0,
-        sourceAddressStreet: "",
-        sourceAddressBuildingNumber: "",
+        description: "Test",
+        packageWidth: 0.05,
+        packageHeight: 0.05,
+        packageDepth: 0.05,
+        packageWeight: 0.5,
+        sourceAddressStreet: "Plac politechniki",
+        sourceAddressBuildingNumber: "1",
         sourceAddressApartmentNumber: "",
-        sourceAddressCity: "",
-        sourceAddressZipCode: "",
-        sourceAddressCountry: "",
-        destinationAddressStreet: "",
-        destinationAddressBuildingNumber: "",
-        destinationAddressApartmentNumber: "",
-        destinationAddressCity: "",
-        destinationAddressZipCode: "",
-        destinationAddressCountry: "",
-        pickupDate: "",
-        deliveryDate: "",
-        priority: "low",
-        atWeekend: false,
+        sourceAddressCity: "Warszawa",
+        sourceAddressZipCode: "00-420",
+        sourceAddressCountry: "Polska",
+        destinationAddressStreet: "Koszykowa",
+        destinationAddressBuildingNumber: "21",
+        destinationAddressApartmentNumber: "37",
+        destinationAddressCity: "Warszawa",
+        destinationAddressZipCode: "00-420",
+        destinationAddressCountry: "Polska",
+        pickupDate: "2023-12-22", // Format this as per your requirement
+        deliveryDate: "2023-12-29", // Format this as per your requirement
+        priority: "Low",
+        atWeekend: true,
         isCompany: false,
         vipPackage: false
     });
+    
     
     const handleNumberChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseFloat(event.target.value);
@@ -375,6 +402,11 @@ export default function CreateInquiry() {
     // const [vipPackage, setVipPackage] = React.useState(false);
 
   
+    const formatDateForServer = (dateString) => {
+        return new Date(dateString).toISOString(); // Adjust this based on server's expected format
+      };
+
+      
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
   
@@ -425,8 +457,8 @@ export default function CreateInquiry() {
         formFields.sourceAddressApartmentNumber, formFields.sourceAddressCity, formFields.sourceAddressZipCode,
         formFields.sourceAddressCountry, formFields.destinationAddressStreet, formFields.destinationAddressBuildingNumber,
         formFields.destinationAddressApartmentNumber, formFields.destinationAddressCity, formFields.destinationAddressZipCode,
-        formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, `${formFields.pickupDate}T00:00:00.000Z`,
-        `${formFields.deliveryDate}T00:00:00.000Z`, formFields.isCompany, formFields.vipPackage)
+        formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, formatDateForServer(formFields.pickupDate),
+        formatDateForServer(formFields.deliveryDate), formFields.isCompany, formFields.vipPackage)
         .then(({ inquiry, offers }) => {
           setSuccess("Inquiry created successfully!");
           setFormFields(

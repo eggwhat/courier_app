@@ -165,7 +165,7 @@ export const createInquiry = async (
       Height: height,
       Depth: depth,
       Weight: weight,
-      Source: {
+      source: {
         Street: sourceStreet,
         BuildingNumber: sourceBuildingNumber,
         ApartmentNumber: sourceApartmentNumber,
@@ -188,6 +188,9 @@ export const createInquiry = async (
       IsCompany: isCompany,
       VipPackage: vipPackage
     };
+
+    console.log("Request payload:", payload);
+
 
     const inquiryResponse = await api.post(`/parcels`, payload, {
       headers: { Authorization: `Bearer ${userInfo.accessToken}` }
