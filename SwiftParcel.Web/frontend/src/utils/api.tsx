@@ -223,7 +223,7 @@ export const createInquiry = async (
 
     console.log("Request payload:", payload);
 
-    const inquiryResponse = await axios.post(`/parcels`, payload, {
+    const inquiryResponse = await api.post(`/parcels`, payload, {
       headers: {
         'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
