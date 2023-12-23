@@ -121,6 +121,7 @@ export const getUsers = async (page = 1, perPage = defaultPageLimit) => {
   }
 };
 
+// This requewst is going OK
 // the next reques is used for the testing purpose:
 // ──(kaliuser㉿kali)-[~/…/wisdom_source.com/courier_app]
 // └─$ curl -X POST 'http://localhost:5007/parcels' \
@@ -194,7 +195,7 @@ export const createInquiry = async (
 
     const payload = {
       // ParcelId: "00000000-0000-0000-0000-000000000000", // Remove if backend generates ID
-      //CustomerId: customerId,
+      CustomerId: customerId,
       Description: description,
       Width: width,
       Height: height,
@@ -222,10 +223,13 @@ export const createInquiry = async (
 
     console.log("Request payload:", payload);
 
-
-    const inquiryResponse = await api.post(`/parcels`, payload, {
-      headers: { Authorization: `${userInfo.accessToken}` }
+    const inquiryResponse = await axios.post(`/parcels`, payload, {
+      headers: {
+        'Authorization': `Bearer ${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
     });
+    
     // return response.data;
 
     try {
