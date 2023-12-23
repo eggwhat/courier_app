@@ -140,13 +140,11 @@ modules:
         method: GET
         use: downstream
         downstream: orders-service/orders/{orderId}/status
-        auth: true
     
       - upstream: /
         method: POST
         use: downstream
         downstream: orders-service/orders
-        auth: true
         resourceId:
           property: orderId
           generate: true
@@ -283,7 +281,6 @@ modules:
         method: POST
         use: downstream
         downstream: parcels-service/parcels
-        auth: true
         resourceId:
           property: parcelId
           generate: true
