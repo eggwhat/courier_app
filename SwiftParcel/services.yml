@@ -1,4 +1,8 @@
 apps:
+ - name: api
+    script: dotnet run
+    cwd: ../SwiftParcel.API.Gateway/src/SwiftParcel.API.Gateway
+    max_restarts: 3
   - name: identity
     script: dotnet run
     cwd: ../SwiftParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api
@@ -7,4 +11,23 @@ apps:
     script: dotnet run
     cwd: ../SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api/SwiftParcel.Services.Availability.Api
     max_restarts: 3
-  
+  - name: customers
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Customers/src/SwiftParcel.Services.Customers.Api/SwiftParcel.Services.Customers.Api
+    max_restarts: 3
+  - name: deliveries
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Deliveries/src/SwiftParcel.Services.Deliveries.Api/SwiftParcel.Services.Deliveries.Api
+    max_restarts: 3
+  - name: orders
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Orders/src/SwiftParcel.Services.Orders.Api/SwiftParcel.Services.Orders.Api
+    max_restarts: 3
+  - name: parcels
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels.Api/SwiftParcel.Services.Parcels.Api
+    max_restarts: 3
+  - name: pricing
+    script: dotnet run
+    cwd: ../SwiftParcel.Services.Pricing/src/SwiftParcel.Services.Pricing.Api
+    max_restarts: 3
