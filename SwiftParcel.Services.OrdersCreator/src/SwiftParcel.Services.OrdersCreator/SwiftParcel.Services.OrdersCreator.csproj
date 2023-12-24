@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Chronicle_" Version="3.2.1" />
+    <PackageReference Include="Convey" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Commands" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Events" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
+    <PackageReference Include="Convey.Discovery.Consul" Version="1.1.448" />
+    <PackageReference Include="Convey.HTTP" Version="1.1.448" />
+    <PackageReference Include="Convey.LoadBalancing.Fabio" Version="1.1.448" />
+    <PackageReference Include="Convey.Logging" Version="1.1.448" />
+    <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
+    <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.1.448" />
+    <PackageReference Include="Convey.MessageBrokers.Outbox" Version="1.1.448" />
+    <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="1.1.448" />
+    <PackageReference Include="Convey.Metrics.AppMetrics" Version="1.1.448" />
+    <PackageReference Include="Convey.Persistence.Redis" Version="1.1.448" />
+    <PackageReference Include="Convey.Security" Version="1.1.448" />
+    <PackageReference Include="Convey.WebApi" Version="1.1.448" />
+    <PackageReference Include="Convey.WebApi.CQRS" Version="1.1.448" />
+    <PackageReference Include="Convey.WebApi.Swagger" Version="1.1.448" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+</Project>

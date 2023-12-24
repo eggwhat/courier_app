@@ -13,7 +13,7 @@ using OpenTracing;
 
 using SwiftParcel.Services.Identity.Application.Services;
 
-namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Services
+namespace SwiftParcel.Services.Identity.Infrastructure.Services
 {
     
     public class MessageBroker : IMessageBroker

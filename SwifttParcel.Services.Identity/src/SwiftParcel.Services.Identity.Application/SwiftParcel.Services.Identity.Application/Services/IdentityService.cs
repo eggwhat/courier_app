@@ -19,7 +19,8 @@ using SwiftParcel.Services.Identity.Core.Entities;
 using Microsoft.Extensions.Logging;
 using SwiftParcel.Services.Identity.Application.UserDTO;
 using System.Text.RegularExpressions;
-
+using SwiftParcel.Services.Identity.Application.Exceptions;
+using Google.Apis.Auth;
 
 
 
@@ -30,7 +31,6 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
-        private readonly IJwtHandler _jwtHandler;
         private readonly IMessageBroker _messageBroker;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ILogger<IdentityService> _logger;
@@ -116,6 +116,95 @@ namespace SwiftParcel.Services.Identity.Identity.Application.Services
             
             _logger.LogInformation($"Created an account for the user with id: {user.Id}.");
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
+        }
+
+        public async Task<AuthDto> SignInWithGoogleAsync(SignUpGoogle command)
+        {
+            // Example pseudocode for validating the Google token and retrieving user info
+
+            var googleToken = command.GoogleToken;
+            if (string.IsNullOrWhiteSpace(googleToken))
+            {
+                throw new ArgumentException("Google token is required for Google sign-up.");
+            }
+
+            var googleUserData = await ValidateGoogleTokenAndGetUserData(googleToken);
+
+            var user = await _userRepository.GetAsync(googleUserData.Email);
+            if (user == null)
+            {
+                // Optionally handle auto-registration or throw an exception
+                throw new UserNotFoundException(googleUserData.GoogleId);
+            }
+
+            var auth = _jwtProvider.Create(user.Id, user.Role, claims: null); // Update as needed
+            auth.RefreshToken = await _refreshTokenService.CreateAsync(user.Id);
+
+            // Log the sign-in event
+            _logger.LogInformation($"User with id: {user.Id} signed in with Google.");
+            await _messageBroker.PublishAsync(new SignedIn(user.Id, user.Role));
+
+            return auth;
+        }
+
+        public async Task<AuthDto> SignUpWithGoogleAsync(SignUpGoogle command)
+        {
+            // Extract Google token from the SignUp command
+            var googleToken = command.GoogleToken;
+            if (string.IsNullOrWhiteSpace(googleToken))
+            {
+                throw new ArgumentException("Google token is required for Google sign-up.");
+            }
+
+            var googleUserData = await ValidateGoogleTokenAndGetUserData(googleToken);
+
+            var existingUser = await _userRepository.GetAsync(googleUserData.Email);
+            if (existingUser != null)
+            {
+                throw new EmailInUseException(googleUserData.Email);
+            }
+
+            // Create a new user entity from Google data
+            var newUser = new User(Guid.NewGuid(), googleUserData.Email, "", "user", DateTime.UtcNow, new List<string>());
+            await _userRepository.AddAsync(newUser);
+
+            var auth = _jwtProvider.Create(newUser.Id, newUser.Role, claims: null);
+            auth.RefreshToken = await _refreshTokenService.CreateAsync(newUser.Id);
+
+            _logger.LogInformation($"User with id: {newUser.Id} signed up with Google.");
+            await _messageBroker.PublishAsync(new SignedUp(newUser.Id, newUser.Email, newUser.Role));
+
+            return auth;
+        }
+
+        private async Task<GoogleUserDto> ValidateGoogleTokenAndGetUserData(string googleToken)
+        {
+            GoogleJsonWebSignature.Payload payload = null;
+            try
+            {
+                // Validate the token and get the payload
+                payload = await GoogleJsonWebSignature.ValidateAsync(googleToken);
+            }
+            catch (InvalidJwtException ex)
+            {
+                _logger.LogError($"Invalid JWT token: {ex.Message}");
+                throw; // Or handle the exception as you see fit
+            }
+
+            if (payload == null)
+            {
+                throw new InvalidOperationException("Unable to validate Google token and get payload.");
+            }
+
+            // Create and return a DTO with the user's information
+            return new GoogleUserDto
+            {
+                Email = payload.Email,
+                Name = payload.Name,
+                ProfilePictureUrl = payload.Picture,
+                GoogleId = payload.Subject 
+                
+            };
         }
     }
 }

@@ -1,17 +1,52 @@
 import axios from "axios";
 import { getUserInfo, saveUserInfo } from "./storage";
 
+
+const API_BASE_URL = 'http://localhost:6001';
+
+
 const api = axios.create({
-  baseURL: "https://parcel-delivery-system-ng.herokuapp.com/api",
+  baseURL: "http://localhost:5292",
+  withCredentials: true,
 });
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      //// saveUserInfo(null);
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Helper function to get the authorization header
+const getAuthHeader = () => {
+  const token = getUserInfo()?.token;
+  if (!token) throw new Error('No token found');
+  return { Authorization: `Bearer ${token}` };
+};
 
 const defaultPageLimit = 10;
 
-export const login = async (username: string, password: string) => {
-  return await api.post("/auth/login", {
-    username,
-    password,
-  });
+export const login = async (email: string, password: string) => {
+  // const response = await api.post('/sign-in', { email, password });
+  // return response.data;
+  try {
+    const response = await api.post('/identity/sign-in', { email, password });
+    const { accessToken, refreshToken, role, expires } = response.data;
+
+    saveUserInfo({ token: accessToken, refreshToken, role, expires }); 
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during login:', error.response?.data || error.message);
+    } else {
+      console.error('Error during login:', error);
+    }
+    throw error;
+  }
 };
 
 export const register = async (
@@ -19,41 +54,53 @@ export const register = async (
   password: string,
   email: string
 ) => {
-  return await api.post("/auth/register", {
-    username,
-    password,
-    email,
-  });
+  try {
+    const response = await api.post(`/identity/sign-up`, {
+      username,
+      password,
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during registration (Axios error):', error.response?.data || error.message);
+    } else {
+      console.error('Error during registration:', error);
+    }
+    throw error;
+  }
 };
 
 export const logout = async () => {
-  const token = getUserInfo()?.token;
-  saveUserInfo(null);
-  if (!token) return Promise.reject();
-
-  await api.get("/auth/logout", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const headers = getAuthHeader();
+    await api.get('/identity/logout', { headers });
+  } catch (error) {
+    console.error('Logout failed:', error);
+  } finally {
+    saveUserInfo(null);
+    window.location.href = '/login';
+  }
 };
 
 export const getProfile = async () => {
-  const token = getUserInfo()?.token;
-  if (!token) return Promise.reject();
+  // const token = getUserInfo()?.token;
+  // if (!token) return Promise.reject();
 
-  const res = await api.get("/auth/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  // const res = await api.get("/auth/me", {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
 
-  if (res.status === 401) {
-    saveUserInfo(null);
-    return Promise.reject();
-  }
+  // if (res.status === 401) {
+  //   // saveUserInfo(null);
+  //   return Promise.reject();
+  // }
 
-  return res;
+  // return res;
+  const response = await api.get("/me", { headers: getAuthHeader() });
+  return response.data;
 };
 
 export const getUsers = async (
@@ -61,19 +108,95 @@ export const getUsers = async (
   perPage: number = defaultPageLimit,
   extra = ""
 ) => {
-  const token = getUserInfo()?.token;
-  const res = await api.get(`/users?page=${page}&size=${perPage}${extra}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
-  if (res.status === 401) {
-    saveUserInfo(null);
+  // in the case for the test reason: using the backend in the node
+  // const token = getUserInfo()?.token;
+  // const res = await api.get(`/users?page=${page}&size=${perPage}${extra}`, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+
+  const response = await api.get(`/users?page=${page}&size=${perPage}`, { headers: getAuthHeader() });
+
+  if (response.status === 401) {
+    //// saveUserInfo(null);
     return Promise.reject();
   }
 
-  return res;
+  return response;
+};
+
+export const createInquiry = async (
+  description: string,
+  width: number,
+  height: number,
+  depth: number,
+  weight: number,
+  sourceStreet: string,
+  sourceBuildingNumber: string,
+  sourceApartmentNumber: string,
+  sourceCity: string,
+  sourceZipCode: string,
+  sourceCountry: string,
+  destinationStreet: string,
+  destinationBuildingNumber: string,
+  destinationApartmentNumber: string,
+  destinationCity: string,
+  destinationZipCode: string,
+  destinationCountry: string,
+  priority: string,
+  atWeekend: boolean,
+  pickupDate: string,
+  deliveryDate: string,
+  isCompany: boolean,
+  vipPackage: boolean
+) => {
+  try {
+    const response = await api.post(`/parcels`, {
+      description,
+      width,
+      height,
+      depth,
+      weight,
+      sourceStreet,
+      sourceBuildingNumber,
+      sourceApartmentNumber,
+      sourceCity,
+      sourceZipCode,
+      sourceCountry,
+      destinationStreet,
+      destinationBuildingNumber,
+      destinationApartmentNumber,
+      destinationCity,
+      destinationZipCode,
+      destinationCountry,
+      priority,
+      atWeekend,
+      pickupDate,
+      deliveryDate,
+      isCompany,
+      vipPackage
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error during inquiry creation (Axios error):', error.response?.data || error.message);
+    } else {
+      console.error('Error during inquiry creation:', error);
+    }
+    throw error;
+  }
+};
+
+export const getInquiries = async () => {
+  try {
+    const response = await api.get(`/parcels`);
+    return response.data;
+  } catch (error) {
+    console.error('Error during getting inquiries:', error);
+    throw error;
+  }
 };
 
 export const createCar = async (data: any) => {
@@ -85,7 +208,7 @@ export const createCar = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -101,7 +224,7 @@ export const updateCar = async (carId: number, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -117,7 +240,7 @@ export const deleteCar = async (carId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    //// saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -133,7 +256,7 @@ export const getCar = async (carId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -153,7 +276,7 @@ export const getCarPersonal = async () => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -173,7 +296,7 @@ export const getCars = async (
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -189,7 +312,7 @@ export const createParcel = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -205,7 +328,7 @@ export const updateParcel = async (parcelId: string, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -221,7 +344,7 @@ export const deleteParcel = async (parcelId: string) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -237,7 +360,7 @@ export const getParcel = async (parcelId: string) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -257,7 +380,7 @@ export const getParcels = async (
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -280,7 +403,7 @@ export const getParcelsForCourier = async (
   );
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -303,7 +426,7 @@ export const getParcelsForCar = async (
   );
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -319,7 +442,7 @@ export const createCourier = async (data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -335,7 +458,7 @@ export const updateCourier = async (courierId: number, data: any) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -351,7 +474,7 @@ export const deleteCourier = async (courierId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -367,7 +490,7 @@ export const getCourier = async (courierId: number) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 
@@ -383,7 +506,7 @@ export const getCouriers = async (page: number, perPage: number = 10) => {
   });
 
   if (res.status === 401) {
-    saveUserInfo(null);
+    // saveUserInfo(null);
     return Promise.reject();
   }
 

@@ -34,7 +34,6 @@ using SwiftParcel.Services.Identity.Infrastructure.Auth;
 using SwiftParcel.Services.Identity.Infrastructure.Contexts;
 using SwiftParcel.Services.Identity.Infrastructure.Decorators;
 using SwiftParcel.Services.Identity.Infrastructure.Exceptions;
-using SwiftParcel.Services.Identity.Infrastructure.MessageBrokers;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Identity.Infrastructure.Mongo.Repositories;
 using SwiftParcel.Services.Identity.Infrastructure.Persistence.Mongo.Repository;
@@ -48,6 +47,10 @@ using Convey.Security;
 using Convey.WebApi.CQRS;
 using Convey.MessageBrokers.CQRS;
 using SwiftParcel.Services.Identity.Application;
+using Convey.HTTP;
+using SwiftParcel.Services.Identity.Infrastructure.Mongo;
+using SwiftParcel.Services.Identity.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace SwiftParcel.Services.Identity.Infrastructure
 {
@@ -55,6 +58,14 @@ namespace SwiftParcel.Services.Identity.Infrastructure
     {
        public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
+
+             var googleAuthSettings = new GoogleAuthSettings
+            {
+                ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID"),
+                ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")
+            };
+
+
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
@@ -68,13 +79,23 @@ namespace SwiftParcel.Services.Identity.Infrastructure
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
+            
+
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "";
+                    options.ClientSecret = "";
+
+                });
+
 
             return builder
                 .AddErrorHandler<ExceptionToResponseMapper>()
                 .AddQueryHandlers()
                 .AddInMemoryQueryDispatcher()
                 .AddJwt()
-                //.AddHttpClient()
+                .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
                 .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
@@ -97,7 +118,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure
                 .UseJaeger()
                 .UseConvey()
                 .UseAccessTokenValidator()
-                //.UseMongo()
+                .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseAuthentication()

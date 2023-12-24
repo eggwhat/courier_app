@@ -19,14 +19,14 @@ interface LoginModalProps {
 
 export function LoginModal(props: LoginModalProps) {
   const close = () => {
-    setUsername("");
+    setEmail("");
     setPassword("");
     setError("");
     setIsLoading(false);
     props.setShow(false);
   };
 
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -36,14 +36,18 @@ export function LoginModal(props: LoginModalProps) {
     setError("");
     setIsLoading(true);
 
-    login(username, password)
+    login(email, password)
       .then(async (res) => {
-        if (res.status === 201) {
-          saveUserInfo(res.data);
-          close();
-        } else {
-          throw new Error("Something went wrong");
-        }
+        console.log(res)
+        saveUserInfo(res);
+        close();
+        // if (res.status === 200) {
+        //   saveUserInfo(res.data);
+        //   close();
+        // } else {
+        //   console.log("The error with login! The res.status =", res)
+        //   throw new Error("Something went wrong");
+        // }
       })
       .catch((err) => {
         setError(err?.response?.data?.message || "Something went wrong");
@@ -70,14 +74,22 @@ export function LoginModal(props: LoginModalProps) {
               ) : null}
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="username" value="Your username" />
+                  <Label htmlFor="email" value="Your email" />
                 </div>
-                <TextInput
+                {/* <TextInput
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required={true}
+                /> */}
+                <TextInput
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required={true}
                 />
+
               </div>
               <div>
                 <div className="mb-2 block">

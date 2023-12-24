@@ -23,7 +23,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Query
         {
             var user = await _userRepository.GetAsync(query.UserId);
 
-            return user.AsDto();
+            return user?.AsDto();
         }
     }
 }

@@ -25,6 +25,10 @@ export function Header(props: {
     setUserToken(getUserInfo());
   }, [showLoginModal]);
 
+  React.useEffect(() => {
+    console.log('User token updated:', userToken);
+  }, [userToken]);
+
   React.useMemo(() => {
     if (userToken) {
       getProfile()
@@ -40,9 +44,9 @@ export function Header(props: {
           }
         })
         .catch(() => {
-          saveUserInfo(null);
-          setUserToken(null);
-          setIsCourier(false);
+          // saveUserInfo(null);
+          // setUserToken(null);
+          // setIsCourier(false);
         })
         .finally(() => {
           props.setLoading(false);
@@ -67,7 +71,7 @@ export function Header(props: {
         <Link to="/" className="flex items-center">
           <FaShippingFast className="mr-2 h-10 w-10 text-blue-700" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Parcel delivery
+            Swift Parcel
           </span>
         </Link>
         <div className="flex md:order-2">
@@ -93,7 +97,7 @@ export function Header(props: {
               <span className="hidden sm:flex">Sign in</span>
             </Button>
           )}
-          {userToken?.user?.role === "Admin" || userToken?.courier !== null ? (
+          {userToken?.user?.role === "admin" || userToken?.courier !== null ? (
             <Navbar.Toggle />
           ) : null}
         </div>
@@ -106,7 +110,7 @@ export function Header(props: {
               <AppNavLink to="/parcels" text="All Parcels" />
             </>
           ) : null}
-          {userToken?.user?.role === "Admin" ? (
+          {userToken?.user?.role === "admin" ? (
             <>
               <AppNavLink to="/couriers/manage" text="Couriers" />
               <AppNavLink to="/parcels/manage" text="Parcels" />

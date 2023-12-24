@@ -14,8 +14,9 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Auth
        
         public string Generate(int length = 50, bool removeSpecialChars = true)
         {
+            using var rng = new RNGCryptoServiceProvider();
             var bytes = new byte[length];
-            RandomNumberGenerator.Fill(bytes); // Using the recommended RandomNumberGenerator static method
+            rng.GetBytes(bytes);
             var result = Convert.ToBase64String(bytes);
 
             return removeSpecialChars

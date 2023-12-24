@@ -16,6 +16,10 @@ using SwiftParcel.Services.Identity.Infrastructure.Mongo;
 using Convey.Logging;
 using Convey.Secrets.Vault;
 using SwiftParcel.Services.Identity.Infrastructure;
+using MongoDB.Driver;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.Google;
+
 namespace src.SwiftParcel.Services.Identity.Api
 {
     public class Program
@@ -23,21 +27,12 @@ namespace src.SwiftParcel.Services.Identity.Api
         public static async Task Main(string[] args)
             => await WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services
-                    .AddCors(options =>
-                    {
-                        options.AddPolicy("AllowAll", builder =>
-                            builder.AllowAnyOrigin()
-                                   .AllowAnyMethod()
-                                   .AllowAnyHeader());
-                    })
                     .AddConvey()
                     .AddWebApi()
                     .AddApplication()
                     .AddInfrastructure()
-                    .Build()
-                    )
+                    .Build())
                 .Configure(app => app
-                    .UseCors("AllowAll")
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx =>  ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
@@ -61,6 +56,11 @@ namespace src.SwiftParcel.Services.Identity.Api
                         .Post<SignUp>("sign-up", async (cmd, ctx) =>
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
+                            await ctx.Response.Created("identity/me");
+                        })
+                        .Post<SignUpGoogle>("google-sign-up", async (cmd, ctx) => 
+                        {
+                            await ctx.RequestServices.GetService<IIdentityService>().SignUpWithGoogleAsync(cmd);
                             await ctx.Response.Created("identity/me");
                         })
                         .Post<RevokeAccessToken>("access-tokens/revoke", async (cmd, ctx) =>
@@ -95,5 +95,6 @@ namespace src.SwiftParcel.Services.Identity.Api
 
             await context.Response.WriteJsonAsync(user);
         }
+
     }
 }

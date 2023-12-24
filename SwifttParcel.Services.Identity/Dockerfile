@@ -6,6 +6,15 @@ WORKDIR /app
 # Copy csproj and restore as distinct layers.
 COPY *.sln .
 COPY src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/*.csproj ./src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api/
+# Copy the Application, Core, and Infrastructure projects as well.
+COPY src/SwiftParcel.Services.Identity.Application/SwiftParcel.Services.Identity.Application/*.csproj ./src/SwiftParcel.Services.Identity.Application/SwiftParcel.Services.Identity.Application/
+COPY src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/*.csproj ./src/SwiftParcel.Services.Identity.Core/SwiftParcel.Services.Identity.Core/
+COPY src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/*.csproj ./src/SwiftParcel.Services.Identity.Infrastructure/SwiftParcel.Services.Identity.Infrastructure/
+# Copy tests projects as well.
+COPY tests/SwiftParcel.Services.Identity.Application.UnitTests/Application.UnitTests/*.csproj ./tests/SwiftParcel.Services.Identity.Application.UnitTests/Application.UnitTests/
+COPY tests/SwiftParcel.Services.Identity.Infrastructure.UnitTests/Infrastructure.UnitTests/*.csproj ./tests/SwiftParcel.Services.Identity.Infrastructure.UnitTests/Infrastructure.UnitTests/
+
+# Restore the NuGet packages
 RUN dotnet restore
 
 # Copy everything else and build the app.

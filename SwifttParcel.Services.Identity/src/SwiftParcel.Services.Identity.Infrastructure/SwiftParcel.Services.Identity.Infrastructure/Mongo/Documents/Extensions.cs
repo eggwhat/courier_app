@@ -13,6 +13,7 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Mongo.Documents
             => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt,
                 document.Permissions);
 
+
         public static UserDocument AsDocument(this User entity)
             => new UserDocument
             {
