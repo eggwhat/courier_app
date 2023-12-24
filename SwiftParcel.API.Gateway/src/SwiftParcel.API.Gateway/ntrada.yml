@@ -330,12 +330,15 @@ modules:
       - upstream: /
         method: POST
         use: downstream
-        downstream: parcels-service/parcels
+        # for fabio
+        # downstream: parcels-service/parcels
+        downstream: http://localhost:5007/parcels?customerId=@user_id
         resourceId:
           property: parcelId
           generate: true
         bind:
           - customerId:@user_id
+    
     
       - upstream: /{parcelId}
         method: DELETE
