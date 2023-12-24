@@ -2,9 +2,6 @@ import axios from "axios";
 import { getUserIdFromStorage, getUserInfo, saveUserInfo } from "./storage";
 
 
-const API_BASE_URL = 'http://localhost:6001';
-
-
 const api = axios.create({
   baseURL: "http://localhost:5292",
   withCredentials: true,
@@ -225,7 +222,7 @@ export const createInquiry = async (
 
     const inquiryResponse = await api.post(`/parcels`, payload, {
       headers: {
-        'Authorization': `Bearer ${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     });

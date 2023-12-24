@@ -332,7 +332,7 @@ modules:
         use: downstream
         # for fabio http requests:
         # downstream: parcels-service/parcels
-        downstream: http://localhost:5007/parcels?customerId=@user_id
+        downstream: parcels-service/parcels
         resourceId:
           property: parcelId
           generate: true
