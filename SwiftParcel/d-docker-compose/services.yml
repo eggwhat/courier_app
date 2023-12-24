@@ -7,7 +7,7 @@ services:
     container_name: identity-service
     restart: unless-stopped
     ports:
-      - 6001:80
+      - 5292:80
     networks:
       - swiftparcel
 
@@ -16,7 +16,7 @@ services:
     container_name: availability-service
     restart: unless-stopped
     ports:
-      - 6002:80 
+      - 5001:80 
     networks:
       - swiftparcel
   web:
@@ -27,6 +27,46 @@ services:
       - 3001:80 
     networks:
       - swiftparcel
+      
+  deliveries-service:
+    image: apa/swiftparcel.services.deliveries
+    container_name: deliveries-service
+    restart: unless-stopped
+    ports:
+      - 5003:80
+    networks:
+      - swiftparcel
+
+  parcels-service:
+    image: apa/swiftparcel.services.parcels
+    container_name: parcels-service
+    restart: unless-stopped
+    ports:
+      - 5007:80
+    networks:
+      - swiftparcel
+  
+  pricing-service:
+    image: apa/swiftparcel.services.pricing
+    container_name: pricing-service
+    restart: unless-stopped
+    ports:
+      - 5008:80
+    networks:
+      - swiftparcel
+
+  customers-service:
+    image: apa/swiftparcel.services.customers
+    container_name: customers-service
+    restart: unless-stopped
+    ports:
+      - 5002:80
+    networks:
+      - swiftparcel
+
+
+
+
 
   
 networks:
