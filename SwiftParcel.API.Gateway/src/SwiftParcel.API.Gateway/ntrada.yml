@@ -330,7 +330,7 @@ modules:
       - upstream: /
         method: POST
         use: downstream
-        # for fabio
+        # for fabio http requests
         # downstream: parcels-service/parcels
         downstream: http://localhost:5007/parcels?customerId=@user_id
         resourceId:
