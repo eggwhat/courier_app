@@ -145,11 +145,6 @@ modules:
         method: POST
         use: downstream
         downstream: orders-service/orders
-        resourceId:
-          property: orderId
-          generate: true
-        bind:
-          - customerId:@user_id
     
       - upstream: /{orderId}
         method: DELETE
@@ -281,11 +276,6 @@ modules:
         method: POST
         use: downstream
         downstream: parcels-service/parcels
-        resourceId:
-          property: parcelId
-          generate: true
-        bind:
-          - customerId:@user_id
     
       - upstream: /{parcelId}
         method: DELETE
