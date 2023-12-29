@@ -11,7 +11,7 @@ services:
     ports:
       - 5000:80
     networks:
-      - pacco
+      - swiftparcel
 
   identity-service:
     build: ../../SwifttParcel.Services.Identity
