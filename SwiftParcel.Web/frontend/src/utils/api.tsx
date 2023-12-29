@@ -124,6 +124,8 @@ export const getUsers = async (page = 1, perPage = defaultPageLimit) => {
 // └─$ curl -X POST 'http://localhost:5007/parcels' \
 // -H 'Content-Type: application/json' \
 // -d '{
+//     "ParcelId": "00000000-0000-0000-0000-000000000000",
+//     "CustomerId": "00000000-0000-0000-0000-000000000000",
 //     "Description": "TestYYYYYYYY",
 //     "Width": 0.05,
 //     "Height": 0.05,
@@ -188,11 +190,10 @@ export const createInquiry = async (
     console.log("Using access token:", userInfo.accessToken);
 
     const userData = await getProfile();
-    const customerId = userData.id || null; 
+    const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
 
     const payload = {
-      // ParcelId: "00000000-0000-0000-0000-000000000000", // Remove if backend generates ID
-      CustomerId: customerId,
+      CustomerId:  customerId,
       Description: description,
       Width: width,
       Height: height,
@@ -220,39 +221,47 @@ export const createInquiry = async (
 
     console.log("Request payload:", payload);
 
-    const inquiryResponse = await api.post(`/parcels`, payload, {
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+
+    const inquiryResponse = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     });
+
+    return inquiryResponse.data;
     
     // return response.data;
 
-    try {
-      const offerResponse = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          api.get(`deliveries-service/deliveries`, { params: { parcelId: inquiryResponse.data.parcelId } })
-            .then(resolve)
-            .catch(reject);
-        }, 30000); // Wait for 30 seconds
-      });
+    // try {
+    //   const offerResponse = await new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //       api.get(`deliveries-service/deliveries`, { params: { parcelId: inquiryResponse.data.parcelId } })
+    //         .then(resolve)
+    //         .catch(reject);
+    //     }, 30000); // Wait for 30 seconds
+    //   });
 
-      return { inquiry: inquiryResponse, offers: offerResponse };
-    } catch (offerError) {
-      console.error('Error fetching courier offers:', offerError);
-      // Return the inquiry response even if fetching offers fails
-      return { inquiry: inquiryResponse.data, offers: null };
-    }
+    //   return { inquiry: inquiryResponse, offers: offerResponse };
+    // } catch (offerError) {
+    //   console.error('Error fetching courier offers:', offerError);
+    //   // Return the inquiry response even if fetching offers fails
+    //   return { inquiry: inquiryResponse.data, offers: null };
+    // }
 
   } catch (inquiryError) {
-    if (axios.isAxiosError(inquiryError)) {
-      console.error('Error during inquiry creation (Axios error):', inquiryError.response?.data || inquiryError.message);
+    if (axios.isAxiosError(inquiryError) && inquiryError.response) {
+      console.error('Error status:', inquiryError.response.status);
+      console.error('Error data:', inquiryError.response.data);
+      console.error('Error during inquiry creation:', inquiryError.message);
     } else {
       console.error('Error during inquiry creation:', inquiryError);
     }
     throw inquiryError;
   }
+  
 };
 
 export const getInquiries = async () => {

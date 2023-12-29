@@ -482,7 +482,7 @@ export default function CreateInquiry() {
             destinationAddressCountry: "",
             pickupDate: "",
             deliveryDate: "",
-            priority: "low",
+            priority: "Low",
             atWeekend: false,
             isCompany: false,
             vipPackage: false

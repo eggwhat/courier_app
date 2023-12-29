@@ -330,14 +330,15 @@ modules:
       - upstream: /
         method: POST
         use: downstream
-        # for fabio http requests:
-        # downstream: parcels-service/parcels
         downstream: parcels-service/parcels
+        auth: false
         resourceId:
           property: parcelId
           generate: true
         bind:
           - customerId:@user_id
+        payload: add_parcel
+        schema: add_parcel.schema
     
     
       - upstream: /{parcelId}
@@ -349,7 +350,7 @@ modules:
     services:
       parcels-service:
         localUrl: localhost:5007
-        url: localhost:5007
+        url: parcels-service
 
 
   pricing:
