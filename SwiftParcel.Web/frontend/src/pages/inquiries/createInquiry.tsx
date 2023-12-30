@@ -116,17 +116,50 @@ const SubmitButton = ({ inquiryLoading }) => (
 
 const ShortDescriptionSection = ({ formFields, handleDescriptionChange, errors }) => (
     <div className="my-5">
-      <TextInputWithLabel id="description" label="Short Description" value={formFields.description} onChange={handleDescriptionChange('description')} error={errors.description}/>
+        <TextInputWithLabel
+            id="description"
+            label="Short Description"
+            value={formFields.description}
+            onChange={handleDescriptionChange('description')}
+            error={errors.description}
+        />
     </div>
 );
   
-
 const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <TextInputWithLabel id="package-width" label="Width" value={formFields.packageWidth} onChange={handleNumberChange('packageWidth')} type="number" error={errors.packageWidth}/>
-      <TextInputWithLabel id="package-height" label="Height" value={formFields.packageHeight} onChange={handleNumberChange('packageHeight')}  type="number" error={errors.packageHeight}/>
-      <TextInputWithLabel id="package-depth" label="Depth" value={formFields.packageDepth} onChange={handleNumberChange('packageDepth')}  type="number" error={errors.packageDepth}/>
-      <TextInputWithLabel id="package-weight" label="Weight" value={formFields.packageWeight} onChange={handleNumberChange('packageWeight')}  type="number" error={errors.packageWeight}/>
+        <TextInputWithLabel
+            id="package-width" 
+            label="Width" 
+            value={formFields.packageWidth} 
+            onChange={handleNumberChange('packageWidth')} 
+            type="number" 
+            error={errors.packageWidth}
+        />
+        <TextInputWithLabel 
+            id="package-height" 
+            label="Height" 
+            value={formFields.packageHeight} 
+            onChange={handleNumberChange('packageHeight')}  
+            type="number" 
+            error={errors.packageHeight}
+        />
+        <TextInputWithLabel 
+            id="package-depth" 
+            label="Depth" 
+            value={formFields.packageDepth} 
+            onChange={handleNumberChange('packageDepth')} 
+            type="number" 
+            error={errors.packageDepth}
+        />
+        <TextInputWithLabel
+            id="package-weight"
+            label="Weight" 
+            value={formFields.packageWeight} 
+            onChange={handleNumberChange('packageWeight')} 
+            type="number"
+            error={errors.packageWeight}
+        />
     </div>
 );
 
@@ -366,17 +399,26 @@ export default function CreateInquiry() {
             errors.description = "Description is required!";
         }
 
+        if (formFields.packageWidth <= 0) {
+            errors.packageWidth = "Width must be greater than 0!";
+        }
+
+        if (formFields.packageHeight <= 0) {
+            errors.packageHeight = "Height must be greater than 0!";
+        }
+    
+        if (formFields.packageDepth <= 0) {
+            errors.packageDepth = "Depth must be greater than 0!";
+        }
+
+        if (formFields.packageWeight <= 0) {
+            errors.packageWeight = "Weight must be greater than 0!";
+        }
+
         if (!formFields.sourceAddressStreet) {
             errors.sourceAddressStreet = "Street in source address is required!";
         }
 
-        // Add your other validation checks here and update the errors object accordingly
-        // For example:
-        if (formFields.packageWidth <= 0) {
-            errors.packageWidth = "Width must be greater than 0";
-        }
-        // Continue for other fields...
-    
         setFormErrors(errors);
         return Object.keys(errors).length === 0; 
       };
