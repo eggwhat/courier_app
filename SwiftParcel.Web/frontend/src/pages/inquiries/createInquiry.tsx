@@ -178,8 +178,8 @@ const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityCh
                 onChange={handlePriorityChange('priority')}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             >
-                <option value="low">Low</option>
-                <option value="high">High</option>
+                <option value="Low">Low</option>
+                <option value="High">High</option>
             </select>
         </div>
 
@@ -300,7 +300,7 @@ export default function CreateInquiry() {
     //     destinationAddressCountry: "",
     //     pickupDate: "",
     //     deliveryDate: "",
-    //     priority: "low",
+    //     priority: "Low",
     //     atWeekend: false,
     //     isCompany: false,
     //     vipPackage: false
@@ -366,7 +366,7 @@ export default function CreateInquiry() {
     };
 
     const handleBooleanChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
+        const newValue = stringToBoolean(event.target.value);
         setFormFields(prevState => ({
             ...prevState,
             [field]: newValue
