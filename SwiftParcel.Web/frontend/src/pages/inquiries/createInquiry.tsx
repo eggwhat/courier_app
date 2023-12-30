@@ -234,42 +234,42 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Street" 
             value={formFields[`${prefix}AddressStreet`]} 
             onChange={handleStringChange(`${prefix}AddressStreet`)} 
-            error={errors?.street}
+            error={errors[`${prefix}AddressStreet`]}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-building-number`} 
             label="Building Number" 
             value={formFields[`${prefix}AddressBuildingNumber`]} 
             onChange={handleStringChange(`${prefix}AddressBuildingNumber`)} 
-            error={errors?.buildingNumber}
+            error={errors[`${prefix}AddressBuildingNumber`]}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-apartment-number`} 
             label="Apartment Number (optional)" 
             value={formFields[`${prefix}AddressApartmentNumber`]} 
             onChange={handleStringChange(`${prefix}AddressApartmentNumber`)} 
-            error={errors?.apartmentNumber}
+            error={errors[`${prefix}AddressApartmentNumber`]}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-city`} 
             label="City" 
             value={formFields[`${prefix}AddressCity`]} 
             onChange={handleStringChange(`${prefix}AddressCity`)} 
-            error={errors?.city}
+            error={errors[`${prefix}AddressCity`]}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-zip-code`} 
             label="Zip Code" 
             value={formFields[`${prefix}AddressZipCode`]} 
             onChange={handleStringChange(`${prefix}AddressZipCode`)} 
-            error={errors?.zipCode}
+            error={errors[`${prefix}AddressZipCode`]}
         />
         <TextInputWithLabel 
             id={`${prefix}-address-country`} 
             label="Country" 
             value={formFields[`${prefix}AddressCountry`]} 
             onChange={handleStringChange(`${prefix}AddressCountry`)} 
-            error={errors?.country}
+            error={errors[`${prefix}AddressCountry`]}
         />
     </div>
 );
@@ -395,9 +395,13 @@ export default function CreateInquiry() {
     const validateForm = () => {
         const errors: FormErrors = {};
 
+        // validation of description section
+
         if (!formFields.description) {
-            errors.description = "Description is required!";
+            errors.description = "Short description is required!";
         }
+
+        // validation of package details section
 
         if (formFields.packageWidth <= 0) {
             errors.packageWidth = "Width must be greater than 0!";
@@ -415,8 +419,48 @@ export default function CreateInquiry() {
             errors.packageWeight = "Weight must be greater than 0!";
         }
 
+        // validation of source address section
+
         if (!formFields.sourceAddressStreet) {
             errors.sourceAddressStreet = "Street in source address is required!";
+        }
+
+        if (!formFields.sourceAddressBuildingNumber) {
+            errors.sourceAddressBuildingNumber = "Building number in source address is required!";
+        }
+
+        if (!formFields.sourceAddressCity) {
+            errors.sourceAddressCity = "City in source address is required!";
+        }
+
+        if (!formFields.sourceAddressZipCode) {
+            errors.sourceAddressZipCode = "Zip code in source address is required!";
+        }
+
+        if (!formFields.sourceAddressCountry) {
+            errors.sourceAddressCountry = "Country in source address is required!";
+        }
+
+        // validation of destination address section
+
+        if (!formFields.destinationAddressStreet) {
+            errors.destinationAddressStreet = "Street in destination address is required!";
+        }
+
+        if (!formFields.destinationAddressBuildingNumber) {
+            errors.destinationAddressBuildingNumber = "Building number in destination address is required!";
+        }
+
+        if (!formFields.destinationAddressCity) {
+            errors.destinationAddressCity = "City in destination address is required!";
+        }
+
+        if (!formFields.destinationAddressZipCode) {
+            errors.destinationAddressZipCode = "Zip code in destination address is required!";
+        }
+
+        if (!formFields.destinationAddressCountry) {
+            errors.destinationAddressCountry = "Country in destination address is required!";
         }
 
         setFormErrors(errors);
