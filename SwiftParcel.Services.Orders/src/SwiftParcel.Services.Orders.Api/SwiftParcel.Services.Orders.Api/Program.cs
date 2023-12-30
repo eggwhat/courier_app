@@ -41,8 +41,10 @@ namespace SwiftParcel.Services.Orders.Api
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}/status"))
                         .Post<AddCustomerToOrder>("orders/{orderId}/customer",
                             afterDispatch: (cmd, ctx) => ctx.Response.Created($"orders/{cmd.OrderId}"))
-                        .Put<ApproveOrder>("orders/{orderId}/approve")
-                        .Put<CancelOrder> ("orders/{orderId}/cancel")))
+                        .Put<ApproveOrderOfficeWorker>("orders/{orderId}/office-worker/approve")
+                        .Put<CancelOrderOfficeWorker> ("orders/{orderId}/office-worker/cancel")))
+                        //.Post<ConfirmOrder>("orders/{orderId}/confirm")
+                        //.Delete<DeleteOrder>("orders/{orderId}")))
                 .UseLogging()
                 .UseVault()
                 .Build()
