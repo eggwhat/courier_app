@@ -2,17 +2,17 @@
 
 namespace SwiftParcel.Services.Deliveries.Application.Events
 {
-    public class RegistrationAddedToDelivery : IEvent
+    public class DeliveryPickedUp : IEvent
     {
         public Guid DeliveryId { get; }
         public Guid OrderId { get; }
-        public string Message { get; }
+        public DateTime DateTime { get; }
 
-        public RegistrationAddedToDelivery(Guid deliveryId, Guid orderId, string message)
+        public DeliveryPickedUp(Guid deliveryId, Guid orderId, DateTime dateTime)
         {
             DeliveryId = deliveryId;
             OrderId = orderId;
-            Message = message;
+            DateTime = dateTime;
         }
     }
 }

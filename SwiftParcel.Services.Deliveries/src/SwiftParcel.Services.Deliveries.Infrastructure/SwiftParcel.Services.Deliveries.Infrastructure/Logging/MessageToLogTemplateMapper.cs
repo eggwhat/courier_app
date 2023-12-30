@@ -9,12 +9,6 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Logging
             => new Dictionary<Type, HandlerLogTemplate>
             {
                 {
-                    typeof(AddDeliveryRegistration), new HandlerLogTemplate
-                    {
-                        After = "Added a registration for the delivery with id: {DeliveryId}."
-                    }
-                },
-                {
                     typeof(CompleteDelivery),  new HandlerLogTemplate
                     {
                         After = "Completed the delivery with id: {DeliveryId}."
@@ -32,6 +26,18 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Logging
                         After = "Started the delivery with id: {DeliveryId}."
                     }
                 },
+                {
+                    typeof(PickUpDelivery), new HandlerLogTemplate
+                    {
+                        After = "Picked up the delivery with id: {DeliveryId}."
+                    }
+                },
+                {
+                    typeof(AssignCourierToDelivery), new HandlerLogTemplate
+                    {
+                        After = "Assigned courier with id: {CourierId} to the delivery with id: {DeliveryId}."
+                    }
+                }
             };
         
         public HandlerLogTemplate Map<TMessage>(TMessage message) where TMessage : class

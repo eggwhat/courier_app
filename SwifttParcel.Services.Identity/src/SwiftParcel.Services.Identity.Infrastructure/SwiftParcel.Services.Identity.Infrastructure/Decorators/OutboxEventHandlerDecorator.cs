@@ -34,10 +34,10 @@ namespace SwiftParcel.Services.Identity.Infrastructure.Decorators
         //         ? _outbox.HandleAsync(_messageId, () => _handler.HandleAsync(@event))
         //         : _handler.HandleAsync(@event);
 
-        public Task HandleAsync(TEvent @event, CancellationToken cancellationToken = default)
+        public Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
             => _enabled
-                ? _outbox.HandleAsync(_messageId, () => _handler.HandleAsync(@event, cancellationToken))
-                : _handler.HandleAsync(@event, cancellationToken);
+                ? _outbox.HandleAsync(_messageId, () => _handler.HandleAsync(@event))
+                : _handler.HandleAsync(@event);
 
         }
 }

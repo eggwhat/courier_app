@@ -27,11 +27,13 @@ extensions:
   cors:
     allowCredentials: true
     allowedOrigins:
-      - '*'
+      - 'http://localhost:3001'
     allowedMethods:
-      - post
-      - put
-      - delete
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
     allowedHeaders:
       - '*'
     exposedHeaders:
