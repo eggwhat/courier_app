@@ -43,10 +43,10 @@ extensions:
       - Total-Count
 
   jwt:
-    issuerSigningKey: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODYwMTg3NSwiaWF0IjoxNjk4NjAxODc1fQ.nxJlaEy9xNO4noVh84qD9BSoLvjq1xu4LGhwBaEF9Ec
+    issuerSigningKey: eiquief5phee9pazo0Faegaez9gohThailiur5woy2befiech1oarai4aiLi6ahVecah3ie9Aiz6Peij
     validIssuer: swiftparcel
     validateAudience: false
-    validateIssuer: false
+    validateIssuer: true
     validateLifetime: true
 
   swagger:
@@ -73,70 +73,17 @@ modules:
         use: return_value
         returnValue: Welcome to SwiftParcel API.
           
-          
-  availability:
-    path: availability
-    routes:
-      - upstream: /resources
-        method: GET
-        use: downstream
-        downstream: availability-service/resources
-        auth: true
-        
-      - upstream: /resources/{resourceId}
-        method: GET
-        use: downstream
-        downstream: availability-service/resources/{resourceId}
-        auth: true
-    
-      - upstream: /resources
-        method: POST
-        use: downstream
-        downstream: availability-service/resources
-        auth: true
-    
-      - upstream: /resources/{resourceId}/reservations/{dateTime}
-        method: POST
-        use: downstream
-        downstream: availability-service/resources/{resourceId}/reservations/{dateTime}
-        auth: true
-        bind:
-          - resourceId:{resourceId}
-          - customerId:@user_id
-          - dateTime:{dateTime}
-    
-      - upstream: /resources/{resourceId}/reservations/{dateTime}
-        method: DELETE
-        use: downstream
-        downstream: availability-service/resources/{resourceId}/reservations/{dateTime}
-        auth: true
-        bind:
-          - resourceId:{resourceId}
-          - dateTime:{dateTime}
-    
-      - upstream: /resources/{resourceId}
-        method: DELETE
-        use: downstream
-        downstream: availability-service/resources/{resourceId}
-        auth: true
-        bind:
-          - resourceId:{resourceId}
-    
-    services:
-      availability-service:
-        localUrl: localhost:5001
-        url: availability-service
-           
 
   identity:
-    path: identity
+    path: /identity
     routes:
       - upstream: /users/{userId}
         method: GET
         use: downstream
         downstream: identity-service/users/{userId}
-        
-        
+        auth: true
+        claims:
+          role: admin
     
       - upstream: /me
         method: GET
@@ -167,30 +114,37 @@ modules:
         url: identity-service
       
   orders:
-    path: orders
+    path: /orders
     routes:
       - upstream: /
         method: GET
         use: downstream
         downstream: orders-service/orders?customerId=@user_id
         auth: true
+
+      - upstream: /orders/office-worker
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/office-worker
+        auth: true
+        claims:
+          role: officeworker
     
       - upstream: /{orderId}
         method: GET
         use: downstream
         downstream: orders-service/orders/{orderId}
         auth: true
+      
+      - upstream: /{orderId}/status
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/{orderId}/status
     
       - upstream: /
         method: POST
         use: downstream
         downstream: orders-service/orders
-        auth: true
-        resourceId:
-          property: orderId
-          generate: true
-        bind:
-          - customerId:@user_id
     
       - upstream: /{orderId}
         method: DELETE
@@ -198,31 +152,14 @@ modules:
         downstream: orders-service/orders/{orderId}
         auth: true
     
-      - upstream: /{orderId}/parcels/{parcelId}
+      - upstream: /{orderId}/customer
         method: POST
         use: downstream
-        downstream: orders-service/orders/{orderId}/parcels/{parcelId}
+        downstream: orders-service/orders/{orderId}/customer
         auth: true
         bind:
           - customerId:@user_id
           - orderId:{orderId}
-          - parcelId:{parcelId}
-    
-      - upstream: /{orderId}/parcels/{parcelId}
-        method: DELETE
-        use: downstream
-        downstream: orders-service/orders/{orderId}/parcels/{parcelId}
-        auth: true
-    
-      - upstream: /{orderId}/vehicles/{vehicleId}
-        method: POST
-        use: downstream
-        downstream: orders-service/orders/{orderId}/couriers/{courierId}
-        auth: true
-        bind:
-          - orderId:{orderId}
-          - vehicleId:{courierId}
-          - customerId:@user_id
 
       - upstream: /{orderId}/approve
         method: PUT
@@ -246,7 +183,7 @@ modules:
         url: orders-service
 
   customers:
-    path: customers
+    path: /customers
     routes:
       - upstream: /
         method: GET
@@ -307,39 +244,38 @@ modules:
       
  
   parcels:
-    path: parcels
+    path: /parcels
     routes:
       - upstream: /
         method: GET
         use: downstream
         downstream: parcels-service/parcels?customerId=@user_id
         auth: true
+
+      - upstream: /
+        method: GET
+        use: downstream
+        downstream: parcels-service/parcels/office-worker
+        auth: true
+        claims:
+          role: officeworker
     
       - upstream: /{parcelId}
         method: GET
         use: downstream
         downstream: parcels-service/parcels/{parcelId}
         auth: true
-    
-      - upstream: /volume
+
+      - upstream: /{parcelId}/expiration-status
         method: GET
         use: downstream
-        downstream: parcels-service/parcels/volume
-        auth: true
+        downstream: parcels-service/parcels/{parcelId}/expiration-status
+        auth: true  
     
       - upstream: /
         method: POST
         use: downstream
         downstream: parcels-service/parcels
-        auth: false
-        resourceId:
-          property: parcelId
-          generate: true
-        bind:
-          - customerId:@user_id
-        payload: add_parcel
-        schema: add_parcel.schema
-    
     
       - upstream: /{parcelId}
         method: DELETE
@@ -352,9 +288,8 @@ modules:
         localUrl: localhost:5007
         url: parcels-service
 
-
   pricing:
-    path: pricing
+    path: /pricing
     routes:
       - upstream: /
         method: GET
@@ -366,74 +301,52 @@ modules:
       pricing-service:
         localUrl: localhost:5008
         url: pricing-service
-      
-      
-  couriers:
-    path: /couriers
-    routes:
-      - upstream: /
-        method: GET
-        use: downstream
-        downstream: couriers-service/couriers
-        auth: true
-        onSuccess:
-          data: response.data.items
-    
-      - upstream: /{courierId}
-        method: GET
-        use: downstream
-        downstream: courier-service/couriers/{courierId}
-        auth: true
-    
-      - upstream: /
-        method: POST
-        use: downstream
-        downstream: couriers-service/couriers
-        auth: true
-        resourceId:
-          property: courierId
-          generate: true
-    
-      - upstream: /{courierId}
-        method: PUT
-        use: downstream
-        downstream: couriers-service/couriers/{courierId}
-        auth: true
-    
-      - upstream: /{courierId}
-        method: DELETE
-        use: downstream
-        downstream: couriers-service/couriers/{courierId}
-        auth: true
-    
-    services:
-      couriers-service:
-        localUrl: localhost:5009
-        url: couriers-service
 
   deliveries:
-    path: deliveries
+    path: /deliveries
     routes:
       - upstream: /{deliveryId}
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}
         auth: true
+        claims:
+          role: courier
+
+      - upstream: /
+        method: GET
+        use: downstream
+        downstream: deliveries-service/deliveries?courierId=@user_id
+        auth: true
+        claims:
+          role: courier
+          
+      - upstream: /pending
+        method: GET
+        use: downstream
+        downstream: deliveries-service/deliveries/pending
+        auth: true
+        claims:
+          role: courier
     
       - upstream: /
         method: POST
         use: downstream
-        downstream: deliveries-service/deliveries
+        downstream: deliveries-service/deliveries/{deliveryId}/courier
         auth: true
-        resourceId:
-          property: deliveryId
-          generate: true
+        claims:
+          role: courier
+        bind:
+          - courierId:@user_id
+          - deliveryId:{deliveryId}
     
       - upstream: /{deliveryId}/fail
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/fail
         auth: true
+        claims:
+          role: courier
         bind:
           - deliveryId:{deliveryId}
     
@@ -442,16 +355,21 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/complete
         auth: true
+        claims:
+          role: courier
+        bind:
+          - deliveryId:{deliveryId}
+
+      - upstream: /{deliveryId}/pick-up
+        method: POST
+        use: downstream
+        downstream: deliveries-service/deliveries/{deliveryId}/pick-up
+        auth: true
+        claims:
+          role: courier
         bind:
           - deliveryId:{deliveryId}
     
-      - upstream: /{deliveryId}/registrations
-        method: POST
-        use: downstream
-        downstream: deliveries-service/deliveries/{deliveryId}/registrations
-        auth: true
-        bind:
-          - deliveryId:{deliveryId}
     
     services:
       deliveries-service:

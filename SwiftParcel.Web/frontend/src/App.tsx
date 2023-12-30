@@ -42,7 +42,7 @@ export function App() {
           <Route
             path="/register"
             element={
-              <RolesAuthRoute roles={null}>
+              <RolesAuthRoute roles={['user', null]}>
                 <Register />
               </RolesAuthRoute>
             }

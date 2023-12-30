@@ -179,7 +179,7 @@ export const createInquiry = async (
 ) => {
   try {
 
-    const userInfo = getUserInfo();
+    //const userInfo = getUserInfo();
     // if (!userInfo || !userInfo.accessToken) {
     //   console.warn('No user token found. Redirecting to login.');
     //   window.location.href = '/login';
@@ -187,13 +187,13 @@ export const createInquiry = async (
     // }
 
     // Log the token for debugging
-    console.log("Using access token:", userInfo.accessToken);
+    //console.log("Using access token:", userInfo.accessToken);
 
-    const userData = await getProfile();
-    const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
+    //const userData = await getProfile();
+    //const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
 
     const payload = {
-      CustomerId:  customerId,
+      //CustomerId:  customerId,
       Description: description,
       Width: width,
       Height: height,
@@ -226,7 +226,7 @@ export const createInquiry = async (
 
     const inquiryResponse = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     });
