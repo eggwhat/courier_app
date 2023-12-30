@@ -9,7 +9,7 @@ using Convey.WebApi.Requests;
 
 namespace SwiftParcel.Services.Identity.Application.Commands
 {
-   // [PublicMessage]
+    [Contract]
     public class SignIn : ICommand, IRequest
     {
         public string Email { get; set; }

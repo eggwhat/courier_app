@@ -70,7 +70,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
                     }
                 },
                 {
-                    typeof(DeliveryStarted),     
+                    typeof(DeliveryPickedUp),     
                     new HandlerLogTemplate
                     {
                         After = "Delivery for the order with id: {OrderId} has started"

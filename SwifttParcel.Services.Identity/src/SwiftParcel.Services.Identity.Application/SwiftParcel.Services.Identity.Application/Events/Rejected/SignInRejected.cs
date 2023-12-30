@@ -6,6 +6,7 @@ using Convey.CQRS.Events;
 
 namespace SwiftParcel.Services.Identity.Application.Events.Rejected
 {
+    [Contract]
     public class SignInRejected : IRejectedEvent
     {
         public string Email { get; }

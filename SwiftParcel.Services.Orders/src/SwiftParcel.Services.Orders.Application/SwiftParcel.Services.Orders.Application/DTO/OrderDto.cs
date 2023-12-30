@@ -13,7 +13,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public string BuyerEmail { get; set; }
         public AddressDto BuyerAddress { get; set; }
         public DateTime? DecisionDate { get; set; }
-        public DateTime? ReceivedAt { get; set; } 
+        public DateTime? PickedUpAt { get; set; } 
         public DateTime? DeliveredAt { get; set; }
         public DateTime? CannotDeliverAt { get; set; }
         public string CancellationReason { get; set; }
@@ -34,7 +34,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             BuyerEmail = order.BuyerEmail;
             BuyerAddress = new AddressDto(order.BuyerAddress);
             DecisionDate = order.DecisionDate;
-            ReceivedAt = order.ReceivedAt;
+            PickedUpAt = order.PickedUpAt;
             DeliveredAt = order.DeliveredAt;
             CannotDeliverAt = order.CannotDeliverAt;
             CancellationReason = order.CancellationReason;

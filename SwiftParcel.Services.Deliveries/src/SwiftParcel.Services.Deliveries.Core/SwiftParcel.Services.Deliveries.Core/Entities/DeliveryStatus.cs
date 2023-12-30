@@ -2,8 +2,10 @@
 {
     public enum DeliveryStatus
     {
-       InProgress,
-       Completed,
-       CannotDeliver
+        Unassigned,
+        Assigned,
+        InProgress,
+        Completed,
+        CannotDeliver
     }
 }
