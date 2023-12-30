@@ -9,7 +9,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
     {
         public static IConveyBuilder AddHandlersLogging(this IConveyBuilder builder)
         {
-            var assembly = typeof(CancelOrder).Assembly;
+            var assembly = typeof(CancelOrderOfficeWorker).Assembly;
             
             builder.Services.AddSingleton<IMessageToLogTemplateMapper>(new MessageToLogTemplateMapper());
             

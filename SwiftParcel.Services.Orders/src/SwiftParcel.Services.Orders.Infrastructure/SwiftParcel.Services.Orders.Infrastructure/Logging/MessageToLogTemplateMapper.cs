@@ -13,14 +13,14 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Logging
             => new Dictionary<Type, HandlerLogTemplate>
             {
                 {
-                    typeof(ApproveOrder),     
+                    typeof(ApproveOrderOfficeWorker),     
                     new HandlerLogTemplate
                     {
                         After = "Order with id: {OrderId} has been approved."
                     }
                 },
                 {
-                    typeof(CancelOrder),     
+                    typeof(CancelOrderOfficeWorker),     
                     new HandlerLogTemplate
                     {
                         After = "Order with id: {OrderId} has been cancelled."
