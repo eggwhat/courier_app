@@ -12,6 +12,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
         public Parcel Parcel { get; set; }
         public OrderStatus Status { get; set; }
         public DateTime OrderRequestDate { get; set; }
+        public DateTime RequestValidTo { get; set;}
         public string BuyerName { get; set; }
         public string BuyerEmail { get; set; }
         public Address BuyerAddress { get; set; }
