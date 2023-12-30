@@ -17,7 +17,6 @@ import booleanToString from "../../components/parsing/booleanToString";
 import { CourierOffers } from "../couriers/courierOffers";
 
 
- // TODO: add this interface 
 type FormFields = {
     description: string;
     packageWidth: number;
@@ -165,63 +164,63 @@ const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
 
 const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }) => (
     <div className="grid grid-cols-2 gap-4">
-      {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
+        {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
 
-      <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
-      <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
+        <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
+        <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
 
-      <div className="col-span-2 grid grid-cols-4 gap-4">
-      <div>
-        <Label htmlFor="priority">Priority</Label>
-        <select 
-          id="priority"
-          value={formFields.priority}
-          onChange={handlePriorityChange('priority')}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        >
-          <option value="low">Low</option>
-          <option value="high">High</option>
-        </select>
-      </div>
+        <div className="col-span-2 grid grid-cols-4 gap-4">
+        <div>
+            <Label htmlFor="priority">Priority</Label>
+            <select 
+                id="priority"
+                value={formFields.priority}
+                onChange={handlePriorityChange('priority')}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="low">Low</option>
+                <option value="high">High</option>
+            </select>
+        </div>
 
-      <div>
-        <Label htmlFor="at-weekend">Delivery at Weekend</Label>
-        <select
-          id="at-weekend"
-          value={formFields.atWeekend}
-          onChange={handleBooleanChange('atWeekend')}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        >
-          <option value="false">No</option>
-          <option value="true">Yes</option>
-        </select>
-      </div>
+        <div>
+            <Label htmlFor="at-weekend">Delivery at Weekend</Label>
+            <select
+                id="at-weekend"
+                value={formFields.atWeekend}
+                onChange={handleBooleanChange('atWeekend')}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        </div>
 
-      <div>
-        <Label htmlFor="is-company">Created by Company</Label>
-        <select
-          id="is-company"
-          value={formFields.isCompany}
-          onChange={handleBooleanChange('isCompany')}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        >
-          <option value="false">No</option>
-          <option value="true">Yes</option>
-        </select>
-      </div>
+        <div>
+            <Label htmlFor="is-company">Created by Company</Label>
+            <select
+                id="is-company"
+                value={formFields.isCompany}
+                onChange={handleBooleanChange('isCompany')}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        </div>
 
-      <div>
-        <Label htmlFor="vip-package">VIP Delivery</Label>
-        <select
-          id="vip-package"
-          value={formFields.vipPackage}
-          onChange={handleBooleanChange('vipPackage')}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        >
-          <option value="false">No</option>
-          <option value="true">Yes</option>
-        </select>
-      </div>
+        <div>
+            <Label htmlFor="vip-package">VIP Delivery</Label>
+            <select
+                id="vip-package"
+                value={formFields.vipPackage}
+                onChange={handleBooleanChange('vipPackage')}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+        </div>
     </div>
 
     </div>
@@ -279,10 +278,8 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
 
-     // TODO: implement the form validators
     const [formIsValid, setFormIsValid] = React.useState(true); 
 
-    // TODO: implement the form fields
     // const [formFields, setFormFields] = React.useState<FormFields>({
     //     description: "",
     //     packageWidth: 0,
@@ -353,7 +350,7 @@ export default function CreateInquiry() {
     };
 
     const handleDateChange = <T extends keyof FormFields>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
+        const newValue = event;
         setFormFields(prevState => ({
             ...prevState,
             [field]: newValue
@@ -383,15 +380,13 @@ export default function CreateInquiry() {
 
     const formatDateForServer = (dateString) => {
         return new Date(dateString).toISOString(); // Adjust this based on server's expected format
-      };
-
+    };
       
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
   
     const [inquiryLoading, setInquiryLoading] = React.useState(false);
 
-     // TODO: implement the form validator
     const validateForm = () => {
         const errors: FormErrors = {};
 
