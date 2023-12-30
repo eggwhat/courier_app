@@ -70,9 +70,9 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             AddEvent(new ParcelAdded(this, parcel));
         }
 
-        public void Approve(DateTime decidedAt)
+        public void ApproveByOfficeWorker(DateTime decidedAt)
         {
-            if (Status != OrderStatus.WaitingForDecision && Status != OrderStatus.Cancelled)
+            if (Status != OrderStatus.WaitingForDecision)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Approved);
             }
@@ -83,9 +83,9 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             AddEvent(new OrderStateChanged(this));
         }
 
-        public void Cancel(DateTime decidedAt, string reason)
+        public void CancelByOfficeWorker(DateTime decidedAt, string reason)
         {
-            if (Status == OrderStatus.Delivered || Status == OrderStatus.Cancelled)
+            if (Status != OrderStatus.WaitingForDecision)
             {
                 throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Cancelled);
             }
@@ -93,6 +93,40 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             DecisionDate = decidedAt;
             Status = OrderStatus.Cancelled;
             CancellationReason = reason ?? string.Empty;
+            AddEvent(new OrderStateChanged(this));
+        }
+
+        public void Confirm()
+        {
+            if (Status != OrderStatus.Approved)
+            {
+                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Confirmed);
+            }
+
+            Status = OrderStatus.Confirmed;
+            AddEvent(new OrderStateChanged(this));
+        }
+        
+        public void Cancel()
+        {
+            if (Status != OrderStatus.Approved)
+            {
+                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.Cancelled);
+            }
+
+            Status = OrderStatus.Cancelled;
+            AddEvent(new OrderStateChanged(this));
+        }
+
+        public void SetPickedUp(DateTime pickedUpAt)
+        {
+            if (Status != OrderStatus.Confirmed)
+            {
+                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.PickedUp);
+            }
+
+            PickedUpAt = pickedUpAt;
+            Status = OrderStatus.PickedUp;
             AddEvent(new OrderStateChanged(this));
         }
 
@@ -105,18 +139,6 @@ namespace SwiftParcel.Services.Orders.Core.Entities
 
             DeliveredAt = deliveredAt;
             Status = OrderStatus.Delivered;
-            AddEvent(new OrderStateChanged(this));
-        }
-
-        public void SetPickedUp(DateTime pickedUpAt)
-        {
-            if (Status != OrderStatus.Approved)
-            {
-                throw new CannotChangeOrderStateException(Id, Status, OrderStatus.PickedUp);
-            }
-
-            PickedUpAt = pickedUpAt;
-            Status = OrderStatus.PickedUp;
             AddEvent(new OrderStateChanged(this));
         }
         

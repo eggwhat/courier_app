@@ -43,7 +43,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
             
-            order.Cancel(_dateTimeProvider.Now, command.Reason);
+            order.CancelByOfficeWorker(_dateTimeProvider.Now, command.Reason);
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
