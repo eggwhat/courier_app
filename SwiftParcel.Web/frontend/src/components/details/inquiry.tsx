@@ -28,11 +28,24 @@ export function InquiryDetails({
 
   const navigate = useNavigate();
 
-  const formatDateCreatedAt = (createdAt) => {
+  const formatAddressFirstLine = (address : any) => {
+    if (address.apartmentNumber.length === 0) {
+      return `${address.street} ${address.buildingNumber}`;
+    }
+    else {
+      return `${address.street} ${address.buildingNumber}/${address.apartmentNumber}`;
+    }
+  }
+
+  const formatAddressSecondLine = (address : any) => {
+    return `${address.zipCode} ${address.city}, ${address.country}`;
+  }
+
+  const formatDateCreatedAt = (createdAt: string) => {
     return createdAt.substring(0, 10);
   };
 
-  const formatTimeCreatedAt = (createdAt) => {
+  const formatTimeCreatedAt = (createdAt: string) => {
     return createdAt.substring(11, 19);
   };
 
@@ -53,14 +66,14 @@ export function InquiryDetails({
         <Table.Cell>{inquiry.weight} kg</Table.Cell>
         <Table.Cell>
           <span className="flex flex-col gap-2">
-            <span>{inquiry.source.city}</span>
-            <span>{inquiry.source.country}</span>
+            <span>{formatAddressFirstLine(inquiry.source)}</span>
+            <span>{formatAddressSecondLine(inquiry.source)}</span>
           </span>
         </Table.Cell>
         <Table.Cell>
           <span className="flex flex-col gap-2">
-            <span>{inquiry.destination.city}</span>
-            <span>{inquiry.destination.country}</span>
+            <span>{formatAddressFirstLine(inquiry.destination)}</span>
+            <span>{formatAddressSecondLine(inquiry.destination)}</span>
           </span>
         </Table.Cell>
         <Table.Cell>
