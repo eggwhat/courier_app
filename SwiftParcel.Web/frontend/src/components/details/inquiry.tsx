@@ -28,44 +28,48 @@ export function InquiryDetails({
 
   const navigate = useNavigate();
 
+  const formatDateCreatedAt = (createdAt) => {
+    return createdAt.substring(0, 10);
+  };
+
+  const formatTimeCreatedAt = (createdAt) => {
+    return createdAt.substring(11, 19);
+  };
+
+  const isPackageValid = (validTo) => {
+    const todayDate = new Date();
+    const validDate = new Date(validTo);
+    return todayDate < validDate;
+  };
+
   return (
     <>
       <Table.Row
         className="bg-white dark:border-gray-700 dark:bg-gray-800"
-        key={inquiry.parcelNumber}
+        key={inquiry.id}
       >
-        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-          <span className="flex flex-row gap-1">
-            <span>{inquiry.parcelNumber}</span>
-            <Badge
-              color={
-                inquiry.status === "Pending"
-                  ? "warning"
-                  : inquiry.status === "In progress"
-                  ? "pink"
-                  : "success"
-              }
-              className="text-center"
-            >
-              {inquiry.status}
-            </Badge>
-          </span>
-        </Table.Cell>
-        <Table.Cell>
-          <span className="flex flex-col gap-2">
-            <span>{inquiry.sourceCity}</span>
-            <span>{inquiry.sourceCountry}</span>
-          </span>
-        </Table.Cell>
-        <Table.Cell>
-          <span className="flex flex-col gap-2">
-            <span>{inquiry.destinationCity}</span>
-            <span>{inquiry.destinationCountry}</span>
-          </span>
-        </Table.Cell>
-        <Table.Cell>{inquiry.width} cm x {inquiry.height} x {inquiry.depth}</Table.Cell>
+        <Table.Cell>{inquiry.id}</Table.Cell>
+        <Table.Cell>{inquiry.width} cm x {inquiry.height} cm x {inquiry.depth} cm</Table.Cell>
         <Table.Cell>{inquiry.weight} kg</Table.Cell>
-        <Table.Cell>{inquiry.price} PLN</Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{inquiry.source.city}</span>
+            <span>{inquiry.source.country}</span>
+          </span>
+        </Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{inquiry.destination.city}</span>
+            <span>{inquiry.destination.country}</span>
+          </span>
+        </Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{formatDateCreatedAt(inquiry.createdAt)}</span>
+            <span>{formatTimeCreatedAt(inquiry.createdAt)}</span>
+          </span>
+        </Table.Cell>
+        <Table.Cell>{isPackageValid(inquiry.validTo) ? "valid" : "expired"}</Table.Cell>
         {showEditDeleteBtn ? (
           <Table.Cell>
             <span className="flex flex-wrap gap-2">

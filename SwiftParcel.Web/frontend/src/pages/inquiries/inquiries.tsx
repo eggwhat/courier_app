@@ -45,20 +45,18 @@ export default function Inquiries() {
         <Table>
           <Table.Head>
             <Table.HeadCell>Id</Table.HeadCell>
-            <Table.HeadCell>Source</Table.HeadCell>
-            <Table.HeadCell>Destination</Table.HeadCell>
-            <Table.HeadCell>Dimensions</Table.HeadCell>
-            <Table.HeadCell>Weight</Table.HeadCell>
-            <Table.HeadCell>Price</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Deliver</span>
-            </Table.HeadCell>
+            <Table.HeadCell>Package dimensions</Table.HeadCell>
+            <Table.HeadCell>Package weight</Table.HeadCell>
+            <Table.HeadCell>Source address</Table.HeadCell>
+            <Table.HeadCell>Destination address</Table.HeadCell>
+            <Table.HeadCell>Date of inquiring</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {inquiries != null && inquiries?.results?.length > 0 ? (
-              inquiries?.results.map((inquiry: any) => (
+            {inquiries != null && inquiries?.length > 0 ? (
+              inquiries?.map((inquiry: any) => (
                 <InquiryDetails
-                  key={inquiry.inquiryNumber}
+                  key={inquiry.id}
                   inquiryData={inquiry}
                   showDeliverBtn={true}
                   toggleRender={false}

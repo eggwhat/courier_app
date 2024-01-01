@@ -267,7 +267,7 @@ export const createInquiry = async (
 export const getInquiries = async () => {
   try {
     const response = await api.get(`/parcels`, { headers: getAuthHeader() });
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error during getting inquiries:', error);
     throw error;
