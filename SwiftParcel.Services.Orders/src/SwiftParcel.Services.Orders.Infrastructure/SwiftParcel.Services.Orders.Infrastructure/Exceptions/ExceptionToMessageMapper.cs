@@ -49,6 +49,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                 {
                     ApproveOrderOfficeWorker m => new ApproveOrderRejected(m.OrderId, ex.Message, ex.Code),
                     CancelOrderOfficeWorker m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeliveryCompleted _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
                     DeliveryFailed _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
@@ -70,6 +72,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                 UnauthorizedOrderAccessException ex
                 => message switch
                 {
+                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
