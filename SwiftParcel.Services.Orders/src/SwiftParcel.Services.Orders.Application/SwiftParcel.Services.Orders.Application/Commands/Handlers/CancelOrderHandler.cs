@@ -35,6 +35,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
+            
             order.Cancel();
             await _orderRepository.DeleteAsync(order.Id);
             var events = _eventMapper.MapAll(order.Events);

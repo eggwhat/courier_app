@@ -35,6 +35,7 @@ namespace SwiftParcel.Services.Orders.Api
                         .Get<GetOrder, OrderDto>("orders/{orderId}")
                         .Get<GetOrders, IEnumerable<OrderDto>>("orders")
                         .Get<GetOrdersOfficeWorker, IEnumerable<OrderDto>>("orders/office-worker")
+                        .Get<GetOrdersOfficeWorkerPending, IEnumerable<OrderDto>>("orders/office-worker/pending")
                         .Get<GetOrderStatus, OrderStatusDto>("orders/{orderId}/status")
                         .Delete<DeleteOrder>("orders/{orderId}")
                         .Post<CreateOrder>("orders",
