@@ -48,12 +48,13 @@ type FormErrors = {
     [K in keyof FormFields]?: string;
 };
 
-const TextInputWithLabel = ({ id, label, value, onChange, type = "text",  error }) => (
+const TextInputWithLabel = ({ id, label, value, onChange, type,  error }) => (
     <div className="mb-4 flex flex-col">
       <Label htmlFor={id} className="mb-2 block text-sm font-medium text-gray-700">{label}</Label>
       <TextInput 
         id={id} 
-        type="text" 
+        type={type}
+        lang="en"
         value={value} 
         onChange={(e) => onChange(e)}
         className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md ${error ? 'border-red-500' : ''}`}
@@ -120,6 +121,7 @@ const ShortDescriptionSection = ({ formFields, handleDescriptionChange, errors }
             label="Short Description"
             value={formFields.description}
             onChange={handleDescriptionChange('description')}
+            type="text" 
             error={errors.description}
         />
     </div>
@@ -233,6 +235,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Street" 
             value={formFields[`${prefix}AddressStreet`]} 
             onChange={handleStringChange(`${prefix}AddressStreet`)} 
+            type="text" 
             error={errors[`${prefix}AddressStreet`]}
         />
         <TextInputWithLabel 
@@ -240,6 +243,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Building Number" 
             value={formFields[`${prefix}AddressBuildingNumber`]} 
             onChange={handleStringChange(`${prefix}AddressBuildingNumber`)} 
+            type="text" 
             error={errors[`${prefix}AddressBuildingNumber`]}
         />
         <TextInputWithLabel 
@@ -247,6 +251,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Apartment Number (optional)" 
             value={formFields[`${prefix}AddressApartmentNumber`]} 
             onChange={handleStringChange(`${prefix}AddressApartmentNumber`)} 
+            type="text" 
             error={errors[`${prefix}AddressApartmentNumber`]}
         />
         <TextInputWithLabel 
@@ -254,6 +259,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="City" 
             value={formFields[`${prefix}AddressCity`]} 
             onChange={handleStringChange(`${prefix}AddressCity`)} 
+            type="text" 
             error={errors[`${prefix}AddressCity`]}
         />
         <TextInputWithLabel 
@@ -261,6 +267,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Zip Code" 
             value={formFields[`${prefix}AddressZipCode`]} 
             onChange={handleStringChange(`${prefix}AddressZipCode`)} 
+            type="text" 
             error={errors[`${prefix}AddressZipCode`]}
         />
         <TextInputWithLabel 
@@ -268,6 +275,7 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
             label="Country" 
             value={formFields[`${prefix}AddressCountry`]} 
             onChange={handleStringChange(`${prefix}AddressCountry`)} 
+            type="text" 
             error={errors[`${prefix}AddressCountry`]}
         />
     </div>
