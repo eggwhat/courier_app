@@ -90,7 +90,7 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure
                 .SubscribeCommand<PickUpDelivery>()
                 .SubscribeCommand<CompleteDelivery>()
                 .SubscribeCommand<FailDelivery>()
-                .SubscribeEvent<OrderApproved>();
+                .SubscribeEvent<OrderConfirmed>();
 
             return app;
         }
