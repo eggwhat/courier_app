@@ -58,6 +58,13 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                     _ => null
                 },
 
+                OrderRequestExpiredException ex => message switch
+                {
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    _ => null
+                },
+
                 ParcelNotFoundException ex
                 => message switch
                 {

@@ -35,6 +35,11 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             {
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
+
+            if(order.RequestValidTo < _dateTimeProvider.Now)
+            {
+                throw new OrderRequestExpiredException(command.OrderId, order.RequestValidTo);
+            }
             
             order.Cancel();
             await _orderRepository.DeleteAsync(order.Id);
