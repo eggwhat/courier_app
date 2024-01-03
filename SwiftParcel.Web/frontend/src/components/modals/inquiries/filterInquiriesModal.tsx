@@ -18,6 +18,7 @@ import {
   }
   
   type FilteringDetails = {
+    patternId: string;
     minWidth: number;
     maxWidth: number;
     minHeight: number;
@@ -45,6 +46,18 @@ import {
   const SectionTitle = ({ title }) => (
     <div className="mb-4 border-b border-gray-300 pb-1">
       <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+    </div>
+  );
+
+  const IdFilterSection = ({ filterData, handleStringChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInputWithLabel
+            id="id-pattern"
+            label="Pattern contained in inquiry's id:"
+            type="text"
+            value={filterData.patternId}
+            onChange={handleStringChange('patternId')}
+        />
     </div>
   );
 
@@ -95,7 +108,7 @@ import {
             onChange={handleNumberChange('maxDepth')}
         />
     </div>
-);
+  );
 
   const WeightFilterSection = ({ filterData, handleNumberChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -114,7 +127,7 @@ import {
             onChange={handleNumberChange('maxWeight')}
         />
     </div>
-);
+  );
 
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
@@ -124,6 +137,7 @@ import {
     };
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
+        patternId: null,
         minWidth: null,
         maxWidth: null,
         minHeight: null,
@@ -140,7 +154,14 @@ import {
             ...prevState,
             [field]: isNaN(newValue) ? null : newValue
         }));
-        console.log(filteringDetails);
+    };
+
+    const handleStringChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setFilteringDetails(prevState => ({
+            ...prevState,
+            [field]: newValue.length == 0 ? null : newValue
+        }));
     };
 
     const [isLoading, setIsLoading] = React.useState(false);
@@ -158,8 +179,10 @@ import {
     };
   
     const filterInquiries = () => {
-
       const filteredElements = props.inputData.filter((element : any) =>
+        // filtering of id section
+        (filteringDetails.patternId == null || element.id.includes(filteringDetails.patternId)) &&
+
         // filtering of dimensions section
         (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
         (filteringDetails.maxWidth == null || element.width <= filteringDetails.maxWidth) &&
@@ -195,6 +218,12 @@ import {
                 ) : null}
                 <div className="gap-6">
                   <div >
+
+                    <SectionTitle title="Id" />
+                    <IdFilterSection
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
+                    />
 
                     <SectionTitle title="Package dimensions" />
                     <DimensionsFilterSection
