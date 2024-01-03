@@ -120,6 +120,10 @@ export default function Inquiries() {
     setTableData(sortedData);
   };
 
+  const getSortIcon = (column : string) => {
+    return sortedColumn === column ? (sortDirection === 'ascending' ? '▲' : '▼') : '';
+  }
+
   return (
     <>
       {loadingHeader || loadingInquiries ? <Loader /> : null}
@@ -130,13 +134,27 @@ export default function Inquiries() {
         </h1>
         <Table>
           <Table.Head>
-            <Table.HeadCell onClick={() => handleSort('id')}>Id</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('packageDimensions')}>Package dimensions</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('packageWeight')}>Package weight</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('sourceAddress')}>Source address</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('destinationAddress')}>Destination address</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('dateOfInquiring')}>Date of inquiring</Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('status')}>Status</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('id')}>
+              Id {getSortIcon('id')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('packageDimensions')}>
+              Package dimensions {getSortIcon('packageDimensions')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('packageWeight')}>
+              Package weight {getSortIcon('packageWeight')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('sourceAddress')}>
+              Source address {getSortIcon('sourceAddress')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('destinationAddress')}>
+              Destination address {getSortIcon('destinationAddress')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('dateOfInquiring')}>
+              Date of inquiring {getSortIcon('dateOfInquiring')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('status')}>
+              Status {getSortIcon('status')}
+            </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {tableData != null && tableData?.length > 0 ? (
