@@ -2,14 +2,12 @@
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class ApproveOrder: ICommand
+    public class ConfirmOrder: ICommand
     {
         public Guid OrderId { get; }
-        public ApproveOrder(Guid orderId)
+        public ConfirmOrder(Guid orderId)
         {
             OrderId = orderId;
         }
     }
 }
-
-

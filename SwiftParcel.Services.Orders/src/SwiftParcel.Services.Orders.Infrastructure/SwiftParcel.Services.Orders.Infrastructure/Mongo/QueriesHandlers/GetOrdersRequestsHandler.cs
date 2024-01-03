@@ -11,21 +11,25 @@ using SwiftParcel.Services.Orders.Application.DTO;
 using SwiftParcel.Services.Orders.Application.Queries;
 using SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Application.Services;
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
 {
-    public class GetOrdersHandler : IQueryHandler<GetOrders, IEnumerable<OrderDto>>
+    public class GetOrdersRequestsHandler : IQueryHandler<GetOrdersRequests, IEnumerable<OrderDto>>
     {
         private readonly IMongoRepository<OrderDocument, Guid> _orderRepository;
         private readonly IAppContext _appContext;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public GetOrdersHandler(IMongoRepository<OrderDocument, Guid> orderRepository, IAppContext appContext)
+        public GetOrdersRequestsHandler(IMongoRepository<OrderDocument, Guid> orderRepository, 
+            IAppContext appContext, IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
             _appContext = appContext;
+            _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrders query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrdersRequests query, CancellationToken cancellationToken)
         {
             var documents = _orderRepository.Collection.AsQueryable();
             if (query.CustomerId.HasValue)
@@ -39,7 +43,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
                 documents = documents.Where(p => p.CustomerId == query.CustomerId);
             }
 
-            documents = documents.Where(p => p.Status != OrderStatus.WaitingForDecision && p.Status != OrderStatus.Approved);
+            documents = documents.Where(p => (p.Status == OrderStatus.WaitingForDecision || p.Status == OrderStatus.Approved)
+                && p.RequestValidTo >= _dateTimeProvider.Now);
             var orders = await documents.ToListAsync();
 
             return orders.Select(p => p.AsDto());

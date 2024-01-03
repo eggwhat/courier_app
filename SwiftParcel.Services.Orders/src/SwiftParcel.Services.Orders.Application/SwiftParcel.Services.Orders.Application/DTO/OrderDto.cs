@@ -9,6 +9,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public ParcelDto Parcel { get; set; }
         public string Status { get; set; }
         public DateTime OrderRequestDate { get; set; }
+        public DateTime RequestValidTo { get; set; }
         public string BuyerName { get; set; }
         public string BuyerEmail { get; set; }
         public AddressDto BuyerAddress { get; set; }
@@ -30,6 +31,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             Parcel = order.Parcel == null ? null : new ParcelDto(order.Parcel);
             Status = order.Status.ToString().ToLowerInvariant();
             OrderRequestDate = order.OrderRequestDate;
+            RequestValidTo = order.RequestValidTo;
             BuyerName = order.BuyerName;
             BuyerEmail = order.BuyerEmail;
             BuyerAddress = new AddressDto(order.BuyerAddress);

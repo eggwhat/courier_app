@@ -4,6 +4,7 @@
     {
         WaitingForDecision,
         Approved,
+        Confirmed,
         Cancelled,
         PickedUp,
         Delivered,

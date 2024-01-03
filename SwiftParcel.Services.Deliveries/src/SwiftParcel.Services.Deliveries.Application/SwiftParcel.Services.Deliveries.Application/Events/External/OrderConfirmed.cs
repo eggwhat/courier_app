@@ -5,7 +5,7 @@ using SwiftParcel.Services.Deliveries.Core.Entities;
 namespace SwiftParcel.Services.Deliveries.Application.Events.External
 {
     [Message("orders")]
-    public class OrderApproved: IEvent
+    public class OrderConfirmed: IEvent
     {
         public Guid OrderId { get; set; }
         public double Width { get; protected set; }
@@ -18,7 +18,7 @@ namespace SwiftParcel.Services.Deliveries.Application.Events.External
         public bool AtWeekend { get; set; }
         public DateTime PickupDate { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public OrderApproved(Guid orderId, double width, double height, double depth, double weight, Address source, 
+        public OrderConfirmed(Guid orderId, double width, double height, double depth, double weight, Address source, 
             Address destination, Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate)
         {
             OrderId = orderId;

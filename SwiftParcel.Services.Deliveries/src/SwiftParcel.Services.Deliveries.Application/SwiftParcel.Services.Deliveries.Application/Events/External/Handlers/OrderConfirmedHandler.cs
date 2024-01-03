@@ -4,15 +4,15 @@ using SwiftParcel.Services.Deliveries.Application.Commands;
 
 namespace SwiftParcel.Services.Deliveries.Application.Events.External.Handlers
 {
-    public class OrderApprovedHandler: IEventHandler<OrderApproved>
+    public class OrderConfirmedHandler: IEventHandler<OrderConfirmed>
     {
         ICommandDispatcher _commandDispatcher;
-        public OrderApprovedHandler(ICommandDispatcher commandDispatcher)
+        public OrderConfirmedHandler(ICommandDispatcher commandDispatcher)
         {
             _commandDispatcher = commandDispatcher;
         }
 
-        public async Task HandleAsync(OrderApproved @event)
+        public async Task HandleAsync(OrderConfirmed @event)
         {
             var volume = @event.Width * @event.Height * @event.Depth;
             await _commandDispatcher.SendAsync(new StartDelivery(Guid.Empty, @event.OrderId, volume, 
