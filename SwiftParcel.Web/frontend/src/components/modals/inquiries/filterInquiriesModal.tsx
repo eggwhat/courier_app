@@ -7,13 +7,14 @@ import {
     TextInput,
   } from "flowbite-react";
   import React from "react";
-  import { Link } from "react-router-dom";
   import { HiInformationCircle } from "react-icons/hi";
   
   interface FilterInquiriesModalProps {
     show: boolean;
     setShow: (show: boolean) => void;
-    inquiries: any;
+    inputData: any;
+    tableData: any;
+    setTableData: any;
   }
   
   type FilteringDetails = {
@@ -144,13 +145,39 @@ import {
 
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState("");
-  
+
     const submit = async (e: any) => {
       e.preventDefault();
       setError("");
       setIsLoading(true);
+
+      filterInquiries();
+
+      close();
+      setIsLoading(false);
     };
   
+    const filterInquiries = () => {
+
+      const filteredElements = props.inputData.filter((element : any) =>
+        // filtering of dimensions section
+        (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
+        (filteringDetails.maxWidth == null || element.width <= filteringDetails.maxWidth) &&
+
+        (filteringDetails.minHeight == null || element.height >= filteringDetails.minHeight) &&
+        (filteringDetails.maxHeight == null || element.height <= filteringDetails.maxHeight) &&
+
+        (filteringDetails.minDepth == null || element.depth >= filteringDetails.minDepth) &&
+        (filteringDetails.maxDepth == null || element.depth <= filteringDetails.maxDepth) &&
+
+        // filtering of weight section
+        (filteringDetails.minWeight == null || element.weight >= filteringDetails.minWeight) &&
+        (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight)
+      );
+
+      props.setTableData(filteredElements);
+    };
+    
     return (
       <React.Fragment>
         <Modal show={props.show} size="4xl" popup={true} onClose={close}>
@@ -159,7 +186,7 @@ import {
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                  Filter inquiries by some attributes:
+                  Filter inquiries by attributes:
                 </h1>
                 {error ? (
                   <Alert color="failure" icon={HiInformationCircle}>
@@ -193,7 +220,7 @@ import {
                       Loading ...
                     </Button>
                   ) : (
-                    <Button type="submit">Submit filtering details</Button>
+                    <Button type="submit" onClick={submit}>Submit filtering details</Button>
                   )}
                 </div>
               </div>

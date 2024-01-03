@@ -1,4 +1,4 @@
-import { Table, Pagination, Dropdown, Button } from "flowbite-react";
+import { Table, Pagination, Button } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -153,10 +153,16 @@ export default function Inquiries() {
             Inquiries
           </h1>
           <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
-              <span className="hidden sm:flex">Filter data</span>
-            </Button>
+            <span className="hidden sm:flex">Filter data</span>
+          </Button>
         </div>
-        <FilterInquiriesModal show={showFilterInquiriesModal} setShow={setShowFilterInquiriesModal} inquiries={inputData} />
+        <FilterInquiriesModal
+          show={showFilterInquiriesModal}
+          setShow={setShowFilterInquiriesModal}
+          inputData={inputData}
+          tableData={tableData}
+          setTableData={setTableData}
+        />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>
