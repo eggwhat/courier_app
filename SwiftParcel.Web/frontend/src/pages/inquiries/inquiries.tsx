@@ -1,4 +1,4 @@
-import { Table, Pagination } from "flowbite-react";
+import { Table, Pagination, Dropdown, Button } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -6,13 +6,17 @@ import { getInquiries } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { InquiryDetails } from "../../components/details/inquiry";
 import { isPackageValid } from "../../components/details/inquiry";
+import { FilterInquiriesModal } from "../../components/modals/inquiries/filterInquiriesModal";
 
 export default function Inquiries() {
   const [page, setPage] = React.useState(1);
+  const [inputData, setInputData] = React.useState<any>(null);
   const [tableData, setTableData] = React.useState<any>(null);
 
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
+
+  const [showFilterInquiriesModal, setShowFilterInquiriesModal] = React.useState(false);
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
   const [loadingInquiries, setLoadingInquiries] = React.useState(true);
@@ -21,12 +25,14 @@ export default function Inquiries() {
     getInquiries()
       .then((res) => {
         if (res.status === 200) {
+          setInputData(res?.data);
           setTableData(res?.data);
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
+        setInputData(null);
         setTableData(null);
       })
       .finally(() => {
@@ -124,14 +130,33 @@ export default function Inquiries() {
     return sortedColumn === column ? (sortDirection === 'ascending' ? '▲' : '▼') : '';
   }
 
+  const tableHeaderStyle = {
+    row: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    left: {
+      alignSelf: 'flex-start',
+    },
+    right: {
+      alignSelf: 'flex-end',
+    },
+  };
+
   return (
     <>
       {loadingHeader || loadingInquiries ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
-        <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-          Inquiries
-        </h1>
+        <div style={tableHeaderStyle.row}>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
+            Inquiries
+          </h1>
+          <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
+              <span className="hidden sm:flex">Filter data</span>
+            </Button>
+        </div>
+        <FilterInquiriesModal show={showFilterInquiriesModal} setShow={setShowFilterInquiriesModal} inquiries={inputData} />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>
