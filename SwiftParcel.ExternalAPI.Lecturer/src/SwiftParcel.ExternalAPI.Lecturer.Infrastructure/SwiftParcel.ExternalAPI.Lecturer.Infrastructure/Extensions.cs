@@ -30,8 +30,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Services;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Contexts;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Decorators;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
+
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
 {
@@ -47,7 +50,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
             return builder
-                .AddErrorHandler<ExceptionToResponseMapper>()
+                //.AddErrorHandler<ExceptionToResponseMapper>()
                 .AddQueryHandlers()
                 .AddInMemoryQueryDispatcher()
                 .AddHttpClient()
@@ -55,14 +58,14 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddFabio()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMessageOutbox(o => o.AddMongo())
-                .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
+                //.AddExceptionToMessageMapper<ExceptionToMessageMapper>()
                 .AddMongo()
                 .AddRedis()
                 .AddMetrics()
                 .AddJaeger()
                 .AddMongo()
-                .AddHandlersLogging()
-                .AddMongoRepository<TBD, Guid>("TBD")
+                //.AddHandlersLogging()
+                //.AddMongoRepository<TBD, Guid>("TBD")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }

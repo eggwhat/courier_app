@@ -9,6 +9,8 @@ using Convey.Logging;
 using Convey.Types;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
+using SwiftParcel.ExternalAPI.Lecturer.Application;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Api
 {
