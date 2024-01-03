@@ -16,4 +16,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Lecturer.Application\SwiftParcel.ExternalAPI.Lecturer.Application\SwiftParcel.ExternalAPI.Lecturer.Application.csproj" />
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Lecturer.Infrastructure\SwiftParcel.ExternalAPI.Lecturer.Infrastructure\SwiftParcel.ExternalAPI.Lecturer.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
