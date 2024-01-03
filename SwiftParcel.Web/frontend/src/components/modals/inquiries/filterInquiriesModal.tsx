@@ -17,6 +17,12 @@ import {
   }
   
   type FilteringDetails = {
+    minWidth: number;
+    maxWidth: number;
+    minHeight: number;
+    maxHeight: number;
+    minDepth: number;
+    maxDepth: number;
     minWeight: number;
     maxWeight: number;
   };
@@ -35,18 +41,73 @@ import {
     </div>
   );
 
+  const SectionTitle = ({ title }) => (
+    <div className="mb-4 border-b border-gray-300 pb-1">
+      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+    </div>
+  );
+
+  const DimensionsFilterSection = ({ filterData, handleNumberChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInputWithLabel
+            id="width-min"
+            label="Minimum width:"
+            type="number"
+            value={filterData.minWidth}
+            onChange={handleNumberChange('minWidth')}
+        />
+        <TextInputWithLabel
+            id="width-max"
+            label="Maximum width:"
+            type="number"
+            value={filterData.maxWidth}
+            onChange={handleNumberChange('maxWidth')}
+        />
+
+        <TextInputWithLabel
+            id="height-min"
+            label="Minimum height:"
+            type="number"
+            value={filterData.minHeight}
+            onChange={handleNumberChange('minHeight')}
+        />
+        <TextInputWithLabel
+            id="height-max"
+            label="Maximum height:"
+            type="number"
+            value={filterData.maxHeight}
+            onChange={handleNumberChange('maxHeight')}
+        />
+
+        <TextInputWithLabel
+            id="depth-min"
+            label="Minimum depth:"
+            type="number"
+            value={filterData.minDepth}
+            onChange={handleNumberChange('minDepth')}
+        />
+        <TextInputWithLabel
+            id="depth-max"
+            label="Maximum depth:"
+            type="number"
+            value={filterData.maxDepth}
+            onChange={handleNumberChange('maxDepth')}
+        />
+    </div>
+);
+
   const WeightFilterSection = ({ filterData, handleNumberChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
             id="weight-min"
-            label="Min:"
+            label="Minimum weight:"
             type="number"
             value={filterData.minWeight}
             onChange={handleNumberChange('minWeight')}
         />
         <TextInputWithLabel
             id="weight-max"
-            label="Max:"
+            label="Maximum weight:"
             type="number"
             value={filterData.maxWeight}
             onChange={handleNumberChange('maxWeight')}
@@ -62,6 +123,12 @@ import {
     };
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
+        minWidth: null,
+        maxWidth: null,
+        minHeight: null,
+        maxHeight: null,
+        minDepth: null,
+        maxDepth: null,
         minWeight: null,
         maxWeight: null
     });
@@ -91,20 +158,24 @@ import {
           <Modal.Body>
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
                   Filter inquiries by some attributes:
-                </h3>
+                </h1>
                 {error ? (
                   <Alert color="failure" icon={HiInformationCircle}>
                     <span>{error}</span>
                   </Alert>
                 ) : null}
-                <div>
-                  <div className="mb-2 block">
-                    <Label htmlFor="weight" value="Weight:" />
-                  </div>
-                  <div className="flex gap-6" id="weight">
+                <div className="gap-6">
+                  <div >
 
+                    <SectionTitle title="Package dimensions" />
+                    <DimensionsFilterSection
+                        filterData={filteringDetails}
+                        handleNumberChange={handleNumberChange}
+                    />
+
+                    <SectionTitle title="Package weight" />
                     <WeightFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
