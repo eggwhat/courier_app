@@ -34,6 +34,7 @@ namespace SwiftParcel.Services.Orders.Api
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetOrder, OrderDto>("orders/{orderId}")
                         .Get<GetOrders, IEnumerable<OrderDto>>("orders")
+                        .Get<GetOrdersRequests, IEnumerable<OrderDto>>("orders/requests")
                         .Get<GetOrdersOfficeWorker, IEnumerable<OrderDto>>("orders/office-worker")
                         .Get<GetOrdersOfficeWorkerPending, IEnumerable<OrderDto>>("orders/office-worker/pending")
                         .Get<GetOrderStatus, OrderStatusDto>("orders/{orderId}/status")
