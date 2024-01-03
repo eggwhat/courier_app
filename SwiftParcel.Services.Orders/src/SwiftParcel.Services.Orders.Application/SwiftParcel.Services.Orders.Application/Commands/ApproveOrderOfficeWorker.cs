@@ -1,14 +1,15 @@
-﻿using Convey.CQRS.Commands; 
+﻿using Convey.CQRS.Commands;
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class CancelOrder : ICommand
+    public class ApproveOrderOfficeWorker: ICommand
     {
         public Guid OrderId { get; }
-
-        public CancelOrder(Guid orderId)
+        public ApproveOrderOfficeWorker(Guid orderId)
         {
             OrderId = orderId;
         }
     }
 }
+
+
