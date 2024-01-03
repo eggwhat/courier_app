@@ -15,6 +15,12 @@ interface InquiryDetailsProps {
   showAssignBtn: number | undefined;
 }
 
+export function isPackageValid(validTo : string) {
+  const todayDate = new Date();
+  const validDate = new Date(validTo);
+  return todayDate < validDate;
+};
+
 export function InquiryDetails({
   inquiryData,
   showEditDeleteBtn,
@@ -47,12 +53,6 @@ export function InquiryDetails({
 
   const formatTimeCreatedAt = (createdAt: string) => {
     return createdAt.substring(11, 19);
-  };
-
-  const isPackageValid = (validTo) => {
-    const todayDate = new Date();
-    const validDate = new Date(validTo);
-    return todayDate < validDate;
   };
 
   return (

@@ -5,10 +5,14 @@ import { Footer } from "../../components/footer";
 import { getInquiries } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { InquiryDetails } from "../../components/details/inquiry";
+import { isPackageValid } from "../../components/details/inquiry";
 
 export default function Inquiries() {
   const [page, setPage] = React.useState(1);
-  const [inquiries, setInquiries] = React.useState<any>(null);
+  const [tableData, setTableData] = React.useState<any>(null);
+
+  const [sortedColumn, setSortedColumn] = React.useState(null);
+  const [sortDirection, setSortDirection] = React.useState('ascending');
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
   const [loadingInquiries, setLoadingInquiries] = React.useState(true);
@@ -17,13 +21,13 @@ export default function Inquiries() {
     getInquiries()
       .then((res) => {
         if (res.status === 200) {
-          setInquiries(res?.data);
+          setTableData(res?.data);
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        setInquiries(null);
+        setTableData(null);
       })
       .finally(() => {
         setLoadingInquiries(false);
@@ -32,6 +36,88 @@ export default function Inquiries() {
 
   const onPageChange = (page: number) => {
     setPage(page);
+  };
+
+  const handleSort = (column : string) => {
+    let direction = 'ascending';
+    if (sortedColumn === column && sortDirection === 'ascending') {
+      direction = 'descending';
+    }
+
+    const sortedData = [...tableData].sort((a, b) => {
+      switch (column) {
+        case 'id': {
+          const idA = a.id;
+          const idB = b.id;
+          if (direction === 'ascending') {
+            return idA > idB ? 1 : -1;
+          }
+          else {
+            return idA < idB ? 1 : -1;
+          }
+        }
+        case 'packageDimensions': {
+          const volumeA = a.width * a.height * a.depth;
+          const volumeB = b.width * b.height * b.depth;
+          return direction === 'ascending' ? volumeA - volumeB : volumeB - volumeA;
+        }
+        case 'packageWeight': {
+          const weightA = a.weight;
+          const weightB = b.weight;
+          return direction === 'ascending' ? weightA - weightB : weightB - weightA;
+        }
+        case 'sourceAddress': {
+          const addressA = `${a.source.street} ${a.source.buildingNumber} ${a.source.apartmentNumber}
+            ${a.source.zipCode} ${a.source.city} ${a.source.country}`;
+          const addressB = `${b.source.street} ${b.source.buildingNumber} ${b.source.apartmentNumber}
+            ${b.source.zipCode} ${b.source.city} ${b.source.country}`;
+          if (direction === 'ascending') {
+            return addressA > addressB ? 1 : -1;
+          }
+          else {
+            return addressA < addressB ? 1 : -1;
+          }
+        }
+        case 'destinationAddress': {
+          const addressA = `${a.destination.street} ${a.destination.buildingNumber} ${a.destination.apartmentNumber}
+            ${a.destination.zipCode} ${a.destination.city} ${a.destination.country}`;
+          const addressB = `${b.destination.street} ${b.destination.buildingNumber} ${b.destination.apartmentNumber}
+            ${b.destination.zipCode} ${b.destination.city} ${b.destination.country}`;
+          if (direction === 'ascending') {
+            return addressA > addressB ? 1 : -1;
+          }
+          else {
+            return addressA < addressB ? 1 : -1;
+          }
+        }
+        case 'dateOfInquiring': {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          if (direction === 'ascending') {
+            return dateA > dateB ? 1 : -1;
+          }
+          else {
+            return dateA < dateB ? 1 : -1;
+          }
+        }
+        case 'status': {
+          const statusA = isPackageValid(a.validTo) ? "valid" : "expired";
+          const statusB = isPackageValid(b.validTo) ? "valid" : "expired";
+          if (direction === 'ascending') {
+            return statusA > statusB ? 1 : -1;
+          }
+          else {
+            return statusA < statusB ? 1 : -1;
+          }
+        }
+        default:
+          return 0;
+      }
+    });
+
+    setSortedColumn(column);
+    setSortDirection(direction);
+    setTableData(sortedData);
   };
 
   return (
@@ -44,17 +130,17 @@ export default function Inquiries() {
         </h1>
         <Table>
           <Table.Head>
-            <Table.HeadCell>Id</Table.HeadCell>
-            <Table.HeadCell>Package dimensions</Table.HeadCell>
-            <Table.HeadCell>Package weight</Table.HeadCell>
-            <Table.HeadCell>Source address</Table.HeadCell>
-            <Table.HeadCell>Destination address</Table.HeadCell>
-            <Table.HeadCell>Date of inquiring</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('id')}>Id</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('packageDimensions')}>Package dimensions</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('packageWeight')}>Package weight</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('sourceAddress')}>Source address</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('destinationAddress')}>Destination address</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('dateOfInquiring')}>Date of inquiring</Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('status')}>Status</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {inquiries != null && inquiries?.length > 0 ? (
-              inquiries?.map((inquiry: any) => (
+            {tableData != null && tableData?.length > 0 ? (
+              tableData?.map((inquiry: any) => (
                 <InquiryDetails
                   key={inquiry.id}
                   inquiryData={inquiry}
@@ -76,12 +162,12 @@ export default function Inquiries() {
             )}
           </Table.Body>
         </Table>
-        {inquiries != null && inquiries?.total_pages > 1 ? (
+        {tableData != null && tableData?.total_pages > 1 ? (
           <Pagination
             currentPage={page}
             onPageChange={onPageChange}
             showIcons={true}
-            totalPages={inquiries?.total_pages || 1}
+            totalPages={tableData?.total_pages || 1}
           />
         ) : null}
         <Footer />
