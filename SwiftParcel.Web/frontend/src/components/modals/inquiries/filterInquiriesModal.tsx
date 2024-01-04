@@ -260,7 +260,7 @@ import {
     };
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
-        patternId: null,
+        patternId: "",
         minWidth: null,
         maxWidth: null,
         minHeight: null,
@@ -269,20 +269,20 @@ import {
         maxDepth: null,
         minWeight: null,
         maxWeight: null,
-        patternSourceStreet: null,
-        patternSourceBuildingNumber: null,
-        patternSourceApartmentNumber: null,
-        patternSourceCity: null,
-        patternSourceZipCode: null,
-        patternSourceCountry: null,
-        patternDestinationStreet: null,
-        patternDestinationBuildingNumber: null,
-        patternDestinationApartmentNumber: null,
-        patternDestinationCity: null,
-        patternDestinationZipCode: null,
-        patternDestinationCountry: null,
-        minDateOfInquiring: null,
-        maxDateOfInquiring: null,
+        patternSourceStreet: "",
+        patternSourceBuildingNumber: "",
+        patternSourceApartmentNumber: "",
+        patternSourceCity: "",
+        patternSourceZipCode: "",
+        patternSourceCountry: "",
+        patternDestinationStreet: "",
+        patternDestinationBuildingNumber: "",
+        patternDestinationApartmentNumber: "",
+        patternDestinationCity: "",
+        patternDestinationZipCode: "",
+        patternDestinationCountry: "",
+        minDateOfInquiring: "",
+        maxDateOfInquiring: "",
         filterStatus: "all"
     });
 
@@ -298,7 +298,7 @@ import {
         const newValue = event.target.value;
         setFilteringDetails(prevState => ({
             ...prevState,
-            [field]: newValue.length == 0 ? null : newValue
+            [field]: newValue
         }));
     };
 
@@ -312,6 +312,36 @@ import {
 
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState("");
+
+    const clearDetails = () => {
+        setFilteringDetails({
+            patternId: "",
+            minWidth: null,
+            maxWidth: null,
+            minHeight: null,
+            maxHeight: null,
+            minDepth: null,
+            maxDepth: null,
+            minWeight: null,
+            maxWeight: null,
+            patternSourceStreet: "",
+            patternSourceBuildingNumber: "",
+            patternSourceApartmentNumber: "",
+            patternSourceCity: "",
+            patternSourceZipCode: "",
+            patternSourceCountry: "",
+            patternDestinationStreet: "",
+            patternDestinationBuildingNumber: "",
+            patternDestinationApartmentNumber: "",
+            patternDestinationCity: "",
+            patternDestinationZipCode: "",
+            patternDestinationCountry: "",
+            minDateOfInquiring: "",
+            maxDateOfInquiring: "",
+            filterStatus: "all"
+        });
+        console.log(filteringDetails);
+    };
 
     const submit = async (e: any) => {
       e.preventDefault();
@@ -327,7 +357,7 @@ import {
     const filterInquiries = () => {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
-        (filteringDetails.patternId == null || element.id.includes(filteringDetails.patternId)) &&
+        (filteringDetails.patternId == "" || element.id.includes(filteringDetails.patternId)) &&
 
         // filtering of dimensions section
         (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
@@ -344,28 +374,28 @@ import {
         (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight) &&
 
         // filtering of source address section
-        (filteringDetails.patternSourceStreet == null || element.source.street.includes(filteringDetails.patternSourceStreet)) &&
-        (filteringDetails.patternSourceBuildingNumber == null || element.source.buildingNumber.includes(filteringDetails.patternSourceBuildingNumber)) &&
+        (filteringDetails.patternSourceStreet == "" || element.source.street.includes(filteringDetails.patternSourceStreet)) &&
+        (filteringDetails.patternSourceBuildingNumber == "" || element.source.buildingNumber.includes(filteringDetails.patternSourceBuildingNumber)) &&
 
-        (filteringDetails.patternSourceApartmentNumber == null || element.source.apartmentNumber.includes(filteringDetails.patternSourceApartmentNumber)) &&
-        (filteringDetails.patternSourceCity == null || element.source.city.includes(filteringDetails.patternSourceCity)) &&
+        (filteringDetails.patternSourceApartmentNumber == "" || element.source.apartmentNumber.includes(filteringDetails.patternSourceApartmentNumber)) &&
+        (filteringDetails.patternSourceCity == "" || element.source.city.includes(filteringDetails.patternSourceCity)) &&
 
-        (filteringDetails.patternSourceZipCode == null || element.source.zipCode.includes(filteringDetails.patternSourceZipCode)) &&
-        (filteringDetails.patternSourceCountry == null || element.source.country.includes(filteringDetails.patternSourceCountry)) &&
+        (filteringDetails.patternSourceZipCode == "" || element.source.zipCode.includes(filteringDetails.patternSourceZipCode)) &&
+        (filteringDetails.patternSourceCountry == "" || element.source.country.includes(filteringDetails.patternSourceCountry)) &&
 
         // filtering of destination address section
-        (filteringDetails.patternDestinationStreet == null || element.destination.street.includes(filteringDetails.patternDestinationStreet)) &&
-        (filteringDetails.patternDestinationBuildingNumber == null || element.destination.buildingNumber.includes(filteringDetails.patternDestinationBuildingNumber)) &&
+        (filteringDetails.patternDestinationStreet == "" || element.destination.street.includes(filteringDetails.patternDestinationStreet)) &&
+        (filteringDetails.patternDestinationBuildingNumber == "" || element.destination.buildingNumber.includes(filteringDetails.patternDestinationBuildingNumber)) &&
 
-        (filteringDetails.patternDestinationApartmentNumber == null || element.destination.apartmentNumber.includes(filteringDetails.patternDestinationApartmentNumber)) &&
-        (filteringDetails.patternDestinationCity == null || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
+        (filteringDetails.patternDestinationApartmentNumber == "" || element.destination.apartmentNumber.includes(filteringDetails.patternDestinationApartmentNumber)) &&
+        (filteringDetails.patternDestinationCity == "" || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
 
-        (filteringDetails.patternDestinationZipCode == null || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
-        (filteringDetails.patternDestinationCountry == null || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
+        (filteringDetails.patternDestinationZipCode == "" || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
+        (filteringDetails.patternDestinationCountry == "" || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
 
         // filtering of date of inquiring
-        (filteringDetails.minDateOfInquiring == null || new Date(element.createdAt) >= new Date(filteringDetails.minDateOfInquiring)) &&
-        (filteringDetails.maxDateOfInquiring == null || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring)) &&
+        (filteringDetails.minDateOfInquiring == "" || new Date(element.createdAt) >= new Date(filteringDetails.minDateOfInquiring)) &&
+        (filteringDetails.maxDateOfInquiring == "" || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring)) &&
 
         // filtering of status
         (filteringDetails.filterStatus != "expired" || isPackageValid(element.validTo) == false) &&
@@ -391,7 +421,11 @@ import {
                   </Alert>
                 ) : null}
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
-                  <div >
+                  <div>
+
+                    <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button onClick={clearDetails}>Clear filtering details</Button>
+                    </div>
 
                     <SectionTitle title="Id" />
                     <IdFilterSection
