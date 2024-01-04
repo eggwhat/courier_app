@@ -31,10 +31,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Contexts;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Decorators;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
-
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Exceptions;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
 {
@@ -46,11 +48,12 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
+            builder.Services.AddTransient<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
             return builder
-                //.AddErrorHandler<ExceptionToResponseMapper>()
+                .AddErrorHandler<ExceptionToResponseMapper>()
                 .AddQueryHandlers()
                 .AddInMemoryQueryDispatcher()
                 .AddHttpClient()
