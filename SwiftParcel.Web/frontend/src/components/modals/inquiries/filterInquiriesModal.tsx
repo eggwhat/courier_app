@@ -8,6 +8,7 @@ import {
   } from "flowbite-react";
   import React from "react";
   import { HiInformationCircle } from "react-icons/hi";
+  import { isPackageValid } from "../../details/inquiry";
   
   interface FilterInquiriesModalProps {
     show: boolean;
@@ -41,6 +42,7 @@ import {
     patternDestinationCountry: string;
     minDateOfInquiring: string;
     maxDateOfInquiring: string;
+    filterStatus: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -81,7 +83,7 @@ import {
             />
         </div>
     );
-};
+  };
 
   const SectionTitle = ({ title }) => (
     <div className="mb-4 border-b border-gray-300 pb-1">
@@ -235,6 +237,21 @@ import {
     </div>
   );
 
+  const StatusFilterSection = ({ filterData, handleStringChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <select
+            id="filter-status"
+            value={filterData.filterStatus}
+            onChange={handleStringChange('filterStatus')}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+            <option value="all">all</option>
+            <option value="expired">expired</option>
+            <option value="valid">valid</option>
+        </select>
+    </div>
+  );
+
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
       setError("");
@@ -265,7 +282,8 @@ import {
         patternDestinationZipCode: null,
         patternDestinationCountry: null,
         minDateOfInquiring: null,
-        maxDateOfInquiring: null
+        maxDateOfInquiring: null,
+        filterStatus: "all"
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -347,7 +365,11 @@ import {
 
         // filtering of date of inquiring
         (filteringDetails.minDateOfInquiring == null || new Date(element.createdAt) >= new Date(filteringDetails.minDateOfInquiring)) &&
-        (filteringDetails.maxDateOfInquiring == null || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring))
+        (filteringDetails.maxDateOfInquiring == null || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring)) &&
+
+        // filtering of status
+        (filteringDetails.filterStatus != "expired" || isPackageValid(element.validTo) == false) &&
+        (filteringDetails.filterStatus != "valid" || isPackageValid(element.validTo) == true)
       );
 
       props.setTableData(filteredElements);
@@ -409,6 +431,14 @@ import {
                         handleDateChange={handleDateChange}
                     />
 
+                    <SectionTitle title="Status" />
+                    <StatusFilterSection
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
+                    />
+
+                    <div style={{ marginBottom: '20px' }}></div>
+
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                     {isLoading ? (
                         <Button>
@@ -421,6 +451,7 @@ import {
                         <Button type="submit" onClick={submit}>Submit filtering details</Button>
                     )}
                     </div>
+
                     <div style={{ marginBottom: '20px' }}></div>
 
                   </div>
