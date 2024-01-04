@@ -49,9 +49,9 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.AddTransient<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
+            builder.Services.AddSingleton<ITokenManager, TokenManager>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
-            builder.Services.AddSingleton<ITokenManager, TokenManager>();
 
             return builder
                 .AddErrorHandler<ExceptionToResponseMapper>()
