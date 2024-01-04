@@ -39,6 +39,8 @@ import {
     patternDestinationCity: string;
     patternDestinationZipCode: string;
     patternDestinationCountry: string;
+    minDateOfInquiring: string;
+    maxDateOfInquiring: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -54,6 +56,32 @@ import {
       />
     </div>
   );
+
+  const DateInputWithLabel = ({ id, label, value, onChange }) => {
+    // Function to format the date to MongoDB format
+    const formatToMongoDBDate = (dateString : string) => {
+        const date = new Date(dateString);
+        return date.toISOString();
+    };
+
+    // Function to handle date change
+    const handleDateChange = (e : any) => {
+        const formattedDate = formatToMongoDBDate(e.target.value);
+        onChange(formattedDate);
+    };
+
+    return (
+        <div className="mb-4">
+            <Label htmlFor={id}>{label}</Label>
+            <TextInput 
+                id={id} 
+                type="date" 
+                value={value ? new Date(value).toISOString().split('T')[0] : ''} 
+                onChange={handleDateChange} 
+            />
+        </div>
+    );
+};
 
   const SectionTitle = ({ title }) => (
     <div className="mb-4 border-b border-gray-300 pb-1">
@@ -190,6 +218,23 @@ import {
     </div>
   );
 
+  const DateOfInquiringFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DateInputWithLabel
+            id="date-of-inquiring-min"
+            label="From:"
+            value={filterData.minDateOfInquiring}
+            onChange={handleDateChange('minDateOfInquiring')}
+        />
+        <DateInputWithLabel
+            id="date-of-inquiring-max"
+            label="To:"
+            value={filterData.maxDateOfInquiring}
+            onChange={handleDateChange('maxDateOfInquiring')}
+        />
+    </div>
+  );
+
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
       setError("");
@@ -218,7 +263,9 @@ import {
         patternDestinationApartmentNumber: null,
         patternDestinationCity: null,
         patternDestinationZipCode: null,
-        patternDestinationCountry: null
+        patternDestinationCountry: null,
+        minDateOfInquiring: null,
+        maxDateOfInquiring: null
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,6 +281,14 @@ import {
         setFilteringDetails(prevState => ({
             ...prevState,
             [field]: newValue.length == 0 ? null : newValue
+        }));
+    };
+
+    const handleDateChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event;
+        setFilteringDetails(prevState => ({
+            ...prevState,
+            [field]: newValue
         }));
     };
 
@@ -288,7 +343,11 @@ import {
         (filteringDetails.patternDestinationCity == null || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
 
         (filteringDetails.patternDestinationZipCode == null || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
-        (filteringDetails.patternDestinationCountry == null || element.destination.country.includes(filteringDetails.patternDestinationCountry))
+        (filteringDetails.patternDestinationCountry == null || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
+
+        // filtering of date of inquiring
+        (filteringDetails.minDateOfInquiring == null || new Date(element.createdAt) >= new Date(filteringDetails.minDateOfInquiring)) &&
+        (filteringDetails.maxDateOfInquiring == null || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring))
       );
 
       props.setTableData(filteredElements);
@@ -342,6 +401,12 @@ import {
                         prefix="Destination"
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
+                    />
+
+                    <SectionTitle title="Date of inquiring" />
+                    <DateOfInquiringFilterSection
+                        filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
                     />
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
