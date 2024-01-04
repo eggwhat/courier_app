@@ -27,6 +27,18 @@ import {
     maxDepth: number;
     minWeight: number;
     maxWeight: number;
+    patternSourceStreet: string;
+    patternSourceBuildingNumber: string;
+    patternSourceApartmentNumber: string;
+    patternSourceCity: string;
+    patternSourceZipCode: string;
+    patternSourceCountry: string;
+    patternDestinationStreet: string;
+    patternDestinationBuildingNumber: string;
+    patternDestinationApartmentNumber: string;
+    patternDestinationCity: string;
+    patternDestinationZipCode: string;
+    patternDestinationCountry: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -129,6 +141,55 @@ import {
     </div>
   );
 
+  const AddressFilterSection = ({ prefix, filterData, handleStringChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInputWithLabel
+            id={`${prefix}-street-pattern`}
+            label={`Pattern contained in street:`}
+            type="text"
+            value={filterData[`pattern${prefix}Street`]}
+            onChange={handleStringChange(`pattern${prefix}Street`)} 
+        />
+        <TextInputWithLabel
+            id={`${prefix}-building-number-pattern`}
+            label={`Pattern contained in building number:`}
+            type="text"
+            value={filterData[`pattern${prefix}BuildingNumber`]}
+            onChange={handleStringChange(`pattern${prefix}BuildingNumber`)} 
+        />
+
+        <TextInputWithLabel
+            id={`${prefix}-apartment-number-pattern`}
+            label={`Pattern contained in apartment number:`}
+            type="text"
+            value={filterData[`pattern${prefix}ApartmentNumber`]}
+            onChange={handleStringChange(`pattern${prefix}ApartmentNumber`)} 
+        />
+        <TextInputWithLabel
+            id={`${prefix}-city-pattern`}
+            label={`Pattern contained in city:`}
+            type="text"
+            value={filterData[`pattern${prefix}City`]}
+            onChange={handleStringChange(`pattern${prefix}City`)} 
+        />
+
+        <TextInputWithLabel
+            id={`${prefix}-zip-code-pattern`}
+            label={`Pattern contained in zip code:`}
+            type="text"
+            value={filterData[`pattern${prefix}ZipCode`]}
+            onChange={handleStringChange(`pattern${prefix}ZipCode`)} 
+        />
+        <TextInputWithLabel
+            id={`${prefix}-city-pattern`}
+            label={`Pattern contained in country:`}
+            type="text"
+            value={filterData[`pattern${prefix}Country`]}
+            onChange={handleStringChange(`pattern${prefix}Country`)} 
+        />
+    </div>
+  );
+
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
       setError("");
@@ -145,7 +206,19 @@ import {
         minDepth: null,
         maxDepth: null,
         minWeight: null,
-        maxWeight: null
+        maxWeight: null,
+        patternSourceStreet: null,
+        patternSourceBuildingNumber: null,
+        patternSourceApartmentNumber: null,
+        patternSourceCity: null,
+        patternSourceZipCode: null,
+        patternSourceCountry: null,
+        patternDestinationStreet: null,
+        patternDestinationBuildingNumber: null,
+        patternDestinationApartmentNumber: null,
+        patternDestinationCity: null,
+        patternDestinationZipCode: null,
+        patternDestinationCountry: null
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,7 +268,27 @@ import {
 
         // filtering of weight section
         (filteringDetails.minWeight == null || element.weight >= filteringDetails.minWeight) &&
-        (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight)
+        (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight) &&
+
+        // filtering of source address section
+        (filteringDetails.patternSourceStreet == null || element.source.street.includes(filteringDetails.patternSourceStreet)) &&
+        (filteringDetails.patternSourceBuildingNumber == null || element.source.buildingNumber.includes(filteringDetails.patternSourceBuildingNumber)) &&
+
+        (filteringDetails.patternSourceApartmentNumber == null || element.source.apartmentNumber.includes(filteringDetails.patternSourceApartmentNumber)) &&
+        (filteringDetails.patternSourceCity == null || element.source.city.includes(filteringDetails.patternSourceCity)) &&
+
+        (filteringDetails.patternSourceZipCode == null || element.source.zipCode.includes(filteringDetails.patternSourceZipCode)) &&
+        (filteringDetails.patternSourceCountry == null || element.source.country.includes(filteringDetails.patternSourceCountry)) &&
+
+        // filtering of destination address section
+        (filteringDetails.patternDestinationStreet == null || element.destination.street.includes(filteringDetails.patternDestinationStreet)) &&
+        (filteringDetails.patternDestinationBuildingNumber == null || element.destination.buildingNumber.includes(filteringDetails.patternDestinationBuildingNumber)) &&
+
+        (filteringDetails.patternDestinationApartmentNumber == null || element.destination.apartmentNumber.includes(filteringDetails.patternDestinationApartmentNumber)) &&
+        (filteringDetails.patternDestinationCity == null || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
+
+        (filteringDetails.patternDestinationZipCode == null || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
+        (filteringDetails.patternDestinationCountry == null || element.destination.country.includes(filteringDetails.patternDestinationCountry))
       );
 
       props.setTableData(filteredElements);
@@ -235,6 +328,20 @@ import {
                     <WeightFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
+                    />
+
+                    <SectionTitle title="Source address" />
+                    <AddressFilterSection
+                        prefix="Source"
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
+                    />
+
+                    <SectionTitle title="Destination address" />
+                    <AddressFilterSection
+                        prefix="Destination"
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
                     />
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
