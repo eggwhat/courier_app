@@ -259,16 +259,19 @@ import {
       props.setShow(false);
     };
 
+    const minDefNum = 0;
+    const maxDefNum = 99999;
+
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
         patternId: "",
-        minWidth: null,
-        maxWidth: null,
-        minHeight: null,
-        maxHeight: null,
-        minDepth: null,
-        maxDepth: null,
-        minWeight: null,
-        maxWeight: null,
+        minWidth: minDefNum,
+        maxWidth: maxDefNum,
+        minHeight: minDefNum,
+        maxHeight: maxDefNum,
+        minDepth: minDefNum,
+        maxDepth: maxDefNum,
+        minWeight: minDefNum,
+        maxWeight: maxDefNum,
         patternSourceStreet: "",
         patternSourceBuildingNumber: "",
         patternSourceApartmentNumber: "",
@@ -290,7 +293,7 @@ import {
         const newValue = parseFloat(event.target.value);
         setFilteringDetails(prevState => ({
             ...prevState,
-            [field]: isNaN(newValue) ? null : newValue
+            [field]: isNaN(newValue) ? 0 : newValue
         }));
     };
 
@@ -316,14 +319,14 @@ import {
     const clearDetails = () => {
         setFilteringDetails({
             patternId: "",
-            minWidth: null,
-            maxWidth: null,
-            minHeight: null,
-            maxHeight: null,
-            minDepth: null,
-            maxDepth: null,
-            minWeight: null,
-            maxWeight: null,
+            minWidth: minDefNum,
+            maxWidth: maxDefNum,
+            minHeight: minDefNum,
+            maxHeight: maxDefNum,
+            minDepth: minDefNum,
+            maxDepth: maxDefNum,
+            minWeight: minDefNum,
+            maxWeight: maxDefNum,
             patternSourceStreet: "",
             patternSourceBuildingNumber: "",
             patternSourceApartmentNumber: "",
@@ -340,7 +343,6 @@ import {
             maxDateOfInquiring: "",
             filterStatus: "all"
         });
-        console.log(filteringDetails);
     };
 
     const submit = async (e: any) => {
