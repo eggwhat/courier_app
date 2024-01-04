@@ -11,7 +11,7 @@ using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
-using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Commands;
 using Convey.Docs.Swagger;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Api
@@ -33,6 +33,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
+                        .Post<AddParcel>("parcels")
                     ))
                 .UseLogging()
                 .UseVault()

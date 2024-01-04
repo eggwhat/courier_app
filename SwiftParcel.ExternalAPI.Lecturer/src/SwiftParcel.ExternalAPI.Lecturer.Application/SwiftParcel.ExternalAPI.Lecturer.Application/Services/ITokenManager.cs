@@ -2,8 +2,7 @@
 {
     public interface ITokenManager
     {
-        string AccessToken { get; }
-        DateTime ValidTo { get; }
+        string GetToken();
         void ValidateToken();
     }
 }
