@@ -11,7 +11,6 @@ using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
-using SwiftParcel.ExternalAPI.Lecturer.Application.Queries;
 using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
 using Convey.Docs.Swagger;
 
