@@ -32,6 +32,7 @@
 
 <ItemGroup>
   <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Lecturer.Application\SwiftParcel.ExternalAPI.Lecturer.Application\SwiftParcel.ExternalAPI.Lecturer.Application.csproj" />
+  <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Lecturer.Core\SwiftParcel.ExternalAPI.Lecturer.Core\SwiftParcel.ExternalAPI.Lecturer.Core.csproj" />
 </ItemGroup>
 
 </Project>
