@@ -205,7 +205,7 @@ import {
       <React.Fragment>
         <Modal show={props.show} size="4xl" popup={true} onClose={close}>
           <Modal.Header />
-          <Modal.Body>
+          <Modal.Body style={{ overflowY: 'scroll' }}>
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
@@ -216,7 +216,7 @@ import {
                     <span>{error}</span>
                   </Alert>
                 ) : null}
-                <div className="gap-6">
+                <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <div >
 
                     <SectionTitle title="Id" />
@@ -237,20 +237,21 @@ import {
                         handleNumberChange={handleNumberChange}
                     />
 
-                  </div>
-                </div>
+                    <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
+                    {isLoading ? (
+                        <Button>
+                        <div className="mr-3">
+                            <Spinner size="sm" light={true} />
+                        </div>
+                        Loading ...
+                        </Button>
+                    ) : (
+                        <Button type="submit" onClick={submit}>Submit filtering details</Button>
+                    )}
+                    </div>
+                    <div style={{ marginBottom: '20px' }}></div>
 
-                <div className="w-full">
-                  {isLoading ? (
-                    <Button>
-                      <div className="mr-3">
-                        <Spinner size="sm" light={true} />
-                      </div>
-                      Loading ...
-                    </Button>
-                  ) : (
-                    <Button type="submit" onClick={submit}>Submit filtering details</Button>
-                  )}
+                  </div>
                 </div>
               </div>
             </form>
