@@ -9,6 +9,7 @@ import {
   import React from "react";
   import { HiInformationCircle } from "react-icons/hi";
   import { isPackageValid } from "../../details/inquiry";
+  import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
   
   interface FilterInquiriesModalProps {
     show: boolean;
@@ -396,8 +397,8 @@ import {
         (filteringDetails.patternDestinationCountry == "" || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
 
         // filtering of date of inquiring
-        (filteringDetails.minDateOfInquiring == "" || new Date(element.createdAt) >= new Date(filteringDetails.minDateOfInquiring)) &&
-        (filteringDetails.maxDateOfInquiring == "" || new Date(element.createdAt) <= new Date(filteringDetails.maxDateOfInquiring)) &&
+        (filteringDetails.minDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) >= new Date(filteringDetails.minDateOfInquiring)) &&
+        (filteringDetails.maxDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) <= new Date(filteringDetails.maxDateOfInquiring)) &&
 
         // filtering of status
         (filteringDetails.filterStatus != "expired" || isPackageValid(element.validTo) == false) &&

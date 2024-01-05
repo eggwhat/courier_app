@@ -8,6 +8,7 @@ import {
   } from "flowbite-react";
   import React from "react";
   import booleanToString from "../../parsing/booleanToString";
+  import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
   
   interface InquiryDetailsModalProps {
     show: boolean;
@@ -20,6 +21,11 @@ import {
 
   const formatDate = (date: string) => {
     return `${date.substring(0, 10)}  ${date.substring(11, 19)}`;
+  };
+
+  const formatDateToUTC = (date: string) => {
+    const utcDate = dateFromUTCToLocal(date);
+    return `${utcDate.substring(0, 10)}  ${utcDate.substring(11, 19)}`;
   };
 
   const LabelsWithBorder = ({ idA, valueA, idB, valueB }) => (
@@ -146,13 +152,13 @@ import {
             idA="created-at"
             valueA="Created at:"
             idB="created-at-value"
-            valueB={formatDate(detailsData.inquiry.createdAt)}
+            valueB={formatDateToUTC(detailsData.inquiry.createdAt)}
         />
         <LabelsWithBorder
             idA="valid-to"
             valueA="Valid to:"
             idB="valid-to-value"
-            valueB={formatDate(detailsData.inquiry.validTo)}
+            valueB={formatDateToUTC(detailsData.inquiry.validTo)}
         />
     </div>
   );

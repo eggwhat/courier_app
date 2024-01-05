@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ConfirmModal } from "../modals/confirmModal";
 import { EditParcelModal } from "../modals/parcels/editParcelModal";
 import { AssignCourierToParcelModal } from "../modals/parcels/assignCourierToParcelModal";
+import dateFromUTCToLocal from "../parsing/dateFromUTCToLocal";
 
 interface InquiryDetailsProps {
   inquiryData: any;
@@ -47,12 +48,12 @@ export function InquiryDetails({
     return `${address.zipCode} ${address.city}, ${address.country}`;
   }
 
-  const formatDateCreatedAt = (createdAt: string) => {
-    return createdAt.substring(0, 10);
+  const formatDateCreatedAt = (utcCreatedAt: string) => {
+    return dateFromUTCToLocal(utcCreatedAt).substring(0, 10);
   };
 
-  const formatTimeCreatedAt = (createdAt: string) => {
-    return createdAt.substring(11, 19);
+  const formatTimeCreatedAt = (utcCreatedAt: string) => {
+    return dateFromUTCToLocal(utcCreatedAt).substring(11, 19);
   };
 
   return (
