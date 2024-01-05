@@ -1,6 +1,7 @@
 ﻿using Convey.CQRS.Commands;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Exceptions;
 using SwiftParcel.ExternalAPI.Lecturer.Core.Repositories;
 using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
 
@@ -32,9 +33,13 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
                 command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode, command.DestinationCountry,
                 pickupDate, delivaryDate, command.AtWeekend, command.Priority, command.IsCompany, command.VipPackage);
             var response = await _inquiresServiceClient.PostAsync(token, inquiry);
+            if(response == null)
+            {
+                throw new InquiresServiceConnectionException();
+            }
             if (!response.Response.IsSuccessStatusCode)
             {
-                //throw new Exception(response.Error);
+                throw new InquiresServiceException(response.Response.ReasonPhrase);
             }
 
             var inquiryOffer = new InquiryOffer(command.ParcelId, response.Result.InquiryId, 
