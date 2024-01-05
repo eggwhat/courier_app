@@ -3,7 +3,7 @@ using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients
 {
-    public interface IInquiriesServiceClient
+    public interface IInquiresServiceClient
     {
         Task<HttpResult<InquiryResponseDto>> PostAsync(string token, InquiryDto inquiry);
     }
