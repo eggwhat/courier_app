@@ -5,11 +5,11 @@ using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
 {
-    public class InquiriesServiceClient: IInquiriesServiceClient
+    public class InquiresServiceClient: IInquiresServiceClient
     {
         private readonly IHttpClient _httpClient;
         private readonly string _url;
-        public InquiriesServiceClient(IHttpClient httpClient, HttpClientOptions options)
+        public InquiresServiceClient(IHttpClient httpClient, HttpClientOptions options)
         {
             _httpClient = httpClient;
             _url = options.Services["lecturer-api"];

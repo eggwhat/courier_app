@@ -38,6 +38,7 @@ using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Decorators;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Exceptions;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
 {
@@ -50,7 +51,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
-            builder.Services.AddTransient<IInquiriesServiceClient, InquiriesServiceClient>();
+            builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
@@ -70,7 +71,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddJaeger()
                 .AddMongo()
                 //.AddHandlersLogging()
-                //.AddMongoRepository<TBD, Guid>("TBD")
+                .AddMongoRepository<InquiryOfferDocument, Guid>("inquiryOffers")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }
