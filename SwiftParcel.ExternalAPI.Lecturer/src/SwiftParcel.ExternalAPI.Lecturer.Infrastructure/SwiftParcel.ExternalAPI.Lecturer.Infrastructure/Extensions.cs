@@ -32,6 +32,7 @@ using Newtonsoft.Json;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Commands;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Contexts;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Decorators;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
@@ -44,12 +45,12 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
     { 
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
-            //builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
-            builder.Services.AddTransient<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
-            builder.Services.AddSingleton<ITokenManager, TokenManager>();
+            builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
+            builder.Services.AddTransient<IInquiriesServiceClient, InquiriesServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
@@ -82,8 +83,8 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .UseConvey()
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
-                .UseRabbitMq();
-                //.SubscribeCommand<AddParcel>()
+                .UseRabbitMq()
+                .SubscribeCommand<AddParcel>();
                 //.SubscribeCommand<DeleteParcel>()
                 //.SubscribeEvent<CustomerCreated>();
 

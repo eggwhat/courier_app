@@ -5,6 +5,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients
 {
     public interface IIdentityManagerServiceClient
     {
-        Task<HttpResult<AccessTokenDto>> PostAsync();
+        Task<string> GetToken();
+        Task ValidateToken();
     }   
 }
