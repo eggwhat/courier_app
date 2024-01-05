@@ -7,16 +7,17 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
 {
     public class AddParcelHandler: ICommandHandler<AddParcel>
     {
-        private readonly ITokenManager _tokenManager;
+        private readonly IIdentityManagerServiceClient _identityManagerServiceClient;
         private readonly IInquiriesServiceClient _inquiriesServiceClient;
-        public AddParcelHandler(ITokenManager tokenManager, IInquiriesServiceClient inquiriesServiceClient)
+        public AddParcelHandler(IIdentityManagerServiceClient identityManagerServiceClient, 
+            IInquiriesServiceClient inquiriesServiceClient)
         {
-            _tokenManager = tokenManager;
+            _identityManagerServiceClient = identityManagerServiceClient;
             _inquiriesServiceClient = inquiriesServiceClient;
         }
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken)
         {
-            var token = _tokenManager.GetToken();
+            var token = await _identityManagerServiceClient.GetToken();
             var dimensionUnit = "Meters";
             var currency = "Pln";
             var weightUnit = "Kilograms";
