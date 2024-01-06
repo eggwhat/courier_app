@@ -1,7 +1,7 @@
 ﻿using Convey.HTTP;
 using SwiftParcel.Services.Parcels.Application.Commands;
 using SwiftParcel.Services.Parcels.Application.Services.Clients;
-using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents;
+using SwiftParcel.Services.Parcels.Application.DTO;
 
 namespace SwiftParcel.Services.Parcels.Infrastructure.Services.Clients
 {
@@ -19,6 +19,12 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Services.Clients
         public async Task PostInquiryAsync(AddParcel parcel)
         {
             await _httpClient.PostAsync($"{_url}/parcels", parcel);
+        }
+
+        public async Task<ExpirationStatusDto> GetOfferAsync(Guid parcelId)
+        {
+            var offer = await _httpClient.GetAsync<ExpirationStatusDto>($"{_url}/parcels/{parcelId}/offer");
+            return offer;
         }
         
     }
