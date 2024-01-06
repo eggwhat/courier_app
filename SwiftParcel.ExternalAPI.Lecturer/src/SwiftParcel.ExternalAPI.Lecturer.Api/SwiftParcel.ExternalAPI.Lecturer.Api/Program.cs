@@ -35,7 +35,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
-                        .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/expiration-status")
+                        .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/offer")
                         .Post<AddParcel>("parcels")
                     ))
                 .UseLogging()
