@@ -10,8 +10,10 @@ using Convey.Types;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using SwiftParcel.ExternalAPI.Lecturer.Application;
-using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Commands;
+using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Queries;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
 using Convey.Docs.Swagger;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Api
@@ -33,6 +35,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
+                        .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/expiration-status")
                         .Post<AddParcel>("parcels")
                     ))
                 .UseLogging()

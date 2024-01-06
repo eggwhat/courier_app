@@ -1,5 +1,6 @@
 ﻿
 
+using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
 using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
@@ -11,7 +12,8 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
                 document.Id,
                 document.InquiryId,
                 document.TotalPrice,
-                document.ExpiringAt
+                document.ExpiringAt,
+                document.PriceBreakDown
                 );
 
         public static async Task<InquiryOffer> AsEntityAsync(this Task<InquiryOfferDocument> task)
@@ -23,11 +25,27 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
                 Id = entity.ParcelId,
                 InquiryId = entity.InquiryId,
                 TotalPrice = entity.TotalPrice,
-                ExpiringAt = entity.ExpiringAt
+                ExpiringAt = entity.ExpiringAt,
+                PriceBreakDown = entity.PriceBreakDown
             };
         
         public static async Task<InquiryOfferDocument> AsDocumentAsync(this Task<InquiryOffer> task)
             => (await task).AsDocument();
+
+        public static List<PriceBreakDownItemDto> AsDto(this List<PriceBreakDownItem> entity)
+        {
+            var dto = new List<PriceBreakDownItemDto>();
+            foreach (var item in entity)
+            {
+                dto.Add(new PriceBreakDownItemDto()
+                {
+                    Amount = item.Amount,
+                    Currency = item.Currency,
+                    Description = item.Description
+                });
+            }
+            return dto;
+        }
 
     }
 }
