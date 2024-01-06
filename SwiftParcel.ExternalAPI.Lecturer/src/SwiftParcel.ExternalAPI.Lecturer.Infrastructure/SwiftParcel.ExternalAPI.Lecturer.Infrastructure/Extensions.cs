@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,36 +29,32 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using SwiftParcel.Services.Parcels.Application;
-using SwiftParcel.Services.Parcels.Application.Commands;
-using SwiftParcel.Services.Parcels.Application.Events.External;
-using SwiftParcel.Services.Parcels.Application.Services;
-using SwiftParcel.Services.Parcels.Core.Repositories;
-using SwiftParcel.Services.Parcels.Infrastructure.Contexts;
-using SwiftParcel.Services.Parcels.Infrastructure.Decorators;
-using SwiftParcel.Services.Parcels.Infrastructure.Exceptions;
-using SwiftParcel.Services.Parcels.Infrastructure.Logging;
-using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents;
-using SwiftParcel.Services.Parcels.Infrastructure.Mongo.Repositories;
-using SwiftParcel.Services.Parcels.Infrastructure.Services;
-using SwiftParcel.Services.Parcels.Application.Services.Clients;
-using SwiftParcel.Services.Parcels.Infrastructure.Services.Clients;
+using SwiftParcel.ExternalAPI.Lecturer.Application;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Services;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Commands;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Contexts;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Decorators;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Exceptions;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Repositories;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Repositories;
 
-
-namespace SwiftParcel.Services.Parcels.Infrastructure
+namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
 {
     public static class Extensions
     { 
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            builder.Services.AddTransient<ICustomerRepository, CustomerMongoRepository>();
-            builder.Services.AddTransient<IParcelRepository, ParcelMongoRepository>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
-            builder.Services.AddTransient<IPricingServiceClient, PricingServiceClient>();
-            builder.Services.AddTransient<ILecturerApiServiceClient, LecturerApiServiceClient>();
+            builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
+            builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
+            builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
@@ -71,15 +67,14 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .AddFabio()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMessageOutbox(o => o.AddMongo())
-                .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
+                //.AddExceptionToMessageMapper<ExceptionToMessageMapper>()
                 .AddMongo()
                 .AddRedis()
                 .AddMetrics()
                 .AddJaeger()
                 .AddMongo()
-                .AddHandlersLogging()
-                .AddMongoRepository<CustomerDocument, Guid>("customers")
-                .AddMongoRepository<ParcelDocument, Guid>("parcels")
+                //.AddHandlersLogging()
+                .AddMongoRepository<InquiryOfferDocument, Guid>("inquiryOffers")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }
@@ -93,9 +88,9 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseRabbitMq()
-                .SubscribeCommand<AddParcel>()
-                .SubscribeCommand<DeleteParcel>()
-                .SubscribeEvent<CustomerCreated>();
+                .SubscribeCommand<AddParcel>();
+                //.SubscribeCommand<DeleteParcel>()
+                //.SubscribeEvent<CustomerCreated>();
 
             return app;
         }

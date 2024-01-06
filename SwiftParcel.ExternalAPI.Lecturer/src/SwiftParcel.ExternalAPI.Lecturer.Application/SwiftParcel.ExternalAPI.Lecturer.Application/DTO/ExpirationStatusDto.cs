@@ -1,4 +1,4 @@
-﻿namespace SwiftParcel.Services.Parcels.Application.DTO
+﻿namespace SwiftParcel.ExternalAPI.Lecturer.Application.DTO
 {
     public class ExpirationStatusDto
     {

@@ -9,14 +9,14 @@ using Convey.Logging;
 using Convey.Types;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
-using SwiftParcel.Services.Parcels.Application;
-using SwiftParcel.Services.Parcels.Application.Queries;
-using SwiftParcel.Services.Parcels.Application.DTO;
-using SwiftParcel.Services.Parcels.Application.Commands;
-using SwiftParcel.Services.Parcels.Infrastructure;
+using SwiftParcel.ExternalAPI.Lecturer.Application;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Commands;
+using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Queries;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure;
 using Convey.Docs.Swagger;
 
-namespace SwiftParcel.Services.Parcels.Api
+namespace SwiftParcel.ExternalAPI.Lecturer.Api
 {
     public class Program
     {
@@ -26,6 +26,7 @@ namespace SwiftParcel.Services.Parcels.Api
                     .AddConvey()
                     .AddWebApi()
                     .AddApplication()
+                    .AddSwaggerDocs()
                     .AddInfrastructure()
                     .Build())
                 .Configure(app => app
@@ -34,13 +35,8 @@ namespace SwiftParcel.Services.Parcels.Api
                     .UseInfrastructure()
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
-                        .Get<GetParcels, IEnumerable<ParcelDto>>("parcels")
-                        .Get<GetParcelsOfficeWorker, IEnumerable<ParcelDto>>("parcels/office-worker")
-                        .Get<GetParcel, ParcelDto>("parcels/{parcelId}")
-                        .Get<GetOffers, IEnumerable<ExpirationStatusDto>>("parcels/{parcelId}/offers")
-                        .Post<AddParcel>("parcels",
-                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}/offers"))
-                        .Delete<DeleteParcel>("parcels/{parcelId}")
+                        .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/offer")
+                        .Post<AddParcel>("parcels")
                     ))
                 .UseLogging()
                 .UseVault()

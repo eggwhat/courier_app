@@ -20,19 +20,22 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
         private readonly IParcelRepository _parcelRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IPricingServiceClient _pricingServiceClient;
+        private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IMessageBroker _messageBroker;
         private readonly string _expectedFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
 
 
         public AddParcelHandler(IParcelRepository parcelRepository, ICustomerRepository customerRepository,
-            IPricingServiceClient pricingServiceClient, IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker)
+            IPricingServiceClient pricingServiceClient, IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker,
+            ILecturerApiServiceClient lecturerApiServiceClient)
         {
             _parcelRepository = parcelRepository;
             _customerRepository = customerRepository;
             _pricingServiceClient = pricingServiceClient;
             _dateTimeProvider = dateTimeProvider;
             _messageBroker = messageBroker;
+            _lecturerApiServiceClient = lecturerApiServiceClient;
         }
 
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken = default)
@@ -64,7 +67,8 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             }
 
             var parcel = new Parcel(command.ParcelId, command.Description, command.Width, 
-            command.Height, command.Depth, command.Weight, pickupDate, deliveryDate,
+            command.Height, command.Depth, command.Weight, priority, command.AtWeekend,
+            pickupDate, deliveryDate, command.IsCompany, command.VipPackage,
             createdAt, price.OrderPrice, validTo, customerId);
 
             parcel.SetSourceAddress(command.SourceStreet, command.SourceBuildingNumber,
@@ -79,6 +83,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             parcel.SetAtWeekend(command.AtWeekend);
 
             await _parcelRepository.AddAsync(parcel);
+            await _lecturerApiServiceClient.PostInquiryAsync(AddParcel.Generate(parcel));
 
             await _messageBroker.PublishAsync(new ParcelAdded(command.ParcelId));
         }

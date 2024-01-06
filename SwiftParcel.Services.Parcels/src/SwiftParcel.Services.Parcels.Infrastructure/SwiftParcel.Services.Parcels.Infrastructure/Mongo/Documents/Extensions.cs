@@ -116,7 +116,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                     ZipCode = document.Destination.ZipCode,
                     Country = document.Destination.Country
                 },
-                Priority = document.Priority.ToString().ToLowerInvariant(),
+                Priority = document.Priority.ToString(),
                 AtWeekend = document.AtWeekend,
                 PickupDate = document.PickupDate,
                 DeliveryDate = document.DeliveryDate,
