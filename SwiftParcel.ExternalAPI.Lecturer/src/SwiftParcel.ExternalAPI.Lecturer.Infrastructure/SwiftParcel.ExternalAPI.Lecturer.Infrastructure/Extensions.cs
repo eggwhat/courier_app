@@ -39,6 +39,8 @@ using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Exceptions;
 using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Repositories;
+using SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Repositories;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
 {
@@ -49,6 +51,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
+            builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
             builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
