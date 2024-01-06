@@ -74,5 +74,17 @@ namespace SwiftParcel.Services.Parcels.Application.Commands
             IsCompany = isCompany;
             VipPackage = vipPackage;
         }
+
+        public static AddParcel Generate(Parcel parcel)
+        {
+            return new AddParcel(parcel.Id, Guid.Empty, parcel.Description,
+                parcel.Width, parcel.Height, parcel.Depth, parcel.Weight,
+                parcel.Source.Street, parcel.Source.BuildingNumber, parcel.Source.ApartmentNumber,
+                parcel.Source.City, parcel.Source.ZipCode, parcel.Source.Country,
+                parcel.Destination.Street, parcel.Destination.BuildingNumber, parcel.Destination.ApartmentNumber,
+                parcel.Destination.City, parcel.Destination.ZipCode, parcel.Destination.Country,
+                parcel.Priority.ToString(), parcel.AtWeekend, parcel.PickupDate.ToString(),
+                parcel.DeliveryDate.ToString(), parcel.IsCompany, parcel.VipPackage);
+        }
     }
 }
