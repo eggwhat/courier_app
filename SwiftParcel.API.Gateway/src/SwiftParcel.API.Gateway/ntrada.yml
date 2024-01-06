@@ -266,10 +266,10 @@ modules:
         downstream: parcels-service/parcels/{parcelId}
         auth: true
 
-      - upstream: /{parcelId}/expiration-status
+      - upstream: /{parcelId}/offers
         method: GET
         use: downstream
-        downstream: parcels-service/parcels/{parcelId}/expiration-status
+        downstream: parcels-service/parcels/{parcelId}/offers
         auth: true  
     
       - upstream: /

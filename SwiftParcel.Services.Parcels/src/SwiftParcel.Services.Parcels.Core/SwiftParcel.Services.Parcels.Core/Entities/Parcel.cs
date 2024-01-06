@@ -33,10 +33,12 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public decimal CalculatedPrice { get; protected set; }
 
         public Parcel(AggregateId id, string description, double width,
-            double height, double depth, double weight, DateTime pickupDate, DateTime deliveryDate,
+            double height, double depth, double weight, Priority priority, bool atWeekend,
+            DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
             DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
             : this(id, description, width, height, depth, weight, new Address(), new Address(),
-             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, calculatedPrice, validTo, customerId)
+             priority, atWeekend, pickupDate, deliveryDate, isCompany, vipPackage, createdAt, 
+             calculatedPrice, validTo, customerId)
         {
 
         }
