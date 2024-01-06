@@ -1,19 +1,10 @@
-import { Table, Badge, Button, Tooltip, Spinner } from "flowbite-react";
+import { Table, Button} from "flowbite-react";
 import React from "react";
-import { BsJournalMinus, BsPencil, BsTrash } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
-import { ConfirmModal } from "../modals/confirmModal";
-import { EditParcelModal } from "../modals/parcels/editParcelModal";
-import { AssignCourierToParcelModal } from "../modals/parcels/assignCourierToParcelModal";
+import { InquiryDetailsModal } from "../modals/inquiries/inquiryDetailsModal";
 import dateFromUTCToLocal from "../parsing/dateFromUTCToLocal";
 
 interface InquiryDetailsProps {
   inquiryData: any;
-  toggleRender: boolean | undefined;
-  setToggleRender: ((toggleRender: boolean) => void) | undefined;
-  showEditDeleteBtn: boolean | undefined;
-  showDeliverBtn: boolean | undefined;
-  showAssignBtn: number | undefined;
 }
 
 export function isPackageValid(validTo : string) {
@@ -23,17 +14,12 @@ export function isPackageValid(validTo : string) {
 };
 
 export function InquiryDetails({
-  inquiryData,
-  showEditDeleteBtn,
-  showDeliverBtn,
-  showAssignBtn,
+  inquiryData
 }: InquiryDetailsProps) {
-  const [loadingDelete, setLoadingDelete] = React.useState(false);
-  const [loadingAssign, setLoadingAssign] = React.useState(false);
 
   const [inquiry, setInquiry] = React.useState<any>(inquiryData);
 
-  const navigate = useNavigate();
+  const [showInquiryDetailsModal, setShowInquiryDetailsModal] = React.useState(false);
 
   const formatAddressFirstLine = (address : any) => {
     if (address.apartmentNumber.length === 0) {
@@ -84,70 +70,16 @@ export function InquiryDetails({
           </span>
         </Table.Cell>
         <Table.Cell>{isPackageValid(inquiry.validTo) ? "valid" : "expired"}</Table.Cell>
-        {showEditDeleteBtn ? (
-          <Table.Cell>
-            <span className="flex flex-wrap gap-2">
-              <Button.Group outline={true}>
-                <Button size="sm">
-                  <Tooltip content="Edit Parcel">
-                    <BsPencil className="h-4 w-4" />
-                  </Tooltip>
-                </Button>
-                {loadingDelete ? (
-                  <Button size="sm" color="failure">
-                    <Spinner size="sm" className="h-4 w-4" light={true} />
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    color="failure"
-                  >
-                    <Tooltip content="Delete Parcel">
-                      <BsTrash className="h-4 w-4" />
-                    </Tooltip>
-                  </Button>
-                )}
-                {loadingAssign ? (
-                  <Button size="sm" color="purple">
-                    <Spinner size="sm" className="h-4 w-4" light={true} />
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    color="purple"
-                    disabled={inquiry.courier === null}
-                  >
-                    <Tooltip content="Unassign Courier">
-                      <BsJournalMinus className="h-4 w-4" />
-                    </Tooltip>
-                  </Button>
-                )}
-              </Button.Group>
-            </span>
-          </Table.Cell>
-        ) : null}
-        {showDeliverBtn ? (
-          <Table.Cell>
-            {inquiry.status === "Pending" || inquiry.status === "In progress" ? (
-              <Button>Deliver</Button>
-            ) : null}
-          </Table.Cell>
-        ) : null}
-        {showAssignBtn ? (
-          loadingAssign ? (
-            <Table.Cell>
-              <Button>
-                <Spinner size="sm" light={true} className="mr-3" />
-                <span>Assigning...</span>
-              </Button>
-            </Table.Cell>
-          ) : (
-            <Table.Cell>
-              <Button>Assign</Button>
-            </Table.Cell>
-          )
-        ) : null}
+        <Table.Cell>
+          <Button onClick={() => setShowInquiryDetailsModal(true)}>Show</Button>
+        </Table.Cell>
       </Table.Row>
+
+      <InquiryDetailsModal
+          show={showInquiryDetailsModal}
+          setShow={setShowInquiryDetailsModal}
+          inquiry={inquiry}
+      />
     </>
   );
 }

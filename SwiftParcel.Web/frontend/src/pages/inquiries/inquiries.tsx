@@ -186,6 +186,9 @@ export default function Inquiries() {
             <Table.HeadCell onClick={() => handleSort('status')}>
               Status {getSortIcon('status')}
             </Table.HeadCell>
+            <Table.HeadCell>
+              Details
+            </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {tableData != null && tableData?.length > 0 ? (
@@ -193,13 +196,6 @@ export default function Inquiries() {
                 <InquiryDetails
                   key={inquiry.id}
                   inquiryData={inquiry}
-                  showDeliverBtn={true}
-                  toggleRender={false}
-                  setToggleRender={function (toggleRender: boolean): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                  showEditDeleteBtn={undefined}
-                  showAssignBtn={undefined}
                 />
               ))
             ) : (

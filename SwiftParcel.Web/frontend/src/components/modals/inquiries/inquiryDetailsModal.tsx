@@ -1,10 +1,6 @@
 import {
-    Alert,
-    Button,
     Label,
     Modal,
-    Spinner,
-    TextInput,
   } from "flowbite-react";
   import React from "react";
   import booleanToString from "../../parsing/booleanToString";
@@ -13,11 +9,8 @@ import {
   interface InquiryDetailsModalProps {
     show: boolean;
     setShow: (show: boolean) => void;
-  }
-  
-  type InquiryDetailsData = {
     inquiry: any;
-  };
+  }
 
   const formatDate = (date: string) => {
     return `${date.substring(0, 10)}  ${date.substring(11, 19)}`;
@@ -205,46 +198,8 @@ import {
 
   export function InquiryDetailsModal(props: InquiryDetailsModalProps) {
     const close = () => {
-
       props.setShow(false);
     };
-
-    const [detailsData, setDetailsData] = React.useState<InquiryDetailsData>({
-      inquiry: {
-        id: "4f029dad-9d5b-40a0-804a-78983d828122",
-        customerId: null,
-        description: "Test",
-        width: 0.05,
-        height: 0.05,
-        depth: 0.05,
-        weight: 0.5,
-        source: {
-          street: "Plac politechniki",
-          buildingNumber:	"1",
-          apartmentNumber: "",
-          city: "Warszawa",
-          zipCode: "00-420",
-          country: "Polska"
-        },
-        destination: {
-          street: "Koszykowa",
-          buildingNumber:	"21",
-          apartmentNumber: "37",
-          city: "Berlin",
-          zipCode: "10-115",
-          country: "Niemcy"
-        },
-        priority: "low",
-        atWeekend: true,
-        pickupDate: "2023-12-22T00:00:00Z",
-        deliveryDate: "2023-12-29T00:00:00Z",
-        isCompany: false,
-        vipPackage: false,
-        createdAt: "2024-01-05T21:01:14.541Z",
-        validTo: "2024-01-05T21:31:14.541Z",
-        calculatedPrice: 5.55000625
-      }
-    });
 
     const submit = async (e: any) => {
       e.preventDefault();
@@ -266,39 +221,39 @@ import {
 
                     <SectionTitle title="Basic info" />
                     <BasicInfoDetailsSection
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Package dimensions" />
                     <DimensionsDetailsSection
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Source address" />
                     <AddressDetailsSection
                         prefix="source"
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Destination address" />
                     <AddressDetailsSection
                         prefix="destination"
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Date info" />
                     <DateInfoDetailsSection
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Additional info" />
                     <AdditionalInfoDetailsSection
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <SectionTitle title="Price" />
                     <PriceDetailsSection
-                        detailsData={detailsData}
+                        detailsData={props}
                     />
 
                     <div style={{ marginBottom: '40px' }}></div>
