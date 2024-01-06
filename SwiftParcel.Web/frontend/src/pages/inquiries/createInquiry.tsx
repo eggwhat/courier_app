@@ -15,6 +15,8 @@ import {
 import stringToBoolean from "../../components/parsing/stringToBoolean";
 import booleanToString from "../../components/parsing/booleanToString";
 import { CourierOffers } from "../couriers/courierOffers";
+import { getInquiries } from "../../utils/api";
+import { Link } from "react-router-dom";
 
 
 type FormFields = {
@@ -288,6 +290,8 @@ export default function CreateInquiry() {
 
     const [formIsValid, setFormIsValid] = React.useState(true); 
 
+    const [inquiries, setInquiries] = React.useState<any>(null);
+
     // const [formFields, setFormFields] = React.useState<FormFields>({
     //     description: "",
     //     packageWidth: 0,
@@ -315,11 +319,11 @@ export default function CreateInquiry() {
     // });
 
     const [formFields, setFormFields] = React.useState<FormFields>({
-        description: "Test",
-        packageWidth: 0.05,
-        packageHeight: 0.05,
-        packageDepth: 0.05,
-        packageWeight: 0.5,
+        description: "New test",
+        packageWidth: 20.5,
+        packageHeight: 10.5,
+        packageDepth: 19.5,
+        packageWeight: 30.345,
         sourceAddressStreet: "Plac politechniki",
         sourceAddressBuildingNumber: "1",
         sourceAddressApartmentNumber: "",
@@ -332,12 +336,12 @@ export default function CreateInquiry() {
         destinationAddressCity: "Warszawa",
         destinationAddressZipCode: "00-420",
         destinationAddressCountry: "Polska",
-        pickupDate: "2023-12-22", // Format this as per your requirement
-        deliveryDate: "2023-12-29", // Format this as per your requirement
-        priority: "Low",
+        pickupDate: "2023-01-08", // Format this as per your requirement
+        deliveryDate: "2023-01-12", // Format this as per your requirement
+        priority: "High",
         atWeekend: true,
         isCompany: false,
-        vipPackage: false
+        vipPackage: true
     });
     
     
@@ -529,6 +533,23 @@ export default function CreateInquiry() {
         });
 
           console.log("pickupDate: ", formFields.pickupDate)
+
+        //   getInquiries()
+        //     .then((res) => {
+        //         console.log(res);
+        //         if (res.status === 200) {
+        //             setInquiries(res?.data);
+        //         } else {
+        //             throw new Error();
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         setInquiries(null);
+        //     })
+
+        //   const inquiryId = inquiries[inquiries.length - 1].id;
+        //   console.log(inquiryId);
+
           setOffers(offers);
           if (offers && offers.length > 0) {
             setShowOffers(true); // Show offers if available
@@ -549,8 +570,6 @@ export default function CreateInquiry() {
     };
   
     return (
-
-        
       <>
         {loading ? <Loader /> : null}
 
@@ -620,13 +639,25 @@ export default function CreateInquiry() {
                 </div>
           </form>
           {success ? (
+            <div>
             <Alert color="success" icon={HiCheckCircle} className="mb-3">
               <span>
                 <span className="font-bold">Success!</span> {success}
               </span>
-
               <CourierOffers offers={offers} onSelectOffer={handleSelectOffer} />
             </Alert>
+            <Link
+                to="/offers"
+                className="mt-4 w-full md:w-1/2">
+              <Button
+                gradientDuoTone="cyanToBlue"
+                size="xl"
+                className="mt-4 w-full"
+                type="submit">
+                See offers
+              </Button>
+            </Link>
+            </div>
           ) : null}
           <Footer />
         </div>
