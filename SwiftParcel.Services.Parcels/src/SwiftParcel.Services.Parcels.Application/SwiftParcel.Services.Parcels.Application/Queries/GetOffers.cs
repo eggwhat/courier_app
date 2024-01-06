@@ -3,7 +3,7 @@ using SwiftParcel.Services.Parcels.Application.DTO;
 
 namespace SwiftParcel.Services.Parcels.Application.Queries
 {
-    public class GetParcelExpirationStatus : IQuery<IEnumerable<ExpirationStatusDto>>
+    public class GetOffers : IQuery<IEnumerable<ExpirationStatusDto>>
     {
         public Guid ParcelId { get; set; }
     }
