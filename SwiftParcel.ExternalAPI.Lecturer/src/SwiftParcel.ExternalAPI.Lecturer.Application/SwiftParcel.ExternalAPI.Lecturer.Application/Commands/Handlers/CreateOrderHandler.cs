@@ -1,6 +1,7 @@
 ﻿using Convey.CQRS.Commands;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
+using SwiftParcel.ExternalAPI.Lecturer.Application.Exceptions;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
 {
@@ -35,12 +36,12 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
             });
             if(response == null)
             {
-                //throw new Exception("Offer was not created");
+                throw new OffersServiceConnectionException();
             }
             if (!response.Response.IsSuccessStatusCode)
             {
-                //throw new Exception("Offer was not created");
-            }
+                throw new OffersServiceException(response.Response.ReasonPhrase);
+            }   
 
         }
     }
