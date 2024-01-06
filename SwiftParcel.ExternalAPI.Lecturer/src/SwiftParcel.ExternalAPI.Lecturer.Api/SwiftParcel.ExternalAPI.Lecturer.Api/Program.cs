@@ -37,6 +37,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/offer")
                         .Post<AddParcel>("parcels")
+                        .Post<CreateOrder>("orders")
                     ))
                 .UseLogging()
                 .UseVault()
