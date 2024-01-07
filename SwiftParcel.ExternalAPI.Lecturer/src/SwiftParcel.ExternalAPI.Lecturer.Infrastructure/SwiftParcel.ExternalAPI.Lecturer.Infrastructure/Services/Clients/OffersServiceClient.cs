@@ -16,7 +16,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
             _url = options.Services["lecturer-api"];
         }
 
-        public Task<HttpResult<OfferResponseDto>> PostAsync(string token, OfferDto offer)
+        public async Task<HttpResult<OfferResponseDto>> PostAsync(string token, OfferRequestDto offer)
         {
             _httpClient.SetHeaders(new Dictionary<string, string>
             {
@@ -27,9 +27,17 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
 
             var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(offer);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            return _httpClient.PostResultAsync<OfferResponseDto>(_url + "/Offers", content);
+            return await _httpClient.PostResultAsync<OfferResponseDto>(_url + "/Offers", content);
         }
 
+        public async Task<OfferDto> GetOfferAsync(string token, string offerId)
+        {
+            _httpClient.SetHeaders(new Dictionary<string, string>
+            {
+                { "Authorization", "Bearer " + token },
+            });
+            return await _httpClient.GetAsync<OfferDto>(_url + $"/offer/{offerId}");   
+        }
         
     }
 }

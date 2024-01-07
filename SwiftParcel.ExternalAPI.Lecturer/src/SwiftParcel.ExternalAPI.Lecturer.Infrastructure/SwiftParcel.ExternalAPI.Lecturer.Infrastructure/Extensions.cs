@@ -52,6 +52,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
+            builder.Services.AddTransient<IOfferSnippetRepository, OfferSnippetMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
             builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
@@ -75,6 +76,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddMongo()
                 //.AddHandlersLogging()
                 .AddMongoRepository<InquiryOfferDocument, Guid>("inquiryOffers")
+                .AddMongoRepository<OfferSnippetDocument, Guid>("offerSnippets")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }
@@ -88,7 +90,8 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseRabbitMq()
-                .SubscribeCommand<AddParcel>();
+                .SubscribeCommand<AddParcel>()
+                .SubscribeCommand<CreateOrder>();
                 //.SubscribeCommand<DeleteParcel>()
                 //.SubscribeEvent<CustomerCreated>();
 
