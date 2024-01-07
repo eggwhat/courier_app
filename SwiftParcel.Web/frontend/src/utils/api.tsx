@@ -294,6 +294,16 @@ export const getOfferRequests = async () => {
   }
 };
 
+export const getPendingOffers = async () => {
+  try {
+    const response = await api.get(`/orders/office-worker/pending`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting pending offers:', error);
+    throw error;
+  }
+};
+
 export const updateParcel = async (parcelId: string, data: any) => {
   try {
     const response = await api.put(`/parcels/${parcelId}`, data, { headers: getAuthHeader() });
