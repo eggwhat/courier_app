@@ -5,7 +5,7 @@ import { Footer } from "../../components/footer";
 import { getOfferRequests } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { OfferRequestDetails } from "../../components/details/offerRequest";
-import { FilterInquiriesModal } from "../../components/modals/inquiries/filterInquiriesModal";
+import { FilterOfferRequestsModal } from "../../components/modals/offers/filterOfferRequestsModal";
 
 export default function OfferRequests() {
   const [page, setPage] = React.useState(1);
@@ -173,13 +173,13 @@ export default function OfferRequests() {
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
-        {/* <FilterInquiriesModal
+        <FilterOfferRequestsModal
           show={showFilterInquiriesModal}
           setShow={setShowFilterInquiriesModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
-        /> */}
+        />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>
@@ -198,7 +198,7 @@ export default function OfferRequests() {
               Order request date {getSortIcon('orderRequestDate')}
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('requestValidTo')}>
-              Request valid to {getSortIcon('requestValidTo')}
+              Request valid to date {getSortIcon('requestValidTo')}
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('buyerName')}>
               Buyer name {getSortIcon('buyerName')}
@@ -223,7 +223,7 @@ export default function OfferRequests() {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="text-center">
+                <td colSpan={10} className="text-center">
                   No offer requests found
                 </td>
               </tr>

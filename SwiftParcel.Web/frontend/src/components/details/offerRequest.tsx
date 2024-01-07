@@ -3,6 +3,7 @@ import React from "react";
 import { InquiryDetailsModal } from "../modals/inquiries/inquiryDetailsModal";
 import { OfferRequestDetailsModal } from "../modals/offers/offerRequestDetailsModal";
 import dateFromUTCToLocal from "../parsing/dateFromUTCToLocal";
+import formatOfferStatus from "../parsing/formatOfferStatus";
 
 interface OfferRequestDetailsProps {
   offerRequestData: any;
@@ -38,19 +39,6 @@ export function OfferRequestDetails({
     return dateFromUTCToLocal(utcCreatedAt).substring(11, 19);
   };
 
-  const formatStatus = (status: string) => {
-    switch (status) {
-      case 'waitingfordecision':
-        return "waiting for decision";
-      case 'pickedup':
-        return "picked up";
-      case 'cannotdeliver':
-        return "Cannot deliver";
-      default:
-        return status; 
-    }
-  };
-
   return (
     <>
       <Table.Row
@@ -62,7 +50,7 @@ export function OfferRequestDetails({
         <Table.Cell>
           <Button onClick={() => setShowInquiryDetailsModal(true)}>Show</Button>
         </Table.Cell>
-        <Table.Cell>{formatStatus(offerRequest.status)}</Table.Cell>
+        <Table.Cell>{formatOfferStatus(offerRequest.status)}</Table.Cell>
         <Table.Cell>
           <span className="flex flex-col gap-2">
             <span>{formatDateCreatedAt(offerRequest.orderRequestDate)}</span>

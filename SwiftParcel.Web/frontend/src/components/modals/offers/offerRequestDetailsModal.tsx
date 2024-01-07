@@ -3,8 +3,8 @@ import {
     Modal,
   } from "flowbite-react";
   import React from "react";
-  import booleanToString from "../../parsing/booleanToString";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
+  import formatOfferStatus from "../../parsing/formatOfferStatus";
   
   interface OfferRequestDetailsModalProps {
     show: boolean;
@@ -40,17 +40,17 @@ import {
     </div>
   );
 
-  const BasicInfoDetailsSection = ({ detailsData }) => (
+  const IdInfoDetailsSection = ({ detailsData }) => (
     <div>
         <LabelsWithBorder
             idA="id"
-            valueA="Offer request's id:"
+            valueA="Offer request id:"
             idB="id-value"
             valueB={detailsData.offerRequest.id}
         />
         <LabelsWithBorder
             idA="customer-id"
-            valueA="Customer's id:"
+            valueA="Customer id:"
             idB="customer-id-value"
             valueB={detailsData.offerRequest.customerId}
         />
@@ -63,7 +63,7 @@ import {
             idA="status"
             valueA="Status:"
             idB="status-value"
-            valueB={detailsData.offerRequest.status}
+            valueB={formatOfferStatus(detailsData.offerRequest.status)}
         />
         <LabelsWithBorder
             idA="order-request-date"
@@ -83,15 +83,15 @@ import {
   const BuyerInfoDetailsSection = ({ detailsData }) => (
     <div>
         <LabelsWithBorder
-            idA="buyerName"
+            idA="buyer-name"
             valueA="Buyer name:"
-            idB="buyerName-value"
+            idB="buyer-name-value"
             valueB={detailsData.offerRequest.buyerName}
         />
         <LabelsWithBorder
-            idA="buyerEmail"
+            idA="buyer-email"
             valueA="Buyer email:"
-            idB="buyerEmail-value"
+            idB="buyer-email-value"
             valueB={detailsData.offerRequest.buyerEmail}
         />
     </div>
@@ -124,7 +124,7 @@ import {
             valueB={detailsData.offerRequest[prefix].city}
         />
         <LabelsWithBorder
-            idA={`${prefix}-zipCode`}
+            idA={`${prefix}-zip-code`}
             valueA="Zip code:"
             idB={`${prefix}-zip-code-value`}
             valueB={detailsData.offerRequest[prefix].zipCode}
@@ -147,33 +147,33 @@ import {
             valueB={formatDateToUTC(detailsData.offerRequest.decisionDate)}
         />
         <LabelsWithBorder
-            idA="pickedUpAt"
+            idA="picked-up-at"
             valueA="Picked up at:"
-            idB="pickedUpAt-value"
+            idB="picked-up-at-value"
             valueB={formatDateToUTC(detailsData.offerRequest.pickedUpAt)}
         />
         <LabelsWithBorder
-            idA="deliveredAt-date"
+            idA="delivered-at"
             valueA="Delivered at:"
-            idB="deliveredAt-date-value"
+            idB="delivered-at-value"
             valueB={formatDateToUTC(detailsData.offerRequest.deliveredAt)}
         />
         <LabelsWithBorder
-            idA="cannotDeliverAt-date"
+            idA="cannot-deliver-at"
             valueA="Cannot deliver at:"
-            idB="cannotDeliverAt-date-value"
+            idB="cannot-deliver-at-value"
             valueB={formatDateToUTC(detailsData.offerRequest.cannotDeliverAt)}
         />
         <LabelsWithBorder
-            idA="cancellationReason"
+            idA="cancellation-reason"
             valueA="Cancellation reason:"
-            idB="cancellationReason-value"
+            idB="cancellation-reason-value"
             valueB={detailsData.offerRequest.cancellationReason}
         />
         <LabelsWithBorder
-            idA="cannotDeliverReason"
+            idA="cannot-deliver-reason"
             valueA="Cannot deliver reason:"
-            idB="cannotDeliverReason-value"
+            idB="cannot-deliver-reason-value"
             valueB={detailsData.offerRequest.cannotDeliverReason}
         />
     </div>
@@ -202,8 +202,8 @@ import {
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <div className="space-y-6 gap-6">
 
-                    <SectionTitle title="Basic info" />
-                    <BasicInfoDetailsSection
+                    <SectionTitle title="Id info" />
+                    <IdInfoDetailsSection
                         detailsData={props}
                     />
 
