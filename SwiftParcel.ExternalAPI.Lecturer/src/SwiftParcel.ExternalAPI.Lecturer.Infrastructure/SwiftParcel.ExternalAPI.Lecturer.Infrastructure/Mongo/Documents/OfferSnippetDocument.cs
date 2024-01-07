@@ -1,0 +1,14 @@
+﻿using Convey.Types;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
+
+namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
+{
+    internal class OfferSnippetDocument: IIdentifiable<Guid>
+    {
+        public Guid Id { get; set; }
+        public Guid? OfferId { get; set; }
+        public Guid CustomerId { get; set; }
+        public DateTime ValidTo { get; set; }
+        public OfferStatus Status { get; set; }
+    }
+}

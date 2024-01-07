@@ -19,7 +19,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
             var token = await _identityManagerServiceClient.GetToken();
-            var response = await _offersServiceClient.PostAsync(token, new OfferDto
+            var response = await _offersServiceClient.PostAsync(token, new OfferRequestDto
             {
                 InquiryId = command.ParcelId,
                 Name = command.Name,

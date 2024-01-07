@@ -47,5 +47,30 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
             return dto;
         }
 
+
+        public static OfferSnippet AsEntity(this OfferSnippetDocument document)
+            => document is null? null : new OfferSnippet(
+                document.Id,
+                document.OfferId,
+                document.CustomerId,
+                document.ValidTo,
+                document.Status
+                );
+
+        public static async Task<OfferSnippet> AsEntityAsync(this Task<OfferSnippetDocument> task)
+            => (await task).AsEntity();
+
+        public static OfferSnippetDocument AsDocument(this OfferSnippet entity)
+            => new OfferSnippetDocument
+            {
+                Id = entity.OfferRequestId,
+                OfferId = entity.OfferId,
+                CustomerId = entity.CustomerId,
+                ValidTo = entity.ValidTo,
+                Status = entity.Status
+            };
+        
+        public static async Task<OfferSnippetDocument> AsDocumentAsync(this Task<OfferSnippet> task)
+            => (await task).AsDocument();
     }
 }
