@@ -171,10 +171,16 @@ export default function OffersOfficeWorker(pageContent: string) {
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
             {pageContent == "offer-requests" ? 'Offer requests' : 'Manage pending offers'}
           </h1>
+
           <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
+        { pageContent == "pending-offers" ? (
+            <p className="mb-5">
+              To accept of reject an offer, open details by clicking button in the last column, then scroll down.
+            </p>
+          ) : null }
         <FilterOfferRequestsModal
           show={showFilterInquiriesModal}
           setShow={setShowFilterInquiriesModal}
@@ -222,6 +228,7 @@ export default function OffersOfficeWorker(pageContent: string) {
                 <OfferRequestDetails
                   key={offerDetails.id}
                   offerRequestData={offerDetails}
+                  pageContent={pageContent}
                 />
               ))
             ) : (

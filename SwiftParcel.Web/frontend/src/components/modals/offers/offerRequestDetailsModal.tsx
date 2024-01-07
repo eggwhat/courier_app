@@ -1,4 +1,5 @@
 import {
+    Button,
     Label,
     Modal,
   } from "flowbite-react";
@@ -10,6 +11,7 @@ import {
     show: boolean;
     setShow: (show: boolean) => void;
     offerRequest: any;
+    pageContent: string;
   }
 
   const formatDate = (date: string) => {
@@ -189,6 +191,11 @@ import {
       close();
     };
     
+    const [accepted, setAccepted] = React.useState<any>(false);
+    const [rejected, setRejected] = React.useState<any>(false);
+
+    const [reason, setReason] = React.useState<any>(false);
+
     return (
       <React.Fragment>
         <Modal show={props.show} size="4xl" popup={true} onClose={close}>
@@ -197,7 +204,7 @@ import {
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                  Details of offer request:
+                  Details of {props.pageContent == "offer-requests" ? 'offer request' : 'pending offer'}:
                 </h1>
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <div className="space-y-6 gap-6">
@@ -227,6 +234,13 @@ import {
                     <AdditionalInfoDetailsSection
                         detailsData={props}
                     />
+
+                    { props.pageContent == "pending-offers" ? (
+                      <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Button onClick={() => setAccepted(true)}>Accept</Button>
+                        <Button onClick={() => setRejected(true)}>Reject</Button>
+                      </div>
+                    ) : null }
 
                     <div style={{ marginBottom: '40px' }}></div>
 

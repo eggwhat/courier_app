@@ -7,10 +7,11 @@ import formatOfferStatus from "../parsing/formatOfferStatus";
 
 interface OfferRequestDetailsProps {
   offerRequestData: any;
+  pageContent: string;
 }
 
 export function OfferRequestDetails({
-  offerRequestData
+  offerRequestData, pageContent
 }: OfferRequestDetailsProps) {
 
   const [offerRequest, setOfferRequest] = React.useState<any>(offerRequestData);
@@ -86,6 +87,7 @@ export function OfferRequestDetails({
           show={showOfferRequestDetailsModal}
           setShow={setShowOfferRequestDetailsModal}
           offerRequest={offerRequest}
+          pageContent={pageContent}
       />
     </>
   );
