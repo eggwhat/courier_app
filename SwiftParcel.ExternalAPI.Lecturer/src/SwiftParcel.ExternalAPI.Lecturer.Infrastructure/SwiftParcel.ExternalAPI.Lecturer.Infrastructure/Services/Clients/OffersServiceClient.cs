@@ -30,14 +30,25 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
             return await _httpClient.PostResultAsync<OfferResponseDto>(_url + "/Offers", content);
         }
 
-        public async Task<OfferDto> GetOfferAsync(string token, string offerId)
+        public async Task<HttpResult<OfferRequestStatusDto>> GetOfferRequestStatus(string token, string offerRequestId)
         {
             _httpClient.SetHeaders(new Dictionary<string, string>
             {
                 { "Authorization", "Bearer " + token },
             });
-            return await _httpClient.GetAsync<OfferDto>(_url + $"/offer/{offerId}");   
+            return await _httpClient.GetResultAsync<OfferRequestStatusDto>(_url + $"/offer/request/{offerRequestId}/status");
         }
+
+        public async Task<HttpResult<OfferDto>> GetOfferAsync(string token, string offerId)
+        {
+            _httpClient.SetHeaders(new Dictionary<string, string>
+            {
+                { "Authorization", "Bearer " + token },
+            });
+            return await _httpClient.GetResultAsync<OfferDto>(_url + $"/offer/{offerId}");   
+        }
+
+        
         
     }
 }

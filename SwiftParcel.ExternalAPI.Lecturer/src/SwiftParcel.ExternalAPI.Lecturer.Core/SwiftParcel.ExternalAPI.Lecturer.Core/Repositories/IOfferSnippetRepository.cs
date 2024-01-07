@@ -6,5 +6,6 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Core.Repositories
     {
         Task<OfferSnippet> GetAsync(Guid id);
         Task AddAsync(OfferSnippet offerSnippet);
+        Task UpdateAsync(OfferSnippet offerSnippet);
     }
 }

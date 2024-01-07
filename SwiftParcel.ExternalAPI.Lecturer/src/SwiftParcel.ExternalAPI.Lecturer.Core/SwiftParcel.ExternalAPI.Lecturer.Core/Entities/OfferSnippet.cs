@@ -16,5 +16,10 @@
             ValidTo = validTo;
             Status = status;
         }
+        public void Accept(Guid offerId)
+        {
+            OfferId = offerId;
+            Status = OfferStatus.Accepted;
+        }
     }
 }

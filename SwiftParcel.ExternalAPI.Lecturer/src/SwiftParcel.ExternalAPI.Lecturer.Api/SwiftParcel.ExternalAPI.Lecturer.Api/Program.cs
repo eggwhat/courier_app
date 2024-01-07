@@ -36,6 +36,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/offer")
+                        .Get<GetOrderRequests, IEnumerable<OrderDto>>("orders/requests")
                         .Post<AddParcel>("parcels")
                         .Post<CreateOrder>("orders")
                     ))
