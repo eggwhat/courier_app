@@ -14,6 +14,7 @@ import ManageParcelsCar from "./pages/cars/parcels";
 import CreateInquiry from "./pages/inquiries/createInquiry";
 import Inquiries from "./pages/inquiries/inquiries";
 import Offers from "./pages/offers/offers";
+import OfferRequests from "./pages/offers/offerRequests";
 
 
 export function App() {
@@ -45,6 +46,14 @@ export function App() {
             element={
               <RolesAuthRoute roles={['user']}>
                 <Offers />
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/offer-requests"
+            element={
+              <RolesAuthRoute roles={['officeworker']}>
+                <OfferRequests />
               </RolesAuthRoute>
             }
           />

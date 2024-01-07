@@ -284,6 +284,16 @@ export const getOffers = async (parcelId: string) => {
   }
 };
 
+export const getOfferRequests = async () => {
+  try {
+    const response = await api.get(`/orders/requests`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting offer requests:', error);
+    throw error;
+  }
+};
+
 export const updateParcel = async (parcelId: string, data: any) => {
   try {
     const response = await api.put(`/parcels/${parcelId}`, data, { headers: getAuthHeader() });

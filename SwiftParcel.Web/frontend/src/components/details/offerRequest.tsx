@@ -1,6 +1,7 @@
 import { Table, Button} from "flowbite-react";
 import React from "react";
 import { InquiryDetailsModal } from "../modals/inquiries/inquiryDetailsModal";
+import { OfferRequestDetailsModal } from "../modals/offers/offerRequestDetailsModal";
 import dateFromUTCToLocal from "../parsing/dateFromUTCToLocal";
 
 interface OfferRequestDetailsProps {
@@ -46,7 +47,7 @@ export function OfferRequestDetails({
         <Table.Cell>{offerRequest.id}</Table.Cell>
         <Table.Cell>{offerRequest.customerId}</Table.Cell>
         <Table.Cell>
-          <Button onClick={() => setShowInquiryDetailsModal(true)}>Show data</Button>
+          <Button onClick={() => setShowInquiryDetailsModal(true)}>Show</Button>
         </Table.Cell>
         <Table.Cell>{offerRequest.status}</Table.Cell>
         <Table.Cell>
@@ -78,6 +79,12 @@ export function OfferRequestDetails({
           show={showInquiryDetailsModal}
           setShow={setShowInquiryDetailsModal}
           inquiry={offerRequest.parcel}
+      />
+
+      <OfferRequestDetailsModal
+          show={showOfferRequestDetailsModal}
+          setShow={setShowOfferRequestDetailsModal}
+          offerRequest={offerRequest}
       />
     </>
   );
