@@ -28,9 +28,9 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
                 InquiryId = command.ParcelId,
                 Name = command.Name,
                 Email = command.Email,
-                Address = new AddressDto
+                Address = new InquiryAddressDto
                 {
-                    BuildingNumber = command.Address.BuildingNumber,
+                    HouseNumber = command.Address.BuildingNumber,
                     ApartmentNumber = command.Address.ApartmentNumber,
                     Street = command.Address.Street,
                     City = command.Address.City,

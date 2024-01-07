@@ -5,6 +5,6 @@
         public Guid InquiryId { get; set; } 
         public string Name { get; set; }
         public string Email { get; set; }
-        public AddressDto Address { get; set; }
+        public InquiryAddressDto Address { get; set; }
     }
 }

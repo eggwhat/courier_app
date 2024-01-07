@@ -20,7 +20,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
         {
             _httpClient.SetHeaders(new Dictionary<string, string>
             {
-                { "accept", "application.json"},
+                { "accept", "application/json"},
                 { "Authorization", "Bearer " + token },
                 { "Content-Type", "application/json"}
             });
