@@ -22,7 +22,7 @@ export default function OffersOfficeWorker(pageContent: string) {
 
   React.useEffect(() => {
 
-    ((pageContent == 'offer-requests') ? getOfferRequests() : getPendingOffers())
+    ((pageContent == "offer-requests") ? getOfferRequests() : getPendingOffers())
         .then((res) => {
             if (res.status === 200) {
                 setInputData(res?.data);
@@ -169,7 +169,7 @@ export default function OffersOfficeWorker(pageContent: string) {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            {pageContent == 'offer-requests' ? 'Offer requests' : 'Manage pending offers'}
+            {pageContent == "offer-requests" ? 'Offer requests' : 'Manage pending offers'}
           </h1>
           <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
@@ -181,6 +181,7 @@ export default function OffersOfficeWorker(pageContent: string) {
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
+          pageContent={pageContent}
         />
         <Table>
           <Table.Head>
@@ -226,7 +227,7 @@ export default function OffersOfficeWorker(pageContent: string) {
             ) : (
               <tr>
                 <td colSpan={10} className="text-center">
-                  No {pageContent == 'offer-requests' ? 'offer requests' : 'pending offers'} found
+                  No {pageContent == "offer-requests" ? 'offer requests' : 'pending offers'} found
                 </td>
               </tr>
             )}
