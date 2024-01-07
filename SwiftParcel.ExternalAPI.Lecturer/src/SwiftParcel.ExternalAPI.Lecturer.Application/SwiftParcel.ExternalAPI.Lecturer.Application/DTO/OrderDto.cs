@@ -20,6 +20,15 @@
 
         public OrderDto()
         {
+
+        }
+
+        public OrderDto(Guid orderId, Guid customerId, string status, DateTime validTo)
+        {
+            Id = orderId;
+            CustomerId = customerId;
+            Status = status;
+            RequestValidTo = validTo;
         }
 
         // public OrderDto(Order order)
