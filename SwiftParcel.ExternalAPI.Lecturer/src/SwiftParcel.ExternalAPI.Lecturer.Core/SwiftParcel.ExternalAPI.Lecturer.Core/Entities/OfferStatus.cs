@@ -4,6 +4,6 @@
     {
         New,
         Accepted,
-        Rejected
+        Confirmed
     }
 }

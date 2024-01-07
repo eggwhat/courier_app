@@ -19,5 +19,8 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Repositories
 
         public Task AddAsync(OfferSnippet offerSnippet)
             => _repository.AddAsync(offerSnippet.AsDocument());
+
+        public Task UpdateAsync(OfferSnippet offerSnippet) 
+            => _repository.UpdateAsync(offerSnippet.AsDocument());
     }
 }
