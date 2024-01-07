@@ -59,8 +59,9 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
                 offerSnippetsUpdated.Add(offerSnippet);
                 await _repository.UpdateAsync(offerSnippet.AsDocument());
             }
-            
+            return offerSnippetsUpdated.Select(p 
+                => new OrderDto(p.OfferId == null ? Guid.Empty : p.OfferId.Value, p.CustomerId,
+                p.Status.ToString(), p.ValidTo));
         }
-        
     }
 }   
