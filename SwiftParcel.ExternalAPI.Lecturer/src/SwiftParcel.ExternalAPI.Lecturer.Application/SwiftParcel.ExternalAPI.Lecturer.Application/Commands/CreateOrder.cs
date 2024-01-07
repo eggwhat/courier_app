@@ -11,5 +11,15 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands
         public string Name { get; }
         public string Email { get; }
         public Address Address { get; }
+
+        public CreateOrder(Guid orderId, Guid customerId, Guid parcelId, string name, string email, Address address)
+        {
+            OrderId = orderId;
+            CustomerId = customerId;
+            ParcelId = parcelId;
+            Name = name;
+            Email = email;
+            Address = address;
+        }
     }
 }
