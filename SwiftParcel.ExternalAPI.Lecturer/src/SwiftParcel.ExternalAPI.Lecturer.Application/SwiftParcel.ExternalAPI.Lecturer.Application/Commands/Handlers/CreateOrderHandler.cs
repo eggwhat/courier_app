@@ -2,6 +2,8 @@
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Application.DTO;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Exceptions;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Repositories;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
 {
@@ -9,12 +11,14 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
     {
         private readonly IIdentityManagerServiceClient _identityManagerServiceClient;
         private readonly IOffersServiceClient _offersServiceClient;
+        private readonly IOfferSnippetRepository _offerSnippetRepository;
 
         public CreateOrderHandler(IIdentityManagerServiceClient identityManagerServiceClient,
-            IOffersServiceClient offersServiceClient)
+            IOffersServiceClient offersServiceClient, IOfferSnippetRepository offerSnippetRepository)
         {
             _identityManagerServiceClient = identityManagerServiceClient;
             _offersServiceClient = offersServiceClient;
+            _offerSnippetRepository = offerSnippetRepository;
         }
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
@@ -43,6 +47,10 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
                 throw new OffersServiceException(response.Response.ReasonPhrase);
             }   
 
+            var offerSnippet = new OfferSnippet(response.Result.OfferRequestId, null, command.CustomerId,
+                response.Result.ValidTo, OfferStatus.New);
+
+            await _offerSnippetRepository.AddAsync(offerSnippet);
         }
     }
 }
