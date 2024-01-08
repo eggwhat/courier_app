@@ -45,7 +45,7 @@ export function App() {
             path="/offers"
             element={
               <RolesAuthRoute roles={['user']}>
-                <Offers />
+                <Offers/>
               </RolesAuthRoute>
             }
           />

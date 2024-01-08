@@ -5,10 +5,13 @@ import { Footer } from "../../components/footer";
 import { getOffers } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { OfferDetails } from "../../components/details/offer";
+import { useLocation } from "react-router-dom";
 
 export default function Offers() {
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState<any>(null);
+
+  const location = useLocation();
 
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
@@ -17,7 +20,7 @@ export default function Offers() {
   const [loadingOffers, setLoadingOffers] = React.useState(true);
 
   React.useEffect(() => {
-    getOffers('7bdd78cc-0474-45bf-a00c-e8146aa09653') // to fix later
+    getOffers(location.state.parcelId)
       .then((res) => {
         if (res.status === 200) {
           setData(res?.data);

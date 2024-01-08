@@ -16,7 +16,7 @@ import stringToBoolean from "../../components/parsing/stringToBoolean";
 import booleanToString from "../../components/parsing/booleanToString";
 import { CourierOffers } from "../couriers/courierOffers";
 import { getInquiries } from "../../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 type FormFields = {
@@ -399,6 +399,8 @@ export default function CreateInquiry() {
   
     const [inquiryLoading, setInquiryLoading] = React.useState(false);
 
+    const navigate = useNavigate();
+
     const validateForm = () => {
         const errors: FormErrors = {};
 
@@ -490,20 +492,19 @@ export default function CreateInquiry() {
          return;
       }
 
-
       if (inquiryLoading) return;
       setError("");
       setSuccess("");
       setInquiryLoading(true);
   
-      createInquiry(formFields.description, formFields.packageWidth, formFields.packageHeight, formFields.packageDepth,
+      const promise = createInquiry(formFields.description, formFields.packageWidth, formFields.packageHeight, formFields.packageDepth,
         formFields.packageWeight, formFields.sourceAddressStreet, formFields.sourceAddressBuildingNumber,
         formFields.sourceAddressApartmentNumber, formFields.sourceAddressCity, formFields.sourceAddressZipCode,
         formFields.sourceAddressCountry, formFields.destinationAddressStreet, formFields.destinationAddressBuildingNumber,
         formFields.destinationAddressApartmentNumber, formFields.destinationAddressCity, formFields.destinationAddressZipCode,
         formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, formatDateForServer(formFields.pickupDate),
         formatDateForServer(formFields.deliveryDate), formFields.isCompany, formFields.vipPackage)
-        .then(({ inquiry, offers }) => {
+        .then((response) => {
           setSuccess("Inquiry created successfully!");
           setFormFields(
           {
@@ -532,33 +533,17 @@ export default function CreateInquiry() {
             vipPackage: false
         });
 
-          console.log("pickupDate: ", formFields.pickupDate)
+        navigate("/offers", {state:{parcelId: response}});
 
-        //   getInquiries()
-        //     .then((res) => {
-        //         console.log(res);
-        //         if (res.status === 200) {
-        //             setInquiries(res?.data);
-        //         } else {
-        //             throw new Error();
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         setInquiries(null);
-        //     })
-
-        //   const inquiryId = inquiries[inquiries.length - 1].id;
-        //   console.log(inquiryId);
-
-          setOffers(offers);
-          if (offers && offers.length > 0) {
-            setShowOffers(true); // Show offers if available
-          } else {
-            setShowOffers(false); // Hide offers if none are available
-          }
-          if (offers) {
-            // TODO: Implement logic to display the offers
-          }
+        //   setOffers(offers);
+        //   if (offers && offers.length > 0) {
+        //     setShowOffers(true); // Show offers if available
+        //   } else {
+        //     setShowOffers(false); // Hide offers if none are available
+        //   }
+        //   if (offers) {
+        //     // TODO: Implement logic to display the offers
+        //   }
         })
 
         .catch((err) => {
@@ -567,8 +552,14 @@ export default function CreateInquiry() {
         .finally(() => {
           setInquiryLoading(false);
         });
+
+        const response = promise;
     };
   
+    // const clickSeeOffers = (data) => {
+    //     navigate.push("/offers", {data: data});  
+    // }
+
     return (
       <>
         {loading ? <Loader /> : null}
@@ -650,10 +641,9 @@ export default function CreateInquiry() {
                 to="/offers"
                 className="mt-4 w-full md:w-1/2">
               <Button
-                gradientDuoTone="cyanToBlue"
                 size="xl"
                 className="mt-4 w-full"
-                type="submit">
+                /* onClick={() => clickSeeOffers({parcelId: redirectData})} */ >
                 See offers
               </Button>
             </Link>

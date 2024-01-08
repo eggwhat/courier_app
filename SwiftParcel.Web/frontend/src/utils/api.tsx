@@ -223,15 +223,18 @@ export const createInquiry = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-
-    const inquiryResponse = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
+    const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
-    });
+    })
+    // .then((inquiryResponse) => {
+    //   console.log("inquiryResponse:", inquiryResponse);
+    //   return inquiryResponse;
+    // });
 
-    return inquiryResponse.data;
+    return response.data;
     
     // return response.data;
 
