@@ -41,7 +41,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Api
                         .Post<AddParcel>("parcels")
                         .Post<CreateOrder>("orders")
                         .Post<ConfirmOrder>("orders/{orderId}/confirm")
-                        .Delete<CancelOrder>("orders/{orderId}/cancel")
+                        .Post<CancelOrder>("orders/{orderId}/cancel")
                     ))
                 .UseLogging()
                 .UseVault()
