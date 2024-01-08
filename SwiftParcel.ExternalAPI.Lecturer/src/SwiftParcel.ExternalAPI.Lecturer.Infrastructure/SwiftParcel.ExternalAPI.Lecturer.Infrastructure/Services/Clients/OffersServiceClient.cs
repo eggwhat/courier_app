@@ -48,7 +48,24 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Services.Clients
             return await _httpClient.GetResultAsync<OfferDto>(_url + $"/offer/{offerId}");   
         }
 
-        
-        
+        public async Task<HttpResult<object>> PostConfirmOffer(string token, string offerId)
+        {
+            _httpClient.SetHeaders(new Dictionary<string, string>
+            {
+                { "accept", "*/*" },
+                { "Authorization", "Bearer " + token },
+            });
+            return await _httpClient.PostResultAsync<object>(_url + $"/offer/{offerId}/confirm");
+        }
+
+        public async Task<HttpResult<object>> DeleteCancelOffer(string token, string offerId)
+        {
+            _httpClient.SetHeaders(new Dictionary<string, string>
+            {
+                { "accept", "*/*" },
+                { "Authorization", "Bearer " + token },
+            });
+            return await _httpClient.DeleteResultAsync<object>(_url + $"/offer/{offerId}/cancel");
+        }
     }
 }
