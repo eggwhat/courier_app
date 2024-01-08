@@ -1,9 +1,9 @@
 ﻿namespace SwiftParcel.ExternalAPI.Lecturer.Core.Entities
 {
-    public enum OfferStatus
+    public enum OfferSnippetStatus
     {
-        New,
-        Accepted,
+        WaitingForDecision,
+        Approved,
         Confirmed
     }
 }

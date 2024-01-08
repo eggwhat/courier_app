@@ -48,7 +48,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
             }   
 
             var offerSnippet = new OfferSnippet(response.Result.OfferRequestId, null, command.CustomerId,
-                response.Result.ValidTo, OfferStatus.New);
+                response.Result.ValidTo, OfferSnippetStatus.WaitingForDecision);
 
             await _offerSnippetRepository.AddAsync(offerSnippet);
         }

@@ -9,6 +9,6 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Documents
         public Guid? OfferId { get; set; }
         public Guid CustomerId { get; set; }
         public DateTime ValidTo { get; set; }
-        public OfferStatus Status { get; set; }
+        public OfferSnippetStatus Status { get; set; }
     }
 }
