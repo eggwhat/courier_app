@@ -37,14 +37,14 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
                 return Enumerable.Empty<OrderDto>();
             }
 
-            documents = documents.Where(p => p.CustomerId == query.CustomerId && p.Status != OfferStatus.Confirmed);
+            documents = documents.Where(p => p.CustomerId == query.CustomerId && p.Status != OfferSnippetStatus.Confirmed);
 
             var token = await _identityManagerServiceClient.GetToken();
             var offerSnippetsUpdated = new List<OfferSnippet>();
             foreach (var offer in documents)
             {
                 var offerSnippet = offer.AsEntity();
-                if(offerSnippet.Status == OfferStatus.Accepted)
+                if(offerSnippet.Status == OfferSnippetStatus.Approved)
                 {
                     offerSnippetsUpdated.Add(offerSnippet);
                     continue;

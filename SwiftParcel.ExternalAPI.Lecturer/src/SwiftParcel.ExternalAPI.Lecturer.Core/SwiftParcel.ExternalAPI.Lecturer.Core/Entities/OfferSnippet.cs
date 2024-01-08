@@ -6,9 +6,9 @@
         public Guid? OfferId { get; set; }
         public Guid CustomerId { get; set; }
         public DateTime ValidTo { get; set; }
-        public OfferStatus Status { get; set; }
+        public OfferSnippetStatus Status { get; set; }
 
-        public OfferSnippet(Guid offerRequestId, Guid? offerId, Guid customerId, DateTime validTo, OfferStatus status)
+        public OfferSnippet(Guid offerRequestId, Guid? offerId, Guid customerId, DateTime validTo, OfferSnippetStatus status)
         {
             OfferRequestId = offerRequestId;
             OfferId = offerId;
@@ -19,7 +19,7 @@
         public void Accept(Guid offerId)
         {
             OfferId = offerId;
-            Status = OfferStatus.Accepted;
+            Status = OfferSnippetStatus.Approved;
         }
     }
 }
