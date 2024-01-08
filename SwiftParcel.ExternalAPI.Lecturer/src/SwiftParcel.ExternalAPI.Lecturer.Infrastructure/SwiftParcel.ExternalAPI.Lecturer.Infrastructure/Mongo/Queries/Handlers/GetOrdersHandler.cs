@@ -33,7 +33,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
         {
             var documents = _offerSnippetRepository.Collection.AsQueryable();
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
+            if (identity.Id != query.CustomerId)
             {
                 return Enumerable.Empty<OrderDto>();
             }

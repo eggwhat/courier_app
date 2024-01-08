@@ -21,5 +21,15 @@
             OfferId = offerId;
             Status = OfferSnippetStatus.Approved;
         }
+
+        public void Confirm()
+        {
+            Status = OfferSnippetStatus.Confirmed;
+        }
+
+        public void Cancel()
+        {
+            Status = OfferSnippetStatus.Cancelled;
+        }
     }
 }
