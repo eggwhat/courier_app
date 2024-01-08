@@ -6,6 +6,7 @@
         public Guid? CustomerId { get; set; }
         public ParcelDto Parcel { get; set; }
         public string Status { get; set; }
+        public string CourierCompany { get; set; }
         public DateTime OrderRequestDate { get; set; }
         public DateTime RequestValidTo { get; set; }
         public string BuyerName { get; set; }
@@ -23,12 +24,14 @@
 
         }
 
-        public OrderDto(Guid orderId, Guid customerId, string status, DateTime validTo)
+        public OrderDto(Guid orderId, Guid customerId, string status, DateTime validTo,
+            string company)
         {
             Id = orderId;
             CustomerId = customerId;
             Status = status;
             RequestValidTo = validTo;
+            CourierCompany = company;
         }
 
         // public OrderDto(Order order)

@@ -61,7 +61,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
             }
             return offerSnippetsUpdated.Select(p 
                 => new OrderDto(p.OfferId == null ? Guid.Empty : p.OfferId.Value, p.CustomerId,
-                p.Status.ToString(), p.ValidTo));
+                p.Status.ToString(), p.ValidTo, Company.MiniCurrier.ToString()));
         }
     }
 }   

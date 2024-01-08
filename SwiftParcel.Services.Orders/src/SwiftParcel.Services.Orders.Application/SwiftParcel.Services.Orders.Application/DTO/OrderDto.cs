@@ -8,6 +8,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public Guid? CustomerId { get; set; }
         public ParcelDto Parcel { get; set; }
         public string Status { get; set; }
+        public string CourierCompany { get; set; }
         public DateTime OrderRequestDate { get; set; }
         public DateTime RequestValidTo { get; set; }
         public string BuyerName { get; set; }
@@ -30,6 +31,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             CustomerId = order.CustomerId;
             Parcel = order.Parcel == null ? null : new ParcelDto(order.Parcel);
             Status = order.Status.ToString().ToLowerInvariant();
+            CourierCompany = order.CourierCompany.ToString();
             OrderRequestDate = order.OrderRequestDate;
             RequestValidTo = order.RequestValidTo;
             BuyerName = order.BuyerName;
