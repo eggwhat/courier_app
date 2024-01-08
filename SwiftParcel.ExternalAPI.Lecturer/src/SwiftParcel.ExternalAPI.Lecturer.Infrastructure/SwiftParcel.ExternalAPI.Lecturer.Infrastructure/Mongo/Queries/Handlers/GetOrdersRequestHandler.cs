@@ -37,7 +37,8 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
                 return Enumerable.Empty<OrderDto>();
             }
 
-            documents = documents.Where(p => p.CustomerId == query.CustomerId && p.Status != OfferSnippetStatus.Confirmed);
+            documents = documents.Where(p => p.CustomerId == query.CustomerId 
+                && p.Status != OfferSnippetStatus.Confirmed && p.Status != OfferSnippetStatus.Cancelled);
 
             var token = await _identityManagerServiceClient.GetToken();
             var offerSnippetsUpdated = new List<OfferSnippet>();
