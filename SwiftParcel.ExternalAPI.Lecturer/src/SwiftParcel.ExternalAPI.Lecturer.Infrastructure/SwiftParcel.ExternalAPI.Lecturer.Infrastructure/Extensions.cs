@@ -69,7 +69,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddFabio()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMessageOutbox(o => o.AddMongo())
-                //.AddExceptionToMessageMapper<ExceptionToMessageMapper>()
+                .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
                 .AddMongo()
                 .AddRedis()
                 .AddMetrics()
@@ -92,9 +92,9 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .UseMetrics()
                 .UseRabbitMq()
                 .SubscribeCommand<AddParcel>()
-                .SubscribeCommand<CreateOrder>();
-                //.SubscribeCommand<DeleteParcel>()
-                //.SubscribeEvent<CustomerCreated>();
+                .SubscribeCommand<CreateOrder>()
+                .SubscribeCommand<ConfirmOrder>()
+                .SubscribeCommand<CancelOrder>();
 
             return app;
         }
