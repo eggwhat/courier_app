@@ -4,6 +4,7 @@
     {
         WaitingForDecision,
         Approved,
-        Confirmed
+        Confirmed,
+        Cancelled,
     }
 }

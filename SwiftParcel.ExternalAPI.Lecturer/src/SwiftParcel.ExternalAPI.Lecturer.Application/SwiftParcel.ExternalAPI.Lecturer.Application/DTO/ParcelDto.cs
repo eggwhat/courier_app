@@ -25,26 +25,6 @@
         {
         }
 
-        // public ParcelDto(Parcel parcel)
-        // {
-        //     Id = parcel.Id;
-        //     CustomerId = Guid.Empty;
-        //     Description = parcel.Description;
-        //     Width = parcel.Width;
-        //     Height = parcel.Height;
-        //     Depth = parcel.Depth;
-        //     Weight = parcel.Weight;
-        //     Source = parcel.Source;
-        //     Destination = parcel.Destination;
-        //     Priority = parcel.Priority;
-        //     AtWeekend = parcel.AtWeekend;
-        //     PickupDate = parcel.PickupDate;
-        //     DeliveryDate = parcel.DeliveryDate;
-        //     IsCompany = parcel.IsCompany;
-        //     VipPackage = parcel.VipPackage;
-        //     CreatedAt = parcel.InquireDate;
-        //     ValidTo = parcel.ValidTo;
-        //     CalculatedPrice = parcel.CalculatedPrice;
-        // }
+        
     }
 }
