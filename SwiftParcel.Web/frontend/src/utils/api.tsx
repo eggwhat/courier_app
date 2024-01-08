@@ -286,7 +286,7 @@ export const getOffers = async (parcelId: string) => {
 
 export const getOfferRequests = async () => {
   try {
-    const response = await api.get(`/orders/requests`, { headers: getAuthHeader() });
+    const response = await api.get(`/orders/office-worker`, { headers: getAuthHeader() });
     return response;
   } catch (error) {
     console.error('Error during getting offer requests:', error);
@@ -300,6 +300,26 @@ export const getPendingOffers = async () => {
     return response;
   } catch (error) {
     console.error('Error during getting pending offers:', error);
+    throw error;
+  }
+};
+
+export const approvePendingOffer = async (orderId : string, data: any) => {
+  try {
+    const response = await api.put(`/orders/${orderId}/office-worker/approve`, data, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during approving pending offer:', error);
+    throw error;
+  }
+};
+
+export const cancelPendingOffer = async (orderId : string, data: any) => {
+  try {
+    const response = await api.put(`/orders/${orderId}/office-worker/cancel`, data, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during cancelling pending offer:', error);
     throw error;
   }
 };

@@ -2,10 +2,12 @@ import {
     Button,
     Label,
     Modal,
+    TextInput,
   } from "flowbite-react";
   import React from "react";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
   import formatOfferStatus from "../../parsing/formatOfferStatus";
+import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
   
   interface OfferRequestDetailsModalProps {
     show: boolean;
@@ -183,6 +185,9 @@ import {
 
   export function OfferRequestDetailsModal(props: OfferRequestDetailsModalProps) {
     const close = () => {
+      setReason("");
+      setAccepted(false);
+      setRejected(false);
       props.setShow(false);
     };
 
@@ -194,7 +199,24 @@ import {
     const [accepted, setAccepted] = React.useState<any>(false);
     const [rejected, setRejected] = React.useState<any>(false);
 
-    const [reason, setReason] = React.useState<any>(false);
+    const [reason, setReason] = React.useState<any>("");
+
+    const accept = (orderId: string) => {
+      const payload = {
+        OrderId: orderId
+      };
+      approvePendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
+      close();
+    };
+
+    const reject = (orderId: string, reason: string) => {
+      const payload = {
+        OrderId: orderId,
+        Reason: reason
+      };
+      cancelPendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
+      close();
+    };
 
     return (
       <React.Fragment>
@@ -237,8 +259,31 @@ import {
 
                     { props.pageContent == "pending-offers" ? (
                       <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <Button onClick={() => setAccepted(true)}>Accept</Button>
-                        <Button onClick={() => setRejected(true)}>Reject</Button>
+                        <Button onClick={() => {setAccepted(true); setRejected(false);}}>Accept</Button>
+                        <Button onClick={() => {setAccepted(false); setRejected(true);}}>Reject</Button>
+                      </div>
+                    ) : null }
+
+                    { accepted ? (
+                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <Button onClick={() => accept(props.offerRequest.orderId)}>Confirm acceptation</Button>
+                      </div>
+                    ) : null }
+
+                    { rejected ? (
+                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <Label htmlFor="reason-of-rejection"  className="mb-2 block text-sm font-medium text-gray-700">
+                            Input reason of rejection:
+                          </Label>
+                          <TextInput 
+                            id="reason-of-rejection" 
+                            type="string"
+                            lang="en"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md`}
+                          />
+                        <Button onClick={() => reject(props.offerRequest.orderId, reason)}>Confirm rejection</Button>
                       </div>
                     ) : null }
 
