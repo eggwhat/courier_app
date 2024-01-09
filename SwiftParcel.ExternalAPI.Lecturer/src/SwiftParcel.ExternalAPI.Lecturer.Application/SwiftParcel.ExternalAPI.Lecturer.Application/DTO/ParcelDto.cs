@@ -20,6 +20,7 @@
         public DateTime CreatedAt { get; set; }
         public DateTime ValidTo { get; set; }
         public decimal CalculatedPrice { get; set; }
+        public List<PriceBreakDownItemDto> PriceBreakDown { get; set; }
 
         public ParcelDto()
         {
