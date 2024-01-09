@@ -47,7 +47,7 @@ export default function Register() {
       return;
     }
 
-    register(username, password, email)
+    register(email, password, "user")
       .then((res) => {
         setSuccess(
           res?.data?.message || "Registration successful! Please login."

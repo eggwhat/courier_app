@@ -48,25 +48,59 @@ export const login = async (email: string, password: string) => {
   }
 };
 
+// export const register = async (
+// ) => {
+//   try {
+//     const response = await api.post(`/identity/sign-up`, {
+//       username,
+//       password,
+//       email,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       console.error('Error during registration (Axios error):', error.response?.data || error.message);
+//     } else {
+//       console.error('Error during registration:', error);
+//     }
+//     throw error;
+//   }
+// };
+
 export const register = async (
-  username: string,
+  email: string,
   password: string,
-  email: string
+  role: string
 ) => {
   try {
-    const response = await api.post(`/identity/sign-up`, {
-      username,
-      password,
-      email,
-    });
+
+    const payload = {
+      Email: email,
+      Password: password, 
+      Role: role
+    };
+
+    console.log("Request payload (register):", payload);
+
+    console.log("JSON being sent (register):", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/identity/sign-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
     return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Error during registration (Axios error):', error.response?.data || error.message);
+
+  } catch (registerError) {
+    if (axios.isAxiosError(registerError) && registerError.response) {
+      console.error('Error status:', registerError.response.status);
+      console.error('Error data:', registerError.response.data);
+      console.error('Error during registration:', registerError.message);
     } else {
-      console.error('Error during registration:', error);
+      console.error('Error during registration:', registerError);
     }
-    throw error;
+    throw registerError;
   }
 };
 

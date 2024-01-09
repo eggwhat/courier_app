@@ -37,7 +37,7 @@ export function OfferDetails({
         <Table.Cell>{offer.priceBreakDown} </Table.Cell>
         <Table.Cell>{offer.companyName} </Table.Cell>
         <Table.Cell>
-          <Button /* onClick={() => setShowInquiryDetailsModal(true)} */>Choose</Button>
+          <Button /* onClick={() => setShowInquiryDetailsModal(true)} */>Choose that offer</Button>
         </Table.Cell>
       </Table.Row>
     </>
