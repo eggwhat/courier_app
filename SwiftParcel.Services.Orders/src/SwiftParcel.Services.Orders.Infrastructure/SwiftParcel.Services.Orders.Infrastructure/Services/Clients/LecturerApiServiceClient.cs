@@ -1,6 +1,7 @@
 ﻿using Convey.HTTP;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Application.DTO;
+using SwiftParcel.Services.Orders.Application.Services.Clients;
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Services.Clients
 {

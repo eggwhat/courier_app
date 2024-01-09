@@ -61,6 +61,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             builder.Services.AddTransient<IOrderRepository, OrderMongoRepository>();
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelsServiceClient, ParcelsServiceClient>();
+            builder.Services.AddTransient<ILecturerApiServiceClient, LecturerApiServiceClient>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));

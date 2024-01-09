@@ -12,19 +12,22 @@ using SwiftParcel.Services.Orders.Application.Queries;
 using SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents;
 using SwiftParcel.Services.Orders.Core.Entities;
 using SwiftParcel.Services.Orders.Application.Services;
+using SwiftParcel.Services.Orders.Application.Services.Clients;
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
 {
     public class GetOrdersRequestsHandler : IQueryHandler<GetOrdersRequests, IEnumerable<OrderDto>>
     {
         private readonly IMongoRepository<OrderDocument, Guid> _orderRepository;
+        private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
         private readonly IAppContext _appContext;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public GetOrdersRequestsHandler(IMongoRepository<OrderDocument, Guid> orderRepository, 
-            IAppContext appContext, IDateTimeProvider dateTimeProvider)
+            ILecturerApiServiceClient lecturerApiServiceClient, IAppContext appContext, IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
+            _lecturerApiServiceClient = lecturerApiServiceClient;
             _appContext = appContext;
             _dateTimeProvider = dateTimeProvider;
         }
@@ -46,8 +49,12 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
             documents = documents.Where(p => (p.Status == OrderStatus.WaitingForDecision || p.Status == OrderStatus.Approved)
                 && p.RequestValidTo >= _dateTimeProvider.Now);
             var orders = await documents.ToListAsync();
+            var ordersDto = orders.Select(p => p.AsDto());
 
-            return orders.Select(p => p.AsDto());
+            var miniCurrierOrders = await _lecturerApiServiceClient.GetOrderRequestsAsync(query.CustomerId.ToString());
+            ordersDto = ordersDto.Concat(miniCurrierOrders);
+
+            return ordersDto;
         }
     }
 }
