@@ -58,9 +58,10 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
                 throw new InvalidParcelDateTimeException("delivery_date", command.DeliveryDate);
             }
             var createdAt = _dateTimeProvider.Now;
-            var validTo = createdAt.AddMinutes(30);
+            var validTo = createdAt.AddMinutes(60);
             var price = await _pricingServiceClient.GetParcelDeliveryPriceAsync(customerId ?? command.CustomerId, 0.0m, 
-            command.Width, command.Height, command.Depth, command.Weight, priority == Priority.High, command.AtWeekend);
+            command.Width, command.Height, command.Depth, command.Weight, priority == Priority.High, command.AtWeekend,
+            command.VipPackage);
             if (price == null)
             {
                 throw new PricingServiceException(command.ParcelId);

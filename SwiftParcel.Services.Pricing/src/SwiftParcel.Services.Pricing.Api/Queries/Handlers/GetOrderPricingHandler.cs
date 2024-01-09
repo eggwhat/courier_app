@@ -48,27 +48,28 @@ namespace SwiftParcel.Services.Pricing.Api.Queries.Handlers
                 Height = query.Height,
                 Weight = query.Weight,
                 HighPriority = query.HighPriority == "true",
-                DeliverAtWeekend = query.DeliverAtWeekend == "true"
+                DeliverAtWeekend = query.DeliverAtWeekend == "true",
+                VipPackage = query.VipPackage == "true"
             };
             
             var parcel = parcelDto.AsEntity(); 
-            var parcelPrice = _pricingService.CalculateParcelPrice(parcel, customer: null);
+            var (parcelPriceBreakDown, totalPrice) = _pricingService.CalculateParcelPrice(parcel, customer: null);
 
-            var discountedPrice = parcelPrice - customerDiscount;
+            var discountedPrice = totalPrice - customerDiscount;
             var finalPrice = discountedPrice > 0 ? discountedPrice : 0m; // Ensure final price is not negative
+            parcelPriceBreakDown.Add(new PriceBreakDownItemDto 
+                { Amount = customerDiscount, Currency = "Pln", Description = "Customer discount" });
 
             _logger.LogInformation("Calculated pricing for customer ID: {CustomerId}, " +
-                           "parcel price: {ParcelPrice} $, customer discount: {CustomerDiscount} $, " +
-                           "final price: {FinalPrice} $.",
-                           query.CustomerId, parcelPrice, customerDiscount, finalPrice);
-
-
+                        "calculated price: {TotalPrice}, with discount: {CustomerDiscount} final price: {FinalPrice}", 
+                        query.CustomerId, totalPrice, customerDiscount, finalPrice);
 
             return new OrderPricingDto
             {
                 //Parcel = parcelDto,
                 CustomerDiscount = customerDiscount,
-                OrderPrice = parcelPrice,
+                OrderPrice = 0.0m,
+                PriceBreakDown = parcelPriceBreakDown,
                 OrderDiscountPrice = discountedPrice,
                 FinalPrice = finalPrice
             };
