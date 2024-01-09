@@ -46,7 +46,8 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             var parcel = new Parcel(command.ParcelId, parcelDto.Description, 
                             parcelDto.Width, parcelDto.Height, parcelDto.Depth, parcelDto.Weight, parcelDto.Source, parcelDto.Destination,
                             parcelDto.Priority, parcelDto.AtWeekend, parcelDto.PickupDate, parcelDto.DeliveryDate, parcelDto.IsCompany, 
-                            parcelDto.VipPackage, parcelDto.CreatedAt, parcelDto.ValidTo, parcelDto.CalculatedPrice);
+                            parcelDto.VipPackage, parcelDto.CreatedAt, parcelDto.ValidTo, parcelDto.CalculatedPrice, 
+                            parcelDto.PriceBreakDown.Select(x => new PriceBreakDownItem(x.Amount, x.Currency, x.Description)).ToList());
             var requestDate = _dateTimeProvider.Now;
             parcel.ValidateRequest(requestDate);
 

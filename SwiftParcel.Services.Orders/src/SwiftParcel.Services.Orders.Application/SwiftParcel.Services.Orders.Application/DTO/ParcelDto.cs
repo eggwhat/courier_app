@@ -1,4 +1,6 @@
 ﻿using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Application.DTO;
+
 namespace SwiftParcel.Services.Orders.Application.DTO
 {
     public class ParcelDto
@@ -21,6 +23,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public DateTime CreatedAt { get; set; }
         public DateTime ValidTo { get; set; }
         public decimal CalculatedPrice { get; set; }
+        public List<PriceBreakDownItemDto> PriceBreakDown { get; set; }
 
         public ParcelDto()
         {
@@ -46,6 +49,12 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             CreatedAt = parcel.InquireDate;
             ValidTo = parcel.ValidTo;
             CalculatedPrice = parcel.CalculatedPrice;
+            PriceBreakDown = parcel.PriceBreakDown.Select(x => new PriceBreakDownItemDto
+            {
+                Amount = x.Amount,
+                Currency = x.Currency,
+                Description = x.Description
+            }).ToList();
         }
     }
 }
