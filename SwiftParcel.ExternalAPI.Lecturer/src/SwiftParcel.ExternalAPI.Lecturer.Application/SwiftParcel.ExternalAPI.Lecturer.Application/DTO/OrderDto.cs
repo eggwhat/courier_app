@@ -73,7 +73,8 @@
                 VipPackage = offer.VipPackage,
                 CreatedAt = offer.InquireDate,
                 ValidTo = DateTime.MinValue,
-                CalculatedPrice = (decimal)offer.TotalPrice
+                CalculatedPrice = (decimal)offer.TotalPrice,
+                PriceBreakDown = offer.PriceBreakDown
             };
             Status = status;
             CourierCompany = company;
