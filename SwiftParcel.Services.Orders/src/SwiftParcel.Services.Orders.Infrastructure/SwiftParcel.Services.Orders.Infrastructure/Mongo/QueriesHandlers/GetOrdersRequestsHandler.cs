@@ -35,16 +35,13 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
         public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrdersRequests query, CancellationToken cancellationToken)
         {
             var documents = _orderRepository.Collection.AsQueryable();
-            if (query.CustomerId.HasValue)
+            var identity = _appContext.Identity;
+            if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
             {
-                var identity = _appContext.Identity;
-                if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
-                {
-                    return Enumerable.Empty<OrderDto>();
-                }
-
-                documents = documents.Where(p => p.CustomerId == query.CustomerId);
+                return Enumerable.Empty<OrderDto>();
             }
+
+            documents = documents.Where(p => p.CustomerId == query.CustomerId);
 
             documents = documents.Where(p => (p.Status == OrderStatus.WaitingForDecision || p.Status == OrderStatus.Approved)
                 && p.RequestValidTo >= _dateTimeProvider.Now);
