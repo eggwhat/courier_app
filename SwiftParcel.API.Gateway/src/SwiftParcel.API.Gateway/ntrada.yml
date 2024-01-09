@@ -122,6 +122,20 @@ modules:
         downstream: orders-service/orders?customerId=@user_id
         auth: true
 
+      - upstream: /requests
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/requests?customerId=@user_id
+        auth: true
+
+      - upstream: /orders/office-worker/pending
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/office-worker/pending
+        auth: true
+        claims:
+          role: officeworker
+
       - upstream: /orders/office-worker
         method: GET
         use: downstream
