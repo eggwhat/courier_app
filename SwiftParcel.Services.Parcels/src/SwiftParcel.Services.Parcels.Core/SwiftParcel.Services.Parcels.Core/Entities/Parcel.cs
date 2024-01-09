@@ -31,14 +31,16 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public DateTime CreatedAt { get; protected set; }
         public DateTime ValidTo { get; protected set; }
         public decimal CalculatedPrice { get; protected set; }
+        public List<PriceBreakDownItem> PriceBreakDown { get; protected set; }
 
         public Parcel(AggregateId id, string description, double width,
             double height, double depth, double weight, Priority priority, bool atWeekend,
             DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
-            DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
+            DateTime createdAt, decimal calculatedPrice, List<PriceBreakDownItem> priceBreakDown,
+            DateTime validTo, Guid? customerId)
             : this(id, description, width, height, depth, weight, new Address(), new Address(),
              priority, atWeekend, pickupDate, deliveryDate, isCompany, vipPackage, createdAt, 
-             calculatedPrice, validTo, customerId)
+             calculatedPrice, priceBreakDown, validTo, customerId)
         {
 
         }
@@ -46,7 +48,8 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public Parcel(AggregateId id, string description, double width, double height,
             double depth, double weight, Address source, Address destination,
             Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
-             DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
+             DateTime createdAt, decimal calculatedPrice, List<PriceBreakDownItem> priceBreakDown, 
+             DateTime validTo, Guid? customerId)
         {
             Id = id;
             CustomerId = customerId;
@@ -73,6 +76,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             CreatedAt = createdAt;
             ValidTo = validTo;
             CalculatedPrice = calculatedPrice;
+            PriceBreakDown = priceBreakDown;
         }
 
         public void CheckDescription(string description)
