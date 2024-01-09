@@ -66,11 +66,10 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             {
                 throw new PricingServiceException(command.ParcelId);
             }
-
             var parcel = new Parcel(command.ParcelId, command.Description, command.Width, 
             command.Height, command.Depth, command.Weight, priority, command.AtWeekend,
             pickupDate, deliveryDate, command.IsCompany, command.VipPackage,
-            createdAt, price.OrderPrice, validTo, customerId);
+            createdAt, price.OrderPrice, price.PriceBreakDown, validTo, customerId);
 
             parcel.SetSourceAddress(command.SourceStreet, command.SourceBuildingNumber,
                 command.SourceApartmentNumber, command.SourceCity, command.SourceZipCode,
