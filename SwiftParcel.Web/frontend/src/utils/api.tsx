@@ -90,6 +90,9 @@ export const register = async (
         'Content-Type': 'application/json'
       }
     })
+
+    console.log("response:", response);
+
     return response.data;
 
   } catch (registerError) {
@@ -101,6 +104,47 @@ export const register = async (
       console.error('Error during registration:', registerError);
     }
     throw registerError;
+  }
+};
+
+export const completeCustomerRegistration = async (
+  customerId: string,
+  firstName: string,
+  lastName: string,
+  address: string,
+  sourceAddress: string
+) => {
+  try {
+
+    const payload = {
+      CustomerId: customerId,
+      FirstName: firstName,
+      LastName: lastName,
+      Address: address,
+      SourceAddress: sourceAddress
+    };
+
+    console.log("Request payload (customer completion):", payload);
+
+    console.log("JSON being sent (customer completion):", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/customers`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    return response.data;
+
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('Error status:', error.response.status);
+      console.error('Error data:', error.response.data);
+      console.error('Error during registration:', error.message);
+    } else {
+      console.error('Error during registration:', error);
+    }
+    throw error;
   }
 };
 
