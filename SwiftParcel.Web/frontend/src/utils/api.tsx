@@ -231,6 +231,7 @@ export const getUsers = async (page = 1, perPage = defaultPageLimit) => {
 
 
 export const createInquiry = async (
+  customerId: string,
   description: string,
   width: number,
   height: number,
@@ -271,7 +272,7 @@ export const createInquiry = async (
     //const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
 
     const payload = {
-      //CustomerId:  customerId,
+      CustomerId: customerId,
       Description: description,
       Width: width,
       Height: height,

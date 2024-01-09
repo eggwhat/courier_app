@@ -7,16 +7,16 @@ import {
     TextInput,
   } from "flowbite-react";
   import React from "react";
-  import { HiInformationCircle, HiCheckCircle } from "react-icons/hi";
+  import { HiCheckCircle } from "react-icons/hi";
   import { Footer } from "../../components/footer";
   import { Header } from "../../components/header";
   import { Loader } from "../../components/loader";
-  import { createInquiry, register } from "../../utils/api";
+  import { createInquiry} from "../../utils/api";
 import stringToBoolean from "../../components/parsing/stringToBoolean";
 import booleanToString from "../../components/parsing/booleanToString";
 import { CourierOffers } from "../couriers/courierOffers";
-import { getInquiries } from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
+import { getUserIdFromStorage, getUserInfo } from "../../utils/storage";
 
 
 type FormFields = {
@@ -284,13 +284,10 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
 );
 
 
-
 export default function CreateInquiry() {
     const [loading, setLoading] = React.useState(true);
 
     const [formIsValid, setFormIsValid] = React.useState(true); 
-
-    const [inquiries, setInquiries] = React.useState<any>(null);
 
     // const [formFields, setFormFields] = React.useState<FormFields>({
     //     description: "",
@@ -317,6 +314,7 @@ export default function CreateInquiry() {
     //     isCompany: false,
     //     vipPackage: false
     // });
+
 
     const [formFields, setFormFields] = React.useState<FormFields>({
         description: "New test",
@@ -496,14 +494,32 @@ export default function CreateInquiry() {
       setError("");
       setSuccess("");
       setInquiryLoading(true);
-  
-      const promise = createInquiry(formFields.description, formFields.packageWidth, formFields.packageHeight, formFields.packageDepth,
-        formFields.packageWeight, formFields.sourceAddressStreet, formFields.sourceAddressBuildingNumber,
-        formFields.sourceAddressApartmentNumber, formFields.sourceAddressCity, formFields.sourceAddressZipCode,
-        formFields.sourceAddressCountry, formFields.destinationAddressStreet, formFields.destinationAddressBuildingNumber,
-        formFields.destinationAddressApartmentNumber, formFields.destinationAddressCity, formFields.destinationAddressZipCode,
-        formFields.destinationAddressCountry, formFields.priority, formFields.atWeekend, formatDateForServer(formFields.pickupDate),
-        formatDateForServer(formFields.deliveryDate), formFields.isCompany, formFields.vipPackage)
+
+      const promise = createInquiry(
+        getUserIdFromStorage(),
+        formFields.description,
+        formFields.packageWidth,
+        formFields.packageHeight,
+        formFields.packageDepth,
+        formFields.packageWeight,
+        formFields.sourceAddressStreet,
+        formFields.sourceAddressBuildingNumber,
+        formFields.sourceAddressApartmentNumber,
+        formFields.sourceAddressCity,
+        formFields.sourceAddressZipCode,
+        formFields.sourceAddressCountry,
+        formFields.destinationAddressStreet,
+        formFields.destinationAddressBuildingNumber,
+        formFields.destinationAddressApartmentNumber,
+        formFields.destinationAddressCity,
+        formFields.destinationAddressZipCode,
+        formFields.destinationAddressCountry,
+        formFields.priority,
+        formFields.atWeekend,
+        formatDateForServer(formFields.pickupDate),
+        formatDateForServer(formFields.deliveryDate),
+        formFields.isCompany,
+        formFields.vipPackage)
         .then((response) => {
           setSuccess("Inquiry created successfully!");
           setFormFields(
@@ -637,16 +653,6 @@ export default function CreateInquiry() {
               </span>
               <CourierOffers offers={offers} onSelectOffer={handleSelectOffer} />
             </Alert>
-            <Link
-                to="/offers"
-                className="mt-4 w-full md:w-1/2">
-              <Button
-                size="xl"
-                className="mt-4 w-full"
-                /* onClick={() => clickSeeOffers({parcelId: redirectData})} */ >
-                See offers
-              </Button>
-            </Link>
             </div>
           ) : null}
           <Footer />
