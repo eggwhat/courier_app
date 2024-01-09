@@ -9,7 +9,8 @@ namespace SwiftParcel.Services.Pricing.Api.dto
 
         public static Parcel AsEntity(this ParcelDto dto)
         {
-            return new Parcel(dto.Length, dto.Width, dto.Height, dto.Weight, dto.HighPriority, dto.DeliverAtWeekend);
+            return new Parcel(dto.Length, dto.Width, dto.Height, dto.Weight, 
+                dto.HighPriority, dto.DeliverAtWeekend, dto.VipPackage);
         }
     }
 }

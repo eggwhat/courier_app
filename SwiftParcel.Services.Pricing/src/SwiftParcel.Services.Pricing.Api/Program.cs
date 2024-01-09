@@ -41,7 +41,8 @@ namespace SwiftParcel.Services.Pricing.Api
                                 Height = query.Height,
                                 Weight = query.Weight,
                                 HighPriority = query.HighPriority,
-                                DeliverAtWeekend = query.DeliverAtWeekend
+                                DeliverAtWeekend = query.DeliverAtWeekend,
+                                VipPackage = query.VipPackage
                             };
                             return queryDispatcher.QueryAsync<GetOrderPricing, OrderPricingDto>(getQuery);
                             })
