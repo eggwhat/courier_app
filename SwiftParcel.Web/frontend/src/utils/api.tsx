@@ -358,7 +358,7 @@ export const createOrder = async (
   country: string
 ) => {
   try {
-    
+
     const payload = {
       CustomerId: customerId,
       ParcelId: parcelId,
@@ -378,7 +378,7 @@ export const createOrder = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-    const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
+    const response = await api.post(`/orders`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'

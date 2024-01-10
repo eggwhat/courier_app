@@ -78,7 +78,7 @@ import {
             value={userData.name}
             onChange={handleStringChange('name')}
             type="text" 
-            error={errors.description}
+            error={errors.name}
         />
         <TextInputWithLabel
             id="name"
@@ -86,7 +86,7 @@ import {
             value={userData.email}
             onChange={handleStringChange('email')}
             type="email" 
-            error={errors.description}
+            error={errors.email}
         />
     </div>
   );
@@ -173,23 +173,6 @@ import {
       }));
     };
 
-    // const accept = (orderId: string) => {
-    //   const payload = {
-    //     OrderId: orderId
-    //   };
-    //   approvePendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
-    //   close();
-    // };
-
-    // const reject = (orderId: string, reason: string) => {
-    //   const payload = {
-    //     OrderId: orderId,
-    //     Reason: reason
-    //   };
-    //   cancelPendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
-    //   close();
-    // };
-
     const [formIsValid, setFormIsValid] = React.useState(true); 
     const [userInfoErrors, setUserInfoErrors] = React.useState<UserInfoErrors>({});
 
@@ -221,6 +204,10 @@ import {
 
         if (!userInfo.addressBuildingNumber) {
             errors.addressBuildingNumber = "Building number in your address is required!";
+        }
+
+        if (!userInfo.addressBuildingNumber) {
+          errors.addressApartmentNumber = "Building number in your address is required!";
         }
 
         if (!userInfo.addressCity) {
@@ -278,27 +265,15 @@ import {
             addressZipCode: "",
             addressCountry: ""
         });
+      })
 
-        // navigate("/offers", {state:{parcelId: response}});
-
-        //   setOffers(offers);
-        //   if (offers && offers.length > 0) {
-        //     setShowOffers(true); // Show offers if available
-        //   } else {
-        //     setShowOffers(false); // Hide offers if none are available
-        //   }
-        //   if (offers) {
-        //     // TODO: Implement logic to display the offers
-        //   }
-        })
-
-        .catch((err) => {
-          setError(err?.response?.data?.message || "Something went wrong!");
-        })
-        .finally(() => {
-          setUserInfoLoading(false);
-        });
-    };
+      .catch((err) => {
+        setError(err?.response?.data?.message || "Something went wrong!");
+      })
+      .finally(() => {
+        setUserInfoLoading(false);
+      });
+  };
 
 
     return (
@@ -306,41 +281,37 @@ import {
         <Modal show={props.show} size="4xl" popup={true} onClose={close}>
           <Modal.Header />
           <Modal.Body style={{ overflowY: 'scroll' }}>
-            <form onSubmit={submit}>
+            <form onSubmit={onSubmit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
                     Fill data if needed:
                   </h1>
-                  <form className="flex flex-col gap-6" onSubmit={onSubmit}>
-                    <div className=" gap-6">
+                  <div className="flex flex-col gap-6">
 
-                        <SectionTitle title="Your basic info" />
+                    <SectionTitle title="Your basic info" />
 
-                        <BasicInfoSection 
-                            userData={userInfo}
-                            handleStringChange={handleStringChange}
-                            errors={userInfoErrors}
-                        />
-                        
-                        <SectionTitle title="Your address" />
+                    <BasicInfoSection 
+                        userData={userInfo}
+                        handleStringChange={handleStringChange}
+                        errors={userInfoErrors}
+                    />
+                    
+                    <SectionTitle title="Your address" />
 
-                        <AddressSection 
-                            userData={userInfo}
-                            handleStringChange={handleStringChange}
-                            errors={userInfoErrors}
-                        />
+                    <AddressSection 
+                        userData={userInfo}
+                        handleStringChange={handleStringChange}
+                        errors={userInfoErrors}
+                    />
 
-                        {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
+                    {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
-                        <Alerts error={error} success={success} />
+                    <Alerts error={error} success={success} />
 
-                        <div className="flex flex-col gap-6">
-                          <SubmitButton userInfoLoading={userInfoLoading} />
-                        </div>
-                        
-                      </div>
-                  </form>
+                    <SubmitButton userInfoLoading={userInfoLoading} />
+                    
+                  </div>
                   {success ? (
                     <div>
                     <Alert color="success" icon={HiCheckCircle} className="mb-3">
