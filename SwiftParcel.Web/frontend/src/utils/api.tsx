@@ -343,7 +343,60 @@ export const createInquiry = async (
     }
     throw inquiryError;
   }
-  
+};
+
+export const createOrder = async (
+  customerId: string,
+  parcelId: string,
+  name: string,
+  email: string,
+  street: string,
+  buildingNumber: string,
+  apartmentNumber: string,
+  city: string,
+  zipCode: string,
+  country: string
+) => {
+  try {
+    
+    const payload = {
+      CustomerId: customerId,
+      ParcelId: parcelId,
+      Name: name,
+      Email: email,
+      Address: {
+        street,
+        buildingNumber,
+        apartmentNumber,
+        city,
+        zipCode,
+        country
+      }
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during order creation:', orderError.message);
+    } else {
+      console.error('Error during order creation:', orderError);
+    }
+    throw orderError;
+  }
 };
 
 export const getInquiries = async () => {

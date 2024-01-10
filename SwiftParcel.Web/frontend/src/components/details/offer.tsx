@@ -1,6 +1,8 @@
 import { Table, Button} from "flowbite-react";
 import React from "react";
+import { UserDetailsModal } from "../modals/offers/userDetailsModal";
 import dateFromUTCToLocal from "../parsing/dateFromUTCToLocal";
+import { getUserIdFromStorage } from "../../utils/storage";
 
 interface OfferDetailsProps {
   offerData: any;
@@ -11,6 +13,8 @@ export function OfferDetails({
 }: OfferDetailsProps) {
 
   const [offer, setOffer] = React.useState<any>(offerData);
+
+  const [showUserDetailsModal, setShowUserDetailsModal] = React.useState(false);
 
   const formatDateCreatedAt = (utcCreatedAt: string) => {
     return dateFromUTCToLocal(utcCreatedAt).substring(0, 10);
@@ -37,9 +41,16 @@ export function OfferDetails({
         <Table.Cell>{offer.priceBreakDown} </Table.Cell>
         <Table.Cell>{offer.companyName} </Table.Cell>
         <Table.Cell>
-          <Button /* onClick={() => setShowInquiryDetailsModal(true)} */>Choose that offer</Button>
+          <Button onClick={() => setShowUserDetailsModal(true)}>Choose that offer</Button>
         </Table.Cell>
       </Table.Row>
+
+      <UserDetailsModal
+          show={showUserDetailsModal}
+          setShow={setShowUserDetailsModal}
+          userId={getUserIdFromStorage()}
+          parcelId={offer.parcelId}
+      />
     </>
   );
 }

@@ -11,12 +11,12 @@ import {
   import { Footer } from "../../components/footer";
   import { Header } from "../../components/header";
   import { Loader } from "../../components/loader";
-  import { createInquiry} from "../../utils/api";
+  import { createInquiry } from "../../utils/api";
 import stringToBoolean from "../../components/parsing/stringToBoolean";
 import booleanToString from "../../components/parsing/booleanToString";
 import { CourierOffers } from "../couriers/courierOffers";
-import { Link, useNavigate } from "react-router-dom";
-import { getUserIdFromStorage, getUserInfo } from "../../utils/storage";
+import { useNavigate } from "react-router-dom";
+import { getUserIdFromStorage } from "../../utils/storage";
 
 
 type FormFields = {
@@ -495,7 +495,7 @@ export default function CreateInquiry() {
       setSuccess("");
       setInquiryLoading(true);
 
-      const promise = createInquiry(
+      createInquiry(
         getUserIdFromStorage(),
         formFields.description,
         formFields.packageWidth,
@@ -568,8 +568,6 @@ export default function CreateInquiry() {
         .finally(() => {
           setInquiryLoading(false);
         });
-
-        const response = promise;
     };
   
     // const clickSeeOffers = (data) => {
