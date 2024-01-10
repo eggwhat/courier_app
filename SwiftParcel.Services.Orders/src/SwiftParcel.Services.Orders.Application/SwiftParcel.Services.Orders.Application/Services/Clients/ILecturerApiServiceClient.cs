@@ -6,7 +6,7 @@ namespace SwiftParcel.Services.Orders.Application.Services.Clients
 {
     public interface ILecturerApiServiceClient
     {
-        Task<HttpResult<object>> PostOfferAsync(CreateOrder order);
+        Task<HttpResult<object>> PostOfferAsync(CreateOrderMiniCurrier order);
         Task<IEnumerable<OrderDto>> GetOrderRequestsAsync(string customerId);
         Task<IEnumerable<OrderDto>> GetOrdersAsync(string customerId);
         Task<HttpResult<object>> PostConfirmOrder(string orderId);
