@@ -3,14 +3,12 @@ using SwiftParcel.Services.Orders.Core.Entities;
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class ConfirmOrder: ICommand
+    public class ConfirmOrderSwiftParcel: ICommand
     {
         public Guid OrderId { get; }
-        public Company Company { get; set; }
-        public ConfirmOrder(Guid orderId, Company company)
+        public ConfirmOrderSwiftParcel(ConfirmOrder command)
         {
-            OrderId = orderId;
-            Company = company;
+            OrderId = command.OrderId;
         }
     }
 }
