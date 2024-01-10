@@ -439,9 +439,17 @@ export const getPendingOffers = async () => {
   }
 };
 
-export const approvePendingOffer = async (orderId : string, data: any) => {
+export const approvePendingOffer = async (orderId : string) => {
   try {
-    const response = await api.put(`/orders/${orderId}/office-worker/approve`, data, { headers: getAuthHeader() });
+    const payload = {
+      OrderId: orderId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.put(`/orders/${orderId}/office-worker/approve`, JSON.parse(JSON.stringify(payload)), { headers: getAuthHeader() });
     return response;
   } catch (error) {
     console.error('Error during approving pending offer:', error);
@@ -449,9 +457,18 @@ export const approvePendingOffer = async (orderId : string, data: any) => {
   }
 };
 
-export const cancelPendingOffer = async (orderId : string, data: any) => {
+export const cancelPendingOffer = async (orderId : string, reason: string) => {
   try {
-    const response = await api.put(`/orders/${orderId}/office-worker/cancel`, data, { headers: getAuthHeader() });
+    const payload = {
+      OrderId: orderId,
+      Reason: reason
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+    
+    const response = await api.put(`/orders/${orderId}/office-worker/cancel`, payload, { headers: getAuthHeader() });
     return response;
   } catch (error) {
     console.error('Error during cancelling pending offer:', error);

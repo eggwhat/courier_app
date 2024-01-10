@@ -253,7 +253,7 @@ import {
         userInfo.addressZipCode,
         userInfo.addressCountry)
         .then((response) => {
-          setSuccess("Offer chosen created successfully!");
+          setSuccess("Offer submitted successfully!");
           setUserInfo(
           {
             name: "",

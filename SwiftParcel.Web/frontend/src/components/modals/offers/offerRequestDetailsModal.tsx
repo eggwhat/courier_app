@@ -188,6 +188,7 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
       setReason("");
       setAccepted(false);
       setRejected(false);
+      setFinalized(false);
       props.setShow(false);
     };
 
@@ -198,24 +199,23 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
     
     const [accepted, setAccepted] = React.useState<any>(false);
     const [rejected, setRejected] = React.useState<any>(false);
+    const [finalized, setFinalized] = React.useState<any>(false);
 
     const [reason, setReason] = React.useState<any>("");
 
-    const accept = (orderId: string) => {
-      const payload = {
-        OrderId: orderId
-      };
-      approvePendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
-      close();
+    const accept = () => {
+      approvePendingOffer(props.offerRequest.id);
+      setFinalized(true);
     };
 
-    const reject = (orderId: string, reason: string) => {
-      const payload = {
-        OrderId: orderId,
-        Reason: reason
-      };
-      cancelPendingOffer(orderId, JSON.parse(JSON.stringify(payload)));
+    const reject = (reason: string) => {
+      cancelPendingOffer(props.offerRequest.id, reason);
+      setFinalized(true);
+    };
+
+    const refresh = () => {
       close();
+      window.location.reload();
     };
 
     return (
@@ -264,13 +264,13 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
                       </div>
                     ) : null }
 
-                    { accepted ? (
+                    { (accepted && !finalized) ? (
                       <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <Button onClick={() => accept(props.offerRequest.orderId)}>Confirm acceptation</Button>
+                        <Button onClick={() => accept()}>Confirm acceptation</Button>
                       </div>
                     ) : null }
 
-                    { rejected ? (
+                    { (rejected && !finalized) ? (
                       <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
                         <Label htmlFor="reason-of-rejection"  className="mb-2 block text-sm font-medium text-gray-700">
                             Input reason of rejection:
@@ -283,7 +283,13 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
                             onChange={(e) => setReason(e.target.value)}
                             className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md`}
                           />
-                        <Button onClick={() => reject(props.offerRequest.orderId, reason)}>Confirm rejection</Button>
+                        <Button onClick={() => reject(reason)}>Confirm rejection</Button>
+                      </div>
+                    ) : null }
+
+                    { finalized ? (
+                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+                        <Button onClick={() => refresh()}>Refresh page</Button>
                       </div>
                     ) : null }
 
