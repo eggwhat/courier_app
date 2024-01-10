@@ -16,9 +16,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services.Clients
             _url = options.Services["lecturer-api"];
         }
         
-        public async Task<HttpResult<object>> PostOfferAsync(CreateOrderMiniCurrier order)
+        public async Task<HttpResponseMessage> PostOfferAsync(CreateOrderMiniCurrier order)
         {
-            return await _httpClient.PostResultAsync<object>($"{_url}/orders", order);
+            return await _httpClient.PostAsync($"{_url}/orders", order);
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrderRequestsAsync(string customerId)
@@ -31,22 +31,22 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services.Clients
             return await _httpClient.GetAsync<IEnumerable<OrderDto>>($"{_url}/orders?customerId={customerId}");
         }
 
-        public async Task<HttpResult<object>> PostConfirmOrder(string orderId)
+        public async Task<HttpResponseMessage> PostConfirmOrder(string orderId)
         {
             var content = new Dictionary<string, string>
             {
                 {"orderId", orderId}
             };
-            return await _httpClient.PostResultAsync<object>($"{_url}/orders/{orderId}/confirm", content);
+            return await _httpClient.PostAsync($"{_url}/orders/{orderId}/confirm", content);
         }
 
-        public async Task<HttpResult<object>> PostCancelOrder(string orderId)
+        public async Task<HttpResponseMessage> PostCancelOrder(string orderId)
         {
             var content = new Dictionary<string, string>
             {
                 {"orderId", orderId}
             };
-            return await _httpClient.PostResultAsync<object>($"{_url}/orders/{orderId}/cancel", content);
+            return await _httpClient.PostAsync($"{_url}/orders/{orderId}/cancel", content);
         }
         
     }
