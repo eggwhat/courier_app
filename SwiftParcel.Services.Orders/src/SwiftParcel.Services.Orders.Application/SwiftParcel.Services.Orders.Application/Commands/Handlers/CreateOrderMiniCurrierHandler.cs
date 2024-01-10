@@ -1,4 +1,5 @@
 ﻿using Convey.CQRS.Commands;
+using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Application.Services.Clients;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
@@ -13,8 +14,16 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         }
         public async Task HandleAsync(CreateOrderMiniCurrier command, CancellationToken cancellationToken)
         {
-            // TODO: Update
-            await _lecturerApiServiceClient.PostOfferAsync(command);
+            // TODO: Add validation
+            var response = await _lecturerApiServiceClient.PostOfferAsync(command);
+            if (response == null)
+            {
+                throw new LecturerApiServiceConnectionException();
+            }
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new LecturerApiServiceException(response.ReasonPhrase);
+            }
         }
     }
 }
