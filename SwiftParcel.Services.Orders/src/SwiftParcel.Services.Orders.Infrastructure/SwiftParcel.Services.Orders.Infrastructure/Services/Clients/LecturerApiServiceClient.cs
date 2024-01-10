@@ -16,7 +16,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services.Clients
             _url = options.Services["lecturer-api"];
         }
         
-        public async Task<HttpResult<object>> PostOfferAsync(CreateOrder order)
+        public async Task<HttpResult<object>> PostOfferAsync(CreateOrderMiniCurrier order)
         {
             return await _httpClient.PostResultAsync<object>($"{_url}/orders", order);
         }
