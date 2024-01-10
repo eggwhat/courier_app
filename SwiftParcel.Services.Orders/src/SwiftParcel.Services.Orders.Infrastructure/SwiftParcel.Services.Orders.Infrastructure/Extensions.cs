@@ -151,7 +151,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
         }
         internal static IConveyBuilder AddBrevo(this IConveyBuilder builder)
         {
-            // this should be replaces with some cloud key vault
+            // this should be replaced with some cloud key vault
             var apiKey = builder.GetOptions<BrevoOptions>("brevoApiKey");
             sib_api_v3_sdk.Client.Configuration.Default.ApiKey.Add("api-key", apiKey.ApiKey);
             Settings.License = LicenseType.Community;

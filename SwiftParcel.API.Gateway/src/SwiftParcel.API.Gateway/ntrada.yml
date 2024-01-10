@@ -128,7 +128,7 @@ modules:
         downstream: orders-service/orders/requests?customerId=@user_id
         auth: true
 
-      - upstream: /orders/office-worker/pending
+      - upstream: /office-worker/pending
         method: GET
         use: downstream
         downstream: orders-service/orders/office-worker/pending
@@ -136,7 +136,7 @@ modules:
         claims:
           role: officeworker
 
-      - upstream: /orders/office-worker
+      - upstream: /office-worker
         method: GET
         use: downstream
         downstream: orders-service/orders/office-worker
