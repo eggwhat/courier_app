@@ -2,6 +2,7 @@
 using SwiftParcel.ExternalAPI.Lecturer.Application.Services.Clients;
 using SwiftParcel.ExternalAPI.Lecturer.Core.Repositories;
 using SwiftParcel.ExternalAPI.Lecturer.Application.Exceptions;
+using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
 
 namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
 {
@@ -26,16 +27,21 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.Commands.Handlers
             {
                 throw new OfferNotFoundException(command.OrderId);
             }
+            if(offer.Status != OfferSnippetStatus.Approved)
+            {
+                throw new OfferNotApprovedException(command.OrderId, offer.Status);
+            }
+
 
             var token = await _identityManagerServiceClient.GetToken();
-            var response = await _officeServiceClient.DeleteCancelOffer(token, command.OrderId.ToString());
+            var response = await _officeServiceClient.DeleteCancelOffer(token, offer.OfferId.ToString());
             if(response is null)
             {
                 throw new OffersServiceConnectionException();
             }
-            if(!response.Response.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
             {
-                throw new OffersServiceException(response.Response.ReasonPhrase);
+                throw new OffersServiceException(response.ReasonPhrase);
             }
 
             offer.Cancel();
