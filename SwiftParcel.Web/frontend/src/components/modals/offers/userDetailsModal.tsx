@@ -16,7 +16,9 @@ import {
     setShow: (show: boolean) => void;
     userId: any;
     parcelId : any;
+    priceBreakDown: string;
     company: string;
+    userData: any;
   }
 
   type UserInfo = {
@@ -155,15 +157,17 @@ import {
       close();
     };
     
+    const userAddress = props.userData.address.split('|');
+
     const [userInfo, setUserInfo] = React.useState<UserInfo>({
-      name: "Default name",
-      email: "default@email.com",
-      addressStreet: "Plac Politechniki",
-      addressBuildingNumber: "1",
-      addressApartmentNumber: "51",
-      addressCity: "Warszawa",
-      addressZipCode: "00-007",
-      addressCountry: "Polska",
+      name: props.userData.fullName,
+      email: props.userData.email,
+      addressStreet: userAddress[0],
+      addressBuildingNumber: userAddress[1],
+      addressApartmentNumber: userAddress[2],
+      addressCity: userAddress[3],
+      addressZipCode: userAddress[4],
+      addressCountry: userAddress[5],
     });
 
     const handleStringChange = <T extends keyof UserInfo>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -270,7 +274,7 @@ import {
       })
 
       .catch((err) => {
-        setError(err?.response?.data?.message || "Something went wrong!");
+        setError(err?.response?.data?.reason || "Something went wrong!");
       })
       .finally(() => {
         setUserInfoLoading(false);

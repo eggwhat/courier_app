@@ -6,10 +6,11 @@ import { getUserIdFromStorage } from "../../utils/storage";
 
 interface OfferDetailsProps {
   offerData: any;
+  userData: any;
 }
 
 export function OfferDetails({
-  offerData
+  offerData, userData
 }: OfferDetailsProps) {
 
   const [offer, setOffer] = React.useState<any>(offerData);
@@ -38,7 +39,6 @@ export function OfferDetails({
             <span>{formatTimeCreatedAt(offer.expiringAt)}</span>
           </span>
         </Table.Cell>
-        <Table.Cell>{offer.priceBreakDown} </Table.Cell>
         <Table.Cell>{offer.companyName} </Table.Cell>
         <Table.Cell>
           <Button onClick={() => setShowUserDetailsModal(true)}>Choose that offer</Button>
@@ -50,7 +50,9 @@ export function OfferDetails({
           setShow={setShowUserDetailsModal}
           userId={getUserIdFromStorage()}
           parcelId={offer.parcelId}
+          priceBreakDown={offer.priceBreakDown}
           company={offer.companyName}
+          userData={userData}
       />
     </>
   );

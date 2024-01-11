@@ -2,10 +2,11 @@ import { Table, Pagination, Button } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { getOffers } from "../../utils/api";
+import { getCustomerData, getOffers } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { OfferDetails } from "../../components/details/offer";
 import { useLocation } from "react-router-dom";
+import { getUserIdFromStorage } from "../../utils/storage";
 
 export default function Offers() {
   const [page, setPage] = React.useState(1);
@@ -18,6 +19,8 @@ export default function Offers() {
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
   const [loadingOffers, setLoadingOffers] = React.useState(true);
+
+  const [userData, setUserData] = React.useState(null);
 
   React.useEffect(() => {
     getOffers(location.state.parcelId)
@@ -36,6 +39,20 @@ export default function Offers() {
       });
   }, [page]);
 
+  React.useEffect(() => {
+    getCustomerData(getUserIdFromStorage())
+      .then((res) => {
+        if (res.status === 200) {
+          setUserData(res?.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((err) => {
+        setUserData(null);
+      })
+  }, [page]);
+
   const onPageChange = (page: number) => {
     setPage(page);
   };
@@ -47,6 +64,16 @@ export default function Offers() {
     }
 
     const sortedData = [...data].sort((a, b) => {
+      if (a == null && b == null) {
+        return 0;
+      }
+      if (a == null) {
+        return 1;
+      }
+      if (b == null) {
+        return -1;
+      }
+
       switch (column) {
         case 'inquiryId': {
             const idA = a.parcelId;
@@ -72,11 +99,6 @@ export default function Offers() {
             else {
                 return dateA < dateB ? 1 : -1;
             }
-        }
-        case 'priceBreakDown': {
-            const priceA = a.priceBreakDown;
-            const priceB = b.priceBreakDown;
-            return direction === 'ascending' ? priceA - priceB : priceB - priceA;
         }
         case 'companyName': {
             const nameA = a.companyName;
@@ -136,9 +158,6 @@ export default function Offers() {
             <Table.HeadCell onClick={() => handleSort('expiringAt')}>
               Expiring date {getSortIcon('expiringAt')}
             </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('priceBreakDown')}>
-              Price break down {getSortIcon('priceBreakDown')}
-            </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('companyName')}>
               Company name {getSortIcon('companyName')}
             </Table.HeadCell>
@@ -152,6 +171,7 @@ export default function Offers() {
                 <OfferDetails
                   key={offer.parcelId}
                   offerData={offer}
+                  userData={userData}
                 />
               ) : null)
             ) : (

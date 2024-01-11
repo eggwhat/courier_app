@@ -478,6 +478,16 @@ export const cancelPendingOffer = async (orderId : string, reason: string) => {
   }
 };
 
+export const getCustomerData = async (customerId: string) => {
+  try {
+    const response = await api.get(`/customers/${customerId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting customer data:', error);
+    throw error;
+  }
+};
+
 export const updateParcel = async (parcelId: string, data: any) => {
   try {
     const response = await api.put(`/parcels/${parcelId}`, data, { headers: getAuthHeader() });
