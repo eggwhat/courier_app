@@ -15,9 +15,7 @@ import {
     show: boolean;
     setShow: (show: boolean) => void;
     userId: any;
-    parcelId : any;
-    priceBreakDown: string;
-    company: string;
+    offer: any;
     userData: any;
   }
 
@@ -71,6 +69,19 @@ import {
               {userInfoLoading ? <Spinner /> : "Submit the offer"}
           </Button>
       </div>
+  );
+
+  const PriceBreakDownElement = ({ element }) => (
+      <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Label
+          id="elementName"
+          value={`${element.description}:`}
+      />
+      <Label
+          id="elementValue"
+          value={`${element.amount} ${element.currency}`}
+      />
+    </div>
   );
 
   const BasicInfoSection = ({ userData, handleStringChange, errors }) => (
@@ -167,7 +178,7 @@ import {
       addressApartmentNumber: userAddress[2],
       addressCity: userAddress[3],
       addressZipCode: userAddress[4],
-      addressCountry: userAddress[5],
+      addressCountry: userAddress[5]
     });
 
     const handleStringChange = <T extends keyof UserInfo>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -248,7 +259,7 @@ import {
 
       createOrder(
         props.userId,
-        props.parcelId,
+        props.offer.parcelId,
         userInfo.name,
         userInfo.email,
         userInfo.addressStreet,
@@ -257,7 +268,7 @@ import {
         userInfo.addressCity,
         userInfo.addressZipCode,
         userInfo.addressCountry,
-        props.company)
+        props.offer.company)
         .then((response) => {
           setSuccess("Offer submitted successfully!");
           setUserInfo(
@@ -294,6 +305,17 @@ import {
                     Fill data if needed:
                   </h1>
                   <div className="flex flex-col gap-6">
+
+                    <SectionTitle title="Price break down" />
+
+                    {props.offer.priceBreakDown != null && props.offer.priceBreakDown?.length > 0 ? (
+                      props.offer.priceBreakDown?.map((element: any) => element != null ? (
+                        <PriceBreakDownElement
+                          key={element.description}
+                          element={element}
+                        />
+                      ) : null)
+                    ) : null}
 
                     <SectionTitle title="Your basic info" />
 

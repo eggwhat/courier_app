@@ -49,9 +49,7 @@ export function OfferDetails({
           show={showUserDetailsModal}
           setShow={setShowUserDetailsModal}
           userId={getUserIdFromStorage()}
-          parcelId={offer.parcelId}
-          priceBreakDown={offer.priceBreakDown}
-          company={offer.companyName}
+          offer={offer}
           userData={userData}
       />
     </>
