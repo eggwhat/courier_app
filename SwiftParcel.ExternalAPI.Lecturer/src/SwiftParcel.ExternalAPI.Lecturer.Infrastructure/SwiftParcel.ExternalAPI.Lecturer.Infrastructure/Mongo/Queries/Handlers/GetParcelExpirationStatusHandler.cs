@@ -18,6 +18,10 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure.Mongo.Queries.Handlers
         public async Task<ExpirationStatusDto> HandleAsync(GetParcelExpirationStatus query, CancellationToken cancellationToken)
         {
             var document = await _repository.GetAsync(v => v.Id == query.ParcelId);
+            if(document is null)
+            {
+                return null;
+            }
             var dto = new ExpirationStatusDto()
             {
                 ParcelId = document.InquiryId,
