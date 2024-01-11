@@ -355,7 +355,8 @@ export const createOrder = async (
   apartmentNumber: string,
   city: string,
   zipCode: string,
-  country: string
+  country: string,
+  company: string
 ) => {
   try {
 
@@ -371,7 +372,8 @@ export const createOrder = async (
         city,
         zipCode,
         country
-      }
+      },
+      Company: company
     };
 
     console.log("Request payload:", payload);

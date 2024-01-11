@@ -16,6 +16,7 @@ import {
     setShow: (show: boolean) => void;
     userId: any;
     parcelId : any;
+    company: string;
   }
 
   type UserInfo = {
@@ -251,7 +252,8 @@ import {
         userInfo.addressApartmentNumber,
         userInfo.addressCity,
         userInfo.addressZipCode,
-        userInfo.addressCountry)
+        userInfo.addressCountry,
+        props.company)
         .then((response) => {
           setSuccess("Offer submitted successfully!");
           setUserInfo(

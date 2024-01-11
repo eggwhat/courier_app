@@ -50,6 +50,7 @@ export function OfferDetails({
           setShow={setShowUserDetailsModal}
           userId={getUserIdFromStorage()}
           parcelId={offer.parcelId}
+          company={offer.companyName}
       />
     </>
   );
