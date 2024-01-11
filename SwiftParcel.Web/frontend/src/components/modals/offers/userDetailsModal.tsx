@@ -71,17 +71,26 @@ import {
       </div>
   );
 
-  const PriceBreakDownElement = ({ element }) => (
-      <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+  const LabelsWithBorder = ({ idA, valueA, idB, valueB }) => (
+    <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
       <Label
-          id="elementName"
-          value={`${element.description}:`}
+          id={idA}
+          value={valueA}
       />
       <Label
-          id="elementValue"
-          value={`${element.amount} ${element.currency}`}
+          id={idB}
+          value={valueB}
       />
     </div>
+  );
+
+  const PriceBreakDownElement = ({ element }) => (
+    <LabelsWithBorder
+      idA="elementName"
+      valueA={`${element.description}:`}
+      idB="elementValue"
+      valueB={`${element.amount} ${element.currency}`}
+    />
   );
 
   const BasicInfoSection = ({ userData, handleStringChange, errors }) => (
@@ -196,7 +205,8 @@ import {
     const [success, setSuccess] = React.useState("");
   
     const [userInfoLoading, setUserInfoLoading] = React.useState(false);
-
+    const [requestId, setRequestId] = React.useState("");
+  
     const navigate = useNavigate();
 
     const validateForm = () => {
@@ -270,6 +280,7 @@ import {
         userInfo.addressCountry,
         props.offer.company)
         .then((response) => {
+          setRequestId(response);
           setSuccess("Offer submitted successfully!");
           setUserInfo(
           {
@@ -290,8 +301,12 @@ import {
       .finally(() => {
         setUserInfoLoading(false);
       });
-  };
+    };
 
+    const refresh = () => {
+      close();
+      navigate("/", {state:{parcelId: null}});
+    };
 
     return (
       <React.Fragment>
@@ -336,17 +351,27 @@ import {
                     {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
                     <Alerts error={error} success={success} />
-
-                    <SubmitButton userInfoLoading={userInfoLoading} />
+                    
+                    {error ? null : <SubmitButton userInfoLoading={userInfoLoading} />}
                     
                   </div>
                   {success ? (
                     <div>
-                    <Alert color="success" icon={HiCheckCircle} className="mb-3">
-                      <span>
-                        <span className="font-bold">Success!</span> {success}
-                      </span>
-                    </Alert>
+                      <Alert color="success" icon={HiCheckCircle} className="mb-3">
+                        <span>
+                          <span className="font-bold">Success!</span> {success}
+                        </span>
+                      </Alert>
+                      <Label></Label>
+                      <LabelsWithBorder
+                        idA="elementName"
+                        valueA="RequestId of your offer request:"
+                        idB="elementValue"
+                        valueB={`${requestId}`}
+                      />
+                      <div className="flex justify-end">
+                        <Button onClick={() => refresh()}>Go to your orders</Button>
+                      </div>
                     </div>
                   ) : null}
                   <div className="space-y-6 gap-6">
