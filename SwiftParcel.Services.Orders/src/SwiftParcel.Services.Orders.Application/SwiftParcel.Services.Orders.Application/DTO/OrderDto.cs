@@ -36,7 +36,9 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             RequestValidTo = order.RequestValidTo;
             BuyerName = order.BuyerName;
             BuyerEmail = order.BuyerEmail;
-            BuyerAddress = new AddressDto(order.BuyerAddress);
+            BuyerAddress = new AddressDto(order.BuyerAddress.Street, order.BuyerAddress.BuildingNumber,
+                order.BuyerAddress.ApartmentNumber, order.BuyerAddress.City, order.BuyerAddress.ZipCode,
+                order.BuyerAddress.Country);
             DecisionDate = order.DecisionDate;
             PickedUpAt = order.PickedUpAt;
             DeliveredAt = order.DeliveredAt;

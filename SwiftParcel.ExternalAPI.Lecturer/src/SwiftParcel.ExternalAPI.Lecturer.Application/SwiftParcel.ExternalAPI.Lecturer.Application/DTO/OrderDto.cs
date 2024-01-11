@@ -47,24 +47,8 @@
                 Height = offer.Dimensions.Height,
                 Depth = offer.Dimensions.Length,
                 Weight = offer.Weight,
-                Source = new AddressDto
-                {
-                    BuildingNumber = offer.Source.HouseNumber,
-                    ApartmentNumber = offer.Source.ApartmentNumber,
-                    Country = offer.Source.Country,
-                    City = offer.Source.City,
-                    Street = offer.Source.Street,
-                    ZipCode = offer.Source.ZipCode
-                },
-                Destination = new AddressDto
-                {
-                    BuildingNumber = offer.Destination.HouseNumber,
-                    ApartmentNumber = offer.Destination.ApartmentNumber,
-                    Country = offer.Destination.Country,
-                    City = offer.Destination.City,
-                    Street = offer.Destination.Street,
-                    ZipCode = offer.Destination.ZipCode
-                },
+                Source = new AddressDto(offer.Source),
+                Destination = new AddressDto(offer.Destination),
                 Priority = offer.Priority,
                 AtWeekend = offer.DeliveryInWeekend,
                 PickupDate = offer.PickupDate,
@@ -82,15 +66,7 @@
             RequestValidTo = offer.ValidTo;
             BuyerName = offer.BuyerName;
             BuyerEmail = string.Empty;
-            BuyerAddress = new AddressDto
-            {
-                BuildingNumber = offer.BuyerAddress.HouseNumber,
-                ApartmentNumber = offer.BuyerAddress.ApartmentNumber,
-                Country = offer.BuyerAddress.Country,
-                City = offer.BuyerAddress.City,
-                Street = offer.BuyerAddress.Street,
-                ZipCode = offer.BuyerAddress.ZipCode
-            };
+            BuyerAddress = new AddressDto(offer.BuyerAddress);
             DecisionDate = offer.DecisionDate;
             PickedUpAt = DateTime.MaxValue;
             DeliveredAt = DateTime.MaxValue;
