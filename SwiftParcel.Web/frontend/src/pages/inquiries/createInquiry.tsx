@@ -317,14 +317,14 @@ export default function CreateInquiry() {
 
 
     const [formFields, setFormFields] = React.useState<FormFields>({
-        description: "New test",
-        packageWidth: 20.5,
-        packageHeight: 10.5,
-        packageDepth: 19.5,
-        packageWeight: 30.345,
+        description: "sin",
+        packageWidth: 1,
+        packageHeight: 0.5,
+        packageDepth: 0.5,
+        packageWeight: 0.5,
         sourceAddressStreet: "Plac politechniki",
         sourceAddressBuildingNumber: "1",
-        sourceAddressApartmentNumber: "",
+        sourceAddressApartmentNumber: "31",
         sourceAddressCity: "Warszawa",
         sourceAddressZipCode: "00-420",
         sourceAddressCountry: "Polska",
@@ -334,11 +334,11 @@ export default function CreateInquiry() {
         destinationAddressCity: "Warszawa",
         destinationAddressZipCode: "00-420",
         destinationAddressCountry: "Polska",
-        pickupDate: "2023-01-08", // Format this as per your requirement
-        deliveryDate: "2023-01-12", // Format this as per your requirement
+        pickupDate: "2023-01-21", // Format this as per your requirement
+        deliveryDate: "2023-01-30", // Format this as per your requirement
         priority: "High",
         atWeekend: true,
-        isCompany: false,
+        isCompany: true,
         vipPackage: true
     });
     

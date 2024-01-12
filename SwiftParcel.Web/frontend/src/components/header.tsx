@@ -94,11 +94,18 @@ export function Header(props: {
           </>
         );
       case 'user':
+        return (
+          <>
+            <AppNavLink to="/" text="Check Order" />
+            <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+            <AppNavLink to="/inquiries" text="Your Inquiries" />
+          </>
+        );
       default:
         return (
           <>
+            <AppNavLink to="/" text="Check Order" />
             <AppNavLink to="/create-inquiry" text="Create Inquiry" />
-            <AppNavLink to="/" text="Track Parcel" />
           </>
         );
     }

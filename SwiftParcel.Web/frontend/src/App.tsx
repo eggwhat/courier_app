@@ -36,7 +36,7 @@ export function App() {
           <Route
             path="/inquiries"
             element={
-              <RolesAuthRoute roles={['officeworker', 'courier']}>
+              <RolesAuthRoute roles={['officeworker', 'user']}>
                 <Inquiries />
               </RolesAuthRoute>
             }

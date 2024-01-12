@@ -401,9 +401,19 @@ export const createOrder = async (
   }
 };
 
-export const getInquiries = async () => {
+export const getInquiriesUser = async (customerId: string) => {
   try {
-    const response = await api.get(`/parcels`, { headers: getAuthHeader() });
+    const response = await api.get(`/parcels/customerId=${customerId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting inquiries:', error);
+    throw error;
+  }
+};
+
+export const getInquiriesOfficeWorker = async () => {
+  try {
+    const response = await api.get(`/parcels/office-worker`, { headers: getAuthHeader() });
     return response;
   } catch (error) {
     console.error('Error during getting inquiries:', error);

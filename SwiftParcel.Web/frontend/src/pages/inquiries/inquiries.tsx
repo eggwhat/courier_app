@@ -2,11 +2,12 @@ import { Table, Pagination, Button } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { getInquiries } from "../../utils/api";
+import { getInquiriesUser, getInquiriesOfficeWorker } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { InquiryDetails } from "../../components/details/inquiry";
 import { isPackageValid } from "../../components/details/inquiry";
 import { FilterInquiriesModal } from "../../components/modals/inquiries/filterInquiriesModal";
+import { getUserIdFromStorage, getUserInfo } from "../../utils/storage";
 
 export default function Inquiries() {
   const [page, setPage] = React.useState(1);
@@ -22,7 +23,7 @@ export default function Inquiries() {
   const [loadingInquiries, setLoadingInquiries] = React.useState(true);
 
   React.useEffect(() => {
-    getInquiries()
+    ((getUserInfo().role === "officeworker") ? getInquiriesOfficeWorker() : getInquiriesUser(getUserIdFromStorage()))
       .then((res) => {
         if (res.status === 200) {
           setInputData(res?.data);
