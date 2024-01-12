@@ -16,6 +16,7 @@ import Inquiries from "./pages/inquiries/inquiries";
 import Offers from "./pages/offers/offersUser";
 import OfferRequests from "./pages/offers/offerRequests";
 import PendingOffers from "./pages/offers/pendingOffers";
+import Orders from "./pages/orders/orders";
 
 export function App() {
 
@@ -62,6 +63,14 @@ export function App() {
             element={
               <RolesAuthRoute roles={['officeworker']}>
                 <PendingOffers />
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <RolesAuthRoute roles={['user']}>
+                <Orders/>
               </RolesAuthRoute>
             }
           />

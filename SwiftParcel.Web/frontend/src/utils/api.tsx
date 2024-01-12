@@ -421,6 +421,16 @@ export const getInquiriesOfficeWorker = async () => {
   }
 };
 
+export const getOrdersUser = async (customerId: string) => {
+  try {
+    const response = await api.get(`/orders/customerId=${customerId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting orders:', error);
+    throw error;
+  }
+};
+
 export const getOffers = async (parcelId: string) => {
   try {
     const response = await api.get(`/parcels/${parcelId}/offers`, { headers: getAuthHeader() });
