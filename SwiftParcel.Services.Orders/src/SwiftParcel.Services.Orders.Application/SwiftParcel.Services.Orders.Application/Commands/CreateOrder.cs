@@ -1,4 +1,5 @@
 ﻿using Convey.CQRS.Commands;
+using SwiftParcel.Services.Orders.Application.Services;
 using SwiftParcel.Services.Orders.Core.Entities;
 
 namespace SwiftParcel.Services.Orders.Application.Commands
@@ -11,7 +12,9 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         public string Name { get; }
         public string Email { get; }
         public Address Address { get; }
-        public CreateOrder(Guid orderId, Guid customerId, Guid parcelId, string name, string email, Address address)
+        public Company Company { get; }
+        public CreateOrder(Guid orderId, Guid customerId, Guid parcelId, string name, string email, 
+            Address address, Company company)
         {
             OrderId = orderId == Guid.Empty ? Guid.NewGuid() : orderId;
             CustomerId = customerId;
@@ -19,6 +22,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands
             Name = name;
             Email = email;
             Address = address;
+            Company = company;
         }
     }
 }

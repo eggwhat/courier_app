@@ -43,7 +43,7 @@ extensions:
       - Total-Count
 
   jwt:
-    issuerSigningKey: eiquief5phee9pazo0Faegaez9gohThailiur5woy2befiech1oarai4aiLi6ahVecah3ie9Aiz6Peij
+    issuerSigningKey: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODYwMTg3NSwiaWF0IjoxNjk4NjAxODc1fQ.nxJlaEy9xNO4noVh84qD9BSoLvjq1xu4LGhwBaEF9Ec
     validIssuer: swiftparcel
     validateAudience: false
     validateIssuer: true
@@ -122,7 +122,21 @@ modules:
         downstream: orders-service/orders?customerId=@user_id
         auth: true
 
-      - upstream: /orders/office-worker
+      - upstream: /requests
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/requests?customerId=@user_id
+        auth: true
+
+      - upstream: /office-worker/pending
+        method: GET
+        use: downstream
+        downstream: orders-service/orders/office-worker/pending
+        auth: true
+        claims:
+          role: officeworker
+
+      - upstream: /office-worker
         method: GET
         use: downstream
         downstream: orders-service/orders/office-worker

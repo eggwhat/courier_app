@@ -13,8 +13,10 @@ namespace SwiftParcel.Services.Pricing.Api.Core.Entities
         public double Weight { get; private set; }
         public bool HighPriority { get; private set; }
         public bool DeliverAtWeekend { get; private set; }
+        public bool VipPackage { get; private set; }
 
-        public Parcel(double length, double width, double height, double weight, bool highPriority, bool deliverAtWeekend)
+        public Parcel(double length, double width, double height, double weight, bool highPriority, 
+            bool deliverAtWeekend, bool vipPackage)
         {
             Length = length;
             Width = width;
@@ -22,6 +24,7 @@ namespace SwiftParcel.Services.Pricing.Api.Core.Entities
             Weight = weight;
             HighPriority = highPriority;
             DeliverAtWeekend = deliverAtWeekend;
+            VipPackage = vipPackage;
         }
     }
 }

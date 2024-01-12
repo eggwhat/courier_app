@@ -27,5 +27,6 @@ namespace SwiftParcel.Services.Parcels.Application.DTO
         public DateTime CreatedAt { get; set; }
         public DateTime ValidTo { get; set; }
         public decimal CalculatedPrice { get; set; }
+        public List<PriceBreakDownItemDto> PriceBreakDown { get; set; }
     }
 }

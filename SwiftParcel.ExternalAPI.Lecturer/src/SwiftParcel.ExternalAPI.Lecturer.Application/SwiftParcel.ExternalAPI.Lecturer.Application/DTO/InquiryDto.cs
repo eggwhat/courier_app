@@ -6,8 +6,8 @@
         public string Currency { get; set; }
         public double Weight { get; set; }
         public string WeightUnit { get; set; }
-        public AddressDto Source { get; set; }
-        public AddressDto Destination { get; set; }
+        public InquiryAddressDto Source { get; set; }
+        public InquiryAddressDto Destination { get; set; }
         public DateTime PickupDate { get; set; }
         public DateTime DeliveryDay { get; set; }
         public bool DeliveryInWeekend { get; set; }
@@ -32,7 +32,7 @@
             Currency = currency;
             Weight = weight;
             WeightUnit = weightUnit;
-            Source = new AddressDto
+            Source = new InquiryAddressDto
             {
                 HouseNumber = sourceHouseNumber,
                 ApartmentNumber = sourceApartmentNumber,
@@ -41,7 +41,7 @@
                 ZipCode = sourceZipCode,
                 Country = sourceCountry
             };
-            Destination = new AddressDto
+            Destination = new InquiryAddressDto
             {
                 HouseNumber = destinationHouseNumber,
                 ApartmentNumber = destinationApartmentNumber,
@@ -68,7 +68,7 @@
         public string DimensionUnit { get; set; }
     }
 
-    public class AddressDto
+    public class InquiryAddressDto
     {
         public string HouseNumber { get; set; }
         public string ApartmentNumber { get; set; }
