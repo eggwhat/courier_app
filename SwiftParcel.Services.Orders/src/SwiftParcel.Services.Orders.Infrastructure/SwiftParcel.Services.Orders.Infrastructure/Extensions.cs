@@ -61,6 +61,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             builder.Services.AddTransient<IOrderRepository, OrderMongoRepository>();
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelsServiceClient, ParcelsServiceClient>();
+            builder.Services.AddTransient<ILecturerApiServiceClient, LecturerApiServiceClient>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
@@ -100,9 +101,15 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<AddCustomerToOrder>()
                 .SubscribeCommand<ApproveOrderOfficeWorker>()
                 .SubscribeCommand<CancelOrder>()
+                .SubscribeCommand<CancelOrderSwiftParcel>()
+                .SubscribeCommand<CancelOrderMiniCurrier>()
                 .SubscribeCommand<CancelOrderOfficeWorker>()
                 .SubscribeCommand<ConfirmOrder>()
+                .SubscribeCommand<ConfirmOrderSwiftParcel>()
+                .SubscribeCommand<ConfirmOrderMiniCurrier>()
                 .SubscribeCommand<CreateOrder>()
+                .SubscribeCommand<CreateOrderSwiftParcel>()
+                .SubscribeCommand<CreateOrderMiniCurrier>()
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<SendApprovalEmail>()
                 .SubscribeCommand<SendCancellationEmail>()
@@ -150,7 +157,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
         }
         internal static IConveyBuilder AddBrevo(this IConveyBuilder builder)
         {
-            // this should be replaces with some cloud key vault
+            // this should be replaced with some cloud key vault
             var apiKey = builder.GetOptions<BrevoOptions>("brevoApiKey");
             sib_api_v3_sdk.Client.Configuration.Default.ApiKey.Add("api-key", apiKey.ApiKey);
             Settings.License = LicenseType.Community;

@@ -52,9 +52,11 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
+            builder.Services.AddTransient<IOfferSnippetRepository, OfferSnippetMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
             builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
+            builder.Services.AddTransient<IOffersServiceClient, OffersServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
@@ -67,7 +69,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddFabio()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMessageOutbox(o => o.AddMongo())
-                //.AddExceptionToMessageMapper<ExceptionToMessageMapper>()
+                .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
                 .AddMongo()
                 .AddRedis()
                 .AddMetrics()
@@ -75,6 +77,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .AddMongo()
                 //.AddHandlersLogging()
                 .AddMongoRepository<InquiryOfferDocument, Guid>("inquiryOffers")
+                .AddMongoRepository<OfferSnippetDocument, Guid>("offerSnippets")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }
@@ -88,9 +91,10 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Infrastructure
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
                 .UseRabbitMq()
-                .SubscribeCommand<AddParcel>();
-                //.SubscribeCommand<DeleteParcel>()
-                //.SubscribeEvent<CustomerCreated>();
+                .SubscribeCommand<AddParcel>()
+                .SubscribeCommand<CreateOrder>()
+                .SubscribeCommand<ConfirmOrder>()
+                .SubscribeCommand<CancelOrder>();
 
             return app;
         }

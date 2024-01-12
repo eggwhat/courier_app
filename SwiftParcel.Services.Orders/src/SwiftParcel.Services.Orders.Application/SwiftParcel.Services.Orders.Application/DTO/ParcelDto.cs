@@ -1,4 +1,6 @@
 ﻿using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Application.DTO;
+
 namespace SwiftParcel.Services.Orders.Application.DTO
 {
     public class ParcelDto
@@ -10,8 +12,8 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public double Height { get; set; }
         public double Depth { get; set; }
         public double Weight { get; set; }
-        public Address Source { get; set; }
-        public Address Destination { get; set; }
+        public AddressDto Source { get; set; }
+        public AddressDto Destination { get; set; }
         public Priority Priority { get; set; }
         public bool AtWeekend { get; set; }
         public DateTime PickupDate { get; set; }
@@ -21,6 +23,7 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public DateTime CreatedAt { get; set; }
         public DateTime ValidTo { get; set; }
         public decimal CalculatedPrice { get; set; }
+        public List<PriceBreakDownItemDto> PriceBreakDown { get; set; }
 
         public ParcelDto()
         {
@@ -35,8 +38,11 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             Height = parcel.Height;
             Depth = parcel.Depth;
             Weight = parcel.Weight;
-            Source = parcel.Source;
-            Destination = parcel.Destination;
+            Source = new AddressDto(parcel.Source.Street, parcel.Source.BuildingNumber, parcel.Source.ApartmentNumber,
+                parcel.Source.City, parcel.Source.ZipCode, parcel.Source.Country);
+            Destination = new AddressDto(parcel.Destination.Street, parcel.Destination.BuildingNumber,
+                parcel.Destination.ApartmentNumber, parcel.Destination.City, parcel.Destination.ZipCode,
+                parcel.Destination.Country);
             Priority = parcel.Priority;
             AtWeekend = parcel.AtWeekend;
             PickupDate = parcel.PickupDate;
@@ -46,6 +52,12 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             CreatedAt = parcel.InquireDate;
             ValidTo = parcel.ValidTo;
             CalculatedPrice = parcel.CalculatedPrice;
+            PriceBreakDown = parcel.PriceBreakDown.Select(x => new PriceBreakDownItemDto
+            {
+                Amount = x.Amount,
+                Currency = x.Currency,
+                Description = x.Description
+            }).ToList();
         }
     }
 }

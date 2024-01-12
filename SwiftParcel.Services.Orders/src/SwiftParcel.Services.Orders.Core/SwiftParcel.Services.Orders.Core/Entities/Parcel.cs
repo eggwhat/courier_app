@@ -21,11 +21,12 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         public DateTime InquireDate { get; protected set; }
         public DateTime ValidTo { get; protected set; }
         public decimal CalculatedPrice { get; protected set; }
+        public List<PriceBreakDownItem> PriceBreakDown { get; protected set; }
 
         public Parcel(Guid id, string description, double width, double height, 
             double depth, double weight, Address source, Address destination, Priority priority, bool atWeekend,
             DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage, DateTime createdAt, 
-            DateTime validTo, decimal calculatedPrice)
+            DateTime validTo, decimal calculatedPrice, List<PriceBreakDownItem> priceBreakDown)
         {
             Id = id;
             Description = description;
@@ -44,6 +45,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             InquireDate = createdAt;
             ValidTo = validTo;
             CalculatedPrice = calculatedPrice;
+            PriceBreakDown = priceBreakDown;
         }
         public void ValidateRequest(DateTime requestDate)
         {

@@ -5,6 +5,6 @@ namespace SwiftParcel.Services.Orders.Application.Queries
 {
     public class GetOrders : IQuery<IEnumerable<OrderDto>>
     {
-        public Guid? CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }

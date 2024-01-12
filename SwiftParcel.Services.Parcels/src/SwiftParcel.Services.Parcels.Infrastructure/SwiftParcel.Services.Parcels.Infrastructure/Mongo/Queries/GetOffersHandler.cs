@@ -30,7 +30,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
                 ParcelId = document.Id,
                 TotalPrice = document.CalculatedPrice,
                 ExpiringAt = document.ValidTo,
-                PriceBreakDown = null,    // pricing service doesn't provide that yet
+                PriceBreakDown = document.PriceBreakDown.AsDto(),  
                 CompanyName = _companyName
             };
             var offerLecturerApi = await _lecturerApiServiceClient.GetOfferAsync(query.ParcelId);

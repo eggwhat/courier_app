@@ -9,6 +9,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
         public Guid? CustomerId { get; private set; }
         public Parcel Parcel { get; private set; }
         public OrderStatus Status { get; private set; }
+        public Company CourierCompany { get; private set; }
         public DateTime OrderRequestDate { get; private set; }
         public DateTime RequestValidTo { get; private set;}
         public string BuyerName { get; private set; }
@@ -31,6 +32,7 @@ namespace SwiftParcel.Services.Orders.Core.Entities
             Id = id;
             CustomerId = customerId;
             Status = status;
+            CourierCompany = Company.SwiftParcel;
             OrderRequestDate = createdAt;
             RequestValidTo = createdAt.AddHours(24);
 
