@@ -69,7 +69,9 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             Destination = destination;
             Priority = priority;
             AtWeekend = atWeekend;
+            CheckPickupDate(pickupDate, createdAt);
             PickupDate = pickupDate;
+            CheckDeliveryDate(deliveryDate, pickupDate);
             DeliveryDate = deliveryDate;
             IsCompany = isCompany;
             VipPackage = vipPackage;
@@ -89,17 +91,17 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void CheckDimensions(double width, double height, double depth)
         {
-            if (width <= 0)
+            if (width < 0.2 || width >= 8)
             {
                 throw new InvalidParcelDimensionException("width", width);
             }
 
-            if (height <= 0)
+            if (height < 0.2 || height >= 8)
             {
                 throw new InvalidParcelDimensionException("height", height);
             }
 
-            if (depth <= 0)
+            if (depth < 0.2 || depth >= 8)
             {
                 throw new InvalidParcelDimensionException("depth", depth);
             }
@@ -107,7 +109,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void CheckWeight(double weight)
         {
-            if (weight <= 0)
+            if (weight < 0.1 || weight > 100)
             {
                 throw new InvalidParcelWeightException(weight);
             }
@@ -120,6 +122,23 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
                 throw new InvalidParcelPriceException(price);
             }
         }
+
+        public void CheckPickupDate(DateTime pickupDate, DateTime now)
+        {
+            if (pickupDate <= now)
+            {
+                throw new InvalidParcelPickupDateException(pickupDate, now);
+            }
+        }
+
+        public void CheckDeliveryDate(DateTime deliveryDate, DateTime pickupDate)
+        {
+            if (deliveryDate <= pickupDate)
+            {
+                throw new InvalidParcelDeliveryDateException(deliveryDate, pickupDate);
+            }
+        }
+
         public void SetCalculatedPrice(decimal price)
         {
             CheckPrice(price);
