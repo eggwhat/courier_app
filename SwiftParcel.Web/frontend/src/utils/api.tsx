@@ -498,6 +498,73 @@ export const cancelPendingOffer = async (orderId : string, reason: string) => {
   }
 };
 
+export const confirmOrder = async (
+  orderId: string,
+  company: string
+) => {
+  try {
+
+    const payload = {
+      OrderId: orderId,
+      Company: company
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during order confirmation:', orderError.message);
+    } else {
+      console.error('Error during order confirmation:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const cancelOrder = async (
+  orderId: string,
+  company: string
+) => {
+  try {
+
+    const payload = {
+      OrderId: orderId,
+      Company: company
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.delete(`/orders/${orderId}/cancel`, JSON.parse(JSON.stringify(payload)))
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during order cancellation:', orderError.message);
+    } else {
+      console.error('Error during order cancellation:', orderError);
+    }
+    throw orderError;
+  }
+};
+
 export const getCustomerData = async (customerId: string) => {
   try {
     const response = await api.get(`/customers/${customerId}`, { headers: getAuthHeader() });

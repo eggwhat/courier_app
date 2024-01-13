@@ -592,7 +592,7 @@ export default function CreateInquiry() {
         })
 
         .catch((err) => {
-          setError(err?.response?.data?.message || "Something went wrong!");
+          setError(err?.response?.data?.reason || "Something went wrong!");
         })
         .finally(() => {
           setInquiryLoading(false);

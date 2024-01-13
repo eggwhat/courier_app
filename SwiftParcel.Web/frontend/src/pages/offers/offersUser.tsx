@@ -23,6 +23,20 @@ export default function Offers() {
   const [userData, setUserData] = React.useState(null);
 
   React.useEffect(() => {
+    getCustomerData(getUserIdFromStorage())
+      .then((res) => {
+        if (res.status === 200) {
+          setUserData(res?.data);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((err) => {
+        setUserData(null);
+      })
+  }, [page]);
+
+  React.useEffect(() => {
     getOffers(location.state.parcelId)
       .then((res) => {
         if (res.status === 200) {
@@ -37,20 +51,6 @@ export default function Offers() {
       .finally(() => {
         setLoadingOffers(false);
       });
-  }, [page]);
-
-  React.useEffect(() => {
-    getCustomerData(getUserIdFromStorage())
-      .then((res) => {
-        if (res.status === 200) {
-          setUserData(res?.data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch((err) => {
-        setUserData(null);
-      })
   }, [page]);
 
   const onPageChange = (page: number) => {

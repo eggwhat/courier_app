@@ -66,11 +66,11 @@ export default function Register() {
       .then((res) => {
         setCustomerId(res);
         setSuccess(
-          res?.data?.message || "Registration successful! Please complete data referring to you below."
+          "Registration successful! Please complete data referring to you below."
         );
       })
       .catch((err) => {
-        setError(err?.response?.data?.message || "Something went wrong during registration!");
+        setError(err?.response?.data?.reason || "Something went wrong during registration!");
       })
       .finally(() => {
         setRegisterLoading(false);

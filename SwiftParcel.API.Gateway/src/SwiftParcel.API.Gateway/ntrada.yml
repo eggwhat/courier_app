@@ -192,6 +192,22 @@ modules:
         auth: true
         bind:
           - orderId:{orderId}
+
+      - upstream: /{orderId}/confirm
+        method: POST
+        use: downstream
+        downstream: orders-service/orders/{orderId}/confirm
+        auth: true
+        bind:
+          - orderId:{orderId}
+
+      - upstream: /{orderId}/cancel
+        method: DELETE
+        use: downstream
+        downstream: orders-service/orders/{orderId}/cancel
+        auth: true
+        bind:
+          - orderId:{orderId}
     
     services:
       orders-service:
