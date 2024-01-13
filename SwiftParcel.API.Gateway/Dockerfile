@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=build /app/out .
 ENV ASPNETCORE_URLS http://*:80
 ENV ASPNETCORE_ENVIRONMENT docker
-ENTRYPOINT ["dotnet", "SwiftParcel.Services.Customers.Api.dll"]
+ENTRYPOINT ["dotnet", "SwiftParcel.API.Gateway.dll"]

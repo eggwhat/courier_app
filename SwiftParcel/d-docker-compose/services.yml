@@ -30,7 +30,7 @@ services:
       - swiftparcel
 
   parcels-service:
-    image: adrianvsaint/swift-parcel-pricing-service
+    image: adrianvsaint/swift-parcel-parcels-service
     container_name: parcels-service
     restart: unless-stopped
     ports:
@@ -65,9 +65,9 @@ services:
     networks:
       - swiftparcel
 
-  api-lecturer-service:
+  lecturer-api-service:
     image: adrianvsaint/swift-parcel-external-api-lecturer-service
-    container_name: external-api-lecturer-service
+    container_name: lecturer-api-service
     restart: unless-stopped
     ports:
       - 5004:80
