@@ -144,7 +144,7 @@ export function Header(props: {
               <span className="hidden sm:flex">Sign in</span>
             </Button>
           )}
-          {userToken?.user?.role === "admin" || userToken?.courier !== null ? (
+          {userToken?.user?.role === "SwiftParcel.Web" || userToken?.courier !== null ? (
             <Navbar.Toggle />
           ) : null}
         </div>

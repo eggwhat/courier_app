@@ -3,7 +3,7 @@ version: "1.0"
 services:
 
   identity-service:
-    image: apa/swiftparcel.services.identity
+    image: adrianvsaint/swift-parcel-identity-service
     container_name: identity-service
     restart: unless-stopped
     ports:
@@ -11,16 +11,8 @@ services:
     networks:
       - swiftparcel
 
-  availability-service:
-    image: apa/swiftparcel.services.availability
-    container_name: availability-service
-    restart: unless-stopped
-    ports:
-      - 5001:80 
-    networks:
-      - swiftparcel
   web:
-    image: apa/swiftparcel.web
+    image: adrianvsaint/swiftparcel.web
     container_name: swiftparcel-web
     restart: unless-stopped
     ports:
@@ -29,7 +21,7 @@ services:
       - swiftparcel
       
   deliveries-service:
-    image: apa/swiftparcel.services.deliveries
+    image: adrianvsaint/swift-parcel-deliveries-service
     container_name: deliveries-service
     restart: unless-stopped
     ports:
@@ -38,7 +30,7 @@ services:
       - swiftparcel
 
   parcels-service:
-    image: apa/swiftparcel.services.parcels
+    image: adrianvsaint/swift-parcel-pricing-service
     container_name: parcels-service
     restart: unless-stopped
     ports:
@@ -47,7 +39,7 @@ services:
       - swiftparcel
   
   pricing-service:
-    image: apa/swiftparcel.services.pricing
+    image: adrianvsaint/swift-parcel-pricing-service
     container_name: pricing-service
     restart: unless-stopped
     ports:
@@ -56,7 +48,7 @@ services:
       - swiftparcel
 
   customers-service:
-    image: apa/swiftparcel.services.customers
+    image: adrianvsaint/swift-parcel-customers-service
     container_name: customers-service
     restart: unless-stopped
     ports:
@@ -65,11 +57,31 @@ services:
       - swiftparcel
 
   orders-service:
-    image: apa/pacco.services.orders
+    image: adrianvsaint/swift-parcel-orders-service
     container_name: orders-service
     restart: unless-stopped
     ports:
       - 5006:80
+    networks:
+      - swiftparcel
+
+  api-lecturer-service:
+    image: adrianvsaint/swift-parcel-external-api-lecturer-service
+    container_name: external-api-lecturer-service
+    restart: unless-stopped
+    ports:
+      - 5006:80
+    networks:
+      - swiftparcel
+
+  api-gateway:
+    image: adrianvsaint/swift-parcel-apigateway-service
+    container_name: api-gateway
+    restart: unless-stopped
+    environment:
+      - NTRADA_CONFIG=ntrada.yml
+    ports:
+      - 5000:80
     networks:
       - swiftparcel
 
