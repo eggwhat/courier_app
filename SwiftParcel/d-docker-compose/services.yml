@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3.7"
 
 services:
 
@@ -12,7 +12,7 @@ services:
       - swiftparcel
 
   web:
-    image: adrianvsaint/swiftparcel.web
+    image: adrianvsaint/swift-parcel-web
     container_name: swiftparcel-web
     restart: unless-stopped
     ports:
@@ -70,7 +70,7 @@ services:
     container_name: external-api-lecturer-service
     restart: unless-stopped
     ports:
-      - 5006:80
+      - 5004:80
     networks:
       - swiftparcel
 
