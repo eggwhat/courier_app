@@ -81,6 +81,8 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             parcel.SetPriority(priority);
 
             parcel.SetAtWeekend(command.AtWeekend);
+            parcel.SetIsCompany(command.IsCompany);
+            parcel.SetVipPackage(command.VipPackage);
 
             await _parcelRepository.AddAsync(parcel);
             await _lecturerApiServiceClient.PostInquiryAsync(AddParcel.Generate(parcel));
