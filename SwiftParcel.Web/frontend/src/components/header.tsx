@@ -6,7 +6,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { getUserInfo, saveUserInfo } from "../utils/storage";
 import { LoginModal } from "./modals/loginModal";
-import React from "react";
+import React, { useState } from "react";
 import { getProfile, logout } from "../utils/api";
 import AppNavLink from "./appNavLink";
 
@@ -18,8 +18,11 @@ export function Header(props: {
 
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = React.useState<any>(null);
+  const [userEmail, setUserEmail] = useState('');
+  const [userRole, setUserRole] = useState('');
+  
   const [userToken, setUserToken] = React.useState<any>(false);
-  const [isCourier, setIsCourier] = React.useState<any>(false);
 
   React.useEffect(() => {
     setUserToken(getUserInfo());
@@ -33,12 +36,17 @@ export function Header(props: {
     if (userToken) {
       getProfile()
         .then((res) => {
+          console.log("res", res);
+          setUserEmail(res.email);
+          setUserRole(res.role);
+
           if (res?.status === 200) {
-            const newUserInfo = { ...getUserInfo(), courier: res.data.courier };
+           
+          
+
+            const newUserInfo = { ...getUserInfo(), courier: res.courier };
             saveUserInfo(newUserInfo);
-            if (res.data.courier) {
-              setIsCourier(true);
-            }
+          
           } else {
             throw new Error();
           }
@@ -53,7 +61,7 @@ export function Header(props: {
         });
     } else if (userToken === null) {
       props.setLoading(false);
-      setIsCourier(false);
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userToken]);
@@ -63,6 +71,45 @@ export function Header(props: {
     setUserToken(null);
     localStorage.removeItem("parcelId");
     navigate("/");
+  };
+
+
+  const renderNavLinks = () => {
+    switch (userRole) {
+      case 'courier':
+        return (
+          <>
+            <AppNavLink to="/inquiries" text="Inquiries" />
+            <AppNavLink to="/offers" text="Offer Requests" />
+            <AppNavLink to="/sent-data" text="Sent Data" />
+            <AppNavLink to="/pending-offers" text="Pending Offers" />
+          </>
+        );
+      case 'officeworker':
+        return (
+          <>
+            <AppNavLink to="/inquiries" text="Bank Inquiries" />
+            <AppNavLink to="/offer-requests" text="Bank Offer Requests" />
+            <AppNavLink to="/manage-pending-offers" text="Manage Pending Offers" />
+          </>
+        );
+      case 'user':
+        return (
+          <>
+            <AppNavLink to="/" text="Check Order" />
+            <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+            <AppNavLink to="/inquiries" text="Your Inquiries" />
+            <AppNavLink to="/orders" text="Your Orders" />
+          </>
+        );
+      default:
+        return (
+          <>
+            <AppNavLink to="/" text="Check Order" />
+            <AppNavLink to="/create-inquiry" text="Create Inquiry" />
+          </>
+        );
+    }
   };
 
   return (
@@ -86,7 +133,7 @@ export function Header(props: {
                   {userToken?.user?.username}
                 </span>
                 <span className="block truncate text-sm font-medium">
-                  {userToken?.user?.email}
+                  {userEmail || 'Email not available'}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item onClick={logoutUser}>Sign out</Dropdown.Item>
@@ -102,21 +149,7 @@ export function Header(props: {
           ) : null}
         </div>
         <Navbar.Collapse>
-          <AppNavLink to="/" text="Track Parcel" />
-          {userToken?.user?.role === "User" ? <></> : null}
-          {isCourier ? (
-            <>
-              <AppNavLink to="/deliveries" text="Deliveries" />
-              <AppNavLink to="/parcels" text="All Parcels" />
-            </>
-          ) : null}
-          {userToken?.user?.role === "admin" ? (
-            <>
-              <AppNavLink to="/couriers/manage" text="Couriers" />
-              <AppNavLink to="/parcels/manage" text="Parcels" />
-              <AppNavLink to="/cars/manage" text="Cars" />
-            </>
-          ) : null}
+          {renderNavLinks()}
         </Navbar.Collapse>
       </Navbar>
       <LoginModal show={showLoginModal} setShow={setShowLoginModal} />

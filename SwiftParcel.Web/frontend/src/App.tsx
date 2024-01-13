@@ -11,9 +11,12 @@ import Deliveries from "./pages/deliveries";
 import ManageCouriers from "./pages/couriers/manage";
 import ManageCars from "./pages/cars/manage";
 import ManageParcelsCar from "./pages/cars/parcels";
-import Inquiry from "./pages/inquiry";
-import Inquiries from "./pages/inquiries";
-
+import CreateInquiry from "./pages/inquiries/createInquiry";
+import Inquiries from "./pages/inquiries/inquiries";
+import Offers from "./pages/offers/offersUser";
+import OfferRequests from "./pages/offers/offerRequests";
+import PendingOffers from "./pages/offers/pendingOffers";
+import Orders from "./pages/orders/orders";
 
 export function App() {
 
@@ -24,25 +27,57 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="/inquiry"
+            path="/create-inquiry"
             element={
-              <RolesAuthRoute role={null}>
-                <Inquiry/>
+              <RolesAuthRoute roles={['user', null]}>
+                <CreateInquiry/>
               </RolesAuthRoute>
             }
           />
           <Route
             path="/inquiries"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={['officeworker', 'user']}>
                 <Inquiries />
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/offers"
+            element={
+              <RolesAuthRoute roles={['user']}>
+                <Offers/>
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/offer-requests"
+            element={
+              <RolesAuthRoute roles={['officeworker']}>
+                <OfferRequests />
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/manage-pending-offers"
+            element={
+              <RolesAuthRoute roles={['officeworker']}>
+                <PendingOffers />
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <RolesAuthRoute roles={['user']}>
+                <Orders/>
               </RolesAuthRoute>
             }
           />
           <Route
             path="/register"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={['user', null]}>
                 <Register />
               </RolesAuthRoute>
             }
@@ -50,7 +85,7 @@ export function App() {
           <Route
             path="/deliveries"
             element={
-              <RolesAuthRoute role="Courier">
+              <RolesAuthRoute roles={["courier"]}>
                 <Deliveries />
               </RolesAuthRoute>
             }
@@ -58,7 +93,7 @@ export function App() {
           <Route
             path="/parcels"
             element={
-              <RolesAuthRoute role={null}>
+              <RolesAuthRoute roles={['officeworker', 'courier']}>
                 <Parcels />
               </RolesAuthRoute>
             }
@@ -66,7 +101,7 @@ export function App() {
           <Route
             path="/couriers/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageCouriers />
               </RolesAuthRoute>
             }
@@ -74,7 +109,7 @@ export function App() {
           <Route
             path="/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcels />
               </RolesAuthRoute>
             }
@@ -82,7 +117,7 @@ export function App() {
           <Route
             path="/couriers/:courierId/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcelsCourier />
               </RolesAuthRoute>
             }
@@ -90,7 +125,7 @@ export function App() {
           <Route
             path="/cars/:carId/parcels/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageParcelsCar />
               </RolesAuthRoute>
             }
@@ -98,7 +133,7 @@ export function App() {
           <Route
             path="/cars/manage"
             element={
-              <RolesAuthRoute role="admin">
+              <RolesAuthRoute roles={["courier"]}>
                 <ManageCars />
               </RolesAuthRoute>
             }

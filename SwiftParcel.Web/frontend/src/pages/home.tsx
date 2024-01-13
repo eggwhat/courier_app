@@ -1,4 +1,4 @@
-import { Badge, Button, Datepicker, Select, Spinner, TextInput } from "flowbite-react";
+import { Badge, Button, Select, Spinner, TextInput } from "flowbite-react";
 import React from "react";
 import { BsBoxSeam } from "react-icons/bs";
 import { HiExclamation } from "react-icons/hi";
@@ -70,7 +70,7 @@ export default function Home() {
               Give your requirements and get many options to choose the best one.
           </p>
           <Link
-            to="/inquiry" 
+            to="/create-inquiry" 
             className="mt-4 w-full md:w-1/2">
             <Button
               gradientDuoTone="cyanToBlue"
