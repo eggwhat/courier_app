@@ -26,12 +26,12 @@ const getAuthHeader = () => {
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
-  return { Authorization: `${userInfo.accessToken}` };
+  return { Authorization: `Bearer ${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
 
-export const login = async (email: string, password: string) => {
+export const slogin = async (email: string, password: string) => {
   try {
     const response = await api.post('/identity/sign-in', { email, password });
     const { accessToken, refreshToken, role, expires } = response.data;

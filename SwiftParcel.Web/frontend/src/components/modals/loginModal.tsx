@@ -1,4 +1,4 @@
-import {
+  import {
   Alert,
   Button,
   Label,
@@ -8,7 +8,7 @@ import {
 } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { login } from "../../utils/api";
+import { slogin } from "../../utils/api";
 import { saveUserInfo } from "../../utils/storage";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -36,7 +36,7 @@ export function LoginModal(props: LoginModalProps) {
     setError("");
     setIsLoading(true);
 
-    login(email, password)
+    slogin(email, password)
       .then(async (res) => {
         console.log(res)
         
