@@ -31,7 +31,7 @@ const getAuthHeader = () => {
 
 const defaultPageLimit = 10;
 
-export const slogin = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   try {
     const response = await api.post('/identity/sign-in', { email, password });
     const { accessToken, refreshToken, role, expires } = response.data;
