@@ -1,9 +1,9 @@
 #!/bin/bash
 
 directories=(
-    # "SwiftParcel.API.Gateway"
+    "SwiftParcel.API.Gateway"
     "SwiftParcel.ExternalAPI.Lecturer"
-    # "SwiftParcel.Services.Customers"
+    "SwiftParcel.Services.Customers"
     # "SwiftParcel.Services.Deliveries"
     # "SwiftParcel.Services.Orders"
     "SwiftParcel.Services.Parcels"
