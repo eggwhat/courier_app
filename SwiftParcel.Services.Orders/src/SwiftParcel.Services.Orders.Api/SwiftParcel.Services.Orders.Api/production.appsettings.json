@@ -11,26 +11,26 @@
   },
   "consul": {
     "enabled": true,
-    "url": "http://localhost:8500",
+    "url": "http://consul:8500",
     "service": "orders-service",
-    "address": "docker.for.win.localhost",
-    "port": "5006",
-    "pingEnabled": false,
+    "address": "orders-service",
+    "port": "80",
+    "pingEnabled": true,
     "pingEndpoint": "ping",
     "pingInterval": 3,
     "removeAfterInterval": 3
   },
   "fabio": {
     "enabled": false,
-    "url": "http://localhost:9999",
+    "url": "http://fabio:9999",
     "service": "orders-service"
   },
   "httpClient": {
     "type": "direct",
     "retries": 3,
     "services": {
-      "parcels": "http://localhost:5007",
-      "lecturer-api": "http://localhost:5137"
+      "parcels": "parcels-service",
+      "lecturer-api": "lecturer-api"
     },
     "requestMasking": {
       "enabled": true,
@@ -59,7 +59,7 @@
     },
     "elk": {
       "enabled": false,
-      "url": "http://localhost:9200"
+      "url": "http://elk:9200"
     },
     "file": {
       "enabled": true,
@@ -68,7 +68,7 @@
     },
     "seq": {
       "enabled": true,
-      "url": "http://localhost:5341",
+      "url": "http://seq:5341",
       "apiKey": "secret"
     },
     "tags": {}
@@ -76,7 +76,7 @@
   "jaeger": {
     "enabled": true,
     "serviceName": "orders",
-    "udpHost": "localhost",
+    "udpHost": "jaeger",
     "udpPort": 6831,
     "maxPacketSize": 0,
     "sampler": "const",
@@ -95,9 +95,9 @@
     "enabled": true,
     "influxEnabled": false,
     "prometheusEnabled": true,
-    "influxUrl": "http://localhost:8086",
+    "influxUrl": "http://influx:8086",
     "database": "swiftparcel",
-    "env": "local",
+    "env": "docker",
     "interval": 5
   },
   "mongo": {
@@ -127,7 +127,7 @@
     "virtualHost": "/",
     "port": 5672,
     "hostnames": [
-      "localhost"
+      "rabbitmq"
     ],
     "requestedConnectionTimeout": "00:00:30",
     "requestedHeartbeat": "00:01:00",
@@ -157,7 +157,7 @@
     "spanContextHeader": "span_context"
   },
   "redis": {
-    "connectionString": "localhost",
+    "connectionString": "redis",
     "instance": "orders:"
   },
   "swagger": {
@@ -171,7 +171,7 @@
   },
   "vault": {
     "enabled": false,
-    "url": "http://localhost:8200",
+    "url": "http://vault:8200",
     "authType": "token",
     "token": "secret",
     "username": "user",
@@ -183,7 +183,7 @@
       "path": "orders-service/settings"
     },
     "pki": {
-      "enabled": true,
+      "enabled": false,
       "roleName": "orders-service",
       "commonName": "orders-service.swiftparcel.io"
     },
@@ -191,7 +191,7 @@
       "mongo": {
         "type": "database",
         "roleName": "orders-service",
-        "enabled": true,
+        "enabled": false,
         "autoRenewal": true,
         "templates": {
           "connectionString": "mongodb://{{username}}:{{password}}@localhost:27017"
