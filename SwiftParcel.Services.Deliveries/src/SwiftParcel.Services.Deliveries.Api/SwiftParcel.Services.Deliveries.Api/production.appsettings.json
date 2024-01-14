@@ -1,37 +1,29 @@
 {
   "app": {
-    "name": "SwiftParcel Orders Service",
-    "service": "orders-service",
+    "name": "SwiftParcel Deliveries Service",
+    "service": "deliveries-service",
     "version": "1"
-  },
-  "brevoApiKey": {
-    "ApiKey": "",
-    "SenderEmail": "swiftparcel2023@gmail.com",
-    "SenderName": "SwiftParcel" 
   },
   "consul": {
     "enabled": true,
-    "url": "http://localhost:8500",
-    "service": "orders-service",
-    "address": "docker.for.win.localhost",
-    "port": "5006",
-    "pingEnabled": false,
+    "url": "http://consul:8500",
+    "service": "deliveries-service",
+    "address": "deliveries-service",
+    "port": "80",
+    "pingEnabled": true,
     "pingEndpoint": "ping",
     "pingInterval": 3,
     "removeAfterInterval": 3
   },
   "fabio": {
-    "enabled": false,
-    "url": "http://localhost:9999",
-    "service": "orders-service"
+    "enabled": true,
+    "url": "http://fabio:9999",
+    "service": "deliveries-service"
   },
   "httpClient": {
-    "type": "direct",
+    "type": "fabio",
     "retries": 3,
-    "services": {
-      "parcels": "http://localhost:5007",
-      "lecturer-api": "http://localhost:5137"
-    },
+    "services": {},
     "requestMasking": {
       "enabled": true,
       "maskTemplate": "*****"
@@ -59,7 +51,7 @@
     },
     "elk": {
       "enabled": false,
-      "url": "http://localhost:9200"
+      "url": "http://elk:9200"
     },
     "file": {
       "enabled": true,
@@ -68,15 +60,15 @@
     },
     "seq": {
       "enabled": true,
-      "url": "http://localhost:5341",
+      "url": "http://seq:5341",
       "apiKey": "secret"
     },
     "tags": {}
   },
   "jaeger": {
     "enabled": true,
-    "serviceName": "orders",
-    "udpHost": "localhost",
+    "serviceName": "deliveries",
+    "udpHost": "jaeger",
     "udpPort": 6831,
     "maxPacketSize": 0,
     "sampler": "const",
@@ -95,14 +87,14 @@
     "enabled": true,
     "influxEnabled": false,
     "prometheusEnabled": true,
-    "influxUrl": "http://localhost:8086",
+    "influxUrl": "http://influx:8086",
     "database": "swiftparcel",
     "env": "local",
-    "interval": 5
+    "interval": 5 
   },
   "mongo": {
     "connectionString": "mongodb+srv://andrii-courier-db-user:piotr-amadeusz-andrii-2023@cluster0.br51nsv.mongodb.net/?retryWrites=true&w=majority",
-    "database": "orders-service",
+    "database": "deliveries-service",
     "seed": false
   },
   "outbox": {
@@ -115,7 +107,7 @@
     "disableTransactions": true
   },
   "rabbitMq": {
-    "connectionName": "orders-service",
+    "connectionName": "deliveries-service",
     "retries": 3,
     "retryInterval": 2,
     "conventionsCasing": "snakeCase",
@@ -127,7 +119,7 @@
     "virtualHost": "/",
     "port": 5672,
     "hostnames": [
-      "localhost"
+      "rabbitmq"
     ],
     "requestedConnectionTimeout": "00:00:30",
     "requestedHeartbeat": "00:01:00",
@@ -141,14 +133,14 @@
       "durable": true,
       "autoDelete": false,
       "type": "topic",
-      "name": "orders"
+      "name": "deliveries"
     },
     "queue": {
       "declare": true,
       "durable": true,
       "exclusive": false,
       "autoDelete": false,
-      "template": "orders-service/{{exchange}}.{{message}}"
+      "template": "deliveries-service/{{exchange}}.{{message}}"
     },
     "context": {
       "enabled": true,
@@ -158,7 +150,7 @@
   },
   "redis": {
     "connectionString": "localhost",
-    "instance": "orders:"
+    "instance": "deliveries:"
   },
   "swagger": {
     "enabled": true,
@@ -171,26 +163,26 @@
   },
   "vault": {
     "enabled": false,
-    "url": "http://localhost:8200",
+    "url": "http://vault:8200",
     "authType": "token",
     "token": "secret",
     "username": "user",
     "password": "secret",
     "kv": {
-      "enabled": true,
+      "enabled": false,
       "engineVersion": 2,
       "mountPoint": "kv",
-      "path": "orders-service/settings"
+      "path": "deliveries-service/settings"
     },
     "pki": {
-      "enabled": true,
-      "roleName": "orders-service",
-      "commonName": "orders-service.swiftparcel.io"
+      "enabled": false,
+      "roleName": "deliveries-service",
+      "commonName": "deliveries-service.swiftparcel.io"
     },
     "lease": {
       "mongo": {
         "type": "database",
-        "roleName": "orders-service",
+        "roleName": "deliveries-service",
         "enabled": true,
         "autoRenewal": true,
         "templates": {

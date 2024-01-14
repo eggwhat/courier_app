@@ -1,37 +1,29 @@
 {
   "app": {
-    "name": "SwiftParcel Orders Service",
-    "service": "orders-service",
+    "name": "SwiftParcel Customers Service",
+    "service": "customers-service",
     "version": "1"
-  },
-  "brevoApiKey": {
-    "ApiKey": "",
-    "SenderEmail": "swiftparcel2023@gmail.com",
-    "SenderName": "SwiftParcel" 
   },
   "consul": {
     "enabled": true,
-    "url": "http://localhost:8500",
-    "service": "orders-service",
-    "address": "docker.for.win.localhost",
-    "port": "5006",
-    "pingEnabled": false,
+    "url": "http://consul:8500",
+    "service": "customers-service",
+    "address": "customers-service",
+    "port": "80",
+    "pingEnabled": true,
     "pingEndpoint": "ping",
     "pingInterval": 3,
     "removeAfterInterval": 3
   },
   "fabio": {
-    "enabled": false,
-    "url": "http://localhost:9999",
-    "service": "orders-service"
+    "enabled": true,
+    "url": "http://fabio:9999",
+    "service": "customers-service"
   },
   "httpClient": {
-    "type": "direct",
+    "type": "fabio",
     "retries": 3,
-    "services": {
-      "parcels": "http://localhost:5007",
-      "lecturer-api": "http://localhost:5137"
-    },
+    "services": {},
     "requestMasking": {
       "enabled": true,
       "maskTemplate": "*****"
@@ -59,7 +51,7 @@
     },
     "elk": {
       "enabled": false,
-      "url": "http://localhost:9200"
+      "url": "http://elkm:9200"
     },
     "file": {
       "enabled": true,
@@ -68,17 +60,16 @@
     },
     "seq": {
       "enabled": true,
-      "url": "http://localhost:5341",
+      "url": "http://seq:5341",
       "apiKey": "secret"
     },
     "tags": {}
   },
   "jaeger": {
     "enabled": true,
-    "serviceName": "orders",
-    "udpHost": "localhost",
+    "serviceName": "customers",
+    "udpHost": "jaeger",
     "udpPort": 6831,
-    "maxPacketSize": 0,
     "sampler": "const",
     "excludePaths": ["/", "/ping", "/metrics"]
   },
@@ -95,14 +86,14 @@
     "enabled": true,
     "influxEnabled": false,
     "prometheusEnabled": true,
-    "influxUrl": "http://localhost:8086",
+    "influxUrl": "http://influx:8086",
     "database": "swiftparcel",
     "env": "local",
     "interval": 5
   },
   "mongo": {
     "connectionString": "mongodb+srv://andrii-courier-db-user:piotr-amadeusz-andrii-2023@cluster0.br51nsv.mongodb.net/?retryWrites=true&w=majority",
-    "database": "orders-service",
+    "database": "customers-service",
     "seed": false
   },
   "outbox": {
@@ -115,7 +106,7 @@
     "disableTransactions": true
   },
   "rabbitMq": {
-    "connectionName": "orders-service",
+    "connectionName": "customers-service",
     "retries": 3,
     "retryInterval": 2,
     "conventionsCasing": "snakeCase",
@@ -127,7 +118,7 @@
     "virtualHost": "/",
     "port": 5672,
     "hostnames": [
-      "localhost"
+      "rabbitmq"
     ],
     "requestedConnectionTimeout": "00:00:30",
     "requestedHeartbeat": "00:01:00",
@@ -141,14 +132,14 @@
       "durable": true,
       "autoDelete": false,
       "type": "topic",
-      "name": "orders"
+      "name": "customers"
     },
     "queue": {
       "declare": true,
       "durable": true,
       "exclusive": false,
       "autoDelete": false,
-      "template": "orders-service/{{exchange}}.{{message}}"
+      "template": "customers-service/{{exchange}}.{{message}}"
     },
     "context": {
       "enabled": true,
@@ -157,8 +148,8 @@
     "spanContextHeader": "span_context"
   },
   "redis": {
-    "connectionString": "localhost",
-    "instance": "orders:"
+    "connectionString": "redis",
+    "instance": "customers:"
   },
   "swagger": {
     "enabled": true,
@@ -168,6 +159,26 @@
     "version": "v1",
     "routePrefix": "docs",
     "includeSecurity": true
+  },
+  "security": {
+    "certificate": {
+      "enabled": false,
+      "header": "Certificate",
+      "skipRevocationCheck": false,
+      "allowedDomains": ["swiftparcel.io"],
+      "allowSubdomains": true,
+      "allowedHosts": [
+        "localhost"
+      ],
+      "acl": {
+        "availability-service": {
+          "validIssuer": "localhost",
+          "permissions": [
+            "customers:read"
+          ]
+        }
+      }
+    }
   },
   "vault": {
     "enabled": false,
@@ -180,17 +191,17 @@
       "enabled": true,
       "engineVersion": 2,
       "mountPoint": "kv",
-      "path": "orders-service/settings"
+      "path": "customers-service/settings"
     },
     "pki": {
       "enabled": true,
-      "roleName": "orders-service",
-      "commonName": "orders-service.swiftparcel.io"
+      "roleName": "customers-service",
+      "commonName": "customers-service.swiftparcel.io"
     },
     "lease": {
       "mongo": {
         "type": "database",
-        "roleName": "orders-service",
+        "roleName": "customers-service",
         "enabled": true,
         "autoRenewal": true,
         "templates": {
