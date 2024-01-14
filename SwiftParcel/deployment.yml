@@ -5,6 +5,8 @@
     identity-service:
       image: adrianvsaint/swift-parcel-identity-service
       container_name: identity-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5292:80
@@ -14,6 +16,8 @@
     web:
       image: adrianvsaint/swift-parcel-web
       container_name: swiftparcel-web
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 3001:80
@@ -23,6 +27,8 @@
     deliveries-service:
       image: adrianvsaint/swift-parcel-deliveries-service
       container_name: deliveries-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5003:80
@@ -32,6 +38,8 @@
     parcels-service:
       image: adrianvsaint/swift-parcel-parcels-service
       container_name: parcels-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5007:80
@@ -41,6 +49,8 @@
     pricing-service:
       image: adrianvsaint/swift-parcel-pricing-service
       container_name: pricing-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5008:80
@@ -50,6 +60,8 @@
     customers-service:
       image: adrianvsaint/swift-parcel-customers-service
       container_name: customers-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5002:80
@@ -59,6 +71,8 @@
     orders-service:
       image: adrianvsaint/swift-parcel-orders-service
       container_name: orders-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5006:80
@@ -68,6 +82,8 @@
     lecturer-api-service:
       image: adrianvsaint/swift-parcel-external-api-lecturer-service
       container_name: lecturer-api-service
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       ports:
         - 5004:80
@@ -77,6 +93,8 @@
     api-gateway:
       image: adrianvsaint/swift-parcel-apigateway-service
       container_name: api-gateway
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       restart: unless-stopped
       environment:
         - NTRADA_CONFIG=ntrada.yml
