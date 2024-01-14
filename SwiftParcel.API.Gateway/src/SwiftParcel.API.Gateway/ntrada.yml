@@ -1,5 +1,5 @@
 auth:
-  enabled: false
+  enabled: true
   global: false
   claims:
     role: http://schemas.microsoft.com/ws/2008/06/identity/claims/role
@@ -42,7 +42,7 @@ extensions:
       - Trace-ID
       - Total-Count
 
-  jwt:
+  jwt: 
     issuerSigningKey: eiquief5phee9pazo0Faegaez9gohThailiur5woy2befiech1oarai4aiLi6ahVecah3ie9Aiz6Peij
     validIssuer: swiftparcel
     validateAudience: false
@@ -344,65 +344,54 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}
         auth: true
-        claims:
-          role: courier
+        # claims:
+        #   role: courier
 
       - upstream: /
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries?courierId=@user_id
         auth: true
-        claims:
-          role: courier
+        # claims:
+        #   role: courier
           
       - upstream: /pending
         method: GET
         use: downstream
         downstream: deliveries-service/deliveries/pending
         auth: true
-        claims:
-          role: courier
+        # claims:
+        #   role: courier
     
-      - upstream: /
+      - upstream: /{deliveryId}/courier
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/courier
         auth: true
-        claims:
-          role: courier
-        bind:
-          - courierId:@user_id
-          - deliveryId:{deliveryId}
     
       - upstream: /{deliveryId}/fail
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/fail
         auth: true
-        claims:
-          role: courier
-        bind:
-          - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
     
       - upstream: /{deliveryId}/complete
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/complete
         auth: true
-        claims:
-          role: courier
-        bind:
-          - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
 
       - upstream: /{deliveryId}/pick-up
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/pick-up
         auth: true
-        claims:
-          role: courier
-        bind:
-          - deliveryId:{deliveryId}
+        # claims:
+        #   role: courier
     
     
     services:
