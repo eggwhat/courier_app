@@ -347,11 +347,13 @@ modules:
         # claims:
         #   role: courier
 
-      - upstream: /
+      - upstream: /courierId={courierId}
         method: GET
         use: downstream
-        downstream: deliveries-service/deliveries?courierId=@user_id
+        downstream: deliveries-service/deliveries?courierId={courierId}
         auth: true
+        bind:
+          - courierId:{courierId}
         # claims:
         #   role: courier
           

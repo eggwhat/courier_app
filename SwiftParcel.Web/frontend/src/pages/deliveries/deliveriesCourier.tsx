@@ -2,12 +2,14 @@ import { Table, Pagination, Button } from "flowbite-react";
 import React from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { getOfferRequests, getPendingOffers } from "../../utils/api";
+import { getYourDeliveries, getPendingDeliveries } from "../../utils/api";
 import { Loader } from "../../components/loader";
-import { OfferRequestDetails } from "../../components/details/offerRequest";
-import { FilterOfferRequestsModal } from "../../components/modals/offers/filterOfferRequestsModal";
+import { DeliveryDetails } from "../../components/details/delivery";
+import { FilterDeliveriesModal } from "../../components/modals/deliveries/filterDeliveriesModal";
+import { getUserIdFromStorage } from "../../utils/storage";
+import booleanToString from "../../components/parsing/booleanToString";
 
-export default function OffersOfficeWorker(pageContent: string) {
+export default function DeliveriesCourier(pageContent: string) {
   const [page, setPage] = React.useState(1);
   const [inputData, setInputData] = React.useState<any>(null);
   const [tableData, setTableData] = React.useState<any>(null);
@@ -15,14 +17,14 @@ export default function OffersOfficeWorker(pageContent: string) {
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
 
-  const [showFilterOfferRequestsModal, setShowFilterOfferRequestsModal] = React.useState(false);
+  const [showFilterDeliveriesModal, setShowFilterDeliveriesModal] = React.useState(false);
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
-  const [loadingOfferRequests, setLoadingOfferRequests] = React.useState(true);
+  const [loadingDeliveries, setLoadingDeliveries] = React.useState(true);
 
   React.useEffect(() => {
 
-    ((pageContent == "offer-requests") ? getOfferRequests() : getPendingOffers())
+    ((pageContent == "your-deliveries") ? getYourDeliveries(getUserIdFromStorage()) : getPendingDeliveries())
         .then((res) => {
             if (res.status === 200) {
                 setInputData(res?.data);
@@ -36,7 +38,7 @@ export default function OffersOfficeWorker(pageContent: string) {
             setTableData(null);
         })
         .finally(() => {
-            setLoadingOfferRequests(false);
+            setLoadingDeliveries(false);
         });
 
   }, [page]);
@@ -63,9 +65,53 @@ export default function OffersOfficeWorker(pageContent: string) {
                 return idA < idB ? 1 : -1;
             }
         }
-        case 'customerId': {
-            const idA = a.customerId;
-            const idB = b.customerId;
+        case 'orderId': {
+            const idA = a.orderId;
+            const idB = b.orderId;
+            if (direction === 'ascending') {
+                return idA > idB ? 1 : -1;
+            }
+            else {
+                return idA < idB ? 1 : -1;
+            }
+        }
+        case 'sourceAddress': {
+            const addressA = `${a.source.street} ${a.source.buildingNumber} ${a.source.apartmentNumber}
+              ${a.source.zipCode} ${a.source.city} ${a.source.country}`;
+            const addressB = `${b.source.street} ${b.source.buildingNumber} ${b.source.apartmentNumber}
+              ${b.source.zipCode} ${b.source.city} ${b.source.country}`;
+            if (direction === 'ascending') {
+              return addressA > addressB ? 1 : -1;
+            }
+            else {
+              return addressA < addressB ? 1 : -1;
+            }
+        }
+        case 'destinationAddress': {
+            const addressA = `${a.destination.street} ${a.destination.buildingNumber} ${a.destination.apartmentNumber}
+              ${a.destination.zipCode} ${a.destination.city} ${a.destination.country}`;
+            const addressB = `${b.destination.street} ${b.destination.buildingNumber} ${b.destination.apartmentNumber}
+              ${b.destination.zipCode} ${b.destination.city} ${b.destination.country}`;
+            if (direction === 'ascending') {
+              return addressA > addressB ? 1 : -1;
+            }
+            else {
+              return addressA < addressB ? 1 : -1;
+            }
+        }
+        case 'priority': {
+            const idA = a.priority;
+            const idB = b.priority;
+            if (direction === 'ascending') {
+                return idA > idB ? 1 : -1;
+            }
+            else {
+                return idA < idB ? 1 : -1;
+            }
+        }
+        case 'atWeekend': {
+            const idA = booleanToString(a.atWeekend);
+            const idB = booleanToString(b.atWeekend);
             if (direction === 'ascending') {
                 return idA > idB ? 1 : -1;
             }
@@ -82,58 +128,6 @@ export default function OffersOfficeWorker(pageContent: string) {
             else {
                 return idA < idB ? 1 : -1;
             }
-        }
-        case 'orderRequestDate': {
-            const dateA = new Date(a.orderRequestDate);
-            const dateB = new Date(b.orderRequestDate);
-            if (direction === 'ascending') {
-              return dateA > dateB ? 1 : -1;
-            }
-            else {
-              return dateA < dateB ? 1 : -1;
-            }
-        }
-        case 'requestValidTo': {
-            const dateA = new Date(a.requestValidTo);
-            const dateB = new Date(b.requestValidTo);
-            if (direction === 'ascending') {
-              return dateA > dateB ? 1 : -1;
-            }
-            else {
-              return dateA < dateB ? 1 : -1;
-            }
-        }
-        case 'buyerName': {
-            const idA = a.buyerName;
-            const idB = b.buyerName;
-            if (direction === 'ascending') {
-                return idA > idB ? 1 : -1;
-            }
-            else {
-                return idA < idB ? 1 : -1;
-            }
-        }
-        case 'buyerEmail': {
-            const idA = a.buyerEmail;
-            const idB = b.buyerEmail;
-            if (direction === 'ascending') {
-                return idA > idB ? 1 : -1;
-            }
-            else {
-                return idA < idB ? 1 : -1;
-            }
-        }
-        case 'buyerAddress': {
-          const addressA = `${a.buyerAddress.street} ${a.buyerAddress.buildingNumber} ${a.buyerAddress.apartmentNumber}
-            ${a.buyerAddress.zipCode} ${a.buyerAddress.city} ${a.buyerAddress.country}`;
-          const addressB = `${b.buyerAddress.street} ${b.buyerAddress.buildingNumber} ${b.buyerAddress.apartmentNumber}
-            ${b.buyerAddress.zipCode} ${b.buyerAddress.city} ${b.buyerAddress.country}`;
-          if (direction === 'ascending') {
-            return addressA > addressB ? 1 : -1;
-          }
-          else {
-            return addressA < addressB ? 1 : -1;
-          }
         }
         default:
           return 0;
@@ -164,59 +158,57 @@ export default function OffersOfficeWorker(pageContent: string) {
 
   return (
     <>
-      {loadingHeader || loadingOfferRequests ? <Loader /> : null}
+      {loadingHeader || loadingDeliveries ? <Loader /> : null}
       <div className="container mx-auto px-4">
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            {pageContent == "offer-requests" ? 'Offer requests' : 'Manage pending offers'}
+            {pageContent == "your-deliveries" ? 'Your deliveries' : 'Pending deliveries'}
           </h1>
 
-          <Button className="mr-2" onClick={() => setShowFilterOfferRequestsModal(true)}>
+          <Button className="mr-2" onClick={() => setShowFilterDeliveriesModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
-        { pageContent == "pending-offers" ? (
+        { pageContent == "your-deliveries" ? (
             <p className="mb-5">
-              To accept of reject an offer, open details by clicking button in the last column, then scroll down.
+              To set a delivery as delivered or cannot deliver, open details by clicking button in the last column.
             </p>
-          ) : null }
-        <FilterOfferRequestsModal
-          show={showFilterOfferRequestsModal}
-          setShow={setShowFilterOfferRequestsModal}
+          ) :
+            <p className="mb-5">
+              To set a delivery as picked up, open details by clicking button in the last column.
+            </p>
+          }
+        {/* <FilterDeliveriesModal
+          show={showFilterDeliveriesModal}
+          setShow={setShowFilterDeliveriesModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
           pageContent={pageContent}
-        />
+        /> */}
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>
               Id {getSortIcon('id')}
             </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('customerId')}>
-              Customer Id {getSortIcon('customerId')}
+            <Table.HeadCell onClick={() => handleSort('orderId')}>
+              Order Id {getSortIcon('orderId')}
             </Table.HeadCell>
-            <Table.HeadCell>
-              Inquiry
+            <Table.HeadCell onClick={() => handleSort('sourceAddress')}>
+              Source address {getSortIcon('sourceAddress')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('destinationAddress')}>
+              Destination address {getSortIcon('destinationAddress')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('priority')}>
+              Priority {getSortIcon('priority')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('atWeekend')}>
+              At weekend {getSortIcon('atWeekend')}
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('status')}>
               Status {getSortIcon('status')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('orderRequestDate')}>
-              Order request date {getSortIcon('orderRequestDate')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('requestValidTo')}>
-              Request valid to date {getSortIcon('requestValidTo')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('buyerName')}>
-              Buyer name {getSortIcon('buyerName')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('buyerEmail')}>
-              Buyer email {getSortIcon('buyerEmail')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('buyerAddress')}>
-              Buyer address {getSortIcon('buyerAddress')}
             </Table.HeadCell>
             <Table.HeadCell>
               Details
@@ -224,17 +216,17 @@ export default function OffersOfficeWorker(pageContent: string) {
           </Table.Head>
           <Table.Body className="divide-y">
             {tableData != null && tableData?.length > 0 ? (
-              tableData?.map((offerDetails: any) => (
-                <OfferRequestDetails
-                  key={offerDetails.id}
-                  offerRequestData={offerDetails}
+              tableData?.map((delivery: any) => (
+                <DeliveryDetails
+                  key={delivery.id}
+                  deliveryData={delivery}
                   pageContent={pageContent}
                 />
               ))
             ) : (
               <tr>
                 <td colSpan={10} className="text-center">
-                  No {pageContent == "offer-requests" ? 'offer requests' : 'pending offers'} found
+                  No {pageContent == "your-deliveries" ? 'your deliveries' : 'pending deliveries'} found
                 </td>
               </tr>
             )}

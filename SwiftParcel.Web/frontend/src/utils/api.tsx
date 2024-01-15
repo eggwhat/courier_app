@@ -565,6 +565,26 @@ export const cancelOrder = async (
   }
 };
 
+export const getYourDeliveries = async (courierId: string) => {
+  try {
+    const response = await api.get(`/deliveries/courierId=${courierId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting your deliveries:', error);
+    throw error;
+  }
+};
+
+export const getPendingDeliveries = async () => {
+  try {
+    const response = await api.get(`/deliveries/pending`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting pending deliveries:', error);
+    throw error;
+  }
+};
+
 export const getCustomerData = async (customerId: string) => {
   try {
     const response = await api.get(`/customers/${customerId}`, { headers: getAuthHeader() });
