@@ -79,10 +79,8 @@ export function Header(props: {
       case 'courier':
         return (
           <>
-            <AppNavLink to="/inquiries" text="Inquiries" />
-            <AppNavLink to="/offers" text="Offer Requests" />
-            <AppNavLink to="/sent-data" text="Sent Data" />
-            <AppNavLink to="/pending-offers" text="Pending Offers" />
+            <AppNavLink to="/your-deliveries" text="Your Deliveries" />
+            <AppNavLink to="/pending-deliveries" text="Pending Deliveries" />
           </>
         );
       case 'officeworker':
