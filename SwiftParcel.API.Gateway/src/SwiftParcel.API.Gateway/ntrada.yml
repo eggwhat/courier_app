@@ -95,7 +95,7 @@ modules:
         method: POST
         use: downstream
         downstream: identity-service/sign-up
-        auth: true
+        auth: false
         # resourceId:
         #   property: userId
         #   generate: true
