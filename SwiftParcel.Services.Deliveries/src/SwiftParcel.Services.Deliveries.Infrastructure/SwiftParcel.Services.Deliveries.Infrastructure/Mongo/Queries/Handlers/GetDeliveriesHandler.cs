@@ -22,11 +22,11 @@ namespace SwiftParcel.Services.Deliveries.Infrastructure.Mongo.Queries.Handlers
         public async Task<IEnumerable<DeliveryDto>> HandleAsync(GetDeliveries query)
         {
             var identity = _appContext.Identity;
-            if(identity.Id != query.CourierId )
+            if(identity.Id != query.CourierId)
             {
                 return Enumerable.Empty<DeliveryDto>();
             }
-            
+
             var documents = await _repository.FindAsync(d => d.CourierId == query.CourierId);
 
             return documents.Select(d => d.AsDto());
