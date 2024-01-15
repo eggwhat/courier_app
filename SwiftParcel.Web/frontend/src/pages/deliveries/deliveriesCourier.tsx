@@ -65,16 +65,6 @@ export default function DeliveriesCourier(pageContent: string) {
                 return idA < idB ? 1 : -1;
             }
         }
-        case 'orderId': {
-            const idA = a.orderId;
-            const idB = b.orderId;
-            if (direction === 'ascending') {
-                return idA > idB ? 1 : -1;
-            }
-            else {
-                return idA < idB ? 1 : -1;
-            }
-        }
         case 'sourceAddress': {
             const addressA = `${a.source.street} ${a.source.buildingNumber} ${a.source.apartmentNumber}
               ${a.source.zipCode} ${a.source.city} ${a.source.country}`;
@@ -97,6 +87,26 @@ export default function DeliveriesCourier(pageContent: string) {
             }
             else {
               return addressA < addressB ? 1 : -1;
+            }
+        }
+        case 'pickupDate': {
+            const dateA = new Date(a.pickupDate);
+            const dateB = new Date(b.pickupDate);
+            if (direction === 'ascending') {
+              return dateA > dateB ? 1 : -1;
+            }
+            else {
+              return dateA < dateB ? 1 : -1;
+            }
+        }
+        case 'deliveryDate': {
+            const dateA = new Date(a.deliveryDate);
+            const dateB = new Date(b.deliveryDate);
+            if (direction === 'ascending') {
+                return dateA > dateB ? 1 : -1;
+            }
+            else {
+                return dateA < dateB ? 1 : -1;
             }
         }
         case 'priority': {
@@ -127,6 +137,16 @@ export default function DeliveriesCourier(pageContent: string) {
             }
             else {
                 return idA < idB ? 1 : -1;
+            }
+        }
+        case 'lastUpdate': {
+            const dateA = new Date(a.lastUpdate);
+            const dateB = new Date(b.lastUpdate);
+            if (direction === 'ascending') {
+                return dateA > dateB ? 1 : -1;
+            }
+            else {
+                return dateA < dateB ? 1 : -1;
             }
         }
         default:
@@ -192,14 +212,17 @@ export default function DeliveriesCourier(pageContent: string) {
             <Table.HeadCell onClick={() => handleSort('id')}>
               Id {getSortIcon('id')}
             </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('orderId')}>
-              Order Id {getSortIcon('orderId')}
-            </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('sourceAddress')}>
               Source address {getSortIcon('sourceAddress')}
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('destinationAddress')}>
               Destination address {getSortIcon('destinationAddress')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('pickupDate')}>
+              Pickup date {getSortIcon('pickupDate')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('deliveryDate')}>
+              Delivery date {getSortIcon('deliveryDate')}
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('priority')}>
               Priority {getSortIcon('priority')}
@@ -209,6 +232,9 @@ export default function DeliveriesCourier(pageContent: string) {
             </Table.HeadCell>
             <Table.HeadCell onClick={() => handleSort('status')}>
               Status {getSortIcon('status')}
+            </Table.HeadCell>
+            <Table.HeadCell onClick={() => handleSort('lastUpdate')}>
+              Last update {getSortIcon('lastUpdate')}
             </Table.HeadCell>
             <Table.HeadCell>
               Details

@@ -31,6 +31,14 @@ export function DeliveryDetails({
     return `${address.zipCode} ${address.city}, ${address.country}`;
   }
 
+  const formatDateCreatedAt = (utcCreatedAt: string) => {
+    return dateFromUTCToLocal(utcCreatedAt).substring(0, 10);
+  };
+
+  const formatTimeCreatedAt = (utcCreatedAt: string) => {
+    return dateFromUTCToLocal(utcCreatedAt).substring(11, 19);
+  };
+
   return (
     <>
       <Table.Row
@@ -38,7 +46,6 @@ export function DeliveryDetails({
         key={delivery.id}
       >
         <Table.Cell>{delivery.id}</Table.Cell>
-        <Table.Cell>{delivery.orderId}</Table.Cell>
         <Table.Cell>
           <span className="flex flex-col gap-2">
             <span>{formatAddressFirstLine(delivery.source)}</span>
@@ -51,20 +58,36 @@ export function DeliveryDetails({
             <span>{formatAddressSecondLine(delivery.destination)}</span>
           </span>
         </Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{formatDateCreatedAt(delivery.pickupDate)}</span>
+          </span>
+        </Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{formatDateCreatedAt(delivery.deliveryDate)}</span>
+          </span>
+        </Table.Cell>
         <Table.Cell>{delivery.priority}</Table.Cell>
         <Table.Cell>{booleanToString(delivery.atWeekend)}</Table.Cell>
         <Table.Cell>{formatDeliveryStatus(delivery.status)}</Table.Cell>
+        <Table.Cell>
+          <span className="flex flex-col gap-2">
+            <span>{formatDateCreatedAt(delivery.lastUpdate)}</span>
+            <span>{formatTimeCreatedAt(delivery.lastUpdate)}</span>
+          </span>
+        </Table.Cell>
         <Table.Cell>
           <Button onClick={() => setShowDeliveryDetailsModal(true)}>Show</Button>
         </Table.Cell>
       </Table.Row>
 
-      {/* <DeliveryDetailsModal
+      <DeliveryDetailsModal
           show={showDeliveryDetailsModal}
           setShow={setShowDeliveryDetailsModal}
           delivery={delivery}
           pageContent={pageContent}
-      /> */}
+      />
     </>
   );
 }

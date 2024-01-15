@@ -4,10 +4,11 @@ import {
     Modal,
     TextInput,
   } from "flowbite-react";
-  import React from "react";
-  import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
-  import formatOfferStatus from "../../parsing/formatOfferStatus";
+import React from "react";
+import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
+import formatOfferStatus from "../../parsing/formatOfferStatus";
 import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
+import booleanToString from "../../parsing/booleanToString";
   
   interface DeliveryDetailsModalProps {
     show: boolean;
@@ -17,7 +18,7 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
   }
 
   const formatDate = (date: string) => {
-    return `${date.substring(0, 10)}  ${date.substring(11, 19)}`;
+    return `${date.substring(0, 10)}`;
   };
 
   const formatDateToUTC = (date: string) => {
@@ -56,7 +57,7 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
             idA="customer-id"
             valueA="Order id:"
             idB="customer-id-value"
-            valueB={detailsData.delivery.customerId}
+            valueB={detailsData.delivery.orderId}
         />
     </div>
   );
@@ -70,33 +71,68 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
             valueB={formatOfferStatus(detailsData.delivery.status)}
         />
         <LabelsWithBorder
-            idA="order-request-date"
-            valueA="Order request date:"
-            idB="order-request-date-value"
-            valueB={formatDate(detailsData.delivery.orderRequestDate)}
+            idA="delivery-attempt-date"
+            valueA="Delivery attempt date:"
+            idB="delivery-attempt-date-value"
+            valueB={formatDateToUTC(detailsData.delivery.deliveryAttemptDate)}
         />
         <LabelsWithBorder
-            idA="request-valid-to"
-            valueA="Request valid to:"
-            idB="request-valid-to-value"
-            valueB={formatDate(detailsData.delivery.requestValidTo)}
+            idA="cannot-deliver-reason"
+            valueA="Cannot deliver reason:"
+            idB="cannot-deliver-reason-value"
+            valueB={detailsData.delivery.cannotDeliverReason}
+        />
+        <LabelsWithBorder
+            idA="last-update"
+            valueA="Last update:"
+            idB="last-update-value"
+            valueB={formatDateToUTC(detailsData.delivery.lastUpdate)}
         />
     </div>
   );
 
-  const BuyerInfoDetailsSection = ({ detailsData }) => (
+  const OrderDetailsSection = ({ detailsData }) => (
     <div>
         <LabelsWithBorder
-            idA="buyer-name"
-            valueA="Buyer name:"
-            idB="buyer-name-value"
-            valueB={detailsData.offerRequest.buyerName}
+            idA="pickup-date"
+            valueA="Pickup date:"
+            idB="pickup-date-value"
+            valueB={formatDate(detailsData.delivery.pickupDate)}
         />
         <LabelsWithBorder
-            idA="buyer-email"
-            valueA="Buyer email:"
-            idB="buyer-email-value"
-            valueB={detailsData.offerRequest.buyerEmail}
+            idA="delivery-date"
+            valueA="Delivery date:"
+            idB="delivery-date-value"
+            valueB={formatDate(detailsData.delivery.deliveryDate)}
+        />
+        <LabelsWithBorder
+            idA="priority"
+            valueA="Priority:"
+            idB="priority-value"
+            valueB={detailsData.delivery.priority}
+        />
+        <LabelsWithBorder
+            idA="at-weekend"
+            valueA="At weekend:"
+            idB="at-weekend-value"
+            valueB={booleanToString(detailsData.delivery.atWeekend)}
+        />
+    </div>
+  );
+
+  const PackageInfoDetailsSection = ({ detailsData }) => (
+    <div>
+        <LabelsWithBorder
+            idA="package-volume"
+            valueA="Volume:"
+            idB="package-volume-value"
+            valueB={detailsData.delivery.volume}
+        />
+        <LabelsWithBorder
+            idA="package-weight"
+            valueA="Weight:"
+            idB="package-weight-value"
+            valueB={detailsData.delivery.weight}
         />
     </div>
   );
@@ -107,78 +143,37 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
             idA={`${prefix}-street`}
             valueA="Street:"
             idB={`${prefix}-street-value`}
-            valueB={detailsData.offerRequest[prefix].street}
+            valueB={detailsData.delivery[prefix].street}
         />
         <LabelsWithBorder
             idA={`${prefix}-building-number`}
             valueA="Building number:"
             idB={`${prefix}-building-number-value`}
-            valueB={detailsData.offerRequest[prefix].buildingNumber}
+            valueB={detailsData.delivery[prefix].buildingNumber}
         />
         <LabelsWithBorder
             idA={`${prefix}-apartment-number`}
             valueA="Apartment number:"
             idB={`${prefix}-apartment-number-value`}
-            valueB={detailsData.offerRequest[prefix].apartmentNumber}
+            valueB={detailsData.delivery[prefix].apartmentNumber}
         />
         <LabelsWithBorder
             idA={`${prefix}-city`}
             valueA="City:"
             idB={`${prefix}-city-value`}
-            valueB={detailsData.offerRequest[prefix].city}
+            valueB={detailsData.delivery[prefix].city}
         />
         <LabelsWithBorder
             idA={`${prefix}-zip-code`}
             valueA="Zip code:"
             idB={`${prefix}-zip-code-value`}
-            valueB={detailsData.offerRequest[prefix].zipCode}
+            valueB={detailsData.delivery[prefix].zipCode}
         />
         <LabelsWithBorder
             idA={`${prefix}-country`}
             valueA="Country:"
             idB={`${prefix}-country-value`}
-            valueB={detailsData.offerRequest[prefix].country}
-        />
-    </div>
-  );
-
-  const AdditionalInfoDetailsSection = ({ detailsData }) => (
-    <div>
-        <LabelsWithBorder
-            idA="decision-date"
-            valueA="Decision date:"
-            idB="decision-date-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.decisionDate)}
-        />
-        <LabelsWithBorder
-            idA="picked-up-at"
-            valueA="Picked up at:"
-            idB="picked-up-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.pickedUpAt)}
-        />
-        <LabelsWithBorder
-            idA="delivered-at"
-            valueA="Delivered at:"
-            idB="delivered-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.deliveredAt)}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-at"
-            valueA="Cannot deliver at:"
-            idB="cannot-deliver-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.cannotDeliverAt)}
-        />
-        <LabelsWithBorder
-            idA="cancellation-reason"
-            valueA="Cancellation reason:"
-            idB="cancellation-reason-value"
-            valueB={detailsData.offerRequest.cancellationReason}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-reason"
-            valueA="Cannot deliver reason:"
-            idB="cannot-deliver-reason-value"
-            valueB={detailsData.offerRequest.cannotDeliverReason}
+            valueB={detailsData.delivery[prefix].country}
         />
     </div>
   );
@@ -241,19 +236,25 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
                         detailsData={props}
                     />
 
-                    <SectionTitle title="Buyer info" />
-                    <BuyerInfoDetailsSection
+                    <SectionTitle title="Order info" />
+                    <OrderDetailsSection
                         detailsData={props}
                     />
 
-                    <SectionTitle title="Buyer address" />
+                    <SectionTitle title="Package info" />
+                    <PackageInfoDetailsSection
+                        detailsData={props}
+                    />
+
+                    <SectionTitle title="Source address" />
                     <AddressDetailsSection
-                        prefix="buyerAddress"
+                        prefix="source"
                         detailsData={props}
                     />
 
-                    <SectionTitle title="Additional info" />
-                    <AdditionalInfoDetailsSection
+                    <SectionTitle title="Destination address" />
+                    <AddressDetailsSection
+                        prefix="destination"
                         detailsData={props}
                     />
 
