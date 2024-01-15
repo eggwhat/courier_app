@@ -13,7 +13,7 @@ import {
   }
 
   const formatDate = (date: string) => {
-    return `${date.substring(0, 10)}  ${date.substring(11, 19)}`;
+    return `${date.substring(0, 10)}`;
   };
 
   const formatDateToUTC = (date: string) => {
@@ -185,17 +185,6 @@ import {
     </div>
   );
 
-  const PriceDetailsSection = ({ detailsData }) => (
-    <div>
-        <LabelsWithBorder
-            idA="calculated-price"
-            valueA="Calculated price:"
-            idB="calculated-price-value"
-            valueB={detailsData.inquiry.calculatedPrice}
-        />
-    </div>
-  );
-
   export function InquiryDetailsModal(props: InquiryDetailsModalProps) {
     const close = () => {
       props.setShow(false);
@@ -248,11 +237,6 @@ import {
 
                     <SectionTitle title="Additional info" />
                     <AdditionalInfoDetailsSection
-                        detailsData={props}
-                    />
-
-                    <SectionTitle title="Price" />
-                    <PriceDetailsSection
                         detailsData={props}
                     />
 
