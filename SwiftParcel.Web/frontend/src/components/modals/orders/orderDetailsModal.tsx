@@ -55,14 +55,23 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
             idA="order-request-date"
             valueA="Order request date:"
             idB="order-request-date-value"
-            valueB={formatDate(detailsData.order.orderRequestDate)}
+            valueB={formatDateToUTC(detailsData.order.orderRequestDate)}
         />
-        <LabelsWithBorder
+        { detailsData.order.status === "waitingfordecision" ?
+          <LabelsWithBorder
+            idA="request-valid-to"
+            valueA="Request valid to:"
+            idB="request-valid-to-value"
+            valueB={formatDateToUTC(detailsData.order.requestValidTo)}
+          />
+        :
+          <LabelsWithBorder
             idA="decision-date"
             valueA="Decision date:"
             idB="decision-date-value"
             valueB={formatDateToUTC(detailsData.order.decisionDate)}
-        />
+          />
+        }
     </div>
   );
 
@@ -76,13 +85,6 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
         />
         { detailsData.order.status === "approved" ?
             <div>
-              <LabelsWithBorder
-                  idA="request-valid-to"
-                  valueA="Request valid to:"
-                  idB="request-valid-to-value"
-                  valueB={formatDate(detailsData.order.requestValidTo)}
-              />
-
               { (new Date() < new Date(detailsData.order.requestValidTo)) ? (
                 <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button onClick={() => confirm()}>Confirm</Button>
