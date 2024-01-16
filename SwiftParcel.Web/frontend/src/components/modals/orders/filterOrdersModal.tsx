@@ -20,6 +20,7 @@ import {
   
   type FilteringDetails = {
     keywordId: string;
+    keywordInquiryId: string;
     keywordCourierCompany: string;
     minOrderRequestDate: string;
     maxOrderRequestDate: string;
@@ -92,7 +93,7 @@ import {
     </div>
   );
 
-  const BasicFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
+  const BasicInfoFilterSection = ({ filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
             id="id-keyword"
@@ -102,13 +103,24 @@ import {
             onChange={handleStringChange('keywordId')}
         />
         <TextInputWithLabel
+            id="inquiry-id-keyword"
+            label="Keyword in inquiry id:"
+            type="text"
+            value={filterData.keywordInquiryId}
+            onChange={handleStringChange('keywordInquiryId')}
+        />  
+        <TextInputWithLabel
             id="courier-company-keyword"
             label="Keyword in courier company name:"
             type="text"
             value={filterData.keywordCourierCompany}
             onChange={handleStringChange('keywordCourierCompany')}
         />
+    </div>
+  );
 
+  const DateInfoFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <DateInputWithLabel
             id="order-request-date-min"
             label="Order request date from:"
@@ -150,7 +162,7 @@ import {
     </div>
   );
 
-  const StatusFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
+  const StatusInfoFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <Label
@@ -311,6 +323,7 @@ import {
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
         keywordId: "",
+        keywordInquiryId: "",
         keywordCourierCompany: "",
         minOrderRequestDate: "",
         maxOrderRequestDate: "",
@@ -337,14 +350,6 @@ import {
         keywordBuyerAddressCountry: ""
     });
 
-    const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = parseFloat(event.target.value);
-        setFilteringDetails(prevState => ({
-            ...prevState,
-            [field]: isNaN(newValue) ? 0 : newValue
-        }));
-    };
-
     const handleStringChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setFilteringDetails(prevState => ({
@@ -367,6 +372,7 @@ import {
     const clearDetails = () => {
         setFilteringDetails({
             keywordId: "",
+            keywordInquiryId: "",
             keywordCourierCompany: "",
             minOrderRequestDate: "",
             maxOrderRequestDate: "",
@@ -409,6 +415,7 @@ import {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
         (filteringDetails.keywordId == "" || element.id.includes(filteringDetails.keywordId)) &&
+        (filteringDetails.keywordInquiryId == "" || element.parcel.id.includes(filteringDetails.keywordInquiryId)) &&
         (filteringDetails.keywordCourierCompany == "" || element.courierCompany.includes(filteringDetails.keywordCourierCompany)) &&
 
         (filteringDetails.minOrderRequestDate == "" || new Date(dateFromUTCToLocal(element.orderRequestDate)) >= new Date(filteringDetails.minOrderRequestDate)) &&
@@ -475,15 +482,20 @@ import {
                         <Button onClick={clearDetails}>Clear filtering details</Button>
                     </div>
 
-                    <SectionTitle title="Id info" />
-                    <BasicFilterSection
+                    <SectionTitle title="Basic info" />
+                    <BasicInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
+                    />
+
+                    <SectionTitle title="Date info" />
+                    <DateInfoFilterSection
+                        filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
 
                     <SectionTitle title="Status info" />
-                    <StatusFilterSection
+                    <StatusInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                         handleDateChange={handleDateChange}

@@ -10,6 +10,7 @@ import {
   import { HiInformationCircle } from "react-icons/hi";
   import { isPackageValid } from "../../details/inquiry";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
+  import booleanToString from "../../parsing/booleanToString";
   
   interface FilterInquiriesModalProps {
     show: boolean;
@@ -553,9 +554,9 @@ import {
 
         // filtering of additional info
         (filteringDetails.filterPriority == "all" || (filteringDetails.filterPriority == element.priority)) &&
-        (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == element.atWeekend)) &&
-        (filteringDetails.filterIsCompany == "all" || (filteringDetails.filterIsCompany == element.isCompany)) &&
-        (filteringDetails.filterVipPackage == "all" || (filteringDetails.filterVipPackage == element.vipPackage))
+        (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == booleanToString(element.atWeekend))) &&
+        (filteringDetails.filterIsCompany == "all" || (filteringDetails.filterIsCompany == booleanToString(element.isCompany))) &&
+        (filteringDetails.filterVipPackage == "all" || (filteringDetails.filterVipPackage == booleanToString(element.vipPackage)))
       );
 
       props.setTableData(filteredElements);
