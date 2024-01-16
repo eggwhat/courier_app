@@ -22,8 +22,9 @@ import {
   }
   
   type FilteringDetails = {
-    patternId: string;
-    patternDescription: string;
+    keywordId: string;
+    keywordCustomerId: string;
+    keywordDescription: string;
     minWidth: number;
     maxWidth: number;
     minHeight: number;
@@ -32,18 +33,18 @@ import {
     maxDepth: number;
     minWeight: number;
     maxWeight: number;
-    patternSourceStreet: string;
-    patternSourceBuildingNumber: string;
-    patternSourceApartmentNumber: string;
-    patternSourceCity: string;
-    patternSourceZipCode: string;
-    patternSourceCountry: string;
-    patternDestinationStreet: string;
-    patternDestinationBuildingNumber: string;
-    patternDestinationApartmentNumber: string;
-    patternDestinationCity: string;
-    patternDestinationZipCode: string;
-    patternDestinationCountry: string;
+    keywordSourceStreet: string;
+    keywordSourceBuildingNumber: string;
+    keywordSourceApartmentNumber: string;
+    keywordSourceCity: string;
+    keywordSourceZipCode: string;
+    keywordSourceCountry: string;
+    keywordDestinationStreet: string;
+    keywordDestinationBuildingNumber: string;
+    keywordDestinationApartmentNumber: string;
+    keywordDestinationCity: string;
+    keywordDestinationZipCode: string;
+    keywordDestinationCountry: string;
     minDateOfInquiring: string;
     maxDateOfInquiring: string;
     minPickupDate: string;
@@ -106,27 +107,27 @@ import {
   const IdFilterSection = ({ filterData, handleStringChange, role }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
-            id="id-pattern"
-            label="Pattern contained in inquiry id:"
+            id="id-keyword"
+            label="Keyword in inquiry id:"
             type="text"
-            value={filterData.patternId}
-            onChange={handleStringChange('patternId')}
+            value={filterData.keywordId}
+            onChange={handleStringChange('keywordId')}
         />
         {(role === "officeworker") ?
           <TextInputWithLabel
-              id="customer-id-pattern"
-              label="Pattern contained in customer id:"
+              id="customer-id-keyword"
+              label="Keyword in customer id:"
               type="text"
-              value={filterData.patternId}
-              onChange={handleStringChange('patternId')}
+              value={filterData.keywordCustomerId}
+              onChange={handleStringChange('keywordCustomerId')}
           />
         : null }
         <TextInputWithLabel
-            id="description-pattern"
-            label="Pattern contained in description:"
+            id="description-keyword"
+            label="Keyword in description:"
             type="text"
-            value={filterData.patternDescription}
-            onChange={handleStringChange('patternDescription')}
+            value={filterData.keywordDescription}
+            onChange={handleStringChange('keywordDescription')}
         />
     </div>
   );
@@ -202,48 +203,48 @@ import {
   const AddressFilterSection = ({ prefix, filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
-            id={`${prefix}-street-pattern`}
-            label={`Pattern contained in street:`}
+            id={`${prefix}-street-keyword`}
+            label={`Keyword in street:`}
             type="text"
-            value={filterData[`pattern${prefix}Street`]}
-            onChange={handleStringChange(`pattern${prefix}Street`)} 
+            value={filterData[`keyword${prefix}Street`]}
+            onChange={handleStringChange(`keyword${prefix}Street`)} 
         />
         <TextInputWithLabel
-            id={`${prefix}-building-number-pattern`}
-            label={`Pattern contained in building number:`}
+            id={`${prefix}-building-number-keyword`}
+            label={`Keyword in building number:`}
             type="text"
-            value={filterData[`pattern${prefix}BuildingNumber`]}
-            onChange={handleStringChange(`pattern${prefix}BuildingNumber`)} 
-        />
-
-        <TextInputWithLabel
-            id={`${prefix}-apartment-number-pattern`}
-            label={`Pattern contained in apartment number:`}
-            type="text"
-            value={filterData[`pattern${prefix}ApartmentNumber`]}
-            onChange={handleStringChange(`pattern${prefix}ApartmentNumber`)} 
-        />
-        <TextInputWithLabel
-            id={`${prefix}-city-pattern`}
-            label={`Pattern contained in city:`}
-            type="text"
-            value={filterData[`pattern${prefix}City`]}
-            onChange={handleStringChange(`pattern${prefix}City`)} 
+            value={filterData[`keyword${prefix}BuildingNumber`]}
+            onChange={handleStringChange(`keyword${prefix}BuildingNumber`)} 
         />
 
         <TextInputWithLabel
-            id={`${prefix}-zip-code-pattern`}
-            label={`Pattern contained in zip code:`}
+            id={`${prefix}-apartment-number-keyword`}
+            label={`Keyword in apartment number:`}
             type="text"
-            value={filterData[`pattern${prefix}ZipCode`]}
-            onChange={handleStringChange(`pattern${prefix}ZipCode`)} 
+            value={filterData[`keyword${prefix}ApartmentNumber`]}
+            onChange={handleStringChange(`keyword${prefix}ApartmentNumber`)} 
         />
         <TextInputWithLabel
-            id={`${prefix}-city-pattern`}
-            label={`Pattern contained in country:`}
+            id={`${prefix}-city-keyword`}
+            label={`Keyword in city:`}
             type="text"
-            value={filterData[`pattern${prefix}Country`]}
-            onChange={handleStringChange(`pattern${prefix}Country`)} 
+            value={filterData[`keyword${prefix}City`]}
+            onChange={handleStringChange(`keyword${prefix}City`)} 
+        />
+
+        <TextInputWithLabel
+            id={`${prefix}-zip-code-keyword`}
+            label={`Keyword in zip code:`}
+            type="text"
+            value={filterData[`keyword${prefix}ZipCode`]}
+            onChange={handleStringChange(`keyword${prefix}ZipCode`)} 
+        />
+        <TextInputWithLabel
+            id={`${prefix}-city-keyword`}
+            label={`Keyword in country:`}
+            type="text"
+            value={filterData[`keyword${prefix}Country`]}
+            onChange={handleStringChange(`keyword${prefix}Country`)} 
         />
     </div>
   );
@@ -385,8 +386,9 @@ import {
     const maxDefNum = 99999;
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
-        patternId: "",
-        patternDescription: "",
+        keywordId: "",
+        keywordCustomerId: "",
+        keywordDescription: "",
         minWidth: minDefNum,
         maxWidth: maxDefNum,
         minHeight: minDefNum,
@@ -395,18 +397,18 @@ import {
         maxDepth: maxDefNum,
         minWeight: minDefNum,
         maxWeight: maxDefNum,
-        patternSourceStreet: "",
-        patternSourceBuildingNumber: "",
-        patternSourceApartmentNumber: "",
-        patternSourceCity: "",
-        patternSourceZipCode: "",
-        patternSourceCountry: "",
-        patternDestinationStreet: "",
-        patternDestinationBuildingNumber: "",
-        patternDestinationApartmentNumber: "",
-        patternDestinationCity: "",
-        patternDestinationZipCode: "",
-        patternDestinationCountry: "",
+        keywordSourceStreet: "",
+        keywordSourceBuildingNumber: "",
+        keywordSourceApartmentNumber: "",
+        keywordSourceCity: "",
+        keywordSourceZipCode: "",
+        keywordSourceCountry: "",
+        keywordDestinationStreet: "",
+        keywordDestinationBuildingNumber: "",
+        keywordDestinationApartmentNumber: "",
+        keywordDestinationCity: "",
+        keywordDestinationZipCode: "",
+        keywordDestinationCountry: "",
         minDateOfInquiring: "",
         maxDateOfInquiring: "",
         minPickupDate: "",
@@ -449,8 +451,9 @@ import {
 
     const clearDetails = () => {
         setFilteringDetails({
-            patternId: "",
-            patternDescription: "",
+            keywordId: "",
+            keywordCustomerId: "",
+            keywordDescription: "",
             minWidth: minDefNum,
             maxWidth: maxDefNum,
             minHeight: minDefNum,
@@ -459,18 +462,18 @@ import {
             maxDepth: maxDefNum,
             minWeight: minDefNum,
             maxWeight: maxDefNum,
-            patternSourceStreet: "",
-            patternSourceBuildingNumber: "",
-            patternSourceApartmentNumber: "",
-            patternSourceCity: "",
-            patternSourceZipCode: "",
-            patternSourceCountry: "",
-            patternDestinationStreet: "",
-            patternDestinationBuildingNumber: "",
-            patternDestinationApartmentNumber: "",
-            patternDestinationCity: "",
-            patternDestinationZipCode: "",
-            patternDestinationCountry: "",
+            keywordSourceStreet: "",
+            keywordSourceBuildingNumber: "",
+            keywordSourceApartmentNumber: "",
+            keywordSourceCity: "",
+            keywordSourceZipCode: "",
+            keywordSourceCountry: "",
+            keywordDestinationStreet: "",
+            keywordDestinationBuildingNumber: "",
+            keywordDestinationApartmentNumber: "",
+            keywordDestinationCity: "",
+            keywordDestinationZipCode: "",
+            keywordDestinationCountry: "",
             minDateOfInquiring: "",
             maxDateOfInquiring: "",
             minPickupDate: "",
@@ -499,8 +502,9 @@ import {
     const filterInquiries = () => {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
-        (filteringDetails.patternId == "" || element.id.includes(filteringDetails.patternId)) &&
-        (filteringDetails.patternDescription == "" || element.description.includes(filteringDetails.patternDescription)) &&
+        (filteringDetails.keywordId == "" || element.id.toLowerCase().includes(filteringDetails.keywordId.toLowerCase())) &&
+        (filteringDetails.keywordCustomerId == "" || element.customerId?.toLowerCase().includes(filteringDetails.keywordCustomerId.toLowerCase())) &&
+        (filteringDetails.keywordDescription == "" || element.description.toLowerCase().includes(filteringDetails.keywordDescription.toLowerCase())) &&
 
         // filtering of dimensions section
         (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
@@ -517,24 +521,24 @@ import {
         (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight) &&
 
         // filtering of source address section
-        (filteringDetails.patternSourceStreet == "" || element.source.street.includes(filteringDetails.patternSourceStreet)) &&
-        (filteringDetails.patternSourceBuildingNumber == "" || element.source.buildingNumber.includes(filteringDetails.patternSourceBuildingNumber)) &&
+        (filteringDetails.keywordSourceStreet == "" || element.source.street.toLowerCase().includes(filteringDetails.keywordSourceStreet.toLowerCase())) &&
+        (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.toLowerCase().includes(filteringDetails.keywordSourceBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.patternSourceApartmentNumber == "" || element.source.apartmentNumber.includes(filteringDetails.patternSourceApartmentNumber)) &&
-        (filteringDetails.patternSourceCity == "" || element.source.city.includes(filteringDetails.patternSourceCity)) &&
+        (filteringDetails.keywordSourceApartmentNumber == "" || element.source.apartmentNumber.toLowerCase().includes(filteringDetails.keywordSourceApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordSourceCity == "" || element.source.city.toLowerCase().includes(filteringDetails.keywordSourceCity.toLowerCase())) &&
 
-        (filteringDetails.patternSourceZipCode == "" || element.source.zipCode.includes(filteringDetails.patternSourceZipCode)) &&
-        (filteringDetails.patternSourceCountry == "" || element.source.country.includes(filteringDetails.patternSourceCountry)) &&
+        (filteringDetails.keywordSourceZipCode == "" || element.source.zipCode.toLowerCase().includes(filteringDetails.keywordSourceZipCode.toLowerCase())) &&
+        (filteringDetails.keywordSourceCountry == "" || element.source.country.toLowerCase().includes(filteringDetails.keywordSourceCountry.toLowerCase())) &&
 
         // filtering of destination address section
-        (filteringDetails.patternDestinationStreet == "" || element.destination.street.includes(filteringDetails.patternDestinationStreet)) &&
-        (filteringDetails.patternDestinationBuildingNumber == "" || element.destination.buildingNumber.includes(filteringDetails.patternDestinationBuildingNumber)) &&
+        (filteringDetails.keywordDestinationStreet == "" || element.destination.street.toLowerCase().includes(filteringDetails.keywordDestinationStreet.toLowerCase())) &&
+        (filteringDetails.keywordDestinationBuildingNumber == "" || element.destination.buildingNumber.toLowerCase().includes(filteringDetails.keywordDestinationBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.patternDestinationApartmentNumber == "" || element.destination.apartmentNumber.includes(filteringDetails.patternDestinationApartmentNumber)) &&
-        (filteringDetails.patternDestinationCity == "" || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
+        (filteringDetails.keywordDestinationApartmentNumber == "" || element.destination.apartmentNumber.toLowerCase().includes(filteringDetails.keywordDestinationApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCity == "" || element.destination.city.toLowerCase().includes(filteringDetails.keywordDestinationCity.toLowerCase())) &&
 
-        (filteringDetails.patternDestinationZipCode == "" || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
-        (filteringDetails.patternDestinationCountry == "" || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
+        (filteringDetails.keywordDestinationZipCode == "" || element.destination.zipCode.toLowerCase().includes(filteringDetails.keywordDestinationZipCode.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCountry == "" || element.destination.country.toLowerCase().includes(filteringDetails.keywordDestinationCountry.toLowerCase())) &&
 
         // filtering of date of inquiring
         (filteringDetails.minDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) >= new Date(filteringDetails.minDateOfInquiring)) &&

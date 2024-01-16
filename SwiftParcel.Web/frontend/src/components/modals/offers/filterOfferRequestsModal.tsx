@@ -413,8 +413,8 @@ import {
     const FilterOfferRequests = () => {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
-        (filteringDetails.keywordId == "" || element.id.includes(filteringDetails.keywordId)) &&
-        (filteringDetails.keywordCustomerId == "" || element.customerId.includes(filteringDetails.keywordCustomerId)) &&
+        (filteringDetails.keywordId == "" || element.id.toLowerCase().includes(filteringDetails.keywordId.toLowerCase())) &&
+        (filteringDetails.keywordCustomerId == "" || element.customerId.toLowerCase().includes(filteringDetails.keywordCustomerId.toLowerCase())) &&
 
         // filtering of status
         (filteringDetails.filterStatus == "all" || element.status == filteringDetails.filterStatus) &&
@@ -426,18 +426,18 @@ import {
         (filteringDetails.maxRequestValidTo == "" || new Date(dateFromUTCToLocal(element.requestValidTo)) <= new Date(filteringDetails.maxRequestValidTo)) &&
 
         // filtering of buyer info section
-        (filteringDetails.keywordBuyerName == "" || element.buyerName.includes(filteringDetails.keywordBuyerName)) &&
-        (filteringDetails.keywordBuyerEmail == "" || element.buyerEmail.includes(filteringDetails.keywordBuyerEmail)) &&
+        (filteringDetails.keywordBuyerName == "" || element.buyerName.toLowerCase().includes(filteringDetails.keywordBuyerName.toLowerCase())) &&
+        (filteringDetails.keywordBuyerEmail == "" || element.buyerEmail.toLowerCase().includes(filteringDetails.keywordBuyerEmail.toLowerCase())) &&
 
         // filtering of buyer address section
-        (filteringDetails.keywordBuyerAddressStreet == "" || element.buyerAddress.street.includes(filteringDetails.keywordBuyerAddressStreet)) &&
-        (filteringDetails.keywordBuyerAddressBuildingNumber == "" || element.buyerAddress.buildingNumber.includes(filteringDetails.keywordBuyerAddressBuildingNumber)) &&
+        (filteringDetails.keywordBuyerAddressStreet == "" || element.buyerAddress.street.toLowerCase().includes(filteringDetails.keywordBuyerAddressStreet.toLowerCase())) &&
+        (filteringDetails.keywordBuyerAddressBuildingNumber == "" || element.buyerAddress.buildingNumber.toLowerCase().includes(filteringDetails.keywordBuyerAddressBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.keywordBuyerAddressApartmentNumber == "" || element.buyerAddress.apartmentNumber.includes(filteringDetails.keywordBuyerAddressApartmentNumber)) &&
-        (filteringDetails.keywordBuyerAddressCity == "" || element.buyerAddress.city.includes(filteringDetails.keywordBuyerAddressCity)) &&
+        (filteringDetails.keywordBuyerAddressApartmentNumber == "" || element.buyerAddress.apartmentNumber.toLowerCase().includes(filteringDetails.keywordBuyerAddressApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordBuyerAddressCity == "" || element.buyerAddress.city.toLowerCase().includes(filteringDetails.keywordBuyerAddressCity.toLowerCase())) &&
 
-        (filteringDetails.keywordBuyerAddressZipCode == "" || element.buyerAddress.zipCode.includes(filteringDetails.keywordBuyerAddressZipCode)) &&
-        (filteringDetails.keywordBuyerAddressCountry == "" || element.buyerAddress.country.includes(filteringDetails.keywordBuyerAddressCountry)) &&
+        (filteringDetails.keywordBuyerAddressZipCode == "" || element.buyerAddress.zipCode.toLowerCase().includes(filteringDetails.keywordBuyerAddressZipCode.toLowerCase())) &&
+        (filteringDetails.keywordBuyerAddressCountry == "" || element.buyerAddress.country.toLowerCase().includes(filteringDetails.keywordBuyerAddressCountry.toLowerCase())) &&
 
         // filtering of additional info
         (filteringDetails.minDecisionDate == "" || new Date(dateFromUTCToLocal(element.decisionDate)) >= new Date(filteringDetails.minDecisionDate)) &&
@@ -452,8 +452,8 @@ import {
         (filteringDetails.minCannotDeliverAt == "" || new Date(dateFromUTCToLocal(element.cannotDeliverAt)) >= new Date(filteringDetails.minCannotDeliverAt)) &&
         (filteringDetails.maxCannotDeliverAt == "" || new Date(dateFromUTCToLocal(element.cannotDeliverAt)) <= new Date(filteringDetails.maxCannotDeliverAt)) &&
         
-        (filteringDetails.keywordCancellationReason == "" || element.cancellationReason.includes(filteringDetails.keywordCancellationReason)) &&
-        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason.includes(filteringDetails.keywordCannotDeliverReason))
+        (filteringDetails.keywordCancellationReason == "" || element.cancellationReason.toLowerCase().includes(filteringDetails.keywordCancellationReason.toLowerCase())) &&
+        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason.toLowerCase().includes(filteringDetails.keywordCannotDeliverReason.toLowerCase()))
       );
 
       props.setTableData(filteredElements);
@@ -506,7 +506,7 @@ import {
 
                     <SectionTitle title="Buyer address" />
                     <AddressFilterSection
-                        prefix="buyerAddress"
+                        prefix="BuyerAddress"
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
