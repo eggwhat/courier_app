@@ -63,7 +63,7 @@ import {
     </div>
   );
 
-  const DimensionsDetailsSection = ({ detailsData }) => (
+  const PackageInfoDetailsSection = ({ detailsData }) => (
     <div>
         <LabelsWithBorder
             idA="width"
@@ -82,6 +82,12 @@ import {
             valueA="Depth:"
             idB="depth-value"
             valueB={detailsData.inquiry.depth}
+        />
+        <LabelsWithBorder
+            idA="weight"
+            valueA="Weight:"
+            idB="weight-value"
+            valueB={detailsData.inquiry.weight}
         />
     </div>
   );
@@ -213,8 +219,8 @@ import {
                         detailsData={props}
                     />
 
-                    <SectionTitle title="Package dimensions" />
-                    <DimensionsDetailsSection
+                    <SectionTitle title="Package info" />
+                    <PackageInfoDetailsSection
                         detailsData={props}
                     />
 

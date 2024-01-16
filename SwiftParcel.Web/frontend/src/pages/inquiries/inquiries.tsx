@@ -13,6 +13,7 @@ export default function Inquiries() {
   const [page, setPage] = React.useState(1);
   const [inputData, setInputData] = React.useState<any>(null);
   const [tableData, setTableData] = React.useState<any>(null);
+  const [role, setRole] = React.useState<any>(null);
 
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
@@ -28,6 +29,7 @@ export default function Inquiries() {
         if (res.status === 200) {
           setInputData(res?.data);
           setTableData(res?.data);
+          setRole(getUserInfo().role);
         } else {
           throw new Error();
         }
@@ -163,6 +165,7 @@ export default function Inquiries() {
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
+          role={role}
         />
         <Table>
           <Table.Head>

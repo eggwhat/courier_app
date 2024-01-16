@@ -17,10 +17,12 @@ import {
     inputData: any;
     tableData: any;
     setTableData: any;
+    role: string;
   }
   
   type FilteringDetails = {
     patternId: string;
+    patternDescription: string;
     minWidth: number;
     maxWidth: number;
     minHeight: number;
@@ -43,7 +45,15 @@ import {
     patternDestinationCountry: string;
     minDateOfInquiring: string;
     maxDateOfInquiring: string;
+    minPickupDate: string;
+    maxPickupDate: string;
+    minDeliveryDate: string;
+    maxDeliveryDate: string;
     filterStatus: string;
+    filterPriority: string;
+    filterAtWeekend: string;
+    filterIsCompany: string;
+    filterVipPackage: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -92,14 +102,30 @@ import {
     </div>
   );
 
-  const IdFilterSection = ({ filterData, handleStringChange }) => (
+  const IdFilterSection = ({ filterData, handleStringChange, role }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
             id="id-pattern"
-            label="Pattern contained in inquiry's id:"
+            label="Pattern contained in inquiry id:"
             type="text"
             value={filterData.patternId}
             onChange={handleStringChange('patternId')}
+        />
+        {(role === "officeworker") ?
+          <TextInputWithLabel
+              id="customer-id-pattern"
+              label="Pattern contained in customer id:"
+              type="text"
+              value={filterData.patternId}
+              onChange={handleStringChange('patternId')}
+          />
+        : null }
+        <TextInputWithLabel
+            id="description-pattern"
+            label="Pattern contained in description:"
+            type="text"
+            value={filterData.patternDescription}
+            onChange={handleStringChange('patternDescription')}
         />
     </div>
   );
@@ -238,6 +264,40 @@ import {
     </div>
   );
 
+  const PickupDateFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DateInputWithLabel
+            id="pickup-date-min"
+            label="From:"
+            value={filterData.minPickupDate}
+            onChange={handleDateChange('minPickupDate')}
+        />
+        <DateInputWithLabel
+            id="pickup-date-max"
+            label="To:"
+            value={filterData.maxPickupDate}
+            onChange={handleDateChange('maxPickupDate')}
+        />
+    </div>
+  );
+
+  const DeliveryDateFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DateInputWithLabel
+            id="delivery-date-min"
+            label="From:"
+            value={filterData.minDeliveryDate}
+            onChange={handleDateChange('minDeliveryDate')}
+        />
+        <DateInputWithLabel
+            id="delivery-date-max"
+            label="To:"
+            value={filterData.maxDeliveryDate}
+            onChange={handleDateChange('maxDeliveryDate')}
+        />
+    </div>
+  );
+
   const StatusFilterSection = ({ filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <select
@@ -253,6 +313,66 @@ import {
     </div>
   );
 
+  const AdditionalInfoFilterSection = ({ filterData, handleStringChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="filter-priority" className="mb-2 block text-sm font-medium text-gray-700">Priority:</Label>
+          <select
+              id="filter-priority"
+              value={filterData.filterPriority}
+              onChange={handleStringChange('filterPriority')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="Low">low</option>
+              <option value="High">high</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-at-weekend" className="mb-2 block text-sm font-medium text-gray-700">At weekend:</Label>
+          <select
+              id="filter-at-weekend"
+              value={filterData.filterAtWeekend}
+              onChange={handleStringChange('filterAtWeekend')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-is-company" className="mb-2 block text-sm font-medium text-gray-700">Is company:</Label>
+          <select
+              id="filter-is-company"
+              value={filterData.filterIsCompany}
+              onChange={handleStringChange('filterIsCompany')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-vip-package" className="mb-2 block text-sm font-medium text-gray-700">Vip package:</Label>
+          <select
+              id="filter-vip-package"
+              value={filterData.filterVipPackage}
+              onChange={handleStringChange('filterVipPackage')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+    </div>
+  );
+
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
       setError("");
@@ -265,6 +385,7 @@ import {
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
         patternId: "",
+        patternDescription: "",
         minWidth: minDefNum,
         maxWidth: maxDefNum,
         minHeight: minDefNum,
@@ -287,7 +408,15 @@ import {
         patternDestinationCountry: "",
         minDateOfInquiring: "",
         maxDateOfInquiring: "",
-        filterStatus: "all"
+        minPickupDate: "",
+        maxPickupDate: "",
+        minDeliveryDate: "",
+        maxDeliveryDate: "",
+        filterStatus: "all",
+        filterPriority: "all",
+        filterAtWeekend: "all",
+        filterIsCompany: "all",
+        filterVipPackage: "all"
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -320,6 +449,7 @@ import {
     const clearDetails = () => {
         setFilteringDetails({
             patternId: "",
+            patternDescription: "",
             minWidth: minDefNum,
             maxWidth: maxDefNum,
             minHeight: minDefNum,
@@ -342,7 +472,15 @@ import {
             patternDestinationCountry: "",
             minDateOfInquiring: "",
             maxDateOfInquiring: "",
-            filterStatus: "all"
+            minPickupDate: "",
+            maxPickupDate: "",
+            minDeliveryDate: "",
+            maxDeliveryDate: "",
+            filterStatus: "all",
+            filterPriority: "all",
+            filterAtWeekend: "all",
+            filterIsCompany: "all",
+            filterVipPackage: "all"
         });
     };
 
@@ -361,6 +499,7 @@ import {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
         (filteringDetails.patternId == "" || element.id.includes(filteringDetails.patternId)) &&
+        (filteringDetails.patternDescription == "" || element.description.includes(filteringDetails.patternDescription)) &&
 
         // filtering of dimensions section
         (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
@@ -400,9 +539,23 @@ import {
         (filteringDetails.minDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) >= new Date(filteringDetails.minDateOfInquiring)) &&
         (filteringDetails.maxDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) <= new Date(filteringDetails.maxDateOfInquiring)) &&
 
+        // filtering of pickup date
+        (filteringDetails.minPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) >= new Date(filteringDetails.minPickupDate)) &&
+        (filteringDetails.maxPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) <= new Date(filteringDetails.maxPickupDate)) &&
+
+        // filtering of delivery date
+        (filteringDetails.minDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) >= new Date(filteringDetails.minDeliveryDate)) &&
+        (filteringDetails.maxDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) <= new Date(filteringDetails.maxDeliveryDate)) &&
+
         // filtering of status
         (filteringDetails.filterStatus != "expired" || isPackageValid(element.validTo) == false) &&
-        (filteringDetails.filterStatus != "valid" || isPackageValid(element.validTo) == true)
+        (filteringDetails.filterStatus != "valid" || isPackageValid(element.validTo) == true) &&
+
+        // filtering of additional info
+        (filteringDetails.filterPriority == "all" || (filteringDetails.filterPriority == element.priority)) &&
+        (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == element.atWeekend)) &&
+        (filteringDetails.filterIsCompany == "all" || (filteringDetails.filterIsCompany == element.isCompany)) &&
+        (filteringDetails.filterVipPackage == "all" || (filteringDetails.filterVipPackage == element.vipPackage))
       );
 
       props.setTableData(filteredElements);
@@ -434,6 +587,7 @@ import {
                     <IdFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
+                        role={props.role}
                     />
 
                     <SectionTitle title="Package dimensions" />
@@ -468,8 +622,28 @@ import {
                         handleDateChange={handleDateChange}
                     />
 
+                    <SectionTitle title="Pickup date" />
+                    <PickupDateFilterSection
+                        filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
+                    />
+
+                    <SectionTitle title="Delivery date" />
+                    <DeliveryDateFilterSection
+                        filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
+                    />
+
                     <SectionTitle title="Status" />
                     <StatusFilterSection
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
+                    />
+
+                    <div style={{ marginBottom: '20px' }}></div>
+
+                    <SectionTitle title="Additional info" />
+                    <AdditionalInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
