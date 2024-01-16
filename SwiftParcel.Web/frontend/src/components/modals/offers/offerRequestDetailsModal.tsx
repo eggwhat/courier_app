@@ -73,13 +73,13 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
             idA="order-request-date"
             valueA="Order request date:"
             idB="order-request-date-value"
-            valueB={formatDate(detailsData.offerRequest.orderRequestDate)}
+            valueB={formatDateToUTC(detailsData.offerRequest.orderRequestDate)}
         />
         <LabelsWithBorder
             idA="request-valid-to"
             valueA="Request valid to:"
             idB="request-valid-to-value"
-            valueB={formatDate(detailsData.offerRequest.requestValidTo)}
+            valueB={formatDateToUTC(detailsData.offerRequest.requestValidTo)}
         />
     </div>
   );
@@ -144,42 +144,62 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
 
   const AdditionalInfoDetailsSection = ({ detailsData }) => (
     <div>
-        <LabelsWithBorder
-            idA="decision-date"
-            valueA="Decision date:"
-            idB="decision-date-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.decisionDate)}
-        />
-        <LabelsWithBorder
-            idA="picked-up-at"
-            valueA="Picked up at:"
-            idB="picked-up-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.pickedUpAt)}
-        />
-        <LabelsWithBorder
-            idA="delivered-at"
-            valueA="Delivered at:"
-            idB="delivered-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.deliveredAt)}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-at"
-            valueA="Cannot deliver at:"
-            idB="cannot-deliver-at-value"
-            valueB={formatDateToUTC(detailsData.offerRequest.cannotDeliverAt)}
-        />
-        <LabelsWithBorder
-            idA="cancellation-reason"
-            valueA="Cancellation reason:"
-            idB="cancellation-reason-value"
-            valueB={detailsData.offerRequest.cancellationReason}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-reason"
-            valueA="Cannot deliver reason:"
-            idB="cannot-deliver-reason-value"
-            valueB={detailsData.offerRequest.cannotDeliverReason}
-        />
+        { detailsData.offerRequest.status !== "waitingfordecision" ?
+          <div>
+            <LabelsWithBorder
+                idA="decision-date"
+                valueA="Decision date:"
+                idB="decision-date-value"
+                valueB={formatDateToUTC(detailsData.offerRequest.decisionDate)}
+            />
+          </div>
+        : null }
+        { detailsData.offerRequest.status === "cancelled" ?
+          <div>
+            <LabelsWithBorder
+                idA="cancellation-reason"
+                valueA="Cancellation reason:"
+                idB="cancellation-reason-value"
+                valueB={detailsData.offerRequest.cancellationReason}
+            />
+          </div>
+        : null }
+        { detailsData.offerRequest.status === "pickedup" ?
+          <div>
+            <LabelsWithBorder
+                idA="picked-up-at"
+                valueA="Picked up at:"
+                idB="picked-up-at-value"
+                valueB={formatDateToUTC(detailsData.offerRequest.pickedUpAt)}
+            />
+          </div>
+        : null }
+        { detailsData.offerRequest.status === "delivered" ?
+          <div>
+            <LabelsWithBorder
+                idA="delivered-at"
+                valueA="Delivered at:"
+                idB="delivered-at-value"
+                valueB={formatDateToUTC(detailsData.offerRequest.deliveredAt)}
+            />
+          </div>
+        : null }
+        { detailsData.offerRequest.status === "cannotdeliver" ?
+          <div>
+            <LabelsWithBorder
+                idA="cannot-deliver-at"
+                valueA="Cannot deliver at:"
+                idB="cannot-deliver-at-value"
+                valueB={formatDateToUTC(detailsData.offerRequest.cannotDeliverAt)}
+            />
+            <LabelsWithBorder
+                idA="cannot-deliver-reason"
+                valueA="Cannot deliver reason:"
+                idB="cannot-deliver-reason-value"
+                valueB={detailsData.offerRequest.cannotDeliverReason}
+            />
+          </div>
+        : null }
     </div>
   );
 

@@ -70,18 +70,22 @@ import booleanToString from "../../parsing/booleanToString";
             idB="status-value"
             valueB={formatOfferStatus(detailsData.delivery.status)}
         />
-        <LabelsWithBorder
-            idA="delivery-attempt-date"
-            valueA="Delivery attempt date:"
-            idB="delivery-attempt-date-value"
-            valueB={formatDateToUTC(detailsData.delivery.deliveryAttemptDate)}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-reason"
-            valueA="Cannot deliver reason:"
-            idB="cannot-deliver-reason-value"
-            valueB={detailsData.delivery.cannotDeliverReason}
-        />
+        { detailsData.delivery.status === "cannotdeliver" ?
+          <div>
+            <LabelsWithBorder
+                idA="delivery-attempt-date"
+                valueA="Delivery attempt date:"
+                idB="delivery-attempt-date-value"
+                valueB={formatDateToUTC(detailsData.delivery.deliveryAttemptDate)}
+            />
+            <LabelsWithBorder
+                idA="cannot-deliver-reason"
+                valueA="Cannot deliver reason:"
+                idB="cannot-deliver-reason-value"
+                valueB={detailsData.delivery.cannotDeliverReason}
+            />
+          </div>
+        : null }
         <LabelsWithBorder
             idA="last-update"
             valueA="Last update:"
