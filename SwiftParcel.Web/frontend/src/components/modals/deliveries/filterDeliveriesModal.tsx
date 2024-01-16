@@ -403,15 +403,15 @@ import {
     const FilterOfferRequests = () => {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id info section
-        (filteringDetails.keywordId == "" || element.id.includes(filteringDetails.keywordId)) &&
-        (filteringDetails.keywordOrderId == "" || element.orderId.includes(filteringDetails.keywordOrderId)) &&
+        (filteringDetails.keywordId == "" || element.id.toLowerCase().includes(filteringDetails.keywordId.toLowerCase())) &&
+        (filteringDetails.keywordOrderId == "" || element.orderId.toLowerCase().includes(filteringDetails.keywordOrderId.toLowerCase())) &&
 
         // filtering of status info section
         (filteringDetails.filterStatus == "all" || element.status == filteringDetails.filterStatus) &&
-        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason.includes(filteringDetails.keywordCannotDeliverReason)) &&
+        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason?.toLowerCase().includes(filteringDetails.keywordCannotDeliverReason.toLowerCase())) &&
         
-        (filteringDetails.minDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element.deliveryAttemptDate)) >= new Date(filteringDetails.minDeliveryAttemptDate)) &&
-        (filteringDetails.maxDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element.deliveryAttemptDate)) <= new Date(filteringDetails.maxDeliveryAttemptDate)) &&
+        (filteringDetails.minDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element?.deliveryAttemptDate)) >= new Date(filteringDetails.minDeliveryAttemptDate)) &&
+        (filteringDetails.maxDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element?.deliveryAttemptDate)) <= new Date(filteringDetails.maxDeliveryAttemptDate)) &&
 
         (filteringDetails.minLastUpdate == "" || new Date(dateFromUTCToLocal(element.lastUpdate)) >= new Date(filteringDetails.minLastUpdate)) &&
         (filteringDetails.maxLastUpdate == "" || new Date(dateFromUTCToLocal(element.lastUpdate)) <= new Date(filteringDetails.maxLastUpdate)) &&
@@ -427,24 +427,24 @@ import {
         (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == booleanToString(element.atWeekend))) &&
 
         // filtering of source address section
-        (filteringDetails.keywordSourceStreet == "" || element.source.street.includes(filteringDetails.keywordSourceStreet)) &&
-        (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.includes(filteringDetails.keywordSourceBuildingNumber)) &&
+        (filteringDetails.keywordSourceStreet == "" || element.source.street.toLowerCase().includes(filteringDetails.keywordSourceStreet.toLowerCase())) &&
+        (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.toLowerCase().includes(filteringDetails.keywordSourceBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.keywordSourceApartmentNumber == "" || element.source.apartmentNumber.includes(filteringDetails.keywordSourceApartmentNumber)) &&
-        (filteringDetails.keywordSourceCity == "" || element.source.city.includes(filteringDetails.keywordSourceCity)) &&
+        (filteringDetails.keywordSourceApartmentNumber == "" || element.source.apartmentNumber.toLowerCase().includes(filteringDetails.keywordSourceApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordSourceCity == "" || element.source.city.toLowerCase().includes(filteringDetails.keywordSourceCity.toLowerCase())) &&
 
-        (filteringDetails.keywordSourceZipCode == "" || element.source.zipCode.includes(filteringDetails.keywordSourceZipCode)) &&
-        (filteringDetails.keywordSourceCountry == "" || element.source.country.includes(filteringDetails.keywordSourceCountry)) &&
+        (filteringDetails.keywordSourceZipCode == "" || element.source.zipCode.toLowerCase().includes(filteringDetails.keywordSourceZipCode.toLowerCase())) &&
+        (filteringDetails.keywordSourceCountry == "" || element.source.country.toLowerCase().includes(filteringDetails.keywordSourceCountry.toLowerCase())) &&
 
         // filtering of destination address section
-        (filteringDetails.keywordDestinationStreet == "" || element.destination.street.includes(filteringDetails.keywordDestinationStreet)) &&
-        (filteringDetails.keywordDestinationBuildingNumber == "" || element.destination.buildingNumber.includes(filteringDetails.keywordDestinationBuildingNumber)) &&
+        (filteringDetails.keywordDestinationStreet == "" || element.destination.street.toLowerCase().includes(filteringDetails.keywordDestinationStreet.toLowerCase())) &&
+        (filteringDetails.keywordDestinationBuildingNumber == "" || element.destination.buildingNumber.toLowerCase().includes(filteringDetails.keywordDestinationBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.keywordDestinationApartmentNumber == "" || element.destination.apartmentNumber.includes(filteringDetails.keywordDestinationApartmentNumber)) &&
-        (filteringDetails.keywordDestinationCity == "" || element.destination.city.includes(filteringDetails.keywordDestinationCity)) &&
+        (filteringDetails.keywordDestinationApartmentNumber == "" || element.destination.apartmentNumber.toLowerCase().includes(filteringDetails.keywordDestinationApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCity == "" || element.destination.city.toLowerCase().includes(filteringDetails.keywordDestinationCity.toLowerCase())) &&
 
-        (filteringDetails.keywordDestinationZipCode == "" || element.destination.zipCode.includes(filteringDetails.keywordDestinationZipCode)) &&
-        (filteringDetails.keywordDestinationCountry == "" || element.destination.country.includes(filteringDetails.keywordDestinationCountry))
+        (filteringDetails.keywordDestinationZipCode == "" || element.destination.zipCode.toLowerCase().includes(filteringDetails.keywordDestinationZipCode.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCountry == "" || element.destination.country.toLowerCase().includes(filteringDetails.keywordDestinationCountry.toLowerCase()))
       );
 
       props.setTableData(filteredElements);

@@ -162,7 +162,7 @@ export default function Orders() {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-          Orders
+          Your orders
           </h1>
 
           <Button className="mr-2" onClick={() => setShowFilterOrdersModal(true)}>

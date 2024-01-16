@@ -153,7 +153,7 @@ export default function Inquiries() {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            Inquiries
+            {role == "officeworker" ? 'Bank inquiries' : 'Your inquiries'}
           </h1>
           <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
             <span className="hidden sm:flex">Filter data</span>

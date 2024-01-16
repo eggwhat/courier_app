@@ -169,7 +169,7 @@ export default function OffersOfficeWorker(pageContent: string) {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            {pageContent == "offer-requests" ? 'Offer requests' : 'Manage pending offers'}
+            {pageContent == "offer-requests" ? 'Bank offer requests' : 'Manage pending offers'}
           </h1>
 
           <Button className="mr-2" onClick={() => setShowFilterOfferRequestsModal(true)}>
