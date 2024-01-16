@@ -199,14 +199,14 @@ export default function DeliveriesCourier(pageContent: string) {
               To set a delivery as picked up, open details by clicking button in the last column.
             </p>
           }
-        {/* <FilterDeliveriesModal
+        <FilterDeliveriesModal
           show={showFilterDeliveriesModal}
           setShow={setShowFilterDeliveriesModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
           pageContent={pageContent}
-        /> */}
+        />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>

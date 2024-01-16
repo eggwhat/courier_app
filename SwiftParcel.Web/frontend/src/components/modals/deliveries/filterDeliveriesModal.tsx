@@ -9,6 +9,7 @@ import {
   import React from "react";
   import { HiInformationCircle } from "react-icons/hi";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
+  import booleanToString from "../../parsing/booleanToString";
   
   interface FilterDeliveriesModalProps {
     show: boolean;
@@ -21,30 +22,35 @@ import {
   
   type FilteringDetails = {
     keywordId: string;
-    keywordCustomerId: string;
+    keywordOrderId: string;
     filterStatus: string;
-    minOrderRequestDate: string;
-    maxOrderRequestDate: string;
-    minRequestValidTo: string;
-    maxRequestValidTo: string;
-    keywordBuyerName: string;
-    keywordBuyerEmail: string;
-    keywordBuyerAddressStreet: string;
-    keywordBuyerAddressBuildingNumber: string;
-    keywordBuyerAddressApartmentNumber: string;
-    keywordBuyerAddressCity: string;
-    keywordBuyerAddressZipCode: string;
-    keywordBuyerAddressCountry: string;
-    minDecisionDate: string;
-    maxDecisionDate: string;
-    minPickedUpAt: string;
-    maxPickedUpAt: string;
-    minDeliveredAt: string;
-    maxDeliveredAt: string;
-    minCannotDeliverAt: string;
-    maxCannotDeliverAt: string;
-    keywordCancellationReason: string;
+    minDeliveryAttemptDate: string;
+    maxDeliveryAttemptDate: string;
     keywordCannotDeliverReason: string;
+    minLastUpdate: string;
+    maxLastUpdate: string;
+    minPickupDate: string;
+    maxPickupDate: string;
+    minDeliveryDate: string;
+    maxDeliveryDate: string;
+    filterPriority: string;
+    filterAtWeekend: string;
+    minVolume: number;
+    maxVolume: number;
+    minWeight: number;
+    maxWeight: number;
+    keywordSourceStreet: string;
+    keywordSourceBuildingNumber: string;
+    keywordSourceApartmentNumber: string;
+    keywordSourceCity: string;
+    keywordSourceZipCode: string;
+    keywordSourceCountry: string;
+    keywordDestinationStreet: string;
+    keywordDestinationBuildingNumber: string;
+    keywordDestinationApartmentNumber: string;
+    keywordDestinationCity: string;
+    keywordDestinationZipCode: string;
+    keywordDestinationCountry: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -93,26 +99,26 @@ import {
     </div>
   );
 
-  const IdFilterSection = ({ filterData, handleStringChange }) => (
+  const IdInfoFilterSection = ({ filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
             id="id-keyword"
-            label="Keyword in offer request id:"
+            label="Keyword in delivery id:"
             type="text"
             value={filterData.keywordId}
             onChange={handleStringChange('keywordId')}
         />
         <TextInputWithLabel
             id="customer-id-keyword"
-            label="Keyword in customer id:"
+            label="Keyword in order id:"
             type="text"
-            value={filterData.keywordCustomerId}
-            onChange={handleStringChange('keywordCustomerId')}
+            value={filterData.keywordOrderId}
+            onChange={handleStringChange('keywordOrderId')}
         />
     </div>
   );
 
-  const StatusFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
+  const StatusInfoFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <Label
@@ -126,64 +132,106 @@ import {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             >
                 <option value="all">all</option>
-                <option value="waitingfordecision">waiting for decision</option>
-                <option value="approved">approved</option>
-                <option value="confirmed">confirmed</option>
-                <option value="cancelled">cancelled</option>
-                <option value="pickedup">picked up</option>
-                <option value="delivered">delivered</option>
+                <option value="unassigned">unassigned</option>
+                <option value="assigned">assigned</option>
+                <option value="inprogress">in progress</option>
+                <option value="completed">completed</option>
                 <option value="cannotdeliver">cannot deliver</option>
             </select>
         </div>
-        <div/>
 
-        <div style={{ marginBottom: '10px' }}></div>
-        <div style={{ marginBottom: '10px' }}></div>
-
-        <DateInputWithLabel
-            id="order-request-date-min"
-            label="Order request date from:"
-            value={filterData.minOrderRequestDate}
-            onChange={handleDateChange('minOrderRequestDate')}
-        />
-        <DateInputWithLabel
-            id="order-request-date-max"
-            label="Order request date to:"
-            value={filterData.maxOrderRequestDate}
-            onChange={handleDateChange('maxOrderRequestDate')}
+        <TextInputWithLabel
+            id="cannot-deliver-reason-keyword"
+            label="Keyword in cannot deliver reason:"
+            type="text"
+            value={filterData.keywordCannotDeliverReason}
+            onChange={handleStringChange('keywordCannotDeliverReason')}
         />
 
         <DateInputWithLabel
-            id="order-request-date-min"
-            label="Request valid to date from:"
-            value={filterData.minRequestValidTo}
-            onChange={handleDateChange('minRequestValidTo')}
+            id="delivery-attempt-date-min"
+            label="Delivery attempt date from:"
+            value={filterData.minDeliveryAttemptDate}
+            onChange={handleDateChange('minDeliveryAttemptDate')}
         />
         <DateInputWithLabel
-            id="order-request-date-max"
-            label="Request valid to date to:"
-            value={filterData.maxRequestValidTo}
-            onChange={handleDateChange('maxRequestValidTo')}
+            id="delivery-attempt-date-max"
+            label="Delivery attempt date to:"
+            value={filterData.maxDeliveryAttemptDate}
+            onChange={handleDateChange('maxDeliveryAttemptDate')}
+        />
+
+        <DateInputWithLabel
+            id="last-update-min"
+            label="Last update date from:"
+            value={filterData.minLastUpdate}
+            onChange={handleDateChange('minLastUpdate')}
+        />
+        <DateInputWithLabel
+            id="last-update-max"
+            label="Last update date to:"
+            value={filterData.maxLastUpdate}
+            onChange={handleDateChange('maxLastUpdate')}
         />
     </div>
   );
 
-  const BuyerInfoFilterSection = ({ filterData, handleStringChange }) => (
+  const OrderInfoFilterSection = ({ filterData, handleDateChange, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <TextInputWithLabel
-            id="buyer-name-keyword"
-            label="Keyword in buyer name:"
-            type="text"
-            value={filterData.keywordBuyerName}
-            onChange={handleStringChange('keywordBuyerName')}
+        <DateInputWithLabel
+            id="pickup-date-min"
+            label="Pickup date from:"
+            value={filterData.minPickupDate}
+            onChange={handleDateChange('minPickupDate')}
         />
-        <TextInputWithLabel
-            id="buyer-email-keyword"
-            label="Keyword in buyer email:"
-            type="text"
-            value={filterData.keywordBuyerEmail}
-            onChange={handleStringChange('keywordBuyerEmail')}
+        <DateInputWithLabel
+            id="pickup-date-max"
+            label="Pickup date to:"
+            value={filterData.maxPickupDate}
+            onChange={handleDateChange('maxPickupDate')}
         />
+
+        <DateInputWithLabel
+            id="delivery-date-min"
+            label="Delivery date from:"
+            value={filterData.minDeliveryDate}
+            onChange={handleDateChange('minDeliveryDate')}
+        />
+        <DateInputWithLabel
+            id="delivery-date-max"
+            label="Delivery date to:"
+            value={filterData.maxDeliveryDate}
+            onChange={handleDateChange('maxDeliveryDate')}
+        />
+
+        <div>
+          <Label htmlFor="filter-priority" className="mb-2 block text-sm font-medium text-gray-700">Priority:</Label>
+          <select
+              id="filter-priority"
+              value={filterData.filterPriority}
+              onChange={handleStringChange('filterPriority')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="Low">low</option>
+              <option value="High">high</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-at-weekend" className="mb-2 block text-sm font-medium text-gray-700">At weekend:</Label>
+          <select
+              id="filter-at-weekend"
+              value={filterData.filterAtWeekend}
+              onChange={handleStringChange('filterAtWeekend')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+        
     </div>
   );
 
@@ -236,77 +284,6 @@ import {
     </div>
   );
 
-  const AdditionalInfoFilterSection = ({ filterData, handleStringChange, handleDateChange }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <DateInputWithLabel
-            id="decision-date-min"
-            label="Decision date from:"
-            value={filterData.minDecisionDate}
-            onChange={handleDateChange('minDecisionDate')}
-        />
-        <DateInputWithLabel
-            id="picked-up-at-max"
-            label="Decision date to:"
-            value={filterData.maxDecisionDate}
-            onChange={handleDateChange('maxDecisionDate')}
-        />
-
-        <DateInputWithLabel
-            id="picked-up-at-min"
-            label="Picked up at date from:"
-            value={filterData.minPickedUpAt}
-            onChange={handleDateChange('minPickedUpAt')}
-        />
-        <DateInputWithLabel
-            id="picked-up-at-max"
-            label="Picked up at date to:"
-            value={filterData.maxPickedUpAt}
-            onChange={handleDateChange('maxPickedUpAt')}
-        />
-
-        <DateInputWithLabel
-            id="delivered-at-min"
-            label="Delivered at date from:"
-            value={filterData.minDeliveredAt}
-            onChange={handleDateChange('minDeliveredAt')}
-        />
-        <DateInputWithLabel
-            id="delivered-at-max"
-            label="Delivered at date to:"
-            value={filterData.maxDeliveredAt}
-            onChange={handleDateChange('maxDeliveredAt')}
-        />
-
-        <DateInputWithLabel
-            id="cannot-deliver-at-min"
-            label="Cannot deliver at date from:"
-            value={filterData.minCannotDeliverAt}
-            onChange={handleDateChange('minCannotDeliverAt')}
-        />
-        <DateInputWithLabel
-            id="cannot-deliver-at-max"
-            label="Cannot deliver at date to:"
-            value={filterData.maxCannotDeliverAt}
-            onChange={handleDateChange('maxCannotDeliverAt')}
-        />
-
-        <TextInputWithLabel
-            id="cancellation-reason-keyword"
-            label="Keyword in cancellation reason:"
-            type="text"
-            value={filterData.keywordCancellationReason}
-            onChange={handleStringChange('keywordCancellationReason')}
-        />
-        <TextInputWithLabel
-            id="cannot-deliver-reason-keyword"
-            label="Keyword in cannot deliver reason:"
-            type="text"
-            value={filterData.keywordCannotDeliverReason}
-            onChange={handleStringChange('keywordCannotDeliverReason')}
-        />
-    </div>
-  );
-
   export function FilterDeliveriesModal(props: FilterDeliveriesModalProps) {
     const close = () => {
       setError("");
@@ -314,32 +291,40 @@ import {
       props.setShow(false);
     };
 
+    const minDefNum = 0;
+    const maxDefNum = 99999;
+
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
         keywordId: "",
-        keywordCustomerId: "",
+        keywordOrderId: "",
         filterStatus: "all",
-        minOrderRequestDate: "",
-        maxOrderRequestDate: "",
-        minRequestValidTo: "",
-        maxRequestValidTo: "",
-        keywordBuyerName: "",
-        keywordBuyerEmail: "",
-        keywordBuyerAddressStreet: "",
-        keywordBuyerAddressBuildingNumber: "",
-        keywordBuyerAddressApartmentNumber: "",
-        keywordBuyerAddressCity: "",
-        keywordBuyerAddressZipCode: "",
-        keywordBuyerAddressCountry: "",
-        minDecisionDate: "",
-        maxDecisionDate: "",
-        minPickedUpAt: "",
-        maxPickedUpAt: "",
-        minDeliveredAt: "",
-        maxDeliveredAt: "",
-        minCannotDeliverAt: "",
-        maxCannotDeliverAt: "",
-        keywordCancellationReason: "",
-        keywordCannotDeliverReason: ""
+        minDeliveryAttemptDate: "",
+        maxDeliveryAttemptDate: "",
+        keywordCannotDeliverReason: "",
+        minLastUpdate: "",
+        maxLastUpdate: "",
+        minPickupDate: "",
+        maxPickupDate: "",
+        minDeliveryDate: "",
+        maxDeliveryDate: "",
+        filterPriority: "all",
+        filterAtWeekend: "all",
+        minVolume: minDefNum,
+        maxVolume: maxDefNum,
+        minWeight: minDefNum,
+        maxWeight: maxDefNum,
+        keywordSourceStreet: "",
+        keywordSourceBuildingNumber: "",
+        keywordSourceApartmentNumber: "",
+        keywordSourceCity: "",
+        keywordSourceZipCode: "",
+        keywordSourceCountry: "",
+        keywordDestinationStreet: "",
+        keywordDestinationBuildingNumber: "",
+        keywordDestinationApartmentNumber: "",
+        keywordDestinationCity: "",
+        keywordDestinationZipCode: "",
+        keywordDestinationCountry: ""
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -371,31 +356,36 @@ import {
 
     const clearDetails = () => {
         setFilteringDetails({
-            keywordId: "",
-            keywordCustomerId: "",
-            filterStatus: "all",
-            minOrderRequestDate: "",
-            maxOrderRequestDate: "",
-            minRequestValidTo: "",
-            maxRequestValidTo: "",
-            keywordBuyerName: "",
-            keywordBuyerEmail: "",
-            keywordBuyerAddressStreet: "",
-            keywordBuyerAddressBuildingNumber: "",
-            keywordBuyerAddressApartmentNumber: "",
-            keywordBuyerAddressCity: "",
-            keywordBuyerAddressZipCode: "",
-            keywordBuyerAddressCountry: "",
-            minDecisionDate: "",
-            maxDecisionDate: "",
-            minPickedUpAt: "",
-            maxPickedUpAt: "",
-            minDeliveredAt: "",
-            maxDeliveredAt: "",
-            minCannotDeliverAt: "",
-            maxCannotDeliverAt: "",
-            keywordCancellationReason: "",
-            keywordCannotDeliverReason: ""
+          keywordId: "",
+          keywordOrderId: "",
+          filterStatus: "all",
+          minDeliveryAttemptDate: "",
+          maxDeliveryAttemptDate: "",
+          keywordCannotDeliverReason: "",
+          minLastUpdate: "",
+          maxLastUpdate: "",
+          minPickupDate: "",
+          maxPickupDate: "",
+          minDeliveryDate: "",
+          maxDeliveryDate: "",
+          filterPriority: "all",
+          filterAtWeekend: "all",
+          minVolume: minDefNum,
+          maxVolume: maxDefNum,
+          minWeight: minDefNum,
+          maxWeight: maxDefNum,
+          keywordSourceStreet: "",
+          keywordSourceBuildingNumber: "",
+          keywordSourceApartmentNumber: "",
+          keywordSourceCity: "",
+          keywordSourceZipCode: "",
+          keywordSourceCountry: "",
+          keywordDestinationStreet: "",
+          keywordDestinationBuildingNumber: "",
+          keywordDestinationApartmentNumber: "",
+          keywordDestinationCity: "",
+          keywordDestinationZipCode: "",
+          keywordDestinationCountry: ""
         });
     };
 
@@ -412,48 +402,49 @@ import {
   
     const FilterOfferRequests = () => {
       const filteredElements = props.inputData.filter((element : any) =>
-        // filtering of id section
+        // filtering of id info section
         (filteringDetails.keywordId == "" || element.id.includes(filteringDetails.keywordId)) &&
-        (filteringDetails.keywordCustomerId == "" || element.customerId.includes(filteringDetails.keywordCustomerId)) &&
+        (filteringDetails.keywordOrderId == "" || element.orderId.includes(filteringDetails.keywordOrderId)) &&
 
-        // filtering of status
+        // filtering of status info section
         (filteringDetails.filterStatus == "all" || element.status == filteringDetails.filterStatus) &&
-
-        (filteringDetails.minOrderRequestDate == "" || new Date(dateFromUTCToLocal(element.orderRequestDate)) >= new Date(filteringDetails.minOrderRequestDate)) &&
-        (filteringDetails.maxOrderRequestDate == "" || new Date(dateFromUTCToLocal(element.orderRequestDate)) <= new Date(filteringDetails.maxOrderRequestDate)) &&
-
-        (filteringDetails.minRequestValidTo == "" || new Date(dateFromUTCToLocal(element.requestValidTo)) >= new Date(filteringDetails.minRequestValidTo)) &&
-        (filteringDetails.maxRequestValidTo == "" || new Date(dateFromUTCToLocal(element.requestValidTo)) <= new Date(filteringDetails.maxRequestValidTo)) &&
-
-        // filtering of buyer info section
-        (filteringDetails.keywordBuyerName == "" || element.buyerName.includes(filteringDetails.keywordBuyerName)) &&
-        (filteringDetails.keywordBuyerEmail == "" || element.buyerEmail.includes(filteringDetails.keywordBuyerEmail)) &&
-
-        // filtering of buyer address section
-        (filteringDetails.keywordBuyerAddressStreet == "" || element.buyerAddress.street.includes(filteringDetails.keywordBuyerAddressStreet)) &&
-        (filteringDetails.keywordBuyerAddressBuildingNumber == "" || element.buyerAddress.buildingNumber.includes(filteringDetails.keywordBuyerAddressBuildingNumber)) &&
-
-        (filteringDetails.keywordBuyerAddressApartmentNumber == "" || element.buyerAddress.apartmentNumber.includes(filteringDetails.keywordBuyerAddressApartmentNumber)) &&
-        (filteringDetails.keywordBuyerAddressCity == "" || element.buyerAddress.city.includes(filteringDetails.keywordBuyerAddressCity)) &&
-
-        (filteringDetails.keywordBuyerAddressZipCode == "" || element.buyerAddress.zipCode.includes(filteringDetails.keywordBuyerAddressZipCode)) &&
-        (filteringDetails.keywordBuyerAddressCountry == "" || element.buyerAddress.country.includes(filteringDetails.keywordBuyerAddressCountry)) &&
-
-        // filtering of additional info
-        (filteringDetails.minDecisionDate == "" || new Date(dateFromUTCToLocal(element.decisionDate)) >= new Date(filteringDetails.minDecisionDate)) &&
-        (filteringDetails.maxDecisionDate == "" || new Date(dateFromUTCToLocal(element.decisionDate)) <= new Date(filteringDetails.maxDecisionDate)) &&
-
-        (filteringDetails.minPickedUpAt == "" || new Date(dateFromUTCToLocal(element.pickedUpAt)) >= new Date(filteringDetails.minPickedUpAt)) &&
-        (filteringDetails.maxPickedUpAt == "" || new Date(dateFromUTCToLocal(element.pickedUpAt)) <= new Date(filteringDetails.maxPickedUpAt)) &&
-
-        (filteringDetails.minDeliveredAt == "" || new Date(dateFromUTCToLocal(element.deliveredAt)) >= new Date(filteringDetails.minDeliveredAt)) &&
-        (filteringDetails.maxDeliveredAt == "" || new Date(dateFromUTCToLocal(element.deliveredAt)) <= new Date(filteringDetails.maxDeliveredAt)) &&
-
-        (filteringDetails.minCannotDeliverAt == "" || new Date(dateFromUTCToLocal(element.cannotDeliverAt)) >= new Date(filteringDetails.minCannotDeliverAt)) &&
-        (filteringDetails.maxCannotDeliverAt == "" || new Date(dateFromUTCToLocal(element.cannotDeliverAt)) <= new Date(filteringDetails.maxCannotDeliverAt)) &&
+        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason.includes(filteringDetails.keywordCannotDeliverReason)) &&
         
-        (filteringDetails.keywordCancellationReason == "" || element.cancellationReason.includes(filteringDetails.keywordCancellationReason)) &&
-        (filteringDetails.keywordCannotDeliverReason == "" || element.cannotDeliverReason.includes(filteringDetails.keywordCannotDeliverReason))
+        (filteringDetails.minDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element.deliveryAttemptDate)) >= new Date(filteringDetails.minDeliveryAttemptDate)) &&
+        (filteringDetails.maxDeliveryAttemptDate == "" || new Date(dateFromUTCToLocal(element.deliveryAttemptDate)) <= new Date(filteringDetails.maxDeliveryAttemptDate)) &&
+
+        (filteringDetails.minLastUpdate == "" || new Date(dateFromUTCToLocal(element.lastUpdate)) >= new Date(filteringDetails.minLastUpdate)) &&
+        (filteringDetails.maxLastUpdate == "" || new Date(dateFromUTCToLocal(element.lastUpdate)) <= new Date(filteringDetails.maxLastUpdate)) &&
+
+        // filtering of order info section
+        (filteringDetails.minPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) >= new Date(filteringDetails.minPickupDate)) &&
+        (filteringDetails.maxPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) <= new Date(filteringDetails.maxPickupDate)) &&
+
+        (filteringDetails.minDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) >= new Date(filteringDetails.minDeliveryDate)) &&
+        (filteringDetails.maxDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) <= new Date(filteringDetails.maxDeliveryDate)) &&
+
+        (filteringDetails.filterPriority == "all" || (filteringDetails.filterPriority == element.priority)) &&
+        (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == booleanToString(element.atWeekend))) &&
+
+        // filtering of source address section
+        (filteringDetails.keywordSourceStreet == "" || element.source.street.includes(filteringDetails.keywordSourceStreet)) &&
+        (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.includes(filteringDetails.keywordSourceBuildingNumber)) &&
+
+        (filteringDetails.keywordSourceApartmentNumber == "" || element.source.apartmentNumber.includes(filteringDetails.keywordSourceApartmentNumber)) &&
+        (filteringDetails.keywordSourceCity == "" || element.source.city.includes(filteringDetails.keywordSourceCity)) &&
+
+        (filteringDetails.keywordSourceZipCode == "" || element.source.zipCode.includes(filteringDetails.keywordSourceZipCode)) &&
+        (filteringDetails.keywordSourceCountry == "" || element.source.country.includes(filteringDetails.keywordSourceCountry)) &&
+
+        // filtering of destination address section
+        (filteringDetails.keywordDestinationStreet == "" || element.destination.street.includes(filteringDetails.keywordDestinationStreet)) &&
+        (filteringDetails.keywordDestinationBuildingNumber == "" || element.destination.buildingNumber.includes(filteringDetails.keywordDestinationBuildingNumber)) &&
+
+        (filteringDetails.keywordDestinationApartmentNumber == "" || element.destination.apartmentNumber.includes(filteringDetails.keywordDestinationApartmentNumber)) &&
+        (filteringDetails.keywordDestinationCity == "" || element.destination.city.includes(filteringDetails.keywordDestinationCity)) &&
+
+        (filteringDetails.keywordDestinationZipCode == "" || element.destination.zipCode.includes(filteringDetails.keywordDestinationZipCode)) &&
+        (filteringDetails.keywordDestinationCountry == "" || element.destination.country.includes(filteringDetails.keywordDestinationCountry))
       );
 
       props.setTableData(filteredElements);
@@ -467,7 +458,7 @@ import {
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                  Filter {props.pageContent == "offer-requests" ? 'offer requests' : 'pending offers'} by attributes:
+                  Filter {props.pageContent == "your-deliveries" ? 'your' : 'pending'} deliveries by attributes:
                 </h1>
                 {error ? (
                   <Alert color="failure" icon={HiInformationCircle}>
@@ -482,36 +473,39 @@ import {
                     </div>
 
                     <SectionTitle title="Id info" />
-                    <IdFilterSection
+                    <IdInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
 
                     <SectionTitle title="Status info" />
-                    <StatusFilterSection
+                    <StatusInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                         handleDateChange={handleDateChange}
                     />
 
-                    <SectionTitle title="Buyer info" />
-                    <BuyerInfoFilterSection
+                    <SectionTitle title="Order info" />
+                    <OrderInfoFilterSection
                         filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
                         handleStringChange={handleStringChange}
                     />
 
-                    <SectionTitle title="Buyer address" />
+                    <div style={{ marginBottom: '20px' }}></div>
+
+                    <SectionTitle title="Source address" />
                     <AddressFilterSection
-                        prefix="buyerAddress"
+                        prefix="Source"
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
 
-                    <SectionTitle title="Additional info" />
-                    <AdditionalInfoFilterSection
+                    <SectionTitle title="Destination address" />
+                    <AddressFilterSection
+                        prefix="Destination"
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
-                        handleDateChange={handleDateChange}
                     />
 
                     <div style={{ marginBottom: '20px' }}></div>

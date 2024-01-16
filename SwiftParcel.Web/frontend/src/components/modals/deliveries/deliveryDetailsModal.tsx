@@ -6,7 +6,7 @@ import {
   } from "flowbite-react";
 import React from "react";
 import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
-import formatOfferStatus from "../../parsing/formatOfferStatus";
+import formatDeliveryStatus from "../../parsing/formatDeliveryStatus";
 import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
 import booleanToString from "../../parsing/booleanToString";
   
@@ -68,7 +68,7 @@ import booleanToString from "../../parsing/booleanToString";
             idA="status"
             valueA="Status:"
             idB="status-value"
-            valueB={formatOfferStatus(detailsData.delivery.status)}
+            valueB={formatDeliveryStatus(detailsData.delivery.status)}
         />
         { detailsData.delivery.status === "cannotdeliver" ?
           <div>
