@@ -225,7 +225,7 @@ import booleanToString from "../../parsing/booleanToString";
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                  Details of {props.pageContent == "offer-requests" ? 'offer request' : 'pending offer'}:
+                  Details of delivery:
                 </h1>
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <div className="space-y-6 gap-6">

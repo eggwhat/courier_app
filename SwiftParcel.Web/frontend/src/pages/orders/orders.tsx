@@ -5,7 +5,7 @@ import { Footer } from "../../components/footer";
 import { getOrdersUser } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { OrderDetails } from "../../components/details/order";
-import { FilterOfferRequestsModal } from "../../components/modals/offers/filterOfferRequestsModal";
+import { FilterOrdersModal } from "../../components/modals/orders/filterOrdersModal";
 import { getUserIdFromStorage } from "../../utils/storage";
 
 export default function Orders() {
@@ -165,20 +165,20 @@ export default function Orders() {
           Orders
           </h1>
 
-          {/* <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
+          <Button className="mr-2" onClick={() => setShowFilterOrdersModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
-          </Button> */}
+          </Button>
         </div>
         <p className="mb-5">
               To see details of an order or check its full status, click button in the last column of the table.
             </p>
-        {/* <FilterOrdersModal
-          show={showOrderInquiriesModal}
-          setShow={setShowOrderInquiriesModal}
+        <FilterOrdersModal
+          show={showFilterOrdersModal}
+          setShow={setShowFilterOrdersModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
-        /> */}
+        />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>

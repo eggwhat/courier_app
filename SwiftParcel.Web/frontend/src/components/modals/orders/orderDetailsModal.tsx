@@ -47,9 +47,15 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
     <div>
         <LabelsWithBorder
             idA="id"
-            valueA="Offer request id:"
+            valueA="Order id:"
             idB="id-value"
             valueB={detailsData.order.id}
+        />
+        <LabelsWithBorder
+            idA="courier-company"
+            valueA="Courier company:"
+            idB="id-value"
+            valueB={detailsData.order.courierCompany}
         />
         <LabelsWithBorder
             idA="order-request-date"
