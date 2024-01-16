@@ -164,14 +164,14 @@ export default function Orders() {
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
           Your orders
           </h1>
-
+          
           <Button className="mr-2" onClick={() => setShowFilterOrdersModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
         <p className="mb-5">
-              To see details of an order or check its full status, click button in the last column of the table.
-            </p>
+          To see details of an order or check its full status, click button in the last column of the table.
+        </p>
         <FilterOrdersModal
           show={showFilterOrdersModal}
           setShow={setShowFilterOrdersModal}

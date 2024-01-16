@@ -235,6 +235,40 @@ import {
     </div>
   );
 
+  const PackageInfoFilterSection = ({ filterData, handleNumberChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInputWithLabel
+            id="volume-min"
+            label="Minimum volume:"
+            type="number"
+            value={filterData.minVolume}
+            onChange={handleNumberChange('minVolume')}
+        />
+        <TextInputWithLabel
+            id="volume-max"
+            label="Maximum volume:"
+            type="number"
+            value={filterData.maxVolume}
+            onChange={handleNumberChange('maxVolume')}
+        />
+
+        <TextInputWithLabel
+            id="weight-min"
+            label="Minimum weight:"
+            type="number"
+            value={filterData.minWeight}
+            onChange={handleNumberChange('minWeight')}
+        />
+        <TextInputWithLabel
+            id="weight-max"
+            label="Maximum weight:"
+            type="number"
+            value={filterData.maxWeight}
+            onChange={handleNumberChange('maxWeight')}
+        />
+    </div>
+  );
+
   const AddressFilterSection = ({ prefix, filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
@@ -426,6 +460,13 @@ import {
         (filteringDetails.filterPriority == "all" || (filteringDetails.filterPriority == element.priority)) &&
         (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == booleanToString(element.atWeekend))) &&
 
+        // filtering of package info section
+        (filteringDetails.minVolume == null || element.volume >= filteringDetails.minVolume) &&
+        (filteringDetails.maxVolume == null || element.volume <= filteringDetails.maxVolume) &&
+
+        (filteringDetails.minWeight == null || element.weight >= filteringDetails.minWeight) &&
+        (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight) &&
+
         // filtering of source address section
         (filteringDetails.keywordSourceStreet == "" || element.source.street.toLowerCase().includes(filteringDetails.keywordSourceStreet.toLowerCase())) &&
         (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.toLowerCase().includes(filteringDetails.keywordSourceBuildingNumber.toLowerCase())) &&
@@ -471,12 +512,14 @@ import {
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={clearDetails}>Clear filtering details</Button>
                     </div>
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Id info" />
                     <IdInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Status info" />
                     <StatusInfoFilterSection
@@ -484,6 +527,7 @@ import {
                         handleStringChange={handleStringChange}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Order info" />
                     <OrderInfoFilterSection
@@ -491,7 +535,13 @@ import {
                         handleDateChange={handleDateChange}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '40px' }}></div>
 
+                    <SectionTitle title="Package info" />
+                    <PackageInfoFilterSection
+                        filterData={filteringDetails}
+                        handleNumberChange={handleNumberChange}
+                    />
                     <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Source address" />
@@ -500,6 +550,7 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Destination address" />
                     <AddressFilterSection
@@ -507,7 +558,6 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
-
                     <div style={{ marginBottom: '20px' }}></div>
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
