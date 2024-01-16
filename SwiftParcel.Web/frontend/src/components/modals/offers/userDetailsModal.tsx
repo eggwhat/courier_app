@@ -319,7 +319,7 @@ import {
                   {!success ? (
                     <div>
                       <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                        Fill data if needed:
+                        Check price details and complete data if necessary:
                       </h1>
 
                       <div className="space-y-6 gap-6">
@@ -378,9 +378,11 @@ import {
                           <span className="font-bold">Success!</span> {success}
                         </span>
                       </Alert>
-
-                      <Label></Label>
                       
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
+
                       <LabelsWithBorder
                         idA="elementName"
                         valueA="Id of your offer request:"
@@ -388,13 +390,17 @@ import {
                         valueB={`${requestId}`}
                       />
                       
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '20px' }}></div>
+                      </div>
+
                       <div className="flex justify-end">
                         <Button onClick={() => refresh()}>Go to your orders</Button>
                       </div>
                     </div>
                   ) : null}
                   <div className="space-y-6 gap-6">
-                    <div style={{ marginBottom: '40px' }}></div>
+                    <div style={{ marginBottom: '20px' }}></div>
                   </div>
                 </div>
               </div>

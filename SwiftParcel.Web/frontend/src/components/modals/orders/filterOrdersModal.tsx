@@ -187,8 +187,8 @@ import {
         </div>
         <div/>
 
-        <div style={{ marginBottom: '10px' }}></div>
-        <div style={{ marginBottom: '10px' }}></div>
+        <div style={{ marginBottom: '5px' }}></div>
+        <div style={{ marginBottom: '5px' }}></div>
 
         <DateInputWithLabel
             id="picked-up-at-min"
@@ -481,18 +481,21 @@ import {
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={clearDetails}>Clear filtering details</Button>
                     </div>
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Basic info" />
                     <BasicInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Date info" />
                     <DateInfoFilterSection
                         filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Status info" />
                     <StatusInfoFilterSection
@@ -500,12 +503,14 @@ import {
                         handleStringChange={handleStringChange}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Buyer info" />
                     <BuyerInfoFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Buyer address" />
                     <AddressFilterSection
@@ -513,7 +518,6 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
-
                     <div style={{ marginBottom: '20px' }}></div>
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>

@@ -176,11 +176,15 @@ export default function OffersOfficeWorker(pageContent: string) {
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
-        { pageContent == "pending-offers" ? (
+        { pageContent == "pending-offers" ?
             <p className="mb-5">
-              To accept of reject an offer, open details by clicking button in the last column, then scroll down.
+              To accept of reject an offer request, open details by clicking button in the last column, then scroll down.
             </p>
-          ) : null }
+          :
+            <p className="mb-5">
+              To see details of an offer request or check its full status, click button in the last column of the table.
+            </p>
+        }
         <FilterOfferRequestsModal
           show={showFilterOfferRequestsModal}
           setShow={setShowFilterOfferRequestsModal}

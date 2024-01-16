@@ -159,6 +159,9 @@ export default function Inquiries() {
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
+        <p className="mb-5">
+          To see details of an inquiry or check its full status, click button in the last column of the table.
+        </p>
         <FilterInquiriesModal
           show={showFilterInquiriesModal}
           setShow={setShowFilterInquiriesModal}

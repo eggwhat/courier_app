@@ -583,25 +583,29 @@ import {
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={clearDetails}>Clear filtering details</Button>
                     </div>
+                    <div style={{ marginBottom: '20px' }}></div>
 
-                    <SectionTitle title="Id" />
+                    <SectionTitle title="Id info" />
                     <IdFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                         role={props.role}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Package dimensions" />
                     <DimensionsFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Package weight" />
                     <WeightFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Source address" />
                     <AddressFilterSection
@@ -609,6 +613,7 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Destination address" />
                     <AddressFilterSection
@@ -616,24 +621,28 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Date of inquiring" />
                     <DateOfInquiringFilterSection
                         filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Pickup date" />
                     <PickupDateFilterSection
                         filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Delivery date" />
                     <DeliveryDateFilterSection
                         filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Status" />
                     <StatusFilterSection
@@ -641,7 +650,7 @@ import {
                         handleStringChange={handleStringChange}
                     />
 
-                    <div style={{ marginBottom: '20px' }}></div>
+                    <div style={{ marginBottom: '40px' }}></div>
 
                     <SectionTitle title="Additional info" />
                     <AdditionalInfoFilterSection
@@ -649,7 +658,7 @@ import {
                         handleStringChange={handleStringChange}
                     />
 
-                    <div style={{ marginBottom: '20px' }}></div>
+                    <div style={{ marginBottom: '40px' }}></div>
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                     {isLoading ? (
