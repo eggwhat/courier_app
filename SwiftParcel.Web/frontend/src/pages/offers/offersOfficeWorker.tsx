@@ -194,9 +194,6 @@ export default function OffersOfficeWorker(pageContent: string) {
             <Table.HeadCell onClick={() => handleSort('id')}>
               Id {getSortIcon('id')}
             </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('customerId')}>
-              Customer Id {getSortIcon('customerId')}
-            </Table.HeadCell>
             <Table.HeadCell>
               Inquiry
             </Table.HeadCell>

@@ -47,7 +47,6 @@ export function OfferRequestDetails({
         key={offerRequest.id}
       >
         <Table.Cell>{offerRequest.id}</Table.Cell>
-        <Table.Cell>{offerRequest.customerId}</Table.Cell>
         <Table.Cell>
           <Button onClick={() => setShowInquiryDetailsModal(true)}>Show</Button>
         </Table.Cell>
