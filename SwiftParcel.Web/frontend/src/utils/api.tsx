@@ -585,6 +585,150 @@ export const getPendingDeliveries = async () => {
   }
 };
 
+export const assignCourierToDelivery = async (
+  deliveryId: string,
+  courierId: string
+) => {
+  try {
+
+    const payload = {
+      DeliveryId: deliveryId,
+      CourierId: courierId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during picking up delivery:', orderError.message);
+    } else {
+      console.error('Error during picking up delivery:', orderError);
+    }
+    throw orderError;
+  }
+}
+
+export const pickupDelivery = async (
+  deliveryId: string
+) => {
+  try {
+
+    const payload = {
+      DeliveryId: deliveryId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during picking up delivery:', orderError.message);
+    } else {
+      console.error('Error during picking up delivery:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const completeDelivery = async (
+  deliveryId: string,
+  deliveryAttemptDate: any
+) => {
+  try {
+
+    const payload = {
+      DeliveryId: deliveryId,
+      DeliveryAttemptDate: deliveryAttemptDate
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during picking up delivery:', orderError.message);
+    } else {
+      console.error('Error during picking up delivery:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const failDelivery = async (
+  deliveryId: string,
+  deliveryAttemptDate: any,
+  reason: string
+) => {
+  try {
+
+    const payload = {
+      DeliveryId: deliveryId,
+      DeliveryAttemptDate: deliveryAttemptDate,
+      Reason: reason
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during picking up delivery:', orderError.message);
+    } else {
+      console.error('Error during picking up delivery:', orderError);
+    }
+    throw orderError;
+  }
+};
+
 export const getCustomerData = async (customerId: string) => {
   try {
     const response = await api.get(`/customers/${customerId}`, { headers: getAuthHeader() });

@@ -370,12 +370,16 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/courier
         auth: true
+        bind:
+          - deliveryId:{deliveryId}
     
       - upstream: /{deliveryId}/fail
         method: POST
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/fail
         auth: true
+        bind:
+          - deliveryId:{deliveryId}
         # claims:
         #   role: courier
     
@@ -384,6 +388,8 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/complete
         auth: true
+        bind:
+          - deliveryId:{deliveryId}
         # claims:
         #   role: courier
 
@@ -392,6 +398,8 @@ modules:
         use: downstream
         downstream: deliveries-service/deliveries/{deliveryId}/pick-up
         auth: true
+        bind:
+          - deliveryId:{deliveryId}
         # claims:
         #   role: courier
     

@@ -7,8 +7,9 @@ import {
 import React from "react";
 import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
 import formatDeliveryStatus from "../../parsing/formatDeliveryStatus";
-import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
+import { assignCourierToDelivery, pickupDelivery, completeDelivery, failDelivery } from "../../../utils/api";
 import booleanToString from "../../parsing/booleanToString";
+import { getUserIdFromStorage } from "../../../utils/storage";
   
   interface DeliveryDetailsModalProps {
     show: boolean;
@@ -62,7 +63,7 @@ import booleanToString from "../../parsing/booleanToString";
     </div>
   );
 
-  const StatusDetailsSection = ({ detailsData }) => (
+  const StatusDetailsSection = ({ detailsData, assign, pickup, complete, fail, failed, setFailed, reason, setReason, finalized, refresh }) => (
     <div>
         <LabelsWithBorder
             idA="status"
@@ -92,6 +93,30 @@ import booleanToString from "../../parsing/booleanToString";
             idB="last-update-value"
             valueB={formatDateToUTC(detailsData.delivery.lastUpdate)}
         />
+
+        { (!finalized && detailsData.pageContent == "your-deliveries") ? (
+        <div>
+          { detailsData.delivery.status === "assigned" ?
+            <div className="mb-4 pb-1 grid grid-cols-2 md:grid-cols-2 gap-4">
+              <Button onClick={() => {complete()}}>Complete</Button>
+              <Button onClick={() => {setFailed(false)}}>Cannot deliver</Button>
+            </div>
+          : 
+            <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+              <Button onClick={() => {pickup()}}>Pickup</Button>
+            </div>
+          }
+        </div>
+        ) : (
+        <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+            <Button onClick={() => {assign()}}>Assign to you</Button>
+        </div> ) }
+
+        { finalized ? (
+          <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+            <Button onClick={() => refresh()}>Refresh page</Button>
+          </div>
+        ) : null }
     </div>
   );
 
@@ -185,8 +210,7 @@ import booleanToString from "../../parsing/booleanToString";
   export function DeliveryDetailsModal(props: DeliveryDetailsModalProps) {
     const close = () => {
       setReason("");
-      setAccepted(false);
-      setRejected(false);
+      setFailed(false);
       setFinalized(false);
       props.setShow(false);
     };
@@ -196,19 +220,29 @@ import booleanToString from "../../parsing/booleanToString";
       close();
     };
     
-    const [accepted, setAccepted] = React.useState<any>(false);
-    const [rejected, setRejected] = React.useState<any>(false);
+    const [failed, setFailed] = React.useState<any>(false);
     const [finalized, setFinalized] = React.useState<any>(false);
 
     const [reason, setReason] = React.useState<any>("");
 
-    const accept = () => {
-      approvePendingOffer(props.delivery.id);
+    const assign = () => {
+      assignCourierToDelivery(props.delivery.id, getUserIdFromStorage());
+      pickupDelivery(props.delivery.id);
       setFinalized(true);
     };
 
-    const reject = (reason: string) => {
-      cancelPendingOffer(props.delivery.id, reason);
+    const pickup = () => {
+      pickupDelivery(props.delivery.id);
+      setFinalized(true);
+    };
+
+    const complete = () => {
+      completeDelivery(props.delivery.id, new Date().toJSON());
+      setFinalized(true);
+    };
+
+    const fail = () => {
+      failDelivery(props.delivery.id, new Date().toJSON(), reason);
       setFinalized(true);
     };
 
@@ -238,6 +272,16 @@ import booleanToString from "../../parsing/booleanToString";
                     <SectionTitle title="Status info" />
                     <StatusDetailsSection
                         detailsData={props}
+                        assign={assign}
+                        pickup={pickup}
+                        complete={complete}
+                        fail={fail}
+                        failed={failed}
+                        setFailed={setFailed}
+                        reason={reason}
+                        setReason={setReason}
+                        finalized={finalized}
+                        refresh={refresh}
                     />
 
                     <SectionTitle title="Order info" />
@@ -262,7 +306,7 @@ import booleanToString from "../../parsing/booleanToString";
                         detailsData={props}
                     />
 
-                    { props.pageContent == "pending-offers" ? (
+                    {/* { props.pageContent == "pending-offers" ? (
                       <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Button onClick={() => {setAccepted(true); setRejected(false);}}>Accept</Button>
                         <Button onClick={() => {setAccepted(false); setRejected(true);}}>Reject</Button>
@@ -296,7 +340,7 @@ import booleanToString from "../../parsing/booleanToString";
                       <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
                         <Button onClick={() => refresh()}>Refresh page</Button>
                       </div>
-                    ) : null }
+                    ) : null } */}
 
                     <div style={{ marginBottom: '40px' }}></div>
 
