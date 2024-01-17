@@ -600,7 +600,7 @@ export const assignCourierToDelivery = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+    const response = await api.post(`/deliveries/${deliveryId}/courier`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
@@ -613,9 +613,9 @@ export const assignCourierToDelivery = async (
     if (axios.isAxiosError(orderError) && orderError.response) {
       console.error('Error status:', orderError.response.status);
       console.error('Error data:', orderError.response.data);
-      console.error('Error during picking up delivery:', orderError.message);
+      console.error('Error during assigning delivery to courier:', orderError.message);
     } else {
-      console.error('Error during picking up delivery:', orderError);
+      console.error('Error during assigning delivery to courier:', orderError);
     }
     throw orderError;
   }
@@ -670,7 +670,7 @@ export const completeDelivery = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+    const response = await api.post(`/deliveries/${deliveryId}/complete`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
@@ -683,9 +683,9 @@ export const completeDelivery = async (
     if (axios.isAxiosError(orderError) && orderError.response) {
       console.error('Error status:', orderError.response.status);
       console.error('Error data:', orderError.response.data);
-      console.error('Error during picking up delivery:', orderError.message);
+      console.error('Error during completing delivery:', orderError.message);
     } else {
-      console.error('Error during picking up delivery:', orderError);
+      console.error('Error during completing delivery:', orderError);
     }
     throw orderError;
   }
@@ -708,7 +708,7 @@ export const failDelivery = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+    const response = await api.post(`/deliveries/${deliveryId}/fail`, JSON.parse(JSON.stringify(payload)), {
       headers: {
         //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
@@ -721,9 +721,9 @@ export const failDelivery = async (
     if (axios.isAxiosError(orderError) && orderError.response) {
       console.error('Error status:', orderError.response.status);
       console.error('Error data:', orderError.response.data);
-      console.error('Error during picking up delivery:', orderError.message);
+      console.error('Error during failing delivery:', orderError.message);
     } else {
-      console.error('Error during picking up delivery:', orderError);
+      console.error('Error during failing delivery:', orderError);
     }
     throw orderError;
   }

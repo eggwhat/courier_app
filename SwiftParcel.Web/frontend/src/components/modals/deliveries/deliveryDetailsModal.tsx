@@ -94,23 +94,44 @@ import { getUserIdFromStorage } from "../../../utils/storage";
             valueB={formatDateToUTC(detailsData.delivery.lastUpdate)}
         />
 
-        { (!finalized && detailsData.pageContent == "your-deliveries") ? (
-        <div>
-          { detailsData.delivery.status === "assigned" ?
-            <div className="mb-4 pb-1 grid grid-cols-2 md:grid-cols-2 gap-4">
-              <Button onClick={() => {complete()}}>Complete</Button>
-              <Button onClick={() => {setFailed(false)}}>Cannot deliver</Button>
-            </div>
-          : 
-            <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-              <Button onClick={() => {pickup()}}>Pickup</Button>
-            </div>
-          }
-        </div>
-        ) : (
-        <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-            <Button onClick={() => {assign()}}>Assign to you</Button>
-        </div> ) }
+        { (detailsData.pageContent == "pending-deliveries") ? (
+          <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+              <Button onClick={() => {if (!finalized) {assign();} }}>Assign to you</Button>
+          </div>
+        ) : null }
+
+        { (detailsData.pageContent == "your-deliveries") ? (
+          <div>
+            { detailsData.delivery.status === "assigned" ?
+              <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+                <Button onClick={() => {if (!finalized) {pickup();} }}>Pickup</Button>
+              </div>
+            : null}
+            { detailsData.delivery.status === "inprogress" ?
+              <div className="mb-4 pb-1 grid grid-cols-2 md:grid-cols-2 gap-4">
+                <Button onClick={() => {if (!finalized) {complete();} }}>Complete</Button>
+                <Button onClick={() => {if (!finalized) {setFailed(true);} }}>Cannot deliver</Button>
+              </div>
+            : null}
+          </div>
+        ) : null }
+
+        { failed ? (
+          <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+            <Label htmlFor="reason-of-rejection"  className="mb-2 block text-sm font-medium text-gray-700">
+                Input reason of failing delivery:
+              </Label>
+              <TextInput 
+                id="cannot-deliver-reason" 
+                type="string"
+                lang="en"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md`}
+              />
+            <Button onClick={() => fail()}>Confirm failing delivery</Button>
+          </div>
+        ) : null }
 
         { finalized ? (
           <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
