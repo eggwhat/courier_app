@@ -48,25 +48,6 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-// export const register = async (
-// ) => {
-//   try {
-//     const response = await api.post(`/identity/sign-up`, {
-//       username,
-//       password,
-//       email,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     if (axios.isAxiosError(error)) {
-//       console.error('Error during registration (Axios error):', error.response?.data || error.message);
-//     } else {
-//       console.error('Error during registration:', error);
-//     }
-//     throw error;
-//   }
-// };
-
 export const register = async (
   email: string,
   password: string,
@@ -86,7 +67,6 @@ export const register = async (
 
     const response = await api.post(`/identity/sign-up`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -130,7 +110,6 @@ export const completeCustomerRegistration = async (
 
     const response = await api.post(`/customers`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -258,12 +237,12 @@ export const createInquiry = async (
 ) => {
   try {
 
-    //const userInfo = getUserInfo();
-    // if (!userInfo || !userInfo.accessToken) {
-    //   console.warn('No user token found. Redirecting to login.');
-    //   window.location.href = '/login';
-    //   return;
-    // }
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
 
     // Log the token for debugging
     //console.log("Using access token:", userInfo.accessToken);
@@ -304,7 +283,7 @@ export const createInquiry = async (
 
     const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -360,6 +339,13 @@ export const createOrder = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       CustomerId: customerId,
       ParcelId: parcelId,
@@ -382,7 +368,7 @@ export const createOrder = async (
 
     const response = await api.post(`/orders`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -417,6 +403,16 @@ export const getInquiriesOfficeWorker = async () => {
     return response;
   } catch (error) {
     console.error('Error during getting inquiries:', error);
+    throw error;
+  }
+};
+
+export const getOrder = async (orderId: string) => {
+  try {
+    const response = await api.get(`/orders/${orderId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting orders:', error);
     throw error;
   }
 };
@@ -504,6 +500,13 @@ export const confirmOrder = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       OrderId: orderId,
       Company: company
@@ -515,7 +518,7 @@ export const confirmOrder = async (
 
     const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -591,6 +594,13 @@ export const assignCourierToDelivery = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+    
     const payload = {
       DeliveryId: deliveryId,
       CourierId: courierId
@@ -602,7 +612,7 @@ export const assignCourierToDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/courier`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -626,6 +636,13 @@ export const pickupDelivery = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       DeliveryId: deliveryId
     };
@@ -636,7 +653,7 @@ export const pickupDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -661,6 +678,13 @@ export const completeDelivery = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       DeliveryId: deliveryId,
       DeliveryAttemptDate: deliveryAttemptDate
@@ -672,7 +696,7 @@ export const completeDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/complete`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -698,6 +722,13 @@ export const failDelivery = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       DeliveryId: deliveryId,
       DeliveryAttemptDate: deliveryAttemptDate,
@@ -710,7 +741,7 @@ export const failDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/fail`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })

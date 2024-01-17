@@ -50,12 +50,10 @@ export default function Home() {
     setTimeout(() => {
       setTrackingNumber("");
       setError(true);
-      setErrorText("Invalid tracking number");
+      setErrorText("Invalid Order Id");
       setLoadingParcel(false);
     }, 1000);
   };
-
-
 
   return (
     <>
@@ -85,10 +83,10 @@ export default function Home() {
         <form onSubmit={onSubmit}>
           <div className="flex flex-col items-center justify-center my-20">
             <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-              Track Your Parcel
+              Check Your Order
             </h1>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              Track your parcel with the parcel tracking number.
+              Give id of your order to see its details.
             </p>
 
             <div
@@ -105,7 +103,7 @@ export default function Home() {
             </div>
 
             <TextInput
-              placeholder="Parcel Tracking Number"
+              placeholder="Order Id"
               className="w-full md:w-1/2"
               type="text"
               sizing="lg"
@@ -128,7 +126,7 @@ export default function Home() {
                   Loading ...
                 </>
               ) : (
-                "Track Parcel"
+                "Check Order"
               )}
             </Button>
           </div>

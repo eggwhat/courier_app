@@ -361,6 +361,10 @@ import {
                         
                         {error ? null : <SubmitButton userInfoLoading={userInfoLoading} />}
                       </div>
+
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
                     </div>
                   ) : null}
                   {success ? (
@@ -391,7 +395,13 @@ import {
                       />
                       
                       <div className="space-y-6 gap-6">
-                        <div style={{ marginBottom: '20px' }}></div>
+                        <div style={{ marginBottom: '30px' }}></div>
+                      </div>
+
+                      <p className="text-blue-500">Remember to confirm or cancel your offer request after potential approval.</p>
+
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '30px' }}></div>
                       </div>
 
                       <div className="flex justify-end">
@@ -399,9 +409,6 @@ import {
                       </div>
                     </div>
                   ) : null}
-                  <div className="space-y-6 gap-6">
-                    <div style={{ marginBottom: '20px' }}></div>
-                  </div>
                 </div>
               </div>
             </form>

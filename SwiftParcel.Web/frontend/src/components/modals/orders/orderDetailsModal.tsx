@@ -96,7 +96,14 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
                   <Button onClick={() => confirm()}>Confirm</Button>
                   <Button onClick={() => cancel()}>Cancel</Button>
                 </div>
-              ) : null }
+              ) : (
+                <div className="mb-4 border-b border-gray-200 pb-1 grid gap-4">
+                  <Label
+                    id="offer-request-expired"
+                    value="Your offer request has been expired!"
+                  />
+                </div>
+              ) }
 
               { finalized ? (
                 <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
@@ -113,7 +120,7 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
                 valueB={detailsData.order.cancellationReason}
             />
         : null }
-        { detailsData.order.status === "pickedupat" ?
+        { detailsData.order.status === "pickedup" ?
             <LabelsWithBorder
                 idA="picked-up-at"
                 valueA="Picked up at:"
