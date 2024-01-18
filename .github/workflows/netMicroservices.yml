@@ -3,7 +3,7 @@ name: .NET SwiftParcel Microservice CI/CD
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 30  
     strategy:
@@ -17,11 +17,6 @@ jobs:
           'SwiftParcel.Services.Deliveries/src/SwiftParcel.Services.Deliveries.Api/SwiftParcel.Services.Deliveries.Api',
           'SwiftParcel.API.Gateway/src/SwiftParcel.API.Gateway'
           ]
-        test: [ 
-          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Application.UnitTests',
-          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Infrastructure.UnitTests',
-          'SwiftParcel.Services.Orders/tests/SwiftParcel.Services.Orders.UnitTests/SwiftParcel.Orders.UnitTests'
-          ]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -34,9 +29,25 @@ jobs:
         dotnet restore
         dotnet build --no-restore
         # dotnet test --no-build --verbosity normal 
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  
+    strategy:
+      matrix:
+        test: [ 
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Application.UnitTests',
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Infrastructure.UnitTests',
+          'SwiftParcel.Services.Orders/tests/SwiftParcel.Services.Orders.UnitTests/SwiftParcel.Orders.UnitTests'
+          ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
     - name: Test ${{ matrix.test }}
       run: |
         cd ${{ matrix.test }}
         dotnet restore
         dotnet build --no-restore
-        dotnet test --no-build --verbosity normal
+        dotnet test --no-build --verbosity normal  
