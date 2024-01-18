@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
