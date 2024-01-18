@@ -9,19 +9,17 @@ jobs:
     strategy:
       matrix:
         project: [ 
-          'SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api/SwiftParcel.Services.Availability.Api/',
           'SwiftParcel.Services.Couriers/src/SwiftParcel.Services.Couriers.Api/SwiftParcel.Services.Couriers.Api',
           'SwiftParcel.Services.Customers/src/SwiftParcel.Services.Customers.Api/SwiftParcel.Services.Customers.Api',
           'SwiftParcel.Services.Orders/src/SwiftParcel.Services.Orders.Api/SwiftParcel.Services.Orders.Api',
-          'SwiftParcel.Services.OrdersCreator/src/SwiftParcel.Services.OrdersCreator',
           'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels.Api/SwiftParcel.Services.Parcels.Api',
           'SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api',
           'SwiftParcel.Services.Deliveries/src/SwiftParcel.Services.Deliveries.Api/SwiftParcel.Services.Deliveries.Api',
           'SwiftParcel.API.Gateway/src/SwiftParcel.API.Gateway'
           ]
         test: [ 
-          'SwiftParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Application.UnitTests',
-          'SwiftParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Infrastructure.UnitTests',
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Application.UnitTests',
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.UnitTests/Infrastructure.UnitTests',
           'SwiftParcel.Services.Orders/tests/SwiftParcel.Services.Orders.UnitTests/SwiftParcel.Orders.UnitTests'
           ]
     steps:
