@@ -62,7 +62,6 @@ import {
     </>
   );
 
-
   const SubmitButton = ({ userInfoLoading }) => (
       <div className="flex justify-end">
           <Button type="submit" disabled={userInfoLoading}>

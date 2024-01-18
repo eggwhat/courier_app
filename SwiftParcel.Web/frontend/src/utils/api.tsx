@@ -568,6 +568,49 @@ export const cancelOrder = async (
   }
 };
 
+export const addCustomerToOrder = async (
+  orderId: string,
+  customerId: string
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
+    const payload = {
+      OrderId: orderId,
+      CustomerId: customerId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/orders/${orderId}/customer`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        //'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during adding customer to order:', orderError.message);
+    } else {
+      console.error('Error during adding customer to order:', orderError);
+    }
+    throw orderError;
+  }
+};
+
 export const getYourDeliveries = async (courierId: string) => {
   try {
     const response = await api.get(`/deliveries/courierId=${courierId}`, { headers: getAuthHeader() });

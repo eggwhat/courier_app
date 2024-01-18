@@ -1,5 +1,5 @@
 auth:
-  enabled: true
+  enabled: false
   global: false
   claims:
     role: http://schemas.microsoft.com/ws/2008/06/identity/claims/role
@@ -182,7 +182,6 @@ modules:
         downstream: orders-service/orders/{orderId}/customer
         auth: true
         bind:
-          - customerId:@user_id
           - orderId:{orderId}
 
       - upstream: /{orderId}/office-worker/approve

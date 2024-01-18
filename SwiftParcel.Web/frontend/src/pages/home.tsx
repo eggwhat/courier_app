@@ -125,36 +125,6 @@ export default function Home() {
             </Button>
           </div>
         </form>
-        {/* {order ? (
-          <div className="flex flex-col items-center justify-center my-20">
-            <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-              Parcel Details
-            </h1>
-            <p className="mb-4 text-gray-600 dark:text-gray-400">
-              Here are the details of your parcel.
-            </p>
-            <div className="flex flex-col gap-4 w-full md:w-1/2">
-              <div className="flex flex-row gap-4 items-center">
-                <div className="w-1/2 text-center">
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Tracking Number
-                  </p>
-                  <p className="text-gray-900 dark:text-white font-bold">
-                    {order.id}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-row gap-4 items-center">
-                <div className="w-1/2 text-center">
-                  <p className="text-gray-600 dark:text-gray-400">Courier company name</p>
-                  <p className="text-gray-900 dark:text-white font-bold">
-                    {order.courierCompany}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null} */}
 
         { order ?
           <OrderDetailsModal
