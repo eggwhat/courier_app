@@ -298,8 +298,8 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
 
 
 export default function CreateInquiry() {
+    const [showLoginModal, setShowLoginModal] = React.useState(true);
     const [loading, setLoading] = React.useState(true);
-
     const [formIsValid, setFormIsValid] = React.useState(true); 
 
     // const [formFields, setFormFields] = React.useState<FormFields>({
@@ -404,7 +404,7 @@ export default function CreateInquiry() {
     const formatDateForServer = (dateString) => {
         return new Date(dateString).toISOString(); // Adjust this based on server's expected format
     };
-      
+
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
   
@@ -578,7 +578,7 @@ export default function CreateInquiry() {
             vipPackage: false
         });
 
-        navigate("/offers", {state:{parcelId: response}});
+        navigate("/offers", {state: {parcelId: response}});
 
         //   setOffers(offers);
         //   if (offers && offers.length > 0) {
@@ -614,7 +614,12 @@ export default function CreateInquiry() {
           </>
         ) : (
         <div className="container mx-auto px-4">
-          <Header loading={loading} setLoading={setLoading} />
+          <Header
+            loading={loading}
+            setLoading={setLoading}
+            showLoginModal={showLoginModal}
+            setShowLoginModal={setShowLoginModal}
+          />
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
             Create an inquiry
           </h1>

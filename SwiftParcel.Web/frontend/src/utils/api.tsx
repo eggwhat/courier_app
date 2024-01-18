@@ -236,14 +236,7 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-
-    // const userInfo = getUserInfo();
-    // if (!userInfo || !userInfo.accessToken) {
-    //   console.warn('No user token found. Redirecting to login.');
-    //   window.location.href = '/login';
-    //   return;
-    // }
-
+    
     // Log the token for debugging
     //console.log("Using access token:", userInfo.accessToken);
 
@@ -283,7 +276,6 @@ export const createInquiry = async (
 
     const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -339,13 +331,6 @@ export const createOrder = async (
 ) => {
   try {
 
-    // const userInfo = getUserInfo();
-    // if (!userInfo || !userInfo.accessToken) {
-    //   console.warn('No user token found. Redirecting to login.');
-    //   window.location.href = '/login';
-    //   return;
-    // }
-
     const payload = {
       ...(customerId !== null && { CustomerId: customerId }),
       ParcelId: parcelId,
@@ -368,7 +353,6 @@ export const createOrder = async (
 
     const response = await api.post(`/orders`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -500,13 +484,6 @@ export const confirmOrder = async (
 ) => {
   try {
 
-    const userInfo = getUserInfo();
-    if (!userInfo || !userInfo.accessToken) {
-      console.warn('No user token found. Redirecting to login.');
-      window.location.href = '/login';
-      return;
-    }
-
     const payload = {
       OrderId: orderId,
       Company: company
@@ -518,7 +495,6 @@ export const confirmOrder = async (
 
     const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -592,7 +568,7 @@ export const addCustomerToOrder = async (
 
     const response = await api.post(`/orders/${orderId}/customer`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })

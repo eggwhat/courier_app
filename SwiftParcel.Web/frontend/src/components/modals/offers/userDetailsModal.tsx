@@ -406,7 +406,7 @@ import {
 
                       { (props.userId === null) ?
                         <div className="space-y-6 gap-6">
-                          <p className="text-blue-400">You can do it by going to home page and typing the id presented above in "Check Order" field.</p>
+                          <p className="text-blue-400">You can do it by going to home page and typing the id presented above in "Order id" field.</p>
                         </div>
                       : null }
                       
@@ -417,13 +417,13 @@ import {
                       { (props.userId === null) ?
                         <div className="space-y-6 gap-6">
                           <div className="flex justify-end">
-                            <Button onClick={() => redirectToHome()}>Go to your orders</Button>
+                            <Button onClick={() => redirectToHome()}>Go to home page</Button>
                           </div>
                         </div>
                       :
                         <div className="space-y-6 gap-6">
                           <div className="flex justify-end">
-                            <Button onClick={() => redirectToOrders()}>Go to home page</Button>
+                            <Button onClick={() => redirectToOrders()}>Go to your orders</Button>
                           </div>
                         </div>
                       }
