@@ -302,7 +302,12 @@ import {
       });
     };
 
-    const refresh = () => {
+    const redirectToHome = () => {
+      close();
+      navigate("/", {state:{parcelId: null}});
+    };
+
+    const redirectToOrders = () => {
       close();
       navigate("/orders", {state:{parcelId: null}});
     };
@@ -397,15 +402,31 @@ import {
                         <div style={{ marginBottom: '30px' }}></div>
                       </div>
 
-                      <p className="text-blue-500">Remember to confirm or cancel your offer request after potential approval.</p>
+                      <p className="text-orange-600">Remember to confirm or cancel your offer request after potential approval.</p>
 
+                      { (props.userId === null) ?
+                        <div className="space-y-6 gap-6">
+                          <p className="text-blue-400">You can do it by going to home page and typing the id presented above in "Check Order" field.</p>
+                        </div>
+                      : null }
+                      
                       <div className="space-y-6 gap-6">
-                        <div style={{ marginBottom: '30px' }}></div>
+                          <div style={{ marginBottom: '30px' }}></div>
                       </div>
 
-                      <div className="flex justify-end">
-                        <Button onClick={() => refresh()}>Go to your orders</Button>
-                      </div>
+                      { (props.userId === null) ?
+                        <div className="space-y-6 gap-6">
+                          <div className="flex justify-end">
+                            <Button onClick={() => redirectToHome()}>Go to your orders</Button>
+                          </div>
+                        </div>
+                      :
+                        <div className="space-y-6 gap-6">
+                          <div className="flex justify-end">
+                            <Button onClick={() => redirectToOrders()}>Go to home page</Button>
+                          </div>
+                        </div>
+                      }
                     </div>
                   ) : null}
                 </div>

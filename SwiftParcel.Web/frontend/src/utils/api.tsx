@@ -21,8 +21,8 @@ const api = axios.create({
 const getAuthHeader = () => {
   const userInfo = getUserInfo();
   if (!userInfo || !userInfo.accessToken) {
-    console.warn('No user token found. Redirecting to login.');
-    window.location.href = '/login';
+    console.warn('No user token found. Not redirecting to login.');
+    //window.location.href = '/login';
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
@@ -237,12 +237,12 @@ export const createInquiry = async (
 ) => {
   try {
 
-    const userInfo = getUserInfo();
-    if (!userInfo || !userInfo.accessToken) {
-      console.warn('No user token found. Redirecting to login.');
-      window.location.href = '/login';
-      return;
-    }
+    // const userInfo = getUserInfo();
+    // if (!userInfo || !userInfo.accessToken) {
+    //   console.warn('No user token found. Redirecting to login.');
+    //   window.location.href = '/login';
+    //   return;
+    // }
 
     // Log the token for debugging
     //console.log("Using access token:", userInfo.accessToken);
@@ -251,7 +251,7 @@ export const createInquiry = async (
     //const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
 
     const payload = {
-      CustomerId: customerId,
+      ...(customerId !== null && { CustomerId: customerId }),
       Description: description,
       Width: width,
       Height: height,
@@ -283,7 +283,7 @@ export const createInquiry = async (
 
     const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -339,15 +339,15 @@ export const createOrder = async (
 ) => {
   try {
 
-    const userInfo = getUserInfo();
-    if (!userInfo || !userInfo.accessToken) {
-      console.warn('No user token found. Redirecting to login.');
-      window.location.href = '/login';
-      return;
-    }
+    // const userInfo = getUserInfo();
+    // if (!userInfo || !userInfo.accessToken) {
+    //   console.warn('No user token found. Redirecting to login.');
+    //   window.location.href = '/login';
+    //   return;
+    // }
 
     const payload = {
-      CustomerId: customerId,
+      ...(customerId !== null && { CustomerId: customerId }),
       ParcelId: parcelId,
       Name: name,
       Email: email,
@@ -368,7 +368,7 @@ export const createOrder = async (
 
     const response = await api.post(`/orders`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })

@@ -41,17 +41,19 @@ export function OfferDetails({
         </Table.Cell>
         <Table.Cell>{offer.companyName} </Table.Cell>
         <Table.Cell>
-          <Button onClick={() => setShowUserDetailsModal(true)}>Choose that offer</Button>
+          <Button onClick={() => {console.log("userData:", userData); setShowUserDetailsModal(true);}}>Choose that offer</Button>
         </Table.Cell>
       </Table.Row>
 
-      <UserDetailsModal
+      { (userData !== null) ?
+        <UserDetailsModal
           show={showUserDetailsModal}
           setShow={setShowUserDetailsModal}
           userId={getUserIdFromStorage()}
           offer={offer}
           userData={userData}
-      />
+        />
+      : null }
     </>
   );
 }

@@ -20,9 +20,10 @@ export default function Offers() {
   const [loadingHeader, setLoadingHeader] = React.useState(true);
   const [loadingOffers, setLoadingOffers] = React.useState(true);
 
-  const [userData, setUserData] = React.useState(null);
+  const [userData, setUserData] = React.useState({fullName: "", email: "", address: ""});
 
   React.useEffect(() => {
+    if (getUserIdFromStorage() !== null) {
     getCustomerData(getUserIdFromStorage())
       .then((res) => {
         if (res.status === 200) {
@@ -32,8 +33,8 @@ export default function Offers() {
         }
       })
       .catch((err) => {
-        setUserData(null);
       })
+    }
   }, [page]);
 
   React.useEffect(() => {

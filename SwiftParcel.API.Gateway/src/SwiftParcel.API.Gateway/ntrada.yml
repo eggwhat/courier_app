@@ -116,14 +116,6 @@ modules:
   orders:
     path: /orders
     routes:
-      - upstream: /{orderId}
-        method: GET
-        use: downstream
-        downstream: orders-service/orders/{orderId}
-        auth: true
-        bind:
-          - orderId:{orderId}
-
       - upstream: /customerId={customerId}
         method: GET
         use: downstream
@@ -159,6 +151,8 @@ modules:
         use: downstream
         downstream: orders-service/orders/{orderId}
         auth: true
+        bind:
+          - orderId:{orderId}
       
       - upstream: /{orderId}/status
         method: GET
