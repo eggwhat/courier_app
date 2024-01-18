@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
+using MongoDB.Driver;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Application.Commands.Handlers;
 using SwiftParcel.Services.Orders.Application.Events;
 using SwiftParcel.Services.Orders.Application.Exceptions;
 using SwiftParcel.Services.Orders.Application.Services;
 using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Core.Exceptions;
 using SwiftParcel.Services.Orders.Core.Repositories;
 using SwiftParcel.Services.Orders.Infrastructure.Contexts;
 
@@ -67,71 +69,41 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             _commandDispatcherMock.Verify(dispatcher => dispatcher.SendAsync(It.IsAny<SendApprovalEmail>(), cancellationToken), Times.Once);
         }
 
-    //     [Fact]
-    //     public async Task HandleAsync_WithInvalidOrder_ShouldThrowOrderNotFoundException()
-    //     {
-    //         // Arrange
-    //         var command = new ApproveOrderOfficeWorker
-    //         {
-    //             OrderId = Guid.NewGuid()
-    //             // Set other properties as needed
-    //         };
+        [Fact]
+        public async Task HandleAsync_WithInvalidOrder_ShouldThrowOrderNotFoundException()
+        {
+            // Arrange
+            var orderId = Guid.NewGuid();
+            var command = new ApproveOrderOfficeWorker(orderId);
+            _orderRepositoryMock.Setup(repo => repo.GetAsync(command.OrderId)).ReturnsAsync((Order)null);
+            var cancellationToken = new CancellationToken();
 
-    //         var cancellationToken = new CancellationToken();
-    //         var orderRepositoryMock = new Mock<IOrderRepository>();
-    //         var appContextMock = new Mock<IAppContext>();
-    //         var dateTimeProviderMock = new Mock<IDateTimeProvider>();
-    //         var eventMapperMock = new Mock<IEventMapper>();
-    //         var messageBrokerMock = new Mock<IMessageBroker>();
-    //         var commandDispatcherMock = new Mock<ICommandDispatcher>();
+            // Act & Assert
+            Func<Task> act = async () => await _approveOrdersOfficeWorkerHandler.HandleAsync(command, cancellationToken);
+            await act.Should().ThrowAsync<OrderNotFoundException>();
+        }
 
-    //         var handler = new ApproveOrderOfficeWorkerHandler(
-    //             orderRepositoryMock.Object,
-    //             appContextMock.Object,
-    //             dateTimeProviderMock.Object,
-    //             eventMapperMock.Object,
-    //             messageBrokerMock.Object,
-    //             commandDispatcherMock.Object
-    //         );
+        [Fact]
+        public async Task HandleAsync_WithNonOfficeWorkerIdentity_ShouldThrowUnauthorizedOrderAccessException()
+        {
+            // Arrange
+            var orderId = Guid.NewGuid();
+            var command = new ApproveOrderOfficeWorker(orderId);
 
-    //         orderRepositoryMock.Setup(repo => repo.GetAsync(command.OrderId)).ReturnsAsync((Order)null);
+            var identityContext = new IdentityContext(Guid.NewGuid().ToString(), "customer",
+                true, new Dictionary<string, string>());
+            var cancellationToken = new CancellationToken();
 
-    //         // Act & Assert
-    //         await Assert.ThrowsAsync<OrderNotFoundException>(() => handler.HandleAsync(command, cancellationToken));
-    //     }
+            _appContextMock.Setup(ctx => ctx.Identity).Returns(identityContext);
+            var order = Order.Create(new AggregateId(orderId), Guid.NewGuid(), OrderStatus.WaitingForDecision,
+                DateTime.Now, "validName", "valid@email.com", 
+                new Address("street", "buildingNumber", "apartmentNumber", "city", "00-433", "country"));
+            _orderRepositoryMock.Setup(repo => repo.GetAsync(command.OrderId)).ReturnsAsync(order);
 
-    //     [Fact]
-    //     public async Task HandleAsync_WithNonOfficeWorkerIdentity_ShouldThrowUnauthorizedOrderAccessException()
-    //     {
-    //         // Arrange
-    //         var orderId = Guid.NewGuid();
-    //         var command = new ApproveOrderOfficeWorker(orderId);
-
-    //         var identityContext = new IdentityContext(Guid.NewGuid().ToString(), "officeworker",
-    //             true, new Dictionary<string, string>());
-
-    //         _appContextMock.Setup(ctx => ctx.Identity).Returns(identityContext);
-
-
-
-    //         var order = new Order
-    //         {
-    //             Id = command.OrderId,
-    //             // Set other properties as needed
-    //         };
-
-    //         var identity = new AppIdentity
-    //         {
-    //             IsOfficeWorker = false
-    //             // Set other identity properties as needed
-    //         };
-
-    //         appContextMock.Setup(ctx => ctx.Identity).Returns(identity);
-    //         orderRepositoryMock.Setup(repo => repo.GetAsync(command.OrderId)).ReturnsAsync(order);
-
-    //         // Act & Assert
-    //         await Assert.ThrowsAsync<UnauthorizedOrderAccessException>(() => handler.HandleAsync(command, cancellationToken));
-    //     }
+            // Act & Assert
+            Func<Task> act = async () => await _approveOrdersOfficeWorkerHandler.HandleAsync(command, cancellationToken);
+            await act.Should().ThrowAsync<UnauthorizedOrderAccessException>();
+        }
     }
 
     
