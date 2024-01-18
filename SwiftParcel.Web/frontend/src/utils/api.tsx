@@ -409,7 +409,7 @@ export const getInquiriesOfficeWorker = async () => {
 
 export const getOrder = async (orderId: string) => {
   try {
-    const response = await api.get(`/orders/${orderId}`, { headers: getAuthHeader() });
+    const response = await api.get(`/orders/${orderId}`);
     return response;
   } catch (error) {
     console.error('Error during getting orders:', error);
