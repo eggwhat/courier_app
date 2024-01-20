@@ -8,9 +8,10 @@ jobs:
   Sync:
     displayName: 'Sync to Azure DevOps Repository'
     steps:
-      - checkout: self
-        submodules: true
-      - script: |
+      - uses: actions/checkout@v2 # Corrected line
+        with:
+          submodules: true
+      - run: |
           echo " - [ ] Configuring git..."
           echo " - [ ] Adding Azure DevOps remote repository..."
           git remote add azure https://dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app.git
