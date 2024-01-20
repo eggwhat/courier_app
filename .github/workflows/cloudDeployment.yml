@@ -20,7 +20,6 @@ jobs:
         ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
         cat ~/.ssh/known_hosts # Add this line to confirm that the key is added
 
-
     - name: Check the structure
       run: |
         pwd
