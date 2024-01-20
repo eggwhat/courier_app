@@ -11,12 +11,13 @@ on:
 
 jobs:
   Sync:
-    displayName: 'Sync to Azure DevOps Repository'
+    name: 'Sync to Azure DevOps Repository' # Changed from 'displayName' to 'name'
     steps:
-      - uses: actions/checkout@v2 # Corrected line
+      - uses: actions/checkout@v2
         with:
           submodules: true
-      - run: |
+      - name: 'Execute Git Commands' # Changed from 'displayName' to 'name'
+        run: |
           echo " - [ ] Configuring git..."
           echo " - [ ] Adding Azure DevOps remote repository..."
           git remote add azure https://dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app.git
@@ -26,4 +27,3 @@ jobs:
           git push azure HEAD:main --force
         env:
           AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: $(AzureDevOpsPAT)
-        displayName: 'Execute Git Commands'
