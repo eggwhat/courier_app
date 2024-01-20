@@ -12,12 +12,6 @@ directories=(
     "SwifttParcel.Services.Identity"
 )
 
-cd ..
-
-cd ..
-
-cd ..
-
 for dir in "${directories[@]}"; do
     echo "Processing $dir..."
 
