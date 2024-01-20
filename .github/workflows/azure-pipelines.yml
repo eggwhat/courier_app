@@ -1,14 +1,14 @@
-trigger:
-- pipeline
+# trigger:
+# - pipeline
 
-pool:
-  vmImage: 'ubuntu-latest'
+# pool:
+#   vmImage: 'ubuntu-latest'
 
 on:
   push:
     branches:
     - '*'
-    
+
 jobs:
   Sync:
     displayName: 'Sync to Azure DevOps Repository'
