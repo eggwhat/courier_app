@@ -1,22 +1,20 @@
-# trigger:
-# - pipeline
-
-# pool:
-#   vmImage: 'ubuntu-latest'
+name: Sync to Azure DevOps Repository
 
 on:
   push:
     branches:
-    - '*'
+      - '*'
 
 jobs:
   Sync:
-    name: 'Sync to Azure DevOps Repository' # Changed from 'displayName' to 'name'
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
           submodules: true
-      - name: 'Execute Git Commands' # Changed from 'displayName' to 'name'
+          
+      - name: Execute Git Commands
         run: |
           echo " - [ ] Configuring git..."
           echo " - [ ] Adding Azure DevOps remote repository..."
@@ -26,4 +24,4 @@ jobs:
           echo " - [ ] Pushing to Azure DevOps main branch..."
           git push azure HEAD:main --force
         env:
-          AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: $(AzureDevOpsPAT)
+          AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: ${{ secrets.AzureDevOpsPAT }}
