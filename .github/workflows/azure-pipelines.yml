@@ -1,10 +1,6 @@
 trigger:
 - pipeline
 
-on:
-  push:
-    branches:
-    - '*'
 pool:
   vmImage: 'ubuntu-latest'
 
