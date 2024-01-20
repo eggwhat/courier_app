@@ -8,17 +8,24 @@ on:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- checkout: self
-  submodules: true
+jobs:
+- job: SyncToAzureDevOps
+  displayName: 'Sync to Azure DevOps Repository'
+  steps:
+  - checkout: self
+    submodules: true
 
-- script: |
-    echo " - [ ] Adding Azure DevOps remote repository..."
-    git remote add azure https://dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app.git
-    echo " - [ ] Fetching from Azure DevOps..."
-    git fetch azure
-    echo " - [ ] Pushing to Azure DevOps main branch..."
-    git push azure HEAD:main --force
-  env:
-    AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: $(AzureDevOpsPAT)
-  displayName: 'Push to Azure DevOps Repository'
+  - script: |
+      echo " - [ ] Configuring git..."
+      
+      echo " - [ ] Adding Azure DevOps remote repository..."
+      git remote add azure https://dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app.git
+
+      echo " - [ ] Fetching from Azure DevOps..."
+      git fetch azure
+
+      echo " - [ ] Pushing to Azure DevOps main branch..."
+      git push azure HEAD:main --force
+    env:
+      AZURE_DEVOPS_PERSONAL_ACCESS_TOKEN: $(AzureDevOpsPAT)
+    displayName: 'Execute Git Commands'
