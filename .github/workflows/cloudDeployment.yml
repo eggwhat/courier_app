@@ -29,9 +29,18 @@ jobs:
         chmod +x ./SwiftParcel/d-docker-compose/dockerize_all.sh
         ./SwiftParcel/d-docker-compose/dockerize_all.sh
 
+    - name: Check the structure
+      run: |
+        pwd
+        ls -la
+
     - name: Test SSH Connection
       run: |
         ssh -vvv root@${{ secrets.DROPLET_IP }} "echo SSH Connection Successful"
+      
+    - name: Clean up existing Cloud network
+      run: |
+        ssh root@${{ secrets.DROPLET_IP }} "docker network rm swiftparcel-network || true"
 
     - name: Deploy to Cloud
       run: |
