@@ -33,6 +33,7 @@ jobs:
       - name: Checkout and push all branches to Azure DevOps
         run: |
           for branch in $(git branch -a | grep 'remotes/origin/' | sed 's/remotes\/origin\///'); do
-            git checkout $branch
+            git checkout -b $branch origin/$branch
             git push azure $branch:$branch --force
           done
+
