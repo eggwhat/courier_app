@@ -30,8 +30,9 @@ jobs:
         run: |
           git fetch azure  --depth=2147483647
 
-      - name: Pushing all branches to Azure DevOps
+      - name: Checkout and push all branches to Azure DevOps
         run: |
-          for branch in $(git branch -r | grep -v 'azure/' | sed 's/origin\///'); do
+          for branch in $(git branch -a | grep 'remotes/origin/' | sed 's/remotes\/origin\///'); do
+            git checkout $branch
             git push azure $branch:$branch --force
           done
