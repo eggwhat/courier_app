@@ -1,0 +1,30 @@
+name: Deploy to Cloud
+
+on:
+  push:
+    branches:
+      - swiftparcel_web  # Set this to the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
+    - name: Run dockerize_all.sh
+      run: |
+        chmod +x ./SwiftParcel/d-docker-compose/dockerize_all.sh
+        ./SwiftParcel/d-docker-compose/dockerize_all.sh
+
+    - name: Deploy to Cloud
+      run: |
+        scp -r ./* root@${{ secrets.DROPLET_IP }}:${{ secrets.CLOUD_PROJECT_PATH }}
+        ssh root@${{ secrets.DROPLET_IP }} "cd ${{ secrets.CLOUD_PROJECT_PATH }} && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} down && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} up -d"
