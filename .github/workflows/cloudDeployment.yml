@@ -38,9 +38,9 @@ jobs:
       run: |
         ssh -vvv root@${{ secrets.DROPLET_IP }} "echo SSH Connection Successful"
       
-    - name: Clean up existing Cloud network
+    - name: Clean up existing Cloud networks
       run: |
-        ssh root@${{ secrets.DROPLET_IP }} "docker network rm swiftparcel-network || true"
+        ssh root@${{ secrets.DROPLET_IP }} "docker network ls | grep swiftparcel-network | awk '{print \$1}' | xargs -I {} docker network rm {}"
 
     - name: Deploy to Cloud
       run: |
