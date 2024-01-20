@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application\SwiftParcel.Services.Parcels.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure\SwiftParcel.Services.Parcels.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
