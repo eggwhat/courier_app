@@ -362,34 +362,361 @@ namespace SwiftParcel.Services.Parcels.Application.UnitTests
             await act.Should().ThrowAsync<InvalidParcelDeliveryDateException>();
         }
 
-        //[Fact]
-        //public async Task HandleAsync_WithInvalidSourceAddressStreet_ThrowsInvalidParcelDeliveryDateException()
-        //{
-        //    // Arrange
-        //    var parcelId = Guid.NewGuid();
-        //    var customerId = Guid.NewGuid();
-        //    var pickupDate = DateTime.Now.AddMinutes(20);
-        //    var deliveryDate = DateTime.Now;
-        //    var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
-        //        "street", "12", "23", "city", "00-343", "country",
-        //        "street", "12", "23", "city", "00-343", "country",
-        //        Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-        //        deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
-        //    var parcelDeliveryPricing = new ParcelDeliveryPricingDto
-        //    {
-        //        OrderPrice = 10.0m,
-        //        FinalPrice = 10.0m,
-        //        PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
-        //    };
+        [Fact]
+        public async Task HandleAsync_WithInvalidSourceAddressStreet_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "", "12", "23", "city", "00-343", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
 
-        //    _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
-        //    _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
-        //        It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
-        //        .ReturnsAsync(parcelDeliveryPricing);
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
 
-        //    // Act & Assert
-        //    Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
-        //    await act.Should().ThrowAsync<InvalidParcelDeliveryDateException>();
-        //}
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "street");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidSourceBuildingNumber_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "", "23", "city", "00-343", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "building number");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidSourceCity_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "", "00-343", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "city");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidSourceZipCode_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "invalidZipCode", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "zip code");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidSourceCountry_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "00-343", "",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "country");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidDestinationStreet_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "", "12", "23", "city", "00-343", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "street");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidDestinationBuildingNumber_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "00-343", "country",
+                "street", "", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "building number");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidDestinationCity_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "00-343", "country",
+                "street", "12", "23", "", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "city");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidDestinationZipCode_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "00-323", "country",
+                "street", "12", "23", "city", "invalidZipCode", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "zip code");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithInvalidDestinationCountry_ThrowsInvalidAddressElementException()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "invalidZipCode", "country",
+                "street", "12", "23", "city", "00-343", "",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act & Assert
+            Func<Task> act = async () => await _addParcelHandler.HandleAsync(command);
+            await act.Should().ThrowAsync<InvalidAddressElementException>()
+                .Where(ex => ex.AddressElement == "zip code");
+        }
+
+        [Fact]
+        public async Task HandleAsync_WithValidParcelFields_AddsParcelToRepositoryAndSendsRequestToApis()
+        {
+            // Arrange
+            var parcelId = Guid.NewGuid();
+            var customerId = Guid.NewGuid();
+            var pickupDate = DateTime.Now.AddMinutes(20);
+            var deliveryDate = DateTime.Now.AddDays(1);
+            var command = new AddParcel(parcelId, customerId, "desc", 0.2, 0.2, 0.2, 0.5,
+                "street", "12", "23", "city", "00-3232", "country",
+                "street", "12", "23", "city", "00-343", "country",
+                Priority.Low.ToString(), true, pickupDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                deliveryDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"), true, true);
+            var parcelDeliveryPricing = new ParcelDeliveryPricingDto
+            {
+                OrderPrice = 10.0m,
+                FinalPrice = 10.0m,
+                PriceBreakDown = new List<PriceBreakDownItem>() { new PriceBreakDownItem(10.0m, "Pln", "desc") }
+            };
+
+            _customerRepositoryMock.Setup(x => x.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _pricingServiceClientMock.Setup(x => x.GetParcelDeliveryPriceAsync(It.IsAny<Guid>(), It.IsAny<decimal>(),
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), It.IsAny<double>(), false, true, true))
+                .ReturnsAsync(parcelDeliveryPricing);
+
+            // Act
+            await _addParcelHandler.HandleAsync(command);
+
+            // Assert
+            _parcelRepositoryMock.Verify(x => x.AddAsync(It.Is<Parcel>(p => p.Id == parcelId &&
+                           p.CustomerId == customerId && p.Description == command.Description &&
+                           p.Weight == command.Weight && p.Width == command.Width && p.Height == command.Height &&
+                           p.Depth == command.Depth && p.Source.Street == command.SourceStreet &&
+                           p.Source.BuildingNumber == command.SourceBuildingNumber &&
+                           p.Source.ApartmentNumber == command.SourceApartmentNumber &&
+                           p.Source.City == command.SourceCity && p.Source.ZipCode == command.SourceZipCode &&
+                           p.Source.Country == command.SourceCountry &&
+                           p.Destination.Street == command.DestinationStreet &&
+                           p.Destination.BuildingNumber == command.DestinationBuildingNumber &&
+                           p.Destination.ApartmentNumber == command.DestinationApartmentNumber &&
+                           p.Destination.City == command.DestinationCity && p.Destination.ZipCode == command.DestinationZipCode &&
+                           p.Destination.Country == command.DestinationCountry &&
+                           p.Priority.ToString() == command.Priority && p.VipPackage == command.VipPackage && p.AtWeekend == command.AtWeekend &&
+                           p.IsCompany == command.IsCompany)), Times.Once);
+
+        }
     }
 }
