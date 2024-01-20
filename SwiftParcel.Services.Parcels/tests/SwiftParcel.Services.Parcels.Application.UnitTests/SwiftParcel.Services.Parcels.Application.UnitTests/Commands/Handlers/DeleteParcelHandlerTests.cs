@@ -1,6 +1,5 @@
 ﻿using Castle.Core.Resource;
 using Convey.Discovery.Consul.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using SwiftParcel.Services.Parcels.Application.Commands;
 using SwiftParcel.Services.Parcels.Application.Commands.Handlers;
 using SwiftParcel.Services.Parcels.Application.Events;
