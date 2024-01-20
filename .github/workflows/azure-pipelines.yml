@@ -9,7 +9,7 @@ jobs:
   Sync:
     runs-on: ubuntu-latest
     env:
-      AZURE_DEVOPS_PAT: ${{ secrets.AzureDevOpsPAT }}
+      AZURE_DEVOPS_PAT: ${{ secrets.AZUREDEVOPSPAT }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
