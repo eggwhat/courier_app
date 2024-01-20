@@ -1,6 +1,6 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { RolesAuthRoute } from "./utils/others";
-import React, { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { Loader } from "./components/loader";
 import Parcels from "./pages/parcels/parcels";
 import ManageParcels from "./pages/parcels/manage";
