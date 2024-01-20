@@ -91,7 +91,7 @@ export function OrderDetails({
           show={showOrderDetailsModal}
           setShow={setShowOrderDetailsModal}
           order={order}
-      />
+        />
     </>
   );
 }

@@ -5,7 +5,7 @@ const formatOfferStatus = (status: string) => {
       case 'pickedup':
         return "picked up";
       case 'cannotdeliver':
-        return "Cannot deliver";
+        return "cannot deliver";
       default:
         return status; 
     }

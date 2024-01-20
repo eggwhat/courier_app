@@ -15,7 +15,7 @@ export default function OffersOfficeWorker(pageContent: string) {
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
 
-  const [showFilterInquiriesModal, setShowFilterInquiriesModal] = React.useState(false);
+  const [showFilterOfferRequestsModal, setShowFilterOfferRequestsModal] = React.useState(false);
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
   const [loadingOfferRequests, setLoadingOfferRequests] = React.useState(true);
@@ -169,21 +169,25 @@ export default function OffersOfficeWorker(pageContent: string) {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            {pageContent == "offer-requests" ? 'Offer requests' : 'Manage pending offers'}
+            {pageContent == "offer-requests" ? 'Bank offer requests' : 'Manage pending offers'}
           </h1>
 
-          <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
+          <Button className="mr-2" onClick={() => setShowFilterOfferRequestsModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
-        { pageContent == "pending-offers" ? (
+        { pageContent == "pending-offers" ?
             <p className="mb-5">
-              To accept of reject an offer, open details by clicking button in the last column, then scroll down.
+              To accept of reject an offer request, open details by clicking button in the last column, then scroll down.
             </p>
-          ) : null }
+          :
+            <p className="mb-5">
+              To see details of an offer request or check its full status, click button in the last column of the table.
+            </p>
+        }
         <FilterOfferRequestsModal
-          show={showFilterInquiriesModal}
-          setShow={setShowFilterInquiriesModal}
+          show={showFilterOfferRequestsModal}
+          setShow={setShowFilterOfferRequestsModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
@@ -193,9 +197,6 @@ export default function OffersOfficeWorker(pageContent: string) {
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>
               Id {getSortIcon('id')}
-            </Table.HeadCell>
-            <Table.HeadCell onClick={() => handleSort('customerId')}>
-              Customer Id {getSortIcon('customerId')}
             </Table.HeadCell>
             <Table.HeadCell>
               Inquiry

@@ -13,6 +13,7 @@ export default function Inquiries() {
   const [page, setPage] = React.useState(1);
   const [inputData, setInputData] = React.useState<any>(null);
   const [tableData, setTableData] = React.useState<any>(null);
+  const [role, setRole] = React.useState<any>(null);
 
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
@@ -28,6 +29,7 @@ export default function Inquiries() {
         if (res.status === 200) {
           setInputData(res?.data);
           setTableData(res?.data);
+          setRole(getUserInfo().role);
         } else {
           throw new Error();
         }
@@ -151,18 +153,22 @@ export default function Inquiries() {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-            Inquiries
+            {role == "officeworker" ? 'Bank inquiries' : 'Your inquiries'}
           </h1>
           <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
             <span className="hidden sm:flex">Filter data</span>
           </Button>
         </div>
+        <p className="mb-5">
+          To see details of an inquiry or check its full status, click button in the last column of the table.
+        </p>
         <FilterInquiriesModal
           show={showFilterInquiriesModal}
           setShow={setShowFilterInquiriesModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
+          role={role}
         />
         <Table>
           <Table.Head>

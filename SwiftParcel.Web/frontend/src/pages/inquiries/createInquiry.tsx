@@ -66,7 +66,7 @@ const TextInputWithLabel = ({ id, label, value, onChange, type,  error }) => (
 );
 
   
-const DateInputWithLabel = ({ id, label, value, onChange }) => {
+const DateInputWithLabel = ({ id, label, value, onChange, error }) => {
     // Function to format the date to MongoDB format
     const formatToMongoDBDate = (dateString) => {
         const date = new Date(dateString);
@@ -89,6 +89,7 @@ const DateInputWithLabel = ({ id, label, value, onChange }) => {
                 value={value ? new Date(value).toISOString().split('T')[0] : ''} 
                 onChange={handleDateChange} 
             />
+            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
     );
 };
@@ -166,12 +167,24 @@ const PackageDetailsSection = ({ formFields, handleNumberChange, errors }) => (
     </div>
 );
 
-const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, handleBooleanChange }) => (
+const DeliveryDetailsSection = ({ formFields, handleDateChange, handlePriorityChange, handleBooleanChange, errors }) => (
     <div className="grid grid-cols-2 gap-4">
         {/* Other inputs for priority, atWeekend, isCompany, vipPackage */}
 
-        <DateInputWithLabel id="pickup-date" label="Pickup Date" value={formFields.pickupDate} onChange={handleDateChange('pickupDate')} />
-        <DateInputWithLabel id="delivery-date" label="Delivery Date" value={formFields.deliveryDate} onChange={handleDateChange('deliveryDate')} />
+        <DateInputWithLabel
+            id="pickup-date"
+            label="Pickup Date"
+            value={formFields.pickupDate}
+            onChange={handleDateChange('pickupDate')}
+            error={errors.pickupDate}
+        />
+        <DateInputWithLabel
+            id="delivery-date"
+            label="Delivery Date"
+            value={formFields.deliveryDate}
+            onChange={handleDateChange('deliveryDate')}
+            error={errors.deliveryDate}
+        />
 
         <div className="col-span-2 grid grid-cols-4 gap-4">
         <div>
@@ -285,8 +298,8 @@ const AddressSection = ({ prefix, formFields, handleStringChange, errors}) => (
 
 
 export default function CreateInquiry() {
+    const [showLoginModal, setShowLoginModal] = React.useState(true);
     const [loading, setLoading] = React.useState(true);
-
     const [formIsValid, setFormIsValid] = React.useState(true); 
 
     // const [formFields, setFormFields] = React.useState<FormFields>({
@@ -334,8 +347,8 @@ export default function CreateInquiry() {
         destinationAddressCity: "Warszawa",
         destinationAddressZipCode: "00-420",
         destinationAddressCountry: "Polska",
-        pickupDate: "2023-01-21", // Format this as per your requirement
-        deliveryDate: "2023-01-30", // Format this as per your requirement
+        pickupDate: "2024-01-21", // Format this as per your requirement
+        deliveryDate: "2024-01-30", // Format this as per your requirement
         priority: "High",
         atWeekend: true,
         isCompany: true,
@@ -391,7 +404,7 @@ export default function CreateInquiry() {
     const formatDateForServer = (dateString) => {
         return new Date(dateString).toISOString(); // Adjust this based on server's expected format
     };
-      
+
     const [error, setError] = React.useState("");
     const [success, setSuccess] = React.useState("");
   
@@ -410,20 +423,20 @@ export default function CreateInquiry() {
 
         // validation of package details section
 
-        if (formFields.packageWidth <= 0) {
-            errors.packageWidth = "Width must be greater than 0!";
+        if (formFields.packageWidth <= 0.2 || formFields.packageWidth >= 8) {
+            errors.packageWidth = "Width must be greater than 0.2 meters and less than 8 meters!";
         }
 
-        if (formFields.packageHeight <= 0) {
-            errors.packageHeight = "Height must be greater than 0!";
+        if (formFields.packageHeight <= 0.2 || formFields.packageHeight >= 8) {
+            errors.packageHeight = "Height must be greater than 0.2 meters and less than 8 meters!";
         }
     
-        if (formFields.packageDepth <= 0) {
-            errors.packageDepth = "Depth must be greater than 0!";
+        if (formFields.packageDepth <= 0.2 || formFields.packageHeight >= 8) {
+            errors.packageDepth = "Depth must be greater than 0.2 meters and less than 8 meters!";
         }
 
-        if (formFields.packageWeight <= 0) {
-            errors.packageWeight = "Weight must be greater than 0!";
+        if (formFields.packageWeight <= 0.2 || formFields.packageWeight >= 8) {
+            errors.packageWeight = "Weight must be greater than 0.2 meters and less than 8 meters!";
         }
 
         // validation of source address section
@@ -468,6 +481,22 @@ export default function CreateInquiry() {
 
         if (!formFields.destinationAddressCountry) {
             errors.destinationAddressCountry = "Country in destination address is required!";
+        }
+
+        // validation of pickup date and delivery date
+
+        const currentDate = new Date();
+        const pickupDate = new Date(formFields.pickupDate);
+        const deliveryDate = new Date(formFields.deliveryDate);
+
+        if (currentDate >= pickupDate)
+        {
+            errors.pickupDate = "Pickup date must be later than current date!";
+        }
+
+        if (pickupDate >= deliveryDate)
+        {
+            errors.deliveryDate = "Delivery date must be later than pickup date!";
         }
 
         setFormErrors(errors);
@@ -549,7 +578,7 @@ export default function CreateInquiry() {
             vipPackage: false
         });
 
-        navigate("/offers", {state:{parcelId: response}});
+        navigate("/offers", {state: {parcelId: response}});
 
         //   setOffers(offers);
         //   if (offers && offers.length > 0) {
@@ -563,7 +592,7 @@ export default function CreateInquiry() {
         })
 
         .catch((err) => {
-          setError(err?.response?.data?.message || "Something went wrong!");
+          setError(err?.response?.data?.reason || "Something went wrong!");
         })
         .finally(() => {
           setInquiryLoading(false);
@@ -585,7 +614,12 @@ export default function CreateInquiry() {
           </>
         ) : (
         <div className="container mx-auto px-4">
-          <Header loading={loading} setLoading={setLoading} />
+          <Header
+            loading={loading}
+            setLoading={setLoading}
+            showLoginModal={showLoginModal}
+            setShowLoginModal={setShowLoginModal}
+          />
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
             Create an inquiry
           </h1>
@@ -627,6 +661,7 @@ export default function CreateInquiry() {
                     handleDateChange={handleDateChange}
                     handlePriorityChange={handlePriorityChange}
                     handleBooleanChange={handleBooleanChange}
+                    errors={formErrors}
                 />
 
                 <ShortDescriptionSection

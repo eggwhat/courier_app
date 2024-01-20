@@ -10,6 +10,7 @@ import {
   import { HiInformationCircle } from "react-icons/hi";
   import { isPackageValid } from "../../details/inquiry";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
+  import booleanToString from "../../parsing/booleanToString";
   
   interface FilterInquiriesModalProps {
     show: boolean;
@@ -17,10 +18,13 @@ import {
     inputData: any;
     tableData: any;
     setTableData: any;
+    role: string;
   }
   
   type FilteringDetails = {
-    patternId: string;
+    keywordId: string;
+    keywordCustomerId: string;
+    keywordDescription: string;
     minWidth: number;
     maxWidth: number;
     minHeight: number;
@@ -29,21 +33,29 @@ import {
     maxDepth: number;
     minWeight: number;
     maxWeight: number;
-    patternSourceStreet: string;
-    patternSourceBuildingNumber: string;
-    patternSourceApartmentNumber: string;
-    patternSourceCity: string;
-    patternSourceZipCode: string;
-    patternSourceCountry: string;
-    patternDestinationStreet: string;
-    patternDestinationBuildingNumber: string;
-    patternDestinationApartmentNumber: string;
-    patternDestinationCity: string;
-    patternDestinationZipCode: string;
-    patternDestinationCountry: string;
+    keywordSourceStreet: string;
+    keywordSourceBuildingNumber: string;
+    keywordSourceApartmentNumber: string;
+    keywordSourceCity: string;
+    keywordSourceZipCode: string;
+    keywordSourceCountry: string;
+    keywordDestinationStreet: string;
+    keywordDestinationBuildingNumber: string;
+    keywordDestinationApartmentNumber: string;
+    keywordDestinationCity: string;
+    keywordDestinationZipCode: string;
+    keywordDestinationCountry: string;
     minDateOfInquiring: string;
     maxDateOfInquiring: string;
+    minPickupDate: string;
+    maxPickupDate: string;
+    minDeliveryDate: string;
+    maxDeliveryDate: string;
     filterStatus: string;
+    filterPriority: string;
+    filterAtWeekend: string;
+    filterIsCompany: string;
+    filterVipPackage: string;
   };
 
   const TextInputWithLabel = ({ id, label, value, onChange, type}) => (
@@ -92,14 +104,30 @@ import {
     </div>
   );
 
-  const IdFilterSection = ({ filterData, handleStringChange }) => (
+  const IdFilterSection = ({ filterData, handleStringChange, role }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
-            id="id-pattern"
-            label="Pattern contained in inquiry's id:"
+            id="id-keyword"
+            label="Keyword in inquiry id:"
             type="text"
-            value={filterData.patternId}
-            onChange={handleStringChange('patternId')}
+            value={filterData.keywordId}
+            onChange={handleStringChange('keywordId')}
+        />
+        {(role === "officeworker") ?
+          <TextInputWithLabel
+              id="customer-id-keyword"
+              label="Keyword in customer id:"
+              type="text"
+              value={filterData.keywordCustomerId}
+              onChange={handleStringChange('keywordCustomerId')}
+          />
+        : null }
+        <TextInputWithLabel
+            id="description-keyword"
+            label="Keyword in description:"
+            type="text"
+            value={filterData.keywordDescription}
+            onChange={handleStringChange('keywordDescription')}
         />
     </div>
   );
@@ -175,48 +203,48 @@ import {
   const AddressFilterSection = ({ prefix, filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <TextInputWithLabel
-            id={`${prefix}-street-pattern`}
-            label={`Pattern contained in street:`}
+            id={`${prefix}-street-keyword`}
+            label={`Keyword in street:`}
             type="text"
-            value={filterData[`pattern${prefix}Street`]}
-            onChange={handleStringChange(`pattern${prefix}Street`)} 
+            value={filterData[`keyword${prefix}Street`]}
+            onChange={handleStringChange(`keyword${prefix}Street`)} 
         />
         <TextInputWithLabel
-            id={`${prefix}-building-number-pattern`}
-            label={`Pattern contained in building number:`}
+            id={`${prefix}-building-number-keyword`}
+            label={`Keyword in building number:`}
             type="text"
-            value={filterData[`pattern${prefix}BuildingNumber`]}
-            onChange={handleStringChange(`pattern${prefix}BuildingNumber`)} 
-        />
-
-        <TextInputWithLabel
-            id={`${prefix}-apartment-number-pattern`}
-            label={`Pattern contained in apartment number:`}
-            type="text"
-            value={filterData[`pattern${prefix}ApartmentNumber`]}
-            onChange={handleStringChange(`pattern${prefix}ApartmentNumber`)} 
-        />
-        <TextInputWithLabel
-            id={`${prefix}-city-pattern`}
-            label={`Pattern contained in city:`}
-            type="text"
-            value={filterData[`pattern${prefix}City`]}
-            onChange={handleStringChange(`pattern${prefix}City`)} 
+            value={filterData[`keyword${prefix}BuildingNumber`]}
+            onChange={handleStringChange(`keyword${prefix}BuildingNumber`)} 
         />
 
         <TextInputWithLabel
-            id={`${prefix}-zip-code-pattern`}
-            label={`Pattern contained in zip code:`}
+            id={`${prefix}-apartment-number-keyword`}
+            label={`Keyword in apartment number:`}
             type="text"
-            value={filterData[`pattern${prefix}ZipCode`]}
-            onChange={handleStringChange(`pattern${prefix}ZipCode`)} 
+            value={filterData[`keyword${prefix}ApartmentNumber`]}
+            onChange={handleStringChange(`keyword${prefix}ApartmentNumber`)} 
         />
         <TextInputWithLabel
-            id={`${prefix}-city-pattern`}
-            label={`Pattern contained in country:`}
+            id={`${prefix}-city-keyword`}
+            label={`Keyword in city:`}
             type="text"
-            value={filterData[`pattern${prefix}Country`]}
-            onChange={handleStringChange(`pattern${prefix}Country`)} 
+            value={filterData[`keyword${prefix}City`]}
+            onChange={handleStringChange(`keyword${prefix}City`)} 
+        />
+
+        <TextInputWithLabel
+            id={`${prefix}-zip-code-keyword`}
+            label={`Keyword in zip code:`}
+            type="text"
+            value={filterData[`keyword${prefix}ZipCode`]}
+            onChange={handleStringChange(`keyword${prefix}ZipCode`)} 
+        />
+        <TextInputWithLabel
+            id={`${prefix}-city-keyword`}
+            label={`Keyword in country:`}
+            type="text"
+            value={filterData[`keyword${prefix}Country`]}
+            onChange={handleStringChange(`keyword${prefix}Country`)} 
         />
     </div>
   );
@@ -238,6 +266,40 @@ import {
     </div>
   );
 
+  const PickupDateFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DateInputWithLabel
+            id="pickup-date-min"
+            label="From:"
+            value={filterData.minPickupDate}
+            onChange={handleDateChange('minPickupDate')}
+        />
+        <DateInputWithLabel
+            id="pickup-date-max"
+            label="To:"
+            value={filterData.maxPickupDate}
+            onChange={handleDateChange('maxPickupDate')}
+        />
+    </div>
+  );
+
+  const DeliveryDateFilterSection = ({ filterData, handleDateChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <DateInputWithLabel
+            id="delivery-date-min"
+            label="From:"
+            value={filterData.minDeliveryDate}
+            onChange={handleDateChange('minDeliveryDate')}
+        />
+        <DateInputWithLabel
+            id="delivery-date-max"
+            label="To:"
+            value={filterData.maxDeliveryDate}
+            onChange={handleDateChange('maxDeliveryDate')}
+        />
+    </div>
+  );
+
   const StatusFilterSection = ({ filterData, handleStringChange }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <select
@@ -253,6 +315,66 @@ import {
     </div>
   );
 
+  const AdditionalInfoFilterSection = ({ filterData, handleStringChange }) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="filter-priority" className="mb-2 block text-sm font-medium text-gray-700">Priority:</Label>
+          <select
+              id="filter-priority"
+              value={filterData.filterPriority}
+              onChange={handleStringChange('filterPriority')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="Low">low</option>
+              <option value="High">high</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-at-weekend" className="mb-2 block text-sm font-medium text-gray-700">At weekend:</Label>
+          <select
+              id="filter-at-weekend"
+              value={filterData.filterAtWeekend}
+              onChange={handleStringChange('filterAtWeekend')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-is-company" className="mb-2 block text-sm font-medium text-gray-700">Is company:</Label>
+          <select
+              id="filter-is-company"
+              value={filterData.filterIsCompany}
+              onChange={handleStringChange('filterIsCompany')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+
+        <div>
+          <Label htmlFor="filter-vip-package" className="mb-2 block text-sm font-medium text-gray-700">Vip package:</Label>
+          <select
+              id="filter-vip-package"
+              value={filterData.filterVipPackage}
+              onChange={handleStringChange('filterVipPackage')}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+              <option value="all">all</option>
+              <option value="true">yes</option>
+              <option value="false">no</option>
+          </select>
+        </div>
+    </div>
+  );
+
   export function FilterInquiriesModal(props: FilterInquiriesModalProps) {
     const close = () => {
       setError("");
@@ -264,7 +386,9 @@ import {
     const maxDefNum = 99999;
 
     const [filteringDetails, setFilteringDetails] = React.useState<FilteringDetails>({
-        patternId: "",
+        keywordId: "",
+        keywordCustomerId: "",
+        keywordDescription: "",
         minWidth: minDefNum,
         maxWidth: maxDefNum,
         minHeight: minDefNum,
@@ -273,21 +397,29 @@ import {
         maxDepth: maxDefNum,
         minWeight: minDefNum,
         maxWeight: maxDefNum,
-        patternSourceStreet: "",
-        patternSourceBuildingNumber: "",
-        patternSourceApartmentNumber: "",
-        patternSourceCity: "",
-        patternSourceZipCode: "",
-        patternSourceCountry: "",
-        patternDestinationStreet: "",
-        patternDestinationBuildingNumber: "",
-        patternDestinationApartmentNumber: "",
-        patternDestinationCity: "",
-        patternDestinationZipCode: "",
-        patternDestinationCountry: "",
+        keywordSourceStreet: "",
+        keywordSourceBuildingNumber: "",
+        keywordSourceApartmentNumber: "",
+        keywordSourceCity: "",
+        keywordSourceZipCode: "",
+        keywordSourceCountry: "",
+        keywordDestinationStreet: "",
+        keywordDestinationBuildingNumber: "",
+        keywordDestinationApartmentNumber: "",
+        keywordDestinationCity: "",
+        keywordDestinationZipCode: "",
+        keywordDestinationCountry: "",
         minDateOfInquiring: "",
         maxDateOfInquiring: "",
-        filterStatus: "all"
+        minPickupDate: "",
+        maxPickupDate: "",
+        minDeliveryDate: "",
+        maxDeliveryDate: "",
+        filterStatus: "all",
+        filterPriority: "all",
+        filterAtWeekend: "all",
+        filterIsCompany: "all",
+        filterVipPackage: "all"
     });
 
     const handleNumberChange = <T extends keyof FilteringDetails>(field: T) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -319,7 +451,9 @@ import {
 
     const clearDetails = () => {
         setFilteringDetails({
-            patternId: "",
+            keywordId: "",
+            keywordCustomerId: "",
+            keywordDescription: "",
             minWidth: minDefNum,
             maxWidth: maxDefNum,
             minHeight: minDefNum,
@@ -328,21 +462,29 @@ import {
             maxDepth: maxDefNum,
             minWeight: minDefNum,
             maxWeight: maxDefNum,
-            patternSourceStreet: "",
-            patternSourceBuildingNumber: "",
-            patternSourceApartmentNumber: "",
-            patternSourceCity: "",
-            patternSourceZipCode: "",
-            patternSourceCountry: "",
-            patternDestinationStreet: "",
-            patternDestinationBuildingNumber: "",
-            patternDestinationApartmentNumber: "",
-            patternDestinationCity: "",
-            patternDestinationZipCode: "",
-            patternDestinationCountry: "",
+            keywordSourceStreet: "",
+            keywordSourceBuildingNumber: "",
+            keywordSourceApartmentNumber: "",
+            keywordSourceCity: "",
+            keywordSourceZipCode: "",
+            keywordSourceCountry: "",
+            keywordDestinationStreet: "",
+            keywordDestinationBuildingNumber: "",
+            keywordDestinationApartmentNumber: "",
+            keywordDestinationCity: "",
+            keywordDestinationZipCode: "",
+            keywordDestinationCountry: "",
             minDateOfInquiring: "",
             maxDateOfInquiring: "",
-            filterStatus: "all"
+            minPickupDate: "",
+            maxPickupDate: "",
+            minDeliveryDate: "",
+            maxDeliveryDate: "",
+            filterStatus: "all",
+            filterPriority: "all",
+            filterAtWeekend: "all",
+            filterIsCompany: "all",
+            filterVipPackage: "all"
         });
     };
 
@@ -360,7 +502,9 @@ import {
     const filterInquiries = () => {
       const filteredElements = props.inputData.filter((element : any) =>
         // filtering of id section
-        (filteringDetails.patternId == "" || element.id.includes(filteringDetails.patternId)) &&
+        (filteringDetails.keywordId == "" || element.id.toLowerCase().includes(filteringDetails.keywordId.toLowerCase())) &&
+        (filteringDetails.keywordCustomerId == "" || element.customerId?.toLowerCase().includes(filteringDetails.keywordCustomerId.toLowerCase())) &&
+        (filteringDetails.keywordDescription == "" || element.description.toLowerCase().includes(filteringDetails.keywordDescription.toLowerCase())) &&
 
         // filtering of dimensions section
         (filteringDetails.minWidth == null || element.width >= filteringDetails.minWidth) &&
@@ -377,32 +521,46 @@ import {
         (filteringDetails.maxWeight == null || element.weight <= filteringDetails.maxWeight) &&
 
         // filtering of source address section
-        (filteringDetails.patternSourceStreet == "" || element.source.street.includes(filteringDetails.patternSourceStreet)) &&
-        (filteringDetails.patternSourceBuildingNumber == "" || element.source.buildingNumber.includes(filteringDetails.patternSourceBuildingNumber)) &&
+        (filteringDetails.keywordSourceStreet == "" || element.source.street.toLowerCase().includes(filteringDetails.keywordSourceStreet.toLowerCase())) &&
+        (filteringDetails.keywordSourceBuildingNumber == "" || element.source.buildingNumber.toLowerCase().includes(filteringDetails.keywordSourceBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.patternSourceApartmentNumber == "" || element.source.apartmentNumber.includes(filteringDetails.patternSourceApartmentNumber)) &&
-        (filteringDetails.patternSourceCity == "" || element.source.city.includes(filteringDetails.patternSourceCity)) &&
+        (filteringDetails.keywordSourceApartmentNumber == "" || element.source.apartmentNumber.toLowerCase().includes(filteringDetails.keywordSourceApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordSourceCity == "" || element.source.city.toLowerCase().includes(filteringDetails.keywordSourceCity.toLowerCase())) &&
 
-        (filteringDetails.patternSourceZipCode == "" || element.source.zipCode.includes(filteringDetails.patternSourceZipCode)) &&
-        (filteringDetails.patternSourceCountry == "" || element.source.country.includes(filteringDetails.patternSourceCountry)) &&
+        (filteringDetails.keywordSourceZipCode == "" || element.source.zipCode.toLowerCase().includes(filteringDetails.keywordSourceZipCode.toLowerCase())) &&
+        (filteringDetails.keywordSourceCountry == "" || element.source.country.toLowerCase().includes(filteringDetails.keywordSourceCountry.toLowerCase())) &&
 
         // filtering of destination address section
-        (filteringDetails.patternDestinationStreet == "" || element.destination.street.includes(filteringDetails.patternDestinationStreet)) &&
-        (filteringDetails.patternDestinationBuildingNumber == "" || element.destination.buildingNumber.includes(filteringDetails.patternDestinationBuildingNumber)) &&
+        (filteringDetails.keywordDestinationStreet == "" || element.destination.street.toLowerCase().includes(filteringDetails.keywordDestinationStreet.toLowerCase())) &&
+        (filteringDetails.keywordDestinationBuildingNumber == "" || element.destination.buildingNumber.toLowerCase().includes(filteringDetails.keywordDestinationBuildingNumber.toLowerCase())) &&
 
-        (filteringDetails.patternDestinationApartmentNumber == "" || element.destination.apartmentNumber.includes(filteringDetails.patternDestinationApartmentNumber)) &&
-        (filteringDetails.patternDestinationCity == "" || element.destination.city.includes(filteringDetails.patternDestinationCity)) &&
+        (filteringDetails.keywordDestinationApartmentNumber == "" || element.destination.apartmentNumber.toLowerCase().includes(filteringDetails.keywordDestinationApartmentNumber.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCity == "" || element.destination.city.toLowerCase().includes(filteringDetails.keywordDestinationCity.toLowerCase())) &&
 
-        (filteringDetails.patternDestinationZipCode == "" || element.destination.zipCode.includes(filteringDetails.patternDestinationZipCode)) &&
-        (filteringDetails.patternDestinationCountry == "" || element.destination.country.includes(filteringDetails.patternDestinationCountry)) &&
+        (filteringDetails.keywordDestinationZipCode == "" || element.destination.zipCode.toLowerCase().includes(filteringDetails.keywordDestinationZipCode.toLowerCase())) &&
+        (filteringDetails.keywordDestinationCountry == "" || element.destination.country.toLowerCase().includes(filteringDetails.keywordDestinationCountry.toLowerCase())) &&
 
         // filtering of date of inquiring
         (filteringDetails.minDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) >= new Date(filteringDetails.minDateOfInquiring)) &&
         (filteringDetails.maxDateOfInquiring == "" || new Date(dateFromUTCToLocal(element.createdAt)) <= new Date(filteringDetails.maxDateOfInquiring)) &&
 
+        // filtering of pickup date
+        (filteringDetails.minPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) >= new Date(filteringDetails.minPickupDate)) &&
+        (filteringDetails.maxPickupDate == "" || new Date(dateFromUTCToLocal(element.pickupDate)) <= new Date(filteringDetails.maxPickupDate)) &&
+
+        // filtering of delivery date
+        (filteringDetails.minDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) >= new Date(filteringDetails.minDeliveryDate)) &&
+        (filteringDetails.maxDeliveryDate == "" || new Date(dateFromUTCToLocal(element.deliveryDate)) <= new Date(filteringDetails.maxDeliveryDate)) &&
+
         // filtering of status
         (filteringDetails.filterStatus != "expired" || isPackageValid(element.validTo) == false) &&
-        (filteringDetails.filterStatus != "valid" || isPackageValid(element.validTo) == true)
+        (filteringDetails.filterStatus != "valid" || isPackageValid(element.validTo) == true) &&
+
+        // filtering of additional info
+        (filteringDetails.filterPriority == "all" || (filteringDetails.filterPriority == element.priority)) &&
+        (filteringDetails.filterAtWeekend == "all" || (filteringDetails.filterAtWeekend == booleanToString(element.atWeekend))) &&
+        (filteringDetails.filterIsCompany == "all" || (filteringDetails.filterIsCompany == booleanToString(element.isCompany))) &&
+        (filteringDetails.filterVipPackage == "all" || (filteringDetails.filterVipPackage == booleanToString(element.vipPackage)))
       );
 
       props.setTableData(filteredElements);
@@ -429,24 +587,29 @@ import {
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={clearDetails}>Clear filtering details</Button>
                     </div>
+                    <div style={{ marginBottom: '20px' }}></div>
 
-                    <SectionTitle title="Id" />
+                    <SectionTitle title="Id info" />
                     <IdFilterSection
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
+                        role={props.role}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Package dimensions" />
                     <DimensionsFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Package weight" />
                     <WeightFilterSection
                         filterData={filteringDetails}
                         handleNumberChange={handleNumberChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Source address" />
                     <AddressFilterSection
@@ -454,6 +617,7 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Destination address" />
                     <AddressFilterSection
@@ -461,12 +625,28 @@ import {
                         filterData={filteringDetails}
                         handleStringChange={handleStringChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Date of inquiring" />
                     <DateOfInquiringFilterSection
                         filterData={filteringDetails}
                         handleDateChange={handleDateChange}
                     />
+                    <div style={{ marginBottom: '20px' }}></div>
+
+                    <SectionTitle title="Pickup date" />
+                    <PickupDateFilterSection
+                        filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
+                    />
+                    <div style={{ marginBottom: '20px' }}></div>
+
+                    <SectionTitle title="Delivery date" />
+                    <DeliveryDateFilterSection
+                        filterData={filteringDetails}
+                        handleDateChange={handleDateChange}
+                    />
+                    <div style={{ marginBottom: '20px' }}></div>
 
                     <SectionTitle title="Status" />
                     <StatusFilterSection
@@ -474,7 +654,15 @@ import {
                         handleStringChange={handleStringChange}
                     />
 
-                    <div style={{ marginBottom: '20px' }}></div>
+                    <div style={{ marginBottom: '40px' }}></div>
+
+                    <SectionTitle title="Additional info" />
+                    <AdditionalInfoFilterSection
+                        filterData={filteringDetails}
+                        handleStringChange={handleStringChange}
+                    />
+
+                    <div style={{ marginBottom: '40px' }}></div>
 
                     <div className="space-y-6 w-full" style={{ display: 'flex', justifyContent: 'center' }}>
                     {isLoading ? (

@@ -21,12 +21,12 @@ const api = axios.create({
 const getAuthHeader = () => {
   const userInfo = getUserInfo();
   if (!userInfo || !userInfo.accessToken) {
-    console.warn('No user token found. Redirecting to login.');
-    window.location.href = '/login';
+    console.warn('No user token found. Not redirecting to login.');
+    //window.location.href = '/login';
     return null;
   }
   console.log({Authorization: `Bearer ${userInfo.accessToken}`})
-  return { Authorization: `${userInfo.accessToken}` };
+  return { Authorization: `Bearer ${userInfo.accessToken}` };
 };
 
 const defaultPageLimit = 10;
@@ -48,25 +48,6 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-// export const register = async (
-// ) => {
-//   try {
-//     const response = await api.post(`/identity/sign-up`, {
-//       username,
-//       password,
-//       email,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     if (axios.isAxiosError(error)) {
-//       console.error('Error during registration (Axios error):', error.response?.data || error.message);
-//     } else {
-//       console.error('Error during registration:', error);
-//     }
-//     throw error;
-//   }
-// };
-
 export const register = async (
   email: string,
   password: string,
@@ -86,7 +67,6 @@ export const register = async (
 
     const response = await api.post(`/identity/sign-up`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -130,7 +110,6 @@ export const completeCustomerRegistration = async (
 
     const response = await api.post(`/customers`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -257,14 +236,7 @@ export const createInquiry = async (
   vipPackage: boolean
 ) => {
   try {
-
-    //const userInfo = getUserInfo();
-    // if (!userInfo || !userInfo.accessToken) {
-    //   console.warn('No user token found. Redirecting to login.');
-    //   window.location.href = '/login';
-    //   return;
-    // }
-
+    
     // Log the token for debugging
     //console.log("Using access token:", userInfo.accessToken);
 
@@ -272,7 +244,7 @@ export const createInquiry = async (
     //const customerId = userData.id.toString() || "00000000-0000-0000-0000-000000000000"; 
 
     const payload = {
-      CustomerId: customerId,
+      ...(customerId !== null && { CustomerId: customerId }),
       Description: description,
       Width: width,
       Height: height,
@@ -304,7 +276,6 @@ export const createInquiry = async (
 
     const response = await api.post(`/parcels`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -361,7 +332,7 @@ export const createOrder = async (
   try {
 
     const payload = {
-      CustomerId: customerId,
+      ...(customerId !== null && { CustomerId: customerId }),
       ParcelId: parcelId,
       Name: name,
       Email: email,
@@ -382,7 +353,6 @@ export const createOrder = async (
 
     const response = await api.post(`/orders`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        //'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -417,6 +387,16 @@ export const getInquiriesOfficeWorker = async () => {
     return response;
   } catch (error) {
     console.error('Error during getting inquiries:', error);
+    throw error;
+  }
+};
+
+export const getOrder = async (orderId: string) => {
+  try {
+    const response = await api.get(`/orders/${orderId}`);
+    return response;
+  } catch (error) {
+    console.error('Error during getting orders:', error);
     throw error;
   }
 };
@@ -495,6 +475,307 @@ export const cancelPendingOffer = async (orderId : string, reason: string) => {
   } catch (error) {
     console.error('Error during cancelling pending offer:', error);
     throw error;
+  }
+};
+
+export const confirmOrder = async (
+  orderId: string,
+  company: string
+) => {
+  try {
+
+    const payload = {
+      OrderId: orderId,
+      Company: company
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during order confirmation:', orderError.message);
+    } else {
+      console.error('Error during order confirmation:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const cancelOrder = async (
+  orderId: string,
+  company: string
+) => {
+  try {
+
+    const payload = {
+      OrderId: orderId,
+      Company: company
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.delete(`/orders/${orderId}/cancel`, JSON.parse(JSON.stringify(payload)))
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during order cancellation:', orderError.message);
+    } else {
+      console.error('Error during order cancellation:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const addCustomerToOrder = async (
+  orderId: string,
+  customerId: string
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
+    const payload = {
+      OrderId: orderId,
+      CustomerId: customerId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/orders/${orderId}/customer`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during adding customer to order:', orderError.message);
+    } else {
+      console.error('Error during adding customer to order:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const getYourDeliveries = async (courierId: string) => {
+  try {
+    const response = await api.get(`/deliveries/courierId=${courierId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting your deliveries:', error);
+    throw error;
+  }
+};
+
+export const getPendingDeliveries = async () => {
+  try {
+    const response = await api.get(`/deliveries/pending`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting pending deliveries:', error);
+    throw error;
+  }
+};
+
+export const assignCourierToDelivery = async (
+  deliveryId: string,
+  courierId: string
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+    
+    const payload = {
+      DeliveryId: deliveryId,
+      CourierId: courierId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/courier`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during assigning delivery to courier:', orderError.message);
+    } else {
+      console.error('Error during assigning delivery to courier:', orderError);
+    }
+    throw orderError;
+  }
+}
+
+export const pickupDelivery = async (
+  deliveryId: string
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
+    const payload = {
+      DeliveryId: deliveryId
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during picking up delivery:', orderError.message);
+    } else {
+      console.error('Error during picking up delivery:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const completeDelivery = async (
+  deliveryId: string,
+  deliveryAttemptDate: any
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
+    const payload = {
+      DeliveryId: deliveryId,
+      DeliveryAttemptDate: deliveryAttemptDate
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/complete`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during completing delivery:', orderError.message);
+    } else {
+      console.error('Error during completing delivery:', orderError);
+    }
+    throw orderError;
+  }
+};
+
+export const failDelivery = async (
+  deliveryId: string,
+  deliveryAttemptDate: any,
+  reason: string
+) => {
+  try {
+
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
+    const payload = {
+      DeliveryId: deliveryId,
+      DeliveryAttemptDate: deliveryAttemptDate,
+      Reason: reason
+    };
+
+    console.log("Request payload:", payload);
+
+    console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
+
+    const response = await api.post(`/deliveries/${deliveryId}/fail`, JSON.parse(JSON.stringify(payload)), {
+      headers: {
+        'Authorization': `${userInfo.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data;
+
+  } catch (orderError) {
+    if (axios.isAxiosError(orderError) && orderError.response) {
+      console.error('Error status:', orderError.response.status);
+      console.error('Error data:', orderError.response.data);
+      console.error('Error during failing delivery:', orderError.message);
+    } else {
+      console.error('Error during failing delivery:', orderError);
+    }
+    throw orderError;
   }
 };
 

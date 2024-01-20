@@ -7,7 +7,7 @@ import {
   import React from "react";
   import dateFromUTCToLocal from "../../parsing/dateFromUTCToLocal";
   import formatOfferStatus from "../../parsing/formatOfferStatus";
-import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
+import { confirmOrder, cancelOrder } from "../../../utils/api";
   
   interface OrderDetailsModalProps {
     show: boolean;
@@ -43,24 +43,45 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
     </div>
   );
 
-  const IdInfoDetailsSection = ({ detailsData }) => (
+  const BasicInfoDetailsSection = ({ detailsData }) => (
     <div>
         <LabelsWithBorder
             idA="id"
-            valueA="Offer request id:"
+            valueA="Order id:"
             idB="id-value"
             valueB={detailsData.order.id}
         />
         <LabelsWithBorder
-            idA="customer-id"
-            valueA="Customer id:"
-            idB="customer-id-value"
-            valueB={detailsData.order.customerId}
+            idA="courier-company"
+            valueA="Courier company:"
+            idB="id-value"
+            valueB={detailsData.order.courierCompany}
         />
+        <LabelsWithBorder
+            idA="order-request-date"
+            valueA="Order request date:"
+            idB="order-request-date-value"
+            valueB={formatDateToUTC(detailsData.order.orderRequestDate)}
+        />
+        { detailsData.order.status === "waitingfordecision" ?
+          <LabelsWithBorder
+            idA="request-valid-to"
+            valueA="Request valid to:"
+            idB="request-valid-to-value"
+            valueB={formatDateToUTC(detailsData.order.requestValidTo)}
+          />
+        :
+          <LabelsWithBorder
+            idA="decision-date"
+            valueA="Decision date:"
+            idB="decision-date-value"
+            valueB={formatDateToUTC(detailsData.order.decisionDate)}
+          />
+        }
     </div>
   );
 
-  const StatusDetailsSection = ({ detailsData }) => (
+  const StatusDetailsSection = ({ detailsData, confirm, cancel, finalized, refresh }) => (
     <div>
         <LabelsWithBorder
             idA="status"
@@ -68,18 +89,69 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
             idB="status-value"
             valueB={formatOfferStatus(detailsData.order.status)}
         />
-        <LabelsWithBorder
-            idA="order-request-date"
-            valueA="Order request date:"
-            idB="order-request-date-value"
-            valueB={formatDate(detailsData.order.orderRequestDate)}
-        />
-        <LabelsWithBorder
-            idA="request-valid-to"
-            valueA="Request valid to:"
-            idB="request-valid-to-value"
-            valueB={formatDate(detailsData.order.requestValidTo)}
-        />
+        { detailsData.order.status === "approved" ?
+            <div>
+              { (new Date() < new Date(detailsData.order.requestValidTo)) ? (
+                <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Button onClick={() => confirm()}>Confirm</Button>
+                  <Button onClick={() => cancel()}>Cancel</Button>
+                </div>
+              ) : (
+                <div className="mb-4 border-b border-gray-200 pb-1 grid gap-4">
+                  <Label
+                    id="offer-request-expired"
+                    value="Your offer request has been expired!"
+                  />
+                </div>
+              ) }
+
+              { finalized ? (
+                <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
+                  <Button onClick={() => refresh()}>Refresh page</Button>
+                </div>
+              ) : null }
+            </div>
+        : null }
+        { detailsData.order.status === "cancelled" ?
+            <LabelsWithBorder
+                idA="cancellation-reason"
+                valueA="Cancellation reason:"
+                idB="cancellation-reason-value"
+                valueB={detailsData.order.cancellationReason}
+            />
+        : null }
+        { detailsData.order.status === "pickedup" ?
+            <LabelsWithBorder
+                idA="picked-up-at"
+                valueA="Picked up at:"
+                idB="picked-up-at-value"
+                valueB={formatDateToUTC(detailsData.order.pickedUpAt)}
+            />
+        : null }
+        { detailsData.order.status === "delivered" ?
+            <LabelsWithBorder
+                idA="delivered-at"
+                valueA="Delivered at:"
+                idB="delivered-at-value"
+                valueB={formatDateToUTC(detailsData.order.deliveredAt)}
+            />
+        : null }
+        { detailsData.order.status === "cannotdeliver" ?
+            <div>
+                <LabelsWithBorder
+                    idA="cannot-deliver-at"
+                    valueA="Cannot deliver at:"
+                    idB="cannot-deliver-at-value"
+                    valueB={formatDateToUTC(detailsData.order.cannotDeliverAt)}
+                />
+                <LabelsWithBorder
+                    idA="cannot-deliver-reason"
+                    valueA="Cannot deliver reason:"
+                    idB="cannot-deliver-reason-value"
+                    valueB={detailsData.order.cannotDeliverReason}
+                />
+            </div>
+        : null }
     </div>
   );
 
@@ -141,52 +213,9 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
     </div>
   );
 
-  const AdditionalInfoDetailsSection = ({ detailsData }) => (
-    <div>
-        <LabelsWithBorder
-            idA="decision-date"
-            valueA="Decision date:"
-            idB="decision-date-value"
-            valueB={formatDateToUTC(detailsData.order.decisionDate)}
-        />
-        <LabelsWithBorder
-            idA="picked-up-at"
-            valueA="Picked up at:"
-            idB="picked-up-at-value"
-            valueB={formatDateToUTC(detailsData.order.pickedUpAt)}
-        />
-        <LabelsWithBorder
-            idA="delivered-at"
-            valueA="Delivered at:"
-            idB="delivered-at-value"
-            valueB={formatDateToUTC(detailsData.order.deliveredAt)}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-at"
-            valueA="Cannot deliver at:"
-            idB="cannot-deliver-at-value"
-            valueB={formatDateToUTC(detailsData.order.cannotDeliverAt)}
-        />
-        <LabelsWithBorder
-            idA="cancellation-reason"
-            valueA="Cancellation reason:"
-            idB="cancellation-reason-value"
-            valueB={detailsData.order.cancellationReason}
-        />
-        <LabelsWithBorder
-            idA="cannot-deliver-reason"
-            valueA="Cannot deliver reason:"
-            idB="cannot-deliver-reason-value"
-            valueB={detailsData.order.cannotDeliverReason}
-        />
-    </div>
-  );
-
   export function OrderDetailsModal(props: OrderDetailsModalProps) {
     const close = () => {
       setReason("");
-      setAccepted(false);
-      setRejected(false);
       setFinalized(false);
       props.setShow(false);
     };
@@ -196,19 +225,17 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
       close();
     };
     
-    const [accepted, setAccepted] = React.useState<any>(false);
-    const [rejected, setRejected] = React.useState<any>(false);
     const [finalized, setFinalized] = React.useState<any>(false);
 
     const [reason, setReason] = React.useState<any>("");
 
-    const accept = () => {
-      approvePendingOffer(props.order.id);
+    const confirm = () => {
+      confirmOrder(props.order.id, props.order.company);
       setFinalized(true);
     };
 
-    const reject = (reason: string) => {
-      cancelPendingOffer(props.order.id, reason);
+    const cancel = () => {
+      cancelOrder(props.order.id, props.order.company);
       setFinalized(true);
     };
 
@@ -230,14 +257,18 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
                   <div className="space-y-6 gap-6">
 
-                    <SectionTitle title="Id info" />
-                    <IdInfoDetailsSection
+                    <SectionTitle title="Basic info" />
+                    <BasicInfoDetailsSection
                         detailsData={props}
                     />
 
                     <SectionTitle title="Status info" />
                     <StatusDetailsSection
                         detailsData={props}
+                        confirm={confirm}
+                        cancel={cancel}
+                        finalized={finalized}
+                        refresh={refresh}
                     />
 
                     <SectionTitle title="Buyer info" />
@@ -250,45 +281,6 @@ import { approvePendingOffer, cancelPendingOffer } from "../../../utils/api";
                         prefix="buyerAddress"
                         detailsData={props}
                     />
-
-                    <SectionTitle title="Additional info" />
-                    <AdditionalInfoDetailsSection
-                        detailsData={props}
-                    />
-
-                    <div className="mb-4 border-b border-gray-200 pb-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Button onClick={() => {setAccepted(true); setRejected(false);}}>Accept</Button>
-                      <Button onClick={() => {setAccepted(false); setRejected(true);}}>Reject</Button>
-                    </div>
-
-                    { (accepted && !finalized) ? (
-                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <Button onClick={() => accept()}>Confirm acceptation</Button>
-                      </div>
-                    ) : null }
-
-                    { (rejected && !finalized) ? (
-                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <Label htmlFor="reason-of-rejection"  className="mb-2 block text-sm font-medium text-gray-700">
-                            Input reason of rejection:
-                          </Label>
-                          <TextInput 
-                            id="reason-of-rejection" 
-                            type="string"
-                            lang="en"
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                            className={`border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md`}
-                          />
-                        <Button onClick={() => reject(reason)}>Confirm rejection</Button>
-                      </div>
-                    ) : null }
-
-                    { finalized ? (
-                      <div className="mb-4 pb-1 grid grid-cols-1 md:grid-cols-1 gap-4">
-                        <Button onClick={() => refresh()}>Refresh page</Button>
-                      </div>
-                    ) : null }
 
                     <div style={{ marginBottom: '40px' }}></div>
 

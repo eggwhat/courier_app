@@ -5,8 +5,9 @@ import { Footer } from "../../components/footer";
 import { getOrdersUser } from "../../utils/api";
 import { Loader } from "../../components/loader";
 import { OrderDetails } from "../../components/details/order";
-import { FilterOfferRequestsModal } from "../../components/modals/offers/filterOfferRequestsModal";
+import { FilterOrdersModal } from "../../components/modals/orders/filterOrdersModal";
 import { getUserIdFromStorage } from "../../utils/storage";
+import { AddOrderByIdModal } from "../../components/modals/orders/addOrderByIdModal";
 
 export default function Orders() {
   const [page, setPage] = React.useState(1);
@@ -16,6 +17,7 @@ export default function Orders() {
   const [sortedColumn, setSortedColumn] = React.useState(null);
   const [sortDirection, setSortDirection] = React.useState('ascending');
 
+  const [showAddOrderByIdModal, setShowAddOrderByIdModal] = React.useState(false);
   const [showFilterOrdersModal, setShowFilterOrdersModal] = React.useState(false);
 
   const [loadingHeader, setLoadingHeader] = React.useState(true);
@@ -162,23 +164,31 @@ export default function Orders() {
         <Header loading={loadingHeader} setLoading={setLoadingHeader} />
         <div style={tableHeaderStyle.row}>
           <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white" style={tableHeaderStyle.left}>
-          Orders
+          Your orders
           </h1>
-
-          {/* <Button className="mr-2" onClick={() => setShowFilterInquiriesModal(true)}>
-            <span className="hidden sm:flex">Filter data</span>
-          </Button> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <Button className="mr-2" onClick={() => setShowAddOrderByIdModal(true)}>
+              <span className="hidden sm:flex">Add order by id</span>
+            </Button>
+            <Button className="mr-2" onClick={() => setShowFilterOrdersModal(true)}>
+              <span className="hidden sm:flex">Filter data</span>
+            </Button>
+          </div>
         </div>
         <p className="mb-5">
-              To see details of an order or check its full status, click button in the last column of the table.
-            </p>
-        {/* <FilterOrdersModal
-          show={showOrderInquiriesModal}
-          setShow={setShowOrderInquiriesModal}
+          To see details of an order or check its full status, click button in the last column of the table.
+        </p>
+        <AddOrderByIdModal
+          show={showAddOrderByIdModal}
+          setShow={setShowAddOrderByIdModal}
+        />
+        <FilterOrdersModal
+          show={showFilterOrdersModal}
+          setShow={setShowFilterOrdersModal}
           inputData={inputData}
           tableData={tableData}
           setTableData={setTableData}
-        /> */}
+        />
         <Table>
           <Table.Head>
             <Table.HeadCell onClick={() => handleSort('id')}>

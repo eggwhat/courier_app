@@ -62,7 +62,6 @@ import {
     </>
   );
 
-
   const SubmitButton = ({ userInfoLoading }) => (
       <div className="flex justify-end">
           <Button type="submit" disabled={userInfoLoading}>
@@ -281,7 +280,7 @@ import {
         props.offer.company)
         .then((response) => {
           setRequestId(response);
-          setSuccess("Offer submitted successfully!");
+          setSuccess("Offer request submitted successfully!");
           setUserInfo(
           {
             name: "",
@@ -303,9 +302,14 @@ import {
       });
     };
 
-    const refresh = () => {
+    const redirectToHome = () => {
       close();
       navigate("/", {state:{parcelId: null}});
+    };
+
+    const redirectToOrders = () => {
+      close();
+      navigate("/orders", {state:{parcelId: null}});
     };
 
     return (
@@ -316,69 +320,115 @@ import {
             <form onSubmit={onSubmit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <div className="space-y-6 gap-6" style={{ maxHeight: '70vh', paddingBottom: '20px' }}>
-                  <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                    Fill data if needed:
-                  </h1>
-                  <div className="flex flex-col gap-6">
+                  {!success ? (
+                    <div>
+                      <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+                        Check price details and complete data if necessary:
+                      </h1>
 
-                    <SectionTitle title="Price break down" />
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
 
-                    {props.offer.priceBreakDown != null && props.offer.priceBreakDown?.length > 0 ? (
-                      props.offer.priceBreakDown?.map((element: any) => element != null ? (
-                        <PriceBreakDownElement
-                          key={element.description}
-                          element={element}
+                      <div className="flex flex-col gap-6">
+
+                        <SectionTitle title="Price break down" />
+
+                        {props.offer.priceBreakDown != null && props.offer.priceBreakDown?.length > 0 ? (
+                          props.offer.priceBreakDown?.map((element: any) => element != null ? (
+                            <PriceBreakDownElement
+                              key={element.description}
+                              element={element}
+                            />
+                          ) : null)
+                        ) : null}
+
+                        <SectionTitle title="Your basic info" />
+
+                        <BasicInfoSection 
+                            userData={userInfo}
+                            handleStringChange={handleStringChange}
+                            errors={userInfoErrors}
                         />
-                      ) : null)
-                    ) : null}
+                        
+                        <SectionTitle title="Your address" />
 
-                    <SectionTitle title="Your basic info" />
+                        <AddressSection 
+                            userData={userInfo}
+                            handleStringChange={handleStringChange}
+                            errors={userInfoErrors}
+                        />
 
-                    <BasicInfoSection 
-                        userData={userInfo}
-                        handleStringChange={handleStringChange}
-                        errors={userInfoErrors}
-                    />
-                    
-                    <SectionTitle title="Your address" />
+                        {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
 
-                    <AddressSection 
-                        userData={userInfo}
-                        handleStringChange={handleStringChange}
-                        errors={userInfoErrors}
-                    />
+                        <Alerts error={error} success={success} />
+                        
+                        {error ? null : <SubmitButton userInfoLoading={userInfoLoading} />}
+                      </div>
 
-                    {!formIsValid && <p className="text-red-500">Please fill in all required fields.</p>}
-
-                    <Alerts error={error} success={success} />
-                    
-                    {error ? null : <SubmitButton userInfoLoading={userInfoLoading} />}
-                    
-                  </div>
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
+                    </div>
+                  ) : null}
                   {success ? (
                     <div>
+                      <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+                        Offer request submitted successfully!
+                      </h1>
+
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
+
                       <Alert color="success" icon={HiCheckCircle} className="mb-3">
                         <span>
                           <span className="font-bold">Success!</span> {success}
                         </span>
                       </Alert>
-                      <Label></Label>
+                      
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '40px' }}></div>
+                      </div>
+
                       <LabelsWithBorder
                         idA="elementName"
-                        valueA="RequestId of your offer request:"
+                        valueA="Id of your offer request:"
                         idB="elementValue"
                         valueB={`${requestId}`}
                       />
-                      <div className="flex justify-end">
-                        <Button onClick={() => refresh()}>Go to your orders</Button>
+                      
+                      <div className="space-y-6 gap-6">
+                        <div style={{ marginBottom: '30px' }}></div>
                       </div>
+
+                      <p className="text-orange-600">Remember to confirm or cancel your offer request after potential approval.</p>
+
+                      { (props.userId === null) ?
+                        <div className="space-y-6 gap-6">
+                          <p className="text-blue-400">You can do it by going to home page and typing the id presented above in "Order id" field.</p>
+                        </div>
+                      : null }
+                      
+                      <div className="space-y-6 gap-6">
+                          <div style={{ marginBottom: '30px' }}></div>
+                      </div>
+
+                      { (props.userId === null) ?
+                        <div className="space-y-6 gap-6">
+                          <div className="flex justify-end">
+                            <Button onClick={() => redirectToHome()}>Go to home page</Button>
+                          </div>
+                        </div>
+                      :
+                        <div className="space-y-6 gap-6">
+                          <div className="flex justify-end">
+                            <Button onClick={() => redirectToOrders()}>Go to your orders</Button>
+                          </div>
+                        </div>
+                      }
                     </div>
                   ) : null}
-                  <div className="space-y-6 gap-6">
-
-                    <div style={{ marginBottom: '40px' }}></div>
-
-                  </div>
                 </div>
               </div>
             </form>

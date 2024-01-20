@@ -9,11 +9,15 @@ import { LoginModal } from "./modals/loginModal";
 import React, { useState } from "react";
 import { getProfile, logout } from "../utils/api";
 import AppNavLink from "./appNavLink";
+import { getUserIdFromStorage } from "../utils/storage";
 
 export function Header(props: {
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  showLoginModal?: boolean;
+  setShowLoginModal?: (loading: boolean) => void;
 }) {
+  const [modal, setModal] = React.useState(1);
   const [showLoginModal, setShowLoginModal] = React.useState(false);
 
   const navigate = useNavigate();
@@ -23,6 +27,12 @@ export function Header(props: {
   const [userRole, setUserRole] = useState('');
   
   const [userToken, setUserToken] = React.useState<any>(false);
+
+  React.useEffect(() => {
+    if (getUserIdFromStorage() === null) {
+      setShowLoginModal(props.showLoginModal);
+    }
+  }, [modal]);
 
   React.useEffect(() => {
     setUserToken(getUserInfo());
@@ -41,8 +51,6 @@ export function Header(props: {
           setUserRole(res.role);
 
           if (res?.status === 200) {
-           
-          
 
             const newUserInfo = { ...getUserInfo(), courier: res.courier };
             saveUserInfo(newUserInfo);
@@ -79,10 +87,8 @@ export function Header(props: {
       case 'courier':
         return (
           <>
-            <AppNavLink to="/inquiries" text="Inquiries" />
-            <AppNavLink to="/offers" text="Offer Requests" />
-            <AppNavLink to="/sent-data" text="Sent Data" />
-            <AppNavLink to="/pending-offers" text="Pending Offers" />
+            <AppNavLink to="/your-deliveries" text="Your Deliveries" />
+            <AppNavLink to="/pending-deliveries" text="Pending Deliveries" />
           </>
         );
       case 'officeworker':
@@ -144,7 +150,7 @@ export function Header(props: {
               <span className="hidden sm:flex">Sign in</span>
             </Button>
           )}
-          {userToken?.user?.role === "SwiftParcel.Web" || userToken?.courier !== null ? (
+          {userToken?.user?.role === "admin" || userToken?.courier !== null ? (
             <Navbar.Toggle />
           ) : null}
         </div>
