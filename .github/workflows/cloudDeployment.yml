@@ -29,7 +29,7 @@ jobs:
         chmod +x ./SwiftParcel/d-docker-compose/dockerize_all.sh
         ./SwiftParcel/d-docker-compose/dockerize_all.sh
 
-    - name: Check the structure
+    - name: Check the structure 2
       run: |
         pwd
         ls -la
