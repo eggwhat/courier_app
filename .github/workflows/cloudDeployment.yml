@@ -12,6 +12,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Debugging SSH setup
+      run: |
+        ssh -vvv root@${{ secrets.DROPLET_IP }} "ls"
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/
