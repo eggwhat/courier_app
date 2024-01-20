@@ -15,8 +15,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-          fetch-depth: 0
-          
+
       - name: Execute Git Commands
         run: |
           echo " - [ ] Configuring git..."
@@ -25,6 +24,6 @@ jobs:
           echo " - [ ] Adding Azure DevOps remote repository..."
           git remote add azure https://01174367:$AZURE_DEVOPS_PAT@dev.azure.com/dotNetAPA/CurrierHub/_git/courier_app.git
           echo " - [ ] Fetching from Azure DevOps..."
-          git fetch azure 
+          git fetch azure  --depth=2147483647
           echo " - [ ] Pushing to Azure DevOps main branch..."
           git push azure HEAD:main --force
