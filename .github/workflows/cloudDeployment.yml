@@ -19,11 +19,14 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
 
-
     - name: Run dockerize_all.sh
       run: |
         chmod +x ./SwiftParcel/d-docker-compose/dockerize_all.sh
         ./SwiftParcel/d-docker-compose/dockerize_all.sh
+
+    - name: Test SSH Connection
+      run: |
+        ssh -vvv root@${{ secrets.DROPLET_IP }} "echo SSH Connection Successful"
 
     - name: Deploy to Cloud
       run: |
