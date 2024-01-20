@@ -18,6 +18,10 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+    - name: Check the structure
+      - run: |
+        pwd
+        ls -la
 
     - name: Run dockerize_all.sh
       run: |
