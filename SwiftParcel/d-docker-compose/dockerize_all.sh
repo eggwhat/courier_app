@@ -8,9 +8,11 @@ directories=(
     # "SwiftParcel.Services.Orders"
     # "SwiftParcel.Services.Parcels"
     # "SwiftParcel.Services.Pricing"
-    # "SwiftParcel.Web"
+    "SwiftParcel.Web"
     "SwifttParcel.Services.Identity"
 )
+
+cd ..
 
 cd ..
 

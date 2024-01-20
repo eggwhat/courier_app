@@ -148,7 +148,7 @@ export const getProfile = async () => {
     }
 
     const response = await api.get(`identity/users/${userId}`, { headers });
-    //console.log('identity/users/${userId}: ', response.data)
+    console.log('identity/users/${userId}: ', response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
