@@ -5,12 +5,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: SyncToAzureDevOps
+  Sync:
     displayName: 'Sync to Azure DevOps Repository'
     steps:
       - checkout: self
         submodules: true
-
       - script: |
           echo " - [ ] Configuring git..."
           echo " - [ ] Adding Azure DevOps remote repository..."
