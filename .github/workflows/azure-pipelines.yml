@@ -4,6 +4,11 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+on:
+  push:
+    branches:
+    - '*'
+    
 jobs:
   Sync:
     displayName: 'Sync to Azure DevOps Repository'
