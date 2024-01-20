@@ -24,6 +24,10 @@ jobs:
         pwd
         ls -la
 
+    - name: Docker Login
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
     - name: Run dockerize_all.sh
       run: |
         chmod +x ./SwiftParcel/d-docker-compose/dockerize_all.sh
