@@ -38,6 +38,7 @@ jobs:
           'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.Application.UnitTests/Application.UnitTests',
           'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.Infrastructure.UnitTests/Infrastructure.UnitTests',
           'SwiftParcel.Services.Orders/tests/SwiftParcel.Services.Orders.Application.UnitTests/SwiftParcel.Services.Orders.Application.UnitTests'
+          'SwiftParcel.Services.Parcels/tests/SwiftParcel.Services.Parcels.Application.UnitTests/SwiftParcel.Services.Parcels.Application.UnitTests',
           ]
     steps:
     - uses: actions/checkout@v2
