@@ -15,7 +15,7 @@ cd ../
 
 # Build the Docker image
 echo "- [ ] Building Docker image... ... ... ... ... ... ... ... ... ..."
-docker build -t $IMAGE_NAME:$TAG .
+docker build -t $IMAGE_NAME:$TAG . --no-cache
 
 # Tag the image for the registry
 echo "- [ ] Tagging Docker image... ... ... ... ... ... ... ... ... ..."
