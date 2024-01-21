@@ -34,5 +34,11 @@ RUN npm run build
 # Production stage
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /usr/src/app/build /usr/share/nginx/html
+
+# If you have a custom Nginx config, uncomment the next line and add your nginx.conf file
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 3001
+
 CMD ["nginx", "-g", "daemon off;"]
+
