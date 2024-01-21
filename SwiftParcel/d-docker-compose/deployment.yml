@@ -3,7 +3,7 @@
   services:
     # Microservices
     identity-service:
-      image: adrianvsaint/swift-parcel-identity-service
+      image: adrianvsaint/swift-parcel-identity-service:latest
       container_name: identity-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -14,7 +14,7 @@
         - swiftparcel
 
     web:
-      image: adrianvsaint/swift-parcel-web
+      image: adrianvsaint/swift-parcel-web:latest
       container_name: swiftparcel-web
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -25,7 +25,7 @@
         - swiftparcel
 
     deliveries-service:
-      image: adrianvsaint/swift-parcel-deliveries-service
+      image: adrianvsaint/swift-parcel-deliveries-service:latest
       container_name: deliveries-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -36,7 +36,7 @@
         - swiftparcel
 
     parcels-service:
-      image: adrianvsaint/swift-parcel-parcels-service
+      image: adrianvsaint/swift-parcel-parcels-service:latest
       container_name: parcels-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -47,7 +47,7 @@
         - swiftparcel
 
     pricing-service:
-      image: adrianvsaint/swift-parcel-pricing-service
+      image: adrianvsaint/swift-parcel-pricing-service:latest
       container_name: pricing-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -58,7 +58,7 @@
         - swiftparcel
 
     customers-service:
-      image: adrianvsaint/swift-parcel-customers-service
+      image: adrianvsaint/swift-parcel-customers-service:latest
       container_name: customers-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -69,7 +69,7 @@
         - swiftparcel
 
     orders-service:
-      image: adrianvsaint/swift-parcel-orders-service
+      image: adrianvsaint/swift-parcel-orders-service:latest
       container_name: orders-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -80,7 +80,7 @@
         - swiftparcel
 
     lecturer-api-service:
-      image: adrianvsaint/swift-parcel-external-api-lecturer-service
+      image: adrianvsaint/swift-parcel-external-api-lecturer-service:latest
       container_name: lecturer-api-service
       environment:
       - ASPNETCORE_ENVIRONMENT=production
@@ -91,7 +91,7 @@
         - swiftparcel
 
     api-gateway:
-      image: adrianvsaint/swift-parcel-apigateway-service
+      image: adrianvsaint/swift-parcel-apigateway-service:latest
       container_name: api-gateway
       environment:
       - ASPNETCORE_ENVIRONMENT=production
