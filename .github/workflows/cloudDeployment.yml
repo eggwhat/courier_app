@@ -45,7 +45,7 @@ jobs:
       
     - name: Stop and Remove Containers
       run: |
-        ssh root@${{ secrets.DROPLET_IP }} "docker stop \$(docker ps -q --filter network=swiftparcel-network) && docker rm \$(docker ps -a -q --filter network=swiftparcel-network)"
+        ssh root@${{ secrets.DROPLET_IP }} "docker ps -q --filter network=swiftparcel-network | xargs -r docker stop && docker ps -a -q --filter network=swiftparcel-network | xargs -r docker rm"
 
     - name: Clean up existing Cloud networks
       run: |
