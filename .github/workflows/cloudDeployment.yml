@@ -57,5 +57,4 @@ jobs:
         scp -r ./SwiftParcel/d-docker-compose root@${{ secrets.DROPLET_IP }}:${{ secrets.CLOUD_PROJECT_PATH }}
 
         # Run the docker-compose commands
-        ssh root@${{ secrets.DROPLET_IP }} "cd ${{ secrets.CLOUD_PROJECT_PATH }}/SwiftParcel/d-docker-compose && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} down && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} up -d"
-
+        ssh root@${{ secrets.DROPLET_IP }} "cd ${{ secrets.CLOUD_PROJECT_PATH }}/SwiftParcel/d-docker-compose && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} down && docker-compose -f ${{ secrets.CLOUD_DEPLOYMENT_FILE }} up -d --force-recreate --pull"
