@@ -16,9 +16,6 @@ COPY ./frontend/ .
 # Make port 3001 available to the world outside this container
 EXPOSE 3001
 
-# Set the environment variable for the port
-ENV PORT=3001
-
 # Define the command to run your app using CMD which defines your runtime
 CMD ["npm", "start"]
 
