@@ -24,7 +24,7 @@
 FROM node:18 as build-stage
 WORKDIR /usr/src/app
 COPY ./frontend/package*.json ./
-RUN npm install  --legacy-peer-deps --save-dev
+RUN npm install  --legacy-peer-deps
 COPY ./frontend/ .
 RUN npm run build
 
