@@ -4,11 +4,11 @@
 Swift Parcel is a multitier application built with .NET and React. Its target is to create web interface for courier company and its users. User can create an inquiry which contains information about parcel which has to be transported from source to destination. Then, we send it to other companies to get offers from them, also prepare our own one to give an opportunity for user to choose the best one. If user chooses us, our office worker approves or rejects that offer and in case of approval user can track the order. We have also side for couriers where they can assign deliveries for them and change its status during their work.
 
 ## Frontend
-- [ ] Written in TypeScript using [React](https://react.dev/) from Node.js environment
+- [ ] Written in TypeScript using [React](https://react.dev/) from [Node.js](https://nodejs.org/en) environment
 - [ ] Components responsible for aesthetics imported from [Flowbite React](https://www.flowbite-react.com) library
 
 ## Backend
-- [ ] Written in C# using .NET 6
+- [ ] Written in C# using [.NET 6](https://dotnet.microsoft.com/en-us/)
 - [ ] Created with concept of microservice architecture
 - [ ] Based on [Convey](https://github.com/snatch-dev/Convey) - lightweight set of libraries for building .NET microservices
 - [ ] CQRS pattern - using a different model to update data than the model to read data
