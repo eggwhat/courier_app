@@ -1,7 +1,7 @@
 ## Courier-hub application - Swift Parcel
 
 ## General description
-Swift Parcel is a multitier application built with .NET and React. Its target is to create web interface for courier company and its users. User can create an inquiry which contains information about parcel which has to be transported from source to destination. Then, we send it to other companies to get some offers, also prepare our own one for user to give an opportunity to choose the best one. If user chooses us, our office worker approves or rejects that offer and then user can track the order. We have also side for couriers where they can assign deliveries for them and check its status during their work.
+Swift Parcel is a multitier application built with .NET and React. Its target is to create web interface for courier company and its users. User can create an inquiry which contains information about parcel which has to be transported from source to destination. Then, we send it to other companies to get offers from them, also prepare our own one to give an opportunity for user to choose the best one. If user chooses us, our office worker approves or rejects that offer and in case of approval user can track the order. We have also side for couriers where they can assign deliveries for them and change its status during their work.
 
 ## Frontend
 - [ ] Written in TypeScript using React from Node.js environment
@@ -22,7 +22,7 @@ Swift Parcel is a multitier application built with .NET and React. Its target is
     - [ ] Deliveries Service - processing deliveries (which allow couriers to change status of order collected by user)
 - [ ] There are also services for intergration with APIs of external courier companies:
     - [ ] ExternalAPI.Lecturer - getting an offer from the side of Mini Currier courier company
-- [ ] API.Gateway created with [Ntrada](https://github.com/snatch-dev/Ntrada) to clip endpoints from microservices to be accessible for frontend by one service
+- [ ] API.Gateway created with [Ntrada](https://github.com/snatch-dev/Ntrada) to clip endpoints from microservices to be accessible by one port
 
 ## Infrastructure
 - [ ] [MongoDB](https://www.mongodb.com/products/platform/cloud) - document-oriented database
