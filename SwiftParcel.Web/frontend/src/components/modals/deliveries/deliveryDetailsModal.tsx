@@ -248,7 +248,6 @@ import { getUserIdFromStorage } from "../../../utils/storage";
 
     const assign = () => {
       assignCourierToDelivery(props.delivery.id, getUserIdFromStorage());
-      pickupDelivery(props.delivery.id);
       setFinalized(true);
     };
 
