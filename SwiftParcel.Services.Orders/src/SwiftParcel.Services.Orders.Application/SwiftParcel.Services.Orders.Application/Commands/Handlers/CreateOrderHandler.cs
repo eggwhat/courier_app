@@ -27,7 +27,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
             var parcelDto = await _parcelsServiceClient.GetAsync(command.ParcelId);
-            if (parcelDto is null)
+            if (parcelDto is null && command.Company != Company.MiniCurrier)
             {
                 throw new ParcelNotFoundException(command.ParcelId);
             }
