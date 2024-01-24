@@ -493,6 +493,13 @@ export const confirmOrder = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       OrderId: orderId,
       Company: company
@@ -504,6 +511,7 @@ export const confirmOrder = async (
 
     const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
       headers: {
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
