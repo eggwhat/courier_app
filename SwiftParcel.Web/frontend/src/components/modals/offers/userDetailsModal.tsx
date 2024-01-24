@@ -363,7 +363,7 @@ import {
 
                         <Alerts error={error} success={success} />
                         
-                        {error ? null : <SubmitButton userInfoLoading={userInfoLoading} />}
+                        <SubmitButton userInfoLoading={userInfoLoading} />
                       </div>
 
                       <div className="space-y-6 gap-6">
