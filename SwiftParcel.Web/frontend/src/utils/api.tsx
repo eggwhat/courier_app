@@ -545,7 +545,7 @@ export const cancelOrder = async (
 
     console.log("JSON being sent:", JSON.parse(JSON.stringify(payload)));
 
-    const response = await api.delete(`/orders/${orderId}/cancel`, JSON.parse(JSON.stringify(payload)))
+    const response = await api.delete(`/orders/${orderId}/cancel`, { headers: getAuthHeader() })
 
     return response.data;
 
@@ -585,7 +585,7 @@ export const addCustomerToOrder = async (
 
     const response = await api.post(`/orders/${orderId}/customer`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
