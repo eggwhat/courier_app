@@ -53,8 +53,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
             builder.Services.AddTransient<IOfferSnippetRepository, OfferSnippetMongoRepository>();
-            builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
-            builder.Services.AddSingleton<IIdentityManagerServiceClient, IdentityManagerServiceClient>();
+            builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create()); 
             builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
             builder.Services.AddTransient<IOffersServiceClient, OffersServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
@@ -92,10 +91,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure
                 .UseMetrics()
                 .UseRabbitMq()
                 .SubscribeCommand<AddParcel>()
-                .SubscribeCommand<CreateOrder>()
-                .SubscribeCommand<ConfirmOrder>()
-                .SubscribeCommand<CancelOrder>();
-
+                .SubscribeCommand<CreateOrder>();
             return app;
         }
 

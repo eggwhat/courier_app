@@ -30,4 +30,9 @@
     <PackageReference Include="Convey.WebApi.Swagger" Version="1.1.448" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application.csproj" />
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Baronomat.Core\SwiftParcel.ExternalAPI.Baronomat.Core\SwiftParcel.ExternalAPI.Baronomat.Core.csproj" />
+  </ItemGroup>
+
 </Project>

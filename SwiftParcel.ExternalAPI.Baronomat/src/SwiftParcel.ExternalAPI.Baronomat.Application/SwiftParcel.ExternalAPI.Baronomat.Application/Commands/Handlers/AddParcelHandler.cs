@@ -9,22 +9,18 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands.Handlers
 {
     public class AddParcelHandler: ICommandHandler<AddParcel>
     {
-        private readonly IIdentityManagerServiceClient _identityManagerServiceClient;
         private readonly IInquiresServiceClient _inquiresServiceClient;
         private readonly IInquiryOfferRepository _inquiryOfferRepository;
         private readonly string _dimensionUnit = "Meters";
         private readonly string _currency = "Pln";
         private readonly string _weightUnit = "Kilograms";
-        public AddParcelHandler(IIdentityManagerServiceClient identityManagerServiceClient, 
-            IInquiresServiceClient inquiresServiceClient, IInquiryOfferRepository inquiryOfferRepository)
+        public AddParcelHandler(IInquiresServiceClient inquiresServiceClient, IInquiryOfferRepository inquiryOfferRepository)
         {
-            _identityManagerServiceClient = identityManagerServiceClient;
             _inquiresServiceClient = inquiresServiceClient;
             _inquiryOfferRepository = inquiryOfferRepository;
         }
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken)
         {
-            var token = await _identityManagerServiceClient.GetToken();
             var pickupDate = DateTime.Parse(command.PickupDate);
             var delivaryDate = DateTime.Parse(command.DeliveryDate);
             var inquiry = new InquiryDto(command.Weight, command.Height, command.Depth, _dimensionUnit, _currency, command.Weight,

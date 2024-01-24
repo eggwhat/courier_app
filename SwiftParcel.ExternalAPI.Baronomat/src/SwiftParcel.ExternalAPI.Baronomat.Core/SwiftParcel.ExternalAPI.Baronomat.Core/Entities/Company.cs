@@ -3,7 +3,8 @@
     public enum Company
     {
         SwiftParcel,
-        MiniCurrier
+        MiniCurrier,
+        Baronomat
     }
 }
 
