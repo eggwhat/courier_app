@@ -22,6 +22,7 @@ Swift Parcel is a multitier application built with .NET and React. Its target is
     - [ ] Deliveries Service - processing deliveries (which allow couriers to change status of order collected by user)
 - [ ] There are also services for intergration with APIs of external courier companies:
     - [ ] ExternalAPI.Lecturer - getting an offer from the side of Mini Currier courier company
+    - [ ] ExternalAPI.Baronomat - getting an offer from the side of Baronomat courier company
 - [ ] API.Gateway created with [Ntrada](https://github.com/snatch-dev/Ntrada) to clip endpoints from microservices to be accessible by one port
 
 ## Infrastructure
