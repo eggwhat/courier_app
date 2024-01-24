@@ -511,7 +511,7 @@ export const confirmOrder = async (
 
     const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
