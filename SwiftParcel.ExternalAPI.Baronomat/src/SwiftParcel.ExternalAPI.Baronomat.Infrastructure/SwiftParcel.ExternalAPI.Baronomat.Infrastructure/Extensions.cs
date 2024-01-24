@@ -54,8 +54,8 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure
             builder.Services.AddTransient<IInquiryOfferRepository, InquiryOfferMongoRepository>();
             builder.Services.AddTransient<IOfferSnippetRepository, OfferSnippetMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create()); 
-            builder.Services.AddTransient<IInquiresServiceClient, InquiresServiceClient>();
-            builder.Services.AddTransient<IOffersServiceClient, OffersServiceClient>();
+            builder.Services.AddTransient<IPriceCalculatorClient, PriceCalculatorClient>();
+            //builder.Services.AddTransient<IOffersServiceClient, OffersServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 

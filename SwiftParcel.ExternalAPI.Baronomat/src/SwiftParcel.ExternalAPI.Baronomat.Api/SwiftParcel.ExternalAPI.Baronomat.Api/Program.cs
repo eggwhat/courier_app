@@ -36,7 +36,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Api
                     .UseDispatcherEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/offer")
-                        .Get<GetOrders, IEnumerable<OrderDto>>("orders")
+                        //.Get<GetOrders, IEnumerable<OrderDto>>("orders")
                         .Post<AddParcel>("parcels")
                         .Post<CreateOrder>("orders")
                     ))

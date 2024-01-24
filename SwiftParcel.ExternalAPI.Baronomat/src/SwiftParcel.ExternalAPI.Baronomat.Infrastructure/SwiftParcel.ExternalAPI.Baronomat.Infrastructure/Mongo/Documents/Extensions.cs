@@ -10,7 +10,6 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Documents
         public static InquiryOffer AsEntity(this InquiryOfferDocument document)
             => document is null? null : new InquiryOffer(
                 document.Id,
-                document.InquiryId,
                 document.TotalPrice,
                 document.ExpiringAt,
                 document.PriceBreakDown
@@ -23,7 +22,6 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Documents
             => new InquiryOfferDocument
             {
                 Id = entity.ParcelId,
-                InquiryId = entity.InquiryId,
                 TotalPrice = entity.TotalPrice,
                 ExpiringAt = entity.ExpiringAt,
                 PriceBreakDown = entity.PriceBreakDown

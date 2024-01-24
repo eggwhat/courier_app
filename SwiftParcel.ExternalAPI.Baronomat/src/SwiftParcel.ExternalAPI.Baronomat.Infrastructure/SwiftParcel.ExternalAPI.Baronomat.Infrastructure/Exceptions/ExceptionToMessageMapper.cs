@@ -10,12 +10,12 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Exceptions
         public object Map(Exception exception, object message)
             => exception switch
             {
-                InquiresServiceConnectionException ex => message switch
+                PriceCalculatorServiceConnectionException ex => message switch
                 {
                     AddParcel m => new AddParcelRejected(m.ParcelId, ex.Message, ex.Code),
                     _ => null
                 },
-                InquiresServiceException ex => message switch
+                PriceCalculatorServiceException ex => message switch
                 {
                     AddParcel m => new AddParcelRejected(m.ParcelId, ex.Message, ex.Code),
                     _ => null
@@ -23,21 +23,15 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Exceptions
                 OffersServiceConnectionException ex => message switch
                 {
                     CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
-                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
-                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
                 OffersServiceException ex => message switch
                 {
                     CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
-                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
-                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
                 OfferNotFoundException ex => message switch
                 {
-                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
-                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
                 _ => null

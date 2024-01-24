@@ -24,11 +24,11 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Queries.Handler
             }
             var dto = new ExpirationStatusDto()
             {
-                ParcelId = document.InquiryId,
+                ParcelId = Guid.Empty,
                 TotalPrice = (decimal)document.TotalPrice,
                 ExpiringAt = document.ExpiringAt,
                 PriceBreakDown = document.PriceBreakDown.AsDto(),
-                CompanyName = Company.MiniCurrier.ToString()
+                CompanyName = Company.Baronomat.ToString()
             };
             return dto;
         }

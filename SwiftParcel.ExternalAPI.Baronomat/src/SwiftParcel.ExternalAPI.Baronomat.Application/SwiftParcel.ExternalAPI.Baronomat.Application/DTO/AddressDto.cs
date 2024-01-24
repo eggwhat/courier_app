@@ -21,14 +21,5 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
             Country = country;
         }
 
-        public AddressDto(InquiryAddressDto address)
-        {
-            Street = address.Street;
-            BuildingNumber = address.HouseNumber;
-            ApartmentNumber = address.ApartmentNumber;
-            City = address.City;
-            ZipCode = address.ZipCode;
-            Country = address.Country;
-        }
     }
 }

@@ -15,11 +15,11 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Services.Clients
             _url = options.Services["baronomat-api"];
         }
 
-        public Task<HttpResult<PriceResponseDto>> PostAsync(string token, PriceRequest priceRequest)
+        public Task<HttpResult<PriceResponseDto>> PostAsync(PriceRequestDto priceRequest)
         {
             _httpClient.SetHeaders(new Dictionary<string, string>
             {
-                { "Authorization", "Bearer " + token },
+                { "Authorization", "Bearer " + _token },
                 { "Content-Type", "application/json"}
             });
 

@@ -4,47 +4,46 @@ using SwiftParcel.ExternalAPI.Baronomat.Application.DTO;
 using SwiftParcel.ExternalAPI.Baronomat.Application.Exceptions;
 using SwiftParcel.ExternalAPI.Baronomat.Core.Repositories;
 using SwiftParcel.ExternalAPI.Baronomat.Core.Entities;
+using SwiftParcel.ExternalAPI.Baronomat.Application.Services;
 
 namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands.Handlers
 {
     public class AddParcelHandler: ICommandHandler<AddParcel>
     {
-        private readonly IInquiresServiceClient _inquiresServiceClient;
+        private readonly IPriceCalculatorClient _priceCalculatorClient;
         private readonly IInquiryOfferRepository _inquiryOfferRepository;
-        private readonly string _dimensionUnit = "Meters";
+        private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly int _milimetrToMeterScale = 1000;
+        private readonly int _gramToKilogramScale = 1000;
         private readonly string _currency = "Pln";
-        private readonly string _weightUnit = "Kilograms";
-        public AddParcelHandler(IInquiresServiceClient inquiresServiceClient, IInquiryOfferRepository inquiryOfferRepository)
+        private readonly string _description = "Full price";
+        public AddParcelHandler(IPriceCalculatorClient priceCalculatorClient, IInquiryOfferRepository inquiryOfferRepository,
+            IDateTimeProvider dateTimeProvider)
         {
-            _inquiresServiceClient = inquiresServiceClient;
+            _priceCalculatorClient = priceCalculatorClient;
             _inquiryOfferRepository = inquiryOfferRepository;
+            _dateTimeProvider = dateTimeProvider;
         }
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken)
         {
-            var pickupDate = DateTime.Parse(command.PickupDate);
-            var delivaryDate = DateTime.Parse(command.DeliveryDate);
-            var inquiry = new InquiryDto(command.Weight, command.Height, command.Depth, _dimensionUnit, _currency, command.Weight,
-                _weightUnit, command.SourceBuildingNumber, command.SourceApartmentNumber, command.SourceStreet, command.SourceCity,
-                command.SourceZipCode, command.SourceCountry, command.DestinationBuildingNumber, command.DestinationApartmentNumber,
-                command.DestinationStreet, command.DestinationCity, command.DestinationZipCode, command.DestinationCountry,
-                pickupDate, delivaryDate, command.AtWeekend, command.Priority, command.IsCompany, command.VipPackage);
-            var response = await _inquiresServiceClient.PostAsync(token, inquiry);
+            var deliveryDate = DateTime.Parse(command.DeliveryDate);
+            var PriceRequestDto = new PriceRequestDto(command.Width * _milimetrToMeterScale, command.Height * _milimetrToMeterScale, 
+                command.Depth * _milimetrToMeterScale, command.Weight * _gramToKilogramScale, deliveryDate, command.Priority, command.AtWeekend);
+           
+            var response = await _priceCalculatorClient.PostAsync(PriceRequestDto);
             if(response == null)
             {
-                throw new InquiresServiceConnectionException();
+                throw new PriceCalculatorServiceConnectionException();
             }
             if (!response.Response.IsSuccessStatusCode)
             {
-                throw new InquiresServiceException(response.Response.ReasonPhrase);
+                throw new PriceCalculatorServiceException(response.Response.ReasonPhrase);
             }
             var priceBreakDown = new List<PriceBreakDownItem>();
-            foreach (var item in response.Result.PriceBreakDown)
-            {
-                priceBreakDown.Add(new PriceBreakDownItem(item.Amount, item.Currency, item.Description));
-            }
+            double price = (double)response.Result.PriceCents / 100;
+            priceBreakDown.Add(new PriceBreakDownItem(price, _currency, _description));
 
-            var inquiryOffer = new InquiryOffer(command.ParcelId, response.Result.InquiryId, 
-                response.Result.TotalPrice, response.Result.ExpiringAt, priceBreakDown);
+            var inquiryOffer = new InquiryOffer(command.ParcelId, price, _dateTimeProvider.Now.AddMinutes(60), priceBreakDown);
             await _inquiryOfferRepository.AddAsync(inquiryOffer);
         }
     }
