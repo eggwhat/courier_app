@@ -15,28 +15,21 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly IEventMapper _eventMapper;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly IParcelsServiceClient _parcelsServiceClient;
 
         public CreateOrderSwiftParcelHandler(IOrderRepository orderRepository, ICustomerRepository customerRepository,
-            IMessageBroker messageBroker, IEventMapper eventMapper, IDateTimeProvider dateTimeProvider, 
-             IParcelsServiceClient parcelsServiceClient)
+            IMessageBroker messageBroker, IEventMapper eventMapper, IDateTimeProvider dateTimeProvider)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
             _messageBroker = messageBroker;
             _eventMapper = eventMapper;
             _dateTimeProvider = dateTimeProvider;
-            _parcelsServiceClient = parcelsServiceClient;
         }
 
         public async Task HandleAsync(CreateOrderSwiftParcel command, CancellationToken cancellationToken)
         {
-            var parcelDto = await _parcelsServiceClient.GetAsync(command.ParcelId);
-            if (parcelDto is null)
-            {
-                throw new ParcelNotFoundException(command.ParcelId);
-            }
-            var parcel = new Parcel(command.ParcelId, parcelDto.Description, 
+            var parcelDto = command.Parcel;
+            var parcel = new Parcel(parcelDto.Id, parcelDto.Description, 
                             parcelDto.Width, parcelDto.Height, parcelDto.Depth, parcelDto.Weight, parcelDto.Source.AsEntity(),
                             parcelDto.Destination.AsEntity(), parcelDto.Priority, parcelDto.AtWeekend, parcelDto.PickupDate, 
                             parcelDto.DeliveryDate, parcelDto.IsCompany, parcelDto.VipPackage, parcelDto.CreatedAt, 

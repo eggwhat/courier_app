@@ -19,14 +19,17 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
     {
         private readonly IMongoRepository<OrderDocument, Guid> _orderRepository;
         private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
+        private readonly IBaronomatApiServiceClient _baronomatApiServiceClient;
         private readonly IAppContext _appContext;
 
         public GetOrdersHandler(IMongoRepository<OrderDocument, Guid> orderRepository, 
-            ILecturerApiServiceClient lecturerApiServiceClient, IAppContext appContext)
+            ILecturerApiServiceClient lecturerApiServiceClient, IAppContext appContext,
+            IBaronomatApiServiceClient baronomatApiServiceClient)
         {
             _orderRepository = orderRepository;
             _lecturerApiServiceClient = lecturerApiServiceClient;
             _appContext = appContext;
+            _baronomatApiServiceClient = baronomatApiServiceClient;
         }
 
         public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrders query, CancellationToken cancellationToken)
@@ -43,7 +46,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
             var ordersDto = orders.Select(p => p.AsDto());
 
             var miniCurrierOrders = await _lecturerApiServiceClient.GetOrdersAsync(query.CustomerId.ToString());
+            var baronomatApiServiceClient = await _baronomatApiServiceClient.GetOrdersAsync(query.CustomerId.ToString());
             ordersDto = ordersDto.Concat(miniCurrierOrders);
+            ordersDto = ordersDto.Concat(baronomatApiServiceClient);
 
             return ordersDto;
         }

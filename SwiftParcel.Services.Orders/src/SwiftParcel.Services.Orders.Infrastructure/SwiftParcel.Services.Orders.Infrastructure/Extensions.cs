@@ -62,6 +62,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             builder.Services.AddTransient<IParcelsServiceClient, ParcelsServiceClient>();
             builder.Services.AddTransient<ILecturerApiServiceClient, LecturerApiServiceClient>();
+            builder.Services.AddTransient<IBaronomatApiServiceClient, BaronomatApiServiceClient>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
@@ -110,6 +111,7 @@ namespace SwiftParcel.Services.Orders.Infrastructure
                 .SubscribeCommand<CreateOrder>()
                 .SubscribeCommand<CreateOrderSwiftParcel>()
                 .SubscribeCommand<CreateOrderMiniCurrier>()
+                .SubscribeCommand<CreateOrderBaronomat>()
                 .SubscribeCommand<DeleteOrder>()
                 .SubscribeCommand<SendApprovalEmail>()
                 .SubscribeCommand<SendCancellationEmail>()
