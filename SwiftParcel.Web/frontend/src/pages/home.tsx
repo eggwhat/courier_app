@@ -5,9 +5,9 @@ import { HiExclamation } from "react-icons/hi";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { Loader } from "../components/loader";
-import { getOrder } from "../utils/api";
+import { getOrderStatus } from "../utils/api";
 import { Link } from "react-router-dom";
-import { OrderDetailsModal } from "../components/modals/orders/orderDetailsModal";
+import { OrderStatusModal } from "../components/modals/orders/orderStatusModal";
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true);
@@ -16,9 +16,9 @@ export default function Home() {
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
-  const [order, setOrder] = React.useState<any>(null);
-  const [loadingOrder, setLoadingOrder] = React.useState(false);
-  const [showOrderDetailsModal, setShowOrderDetailsModal] = React.useState(false);
+  const [orderStatus, setOrder] = React.useState<any>(null);
+  const [loadingOrderStatus, setLoadingOrderStatus] = React.useState(false);
+  const [showOrderStatusModal, setShowOrderStatusModal] = React.useState(false);
 
   const handleAnonymousInquirySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,8 +27,8 @@ export default function Home() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(false);
-    setLoadingOrder(true);
-    getOrder(orderId)
+    setLoadingOrderStatus(true);
+    getOrderStatus(orderId)
         .then((res) => {
           if (res?.data) {
             setOrder(res?.data);
@@ -44,8 +44,8 @@ export default function Home() {
           setErrorText("Order not found");
         })
         .finally(() => {
-          setLoadingOrder(false);
-          setShowOrderDetailsModal(true);
+          setLoadingOrderStatus(false);
+          setShowOrderStatusModal(true);
         });
   };
 
@@ -80,7 +80,7 @@ export default function Home() {
               Check Your Order
             </h1>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              Give id of your order to see its details.
+              Give id of your order to see its status.
             </p>
 
             <div
@@ -112,7 +112,7 @@ export default function Home() {
               className="mt-4 w-full md:w-1/2"
               type="submit"
             >
-              {loadingOrder ? (
+              {loadingOrderStatus ? (
                 <>
                   <div className="mr-3">
                     <Spinner size="sm" light={true} />
@@ -120,17 +120,17 @@ export default function Home() {
                   Loading ...
                 </>
               ) : (
-                "Check Order"
+                "Check Order Status"
               )}
             </Button>
           </div>
         </form>
 
-        { order ?
-          <OrderDetailsModal
-            show={showOrderDetailsModal}
-            setShow={setShowOrderDetailsModal}
-            order={order}
+        { orderStatus ?
+          <OrderStatusModal
+            show={showOrderStatusModal}
+            setShow={setShowOrderStatusModal}
+            orderStatus={orderStatus}
           />
         : null }
 
