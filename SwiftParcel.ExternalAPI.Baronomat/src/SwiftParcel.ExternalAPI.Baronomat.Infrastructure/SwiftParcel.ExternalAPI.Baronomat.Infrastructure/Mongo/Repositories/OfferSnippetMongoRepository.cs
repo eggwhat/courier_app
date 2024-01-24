@@ -7,20 +7,20 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Repositories
 {
     internal class OfferSnippetMongoRepository: IOfferSnippetRepository
     {
-        private readonly IMongoRepository<OfferSnippetDocument, Guid> _repository;
+        private readonly IMongoRepository<OrderSnippetDocument, Guid> _repository;
 
-        public OfferSnippetMongoRepository(IMongoRepository<OfferSnippetDocument, Guid> repository)
+        public OfferSnippetMongoRepository(IMongoRepository<OrderSnippetDocument, Guid> repository)
             => _repository = repository;
 
-        public Task<OfferSnippet> GetAsync(Guid id)
+        public Task<OrderSnippet> GetAsync(Guid id)
             => _repository
                 .GetAsync(id)
                 .AsEntityAsync();
 
-        public Task AddAsync(OfferSnippet offerSnippet)
+        public Task AddAsync(OrderSnippet offerSnippet)
             => _repository.AddAsync(offerSnippet.AsDocument());
 
-        public Task UpdateAsync(OfferSnippet offerSnippet) 
+        public Task UpdateAsync(OrderSnippet offerSnippet) 
             => _repository.UpdateAsync(offerSnippet.AsDocument());
     }
 }

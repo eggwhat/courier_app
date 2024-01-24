@@ -21,5 +21,15 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
             Country = country;
         }
 
+        public AddressDto(OrderAddressDto address)
+        {
+            Street = address.street;
+            BuildingNumber = address.homeNumber;
+            ApartmentNumber = address.apartmentNumber;
+            City = address.city;
+            ZipCode = address.postalCode;
+            Country = address.country;
+        }
+
     }
 }

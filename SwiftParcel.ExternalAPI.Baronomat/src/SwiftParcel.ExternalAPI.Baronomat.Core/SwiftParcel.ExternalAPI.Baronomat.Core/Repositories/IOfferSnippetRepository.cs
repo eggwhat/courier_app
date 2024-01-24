@@ -4,8 +4,8 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Core.Repositories
 {
     public interface IOfferSnippetRepository
     {
-        Task<OfferSnippet> GetAsync(Guid id);
-        Task AddAsync(OfferSnippet offerSnippet);
-        Task UpdateAsync(OfferSnippet offerSnippet);
+        Task<OrderSnippet> GetAsync(Guid id);
+        Task AddAsync(OrderSnippet offerSnippet);
+        Task UpdateAsync(OrderSnippet offerSnippet);
     }
 }

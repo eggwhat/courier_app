@@ -1,4 +1,4 @@
-﻿namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
+﻿    namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
 {
     public class ParcelDto
     {

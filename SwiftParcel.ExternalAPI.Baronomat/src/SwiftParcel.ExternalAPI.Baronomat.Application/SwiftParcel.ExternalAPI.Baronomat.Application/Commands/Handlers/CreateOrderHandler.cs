@@ -1,56 +1,38 @@
-﻿// using Convey.CQRS.Commands;
-// using SwiftParcel.ExternalAPI.Baronomat.Application.Services.Clients;
-// using SwiftParcel.ExternalAPI.Baronomat.Application.DTO;
-// using SwiftParcel.ExternalAPI.Baronomat.Application.Exceptions;
-// using SwiftParcel.ExternalAPI.Baronomat.Core.Repositories;
-// using SwiftParcel.ExternalAPI.Baronomat.Core.Entities;
+﻿using Convey.CQRS.Commands;
+using SwiftParcel.ExternalAPI.Baronomat.Application.Services.Clients;
+using SwiftParcel.ExternalAPI.Baronomat.Application.DTO;
+using SwiftParcel.ExternalAPI.Baronomat.Application.Exceptions;
+using SwiftParcel.ExternalAPI.Baronomat.Core.Repositories;
+using SwiftParcel.ExternalAPI.Baronomat.Core.Entities;
 
-// namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands.Handlers
-// {
-//     public class CreateOrderHandler : ICommandHandler<CreateOrder>
-//     {
-//         private readonly IIdentityManagerServiceClient _identityManagerServiceClient;
-//         private readonly IOffersServiceClient _offersServiceClient;
-//         private readonly IOfferSnippetRepository _offerSnippetRepository;
+namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands.Handlers
+{
+    public class CreateOrderHandler : ICommandHandler<CreateOrder>
+    {
+        private readonly IOrdersServiceClient _ordersServiceClient;
+        private readonly IOfferSnippetRepository _offerSnippetRepository;
 
-//         public CreateOrderHandler(IIdentityManagerServiceClient identityManagerServiceClient,
-//             IOffersServiceClient offersServiceClient, IOfferSnippetRepository offerSnippetRepository)
-//         {
-//             _identityManagerServiceClient = identityManagerServiceClient;
-//             _offersServiceClient = offersServiceClient;
-//             _offerSnippetRepository = offerSnippetRepository;
-//         }
-//         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
-//         {
-//             var token = await _identityManagerServiceClient.GetToken();
-//             var response = await _offersServiceClient.PostAsync(token, new OfferRequestDto
-//             {
-//                 InquiryId = command.ParcelId,
-//                 Name = command.Name,
-//                 Email = command.Email,
-//                 Address = new InquiryAddressDto
-//                 {
-//                     HouseNumber = command.Address.BuildingNumber,
-//                     ApartmentNumber = command.Address.ApartmentNumber,
-//                     Street = command.Address.Street,
-//                     City = command.Address.City,
-//                     Country = command.Address.Country,
-//                     ZipCode = command.Address.ZipCode
-//                 }
-//             });
-//             if(response == null)
-//             {
-//                 throw new OffersServiceConnectionException();
-//             }
-//             if (!response.Response.IsSuccessStatusCode)
-//             {
-//                 throw new OffersServiceException(response.Response.ReasonPhrase);
-//             }   
+        public CreateOrderHandler(IOrdersServiceClient ordersServiceClient, IOfferSnippetRepository offerSnippetRepository)
+        {
+            _ordersServiceClient = ordersServiceClient;
+            _offerSnippetRepository = offerSnippetRepository;
+        }
+        public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
+        {
+            var orderRequest = new OrderRequestDto(command);
+            var response = await _ordersServiceClient.PostAsync(orderRequest);
+            if(response == null)
+            {
+                throw new OffersServiceConnectionException();
+            }
+            if (!response.Response.IsSuccessStatusCode)
+            {
+                throw new OffersServiceException(response.Response.ReasonPhrase);
+            }   
 
-//             var offerSnippet = new OfferSnippet(response.Result.OfferRequestId, null, command.CustomerId,
-//                 response.Result.ValidTo, OfferSnippetStatus.WaitingForDecision);
+            var offerSnippet = new OrderSnippet(command.CustomerId, response.Result.Id);
 
-//             await _offerSnippetRepository.AddAsync(offerSnippet);
-//         }
-//     }
-// }
+            await _offerSnippetRepository.AddAsync(offerSnippet);
+        }
+    }
+}

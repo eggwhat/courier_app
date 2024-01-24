@@ -55,7 +55,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure
             builder.Services.AddTransient<IOfferSnippetRepository, OfferSnippetMongoRepository>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create()); 
             builder.Services.AddTransient<IPriceCalculatorClient, PriceCalculatorClient>();
-            //builder.Services.AddTransient<IOffersServiceClient, OffersServiceClient>();
+            builder.Services.AddTransient<IOrdersServiceClient, OrdersServiceClient>();
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
@@ -76,7 +76,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure
                 .AddMongo()
                 //.AddHandlersLogging()
                 .AddMongoRepository<InquiryOfferDocument, Guid>("inquiryOffers")
-                .AddMongoRepository<OfferSnippetDocument, Guid>("offerSnippets")
+                .AddMongoRepository<OrderSnippetDocument, Guid>("orderSnippets")
                 .AddWebApiSwaggerDocs()
                 .AddSecurity();
         }

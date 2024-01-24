@@ -46,29 +46,23 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Documents
         }
 
 
-        public static OfferSnippet AsEntity(this OfferSnippetDocument document)
-            => document is null? null : new OfferSnippet(
+        public static OrderSnippet AsEntity(this OrderSnippetDocument document)
+            => document is null? null : new OrderSnippet(
                 document.Id,
-                document.OfferId,
-                document.CustomerId,
-                document.ValidTo,
-                document.Status
+                document.OrderId
                 );
 
-        public static async Task<OfferSnippet> AsEntityAsync(this Task<OfferSnippetDocument> task)
+        public static async Task<OrderSnippet> AsEntityAsync(this Task<OrderSnippetDocument> task)
             => (await task).AsEntity();
 
-        public static OfferSnippetDocument AsDocument(this OfferSnippet entity)
-            => new OfferSnippetDocument
+        public static OrderSnippetDocument AsDocument(this OrderSnippet entity)
+            => new OrderSnippetDocument
             {
-                Id = entity.OfferRequestId,
-                OfferId = entity.OfferId,
-                CustomerId = entity.CustomerId,
-                ValidTo = entity.ValidTo,
-                Status = entity.Status
+                Id = entity.CustomerId,
+                OrderId = entity.OrderId
             };
         
-        public static async Task<OfferSnippetDocument> AsDocumentAsync(this Task<OfferSnippet> task)
+        public static async Task<OrderSnippetDocument> AsDocumentAsync(this Task<OrderSnippet> task)
             => (await task).AsDocument();
     }
 }
