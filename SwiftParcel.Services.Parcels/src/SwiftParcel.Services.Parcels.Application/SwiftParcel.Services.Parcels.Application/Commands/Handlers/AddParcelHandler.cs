@@ -21,6 +21,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
         private readonly ICustomerRepository _customerRepository;
         private readonly IPricingServiceClient _pricingServiceClient;
         private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
+        private readonly IBaronomatApiServiceClient _baronomatApiServiceClient;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IMessageBroker _messageBroker;
         private readonly string _expectedFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
@@ -28,7 +29,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 
         public AddParcelHandler(IParcelRepository parcelRepository, ICustomerRepository customerRepository,
             IPricingServiceClient pricingServiceClient, IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker,
-            ILecturerApiServiceClient lecturerApiServiceClient)
+            ILecturerApiServiceClient lecturerApiServiceClient, IBaronomatApiServiceClient baronomatApiServiceClient)
         {
             _parcelRepository = parcelRepository;
             _customerRepository = customerRepository;
@@ -36,6 +37,7 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             _dateTimeProvider = dateTimeProvider;
             _messageBroker = messageBroker;
             _lecturerApiServiceClient = lecturerApiServiceClient;
+            _baronomatApiServiceClient = baronomatApiServiceClient;
         }
 
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken = default)
@@ -86,9 +88,11 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
 
             await _parcelRepository.AddAsync(parcel);
 
-            var lecturerApiTask = _lecturerApiServiceClient.PostInquiryAsync(AddParcel.Generate(parcel));
-            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-            await Task.WhenAny(lecturerApiTask, timeoutTask);
+            var addParcelCommand = AddParcel.Generate(parcel);
+            var lecturerApiTask = _lecturerApiServiceClient.PostInquiryAsync(addParcelCommand);
+            var baronomatApiTask = _baronomatApiServiceClient.PostInquiryAsync(addParcelCommand);
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+            await Task.WhenAny(Task.WhenAll(lecturerApiTask, baronomatApiTask), timeoutTask);
 
             await _messageBroker.PublishAsync(new ParcelAdded(command.ParcelId));
         }

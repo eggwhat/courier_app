@@ -14,12 +14,14 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
     {
         private readonly IMongoRepository<ParcelDocument, Guid> _repository;
         private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
+        private readonly IBaronomatApiServiceClient _baronomatApiServiceClient;
         private readonly string _companyName = "SwiftParcel";
         public GetOffersHandler(IMongoRepository<ParcelDocument, Guid> repository,
-            ILecturerApiServiceClient lecturerApiServiceClient)
+            ILecturerApiServiceClient lecturerApiServiceClient, IBaronomatApiServiceClient baronomatApiServiceClient)
         {
             _repository = repository;
             _lecturerApiServiceClient = lecturerApiServiceClient;
+            _baronomatApiServiceClient = baronomatApiServiceClient;
         }
 
         public async Task<IEnumerable<ExpirationStatusDto>> HandleAsync(GetOffers query, CancellationToken cancellationToken)
@@ -34,7 +36,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Queries
                 CompanyName = _companyName
             };
             var offerLecturerApi = await _lecturerApiServiceClient.GetOfferAsync(query.ParcelId);
-            return new List<ExpirationStatusDto> { offer, offerLecturerApi };
+            var offerBaronomatApi = await _baronomatApiServiceClient.GetOfferAsync(query.ParcelId);
+            return new List<ExpirationStatusDto> { offer, offerLecturerApi, offerBaronomatApi };
         }
     }
 }
