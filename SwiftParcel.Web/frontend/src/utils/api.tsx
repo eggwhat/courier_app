@@ -648,7 +648,7 @@ export const assignCourierToDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/courier`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -689,7 +689,7 @@ export const pickupDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/pick-up`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -732,7 +732,7 @@ export const completeDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/complete`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
@@ -777,7 +777,7 @@ export const failDelivery = async (
 
     const response = await api.post(`/deliveries/${deliveryId}/fail`, JSON.parse(JSON.stringify(payload)), {
       headers: {
-        'Authorization': `${userInfo.accessToken}`,
+        'Authorization': `Bearer ${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })
