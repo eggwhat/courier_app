@@ -407,8 +407,9 @@ import {
                           <p className="text-orange-600">Remember to confirm or cancel your offer request after potential approval.</p>
                         </div>
                       :
-                        <div className="space-y-6 gap-6">
+                        <div className="space-y-2 gap-6">
                           <p className="text-blue-400">You can check status of your order in Check Order after typing the id presented above.</p>
+                          <p className="text-blue-400">It is also possible to add this order by id to Your Orders after signing in.</p>
                         </div>
                       }
                       

@@ -35,7 +35,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
                 throw new CustomerNotFoundException(command.CustomerId);
             }
             var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsOfficeWorker)
+            if (!identity.IsAuthenticated)
             {
                 throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
             }
