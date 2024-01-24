@@ -44,6 +44,10 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             }
             var decisionDate = _dateTimeProvider.Now;
             order.ApproveByOfficeWorker(decisionDate);
+            if(order.CustomerId == null)
+            {
+                order.Confirm();
+            }
             await _orderRepository.UpdateAsync(order);
             var events = _eventMapper.MapAll(order.Events);
             await _messageBroker.PublishAsync(events.ToArray());
