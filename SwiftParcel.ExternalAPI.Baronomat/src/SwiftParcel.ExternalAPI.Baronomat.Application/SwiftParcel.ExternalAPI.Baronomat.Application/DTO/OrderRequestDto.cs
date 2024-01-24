@@ -17,16 +17,18 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
 
         public OrderRequestDto(CreateOrder command)
         {
-            SenderAddress = new OrderAddressDto(command.Parcel.Source, command.Name, command.Email);
-            RecipientAddress = new OrderAddressDto(command.Parcel.Destination, command.Name, command.Email);
-            PriceCents = (int)(command.Parcel.CalculatedPrice * 100);
-            ShipmentWidthMm = (int)(command.Parcel.Width * 1000);
-            ShipmentHeightMm = (int)(command.Parcel.Height * 1000);
-            ShipmentLengthMm = (int)(command.Parcel.Depth * 1000);
-            ShipmentWeightMg = (int)(command.Parcel.Weight * 1000);
-            DeliveryDate = command.Parcel.DeliveryDate.ToString("yyyy-MM-dd");
-            HighPriority = command.Parcel.Priority == "High";
-            WeekendDelivery = command.Parcel.AtWeekend;
+            var source = new AddressDto(command.SourceStreet, command.SourceBuildingNumber, command.SourceApartmentNumber, command.SourceCity, command.SourceZipCode, command.SourceCountry);
+            var destination = new AddressDto(command.DestinationStreet, command.DestinationBuildingNumber, command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode, command.DestinationCountry);
+            SenderAddress = new OrderAddressDto(source, command.Name, command.Email);
+            RecipientAddress = new OrderAddressDto(destination, command.Name, command.Email);
+            PriceCents = (int)(command.Price * 100);
+            ShipmentWidthMm = (int)(command.Width * 1000);
+            ShipmentHeightMm = (int)(command.Height * 1000);
+            ShipmentLengthMm = (int)(command.Depth * 1000);
+            ShipmentWeightMg = (int)(command.Weight * 1000);
+            DeliveryDate = command.DeliveryDate.ToString("yyyy-MM-dd");
+            HighPriority = command.Priority == "High";
+            WeekendDelivery = command.AtWeekend;
         }
     }
 }

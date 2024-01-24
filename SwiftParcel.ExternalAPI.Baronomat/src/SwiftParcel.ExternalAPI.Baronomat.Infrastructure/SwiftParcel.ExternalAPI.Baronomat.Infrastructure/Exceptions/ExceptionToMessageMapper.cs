@@ -22,12 +22,12 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Exceptions
                 },
                 OffersServiceConnectionException ex => message switch
                 {
-                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.Parcel.Id, ex.Message, ex.Code),
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
                 OffersServiceException ex => message switch
                 {
-                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.Parcel.Id, ex.Message, ex.Code),
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
                 OfferNotFoundException ex => message switch

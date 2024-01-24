@@ -1,4 +1,6 @@
 namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO;
+
+using SwiftParcel.ExternalAPI.Baronomat.Core.Entities;
 public class OrderAddressDto
 {
     public int id { get; set; }
@@ -18,7 +20,10 @@ public class OrderAddressDto
     {
         id = 0;
         firstName = name.Split(' ')[0];
-        surname = name.Split(' ')[1];
+        if (name.Split(' ').Length > 1)
+            surname = name.Split(' ')[1];
+        else
+            surname = firstName;
         country = address.Country;
         city = address.City;
         street = address.Street;
