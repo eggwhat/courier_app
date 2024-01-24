@@ -15,9 +15,10 @@ import Inquiries from "./pages/inquiries/inquiries";
 import Offers from "./pages/offers/offersUser";
 import OfferRequests from "./pages/offers/offerRequests";
 import PendingOffers from "./pages/offers/pendingOffers";
-import Orders from "./pages/orders/orders";
 import YourDeliveries from "./pages/deliveries/yourDeliveries";
 import PendingDeliveries from "./pages/deliveries/pendingDeliveries";
+import OrdersUser from "./pages/orders/ordersUser";
+import OfferRequestsUser from "./pages/orders/offerRequestsUser";
 
 export function App() {
 
@@ -71,7 +72,15 @@ export function App() {
             path="/orders"
             element={
               <RolesAuthRoute roles={['user']}>
-                <Orders/>
+                <OrdersUser/>
+              </RolesAuthRoute>
+            }
+          />
+          <Route
+            path="/offer-requests-user"
+            element={
+              <RolesAuthRoute roles={['user']}>
+                <OfferRequestsUser/>
               </RolesAuthRoute>
             }
           />

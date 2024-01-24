@@ -307,9 +307,9 @@ import {
       navigate("/", {state:{parcelId: null}});
     };
 
-    const redirectToOrders = () => {
+    const redirectToOfferRequests = () => {
       close();
-      navigate("/orders", {state:{parcelId: null}});
+      navigate("/offer-requests-user", {state:{parcelId: null}});
     };
 
     return (
@@ -426,7 +426,7 @@ import {
                       :
                         <div className="space-y-6 gap-6">
                           <div className="flex justify-end">
-                            <Button onClick={() => redirectToOrders()}>Go to your orders</Button>
+                            <Button onClick={() => redirectToOfferRequests()}>Go to your offer requests</Button>
                           </div>
                         </div>
                       }
