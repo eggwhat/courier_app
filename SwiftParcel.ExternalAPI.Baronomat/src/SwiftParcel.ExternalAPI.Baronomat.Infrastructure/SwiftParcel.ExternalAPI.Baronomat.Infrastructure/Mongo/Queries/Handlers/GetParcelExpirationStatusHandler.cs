@@ -24,7 +24,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Infrastructure.Mongo.Queries.Handler
             }
             var dto = new ExpirationStatusDto()
             {
-                ParcelId = Guid.Empty,
+                ParcelId = document.Id,
                 TotalPrice = (decimal)document.TotalPrice,
                 ExpiringAt = document.ExpiringAt,
                 PriceBreakDown = document.PriceBreakDown.AsDto(),
