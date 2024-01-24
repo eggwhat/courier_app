@@ -3,7 +3,7 @@ import { getUserIdFromStorage, getUserInfo, saveUserInfo } from "./storage";
 
 
 const api = axios.create({
-  baseURL: "http://api-gateway:5000",
+  baseURL: "http://localhost:5292/",
   withCredentials: true,
 });
 
