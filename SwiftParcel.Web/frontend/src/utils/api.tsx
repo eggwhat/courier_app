@@ -392,7 +392,17 @@ export const getInquiriesOfficeWorker = async () => {
 
 export const getOrder = async (orderId: string) => {
   try {
-    const response = await api.get(`/orders/${orderId}`);
+    const response = await api.get(`/orders/${orderId}`, { headers: getAuthHeader() });
+    return response;
+  } catch (error) {
+    console.error('Error during getting orders:', error);
+    throw error;
+  }
+};
+
+export const getOrderStatus = async (orderId: string) => {
+  try {
+    const response = await api.get(`/orders/${orderId}/status`);
     return response;
   } catch (error) {
     console.error('Error during getting orders:', error);
@@ -483,6 +493,13 @@ export const confirmOrder = async (
 ) => {
   try {
 
+    const userInfo = getUserInfo();
+    if (!userInfo || !userInfo.accessToken) {
+      console.warn('No user token found. Redirecting to login.');
+      window.location.href = '/login';
+      return;
+    }
+
     const payload = {
       OrderId: orderId,
       Company: company
@@ -494,6 +511,7 @@ export const confirmOrder = async (
 
     const response = await api.post(`/orders/${orderId}/confirm`, JSON.parse(JSON.stringify(payload)), {
       headers: {
+        'Authorization': `${userInfo.accessToken}`,
         'Content-Type': 'application/json'
       }
     })

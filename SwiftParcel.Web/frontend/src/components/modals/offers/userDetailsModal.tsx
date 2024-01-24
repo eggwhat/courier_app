@@ -402,13 +402,15 @@ import {
                         <div style={{ marginBottom: '30px' }}></div>
                       </div>
 
-                      <p className="text-orange-600">Remember to confirm or cancel your offer request after potential approval.</p>
-
-                      { (props.userId === null) ?
+                      { (props.userId !== null) ?
                         <div className="space-y-6 gap-6">
-                          <p className="text-blue-400">You can do it by going to home page and typing the id presented above in "Order id" field.</p>
+                          <p className="text-orange-600">Remember to confirm or cancel your offer request after potential approval.</p>
                         </div>
-                      : null }
+                      :
+                        <div className="space-y-6 gap-6">
+                          <p className="text-blue-400">You can check status of your order in Check Order after typing the id presented above.</p>
+                        </div>
+                      }
                       
                       <div className="space-y-6 gap-6">
                           <div style={{ marginBottom: '30px' }}></div>
