@@ -1,4 +1,5 @@
-﻿using Convey.HTTP;
+﻿using System.Text;
+using Convey.HTTP;
 using SwiftParcel.Services.Orders.Application.Commands;
 using SwiftParcel.Services.Orders.Application.DTO;
 using SwiftParcel.Services.Orders.Application.Services.Clients;
@@ -18,6 +19,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services.Clients
         
         public async Task<HttpResponseMessage> PostOfferAsync(CreateOrderBaronomat order)
         {
+            var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(order);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             return await _httpClient.PostAsync($"{_url}/orders", order);
         }
 
