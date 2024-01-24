@@ -44,7 +44,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             }
             var decisionDate = _dateTimeProvider.Now;
             order.ApproveByOfficeWorker(decisionDate);
-            if(order.CustomerId == null)
+            if(order.CustomerId == Guid.Empty)
             {
                 order.Confirm();
             }
