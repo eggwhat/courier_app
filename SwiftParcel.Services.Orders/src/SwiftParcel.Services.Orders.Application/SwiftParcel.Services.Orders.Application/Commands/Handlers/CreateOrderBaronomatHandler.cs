@@ -21,11 +21,11 @@ namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
             var response = await _baronomatApiServiceClient.PostOfferAsync(command);
             if (response == null)
             {
-                throw new LecturerApiServiceConnectionException();
+                throw new BaronomatApiServiceConnectionException();
             }
             if (!response.IsSuccessStatusCode)
             {
-                throw new LecturerApiServiceException(response.ReasonPhrase);
+                throw new BaronomatApiServiceException(response.ReasonPhrase);
             }
         }
     }

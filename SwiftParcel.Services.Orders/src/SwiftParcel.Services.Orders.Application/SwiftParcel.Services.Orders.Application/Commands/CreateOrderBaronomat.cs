@@ -8,7 +8,26 @@ namespace SwiftParcel.Services.Orders.Application.Commands
     {
         public Guid OrderId { get; }
         public Guid CustomerId { get; }
-        public ParcelDto Parcel { get; }
+        public string SourceStreet { get; }
+        public string SourceBuildingNumber { get; }
+        public string SourceApartmentNumber { get; }
+        public string SourceCity { get; }
+        public string SourceZipCode { get; }
+        public string SourceCountry { get; }
+        public string DestinationStreet { get; }
+        public string DestinationBuildingNumber { get; }
+        public string DestinationApartmentNumber { get; }
+        public string DestinationCity { get; }
+        public string DestinationZipCode { get; }
+        public string DestinationCountry { get; }
+        public double Price { get; }
+        public double Width { get; }
+        public double Height { get; }
+        public double Depth { get; }
+        public double Weight { get; }
+        public DateTime DeliveryDate { get; }
+        public string Priority { get; }
+        public bool AtWeekend { get; }
         public string Name { get; }
         public string Email { get; }
 
@@ -16,7 +35,25 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         {
             OrderId = command.OrderId;
             CustomerId = command.CustomerId;
-            Parcel = parcel;
+            SourceStreet = parcel.Source.Street;
+            SourceBuildingNumber = parcel.Source.BuildingNumber;
+            SourceApartmentNumber = parcel.Source.ApartmentNumber;
+            SourceCity = parcel.Source.City;
+            SourceZipCode = parcel.Source.ZipCode;
+            SourceCountry = parcel.Source.Country;
+            DestinationStreet = parcel.Destination.Street;
+            DestinationBuildingNumber = parcel.Destination.BuildingNumber;
+            DestinationApartmentNumber = parcel.Destination.ApartmentNumber;
+            DestinationCity = parcel.Destination.City;
+            DestinationZipCode = parcel.Destination.ZipCode;
+            DestinationCountry = parcel.Destination.Country;
+            Width = parcel.Width;
+            Height = parcel.Height;
+            Depth = parcel.Depth;
+            Weight = parcel.Weight;
+            DeliveryDate = parcel.DeliveryDate;
+            Priority = parcel.Priority.ToString();
+            AtWeekend = parcel.AtWeekend;
             Name = command.Name;
             Email = command.Email;
         }
