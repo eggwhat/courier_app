@@ -7,6 +7,7 @@ import formatOfferStatus from "../parsing/formatOfferStatus";
 
 interface OrderDetailsProps {
   orderData: any;
+  pageContent: string;
 }
 
 export function isPackageValid(validTo : string) {
@@ -16,7 +17,7 @@ export function isPackageValid(validTo : string) {
 };
 
 export function OrderDetails({
-  orderData
+  orderData, pageContent
 }: OrderDetailsProps) {
 
   const [order, setOrder] = React.useState<any>(orderData);
@@ -91,6 +92,7 @@ export function OrderDetails({
           show={showOrderDetailsModal}
           setShow={setShowOrderDetailsModal}
           order={order}
+          pageContent={pageContent}
         />
     </>
   );

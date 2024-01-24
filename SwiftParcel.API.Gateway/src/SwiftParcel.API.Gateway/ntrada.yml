@@ -124,11 +124,13 @@ modules:
         bind:
           - customerId:{customerId}
 
-      - upstream: /requests
+      - upstream: /requests/customerId={customerId}
         method: GET
         use: downstream
-        downstream: orders-service/orders/requests
+        downstream: orders-service/orders/requests?customerId={customerId}
         auth: true
+        bind:
+          - customerId:{customerId}
 
       - upstream: /office-worker
         method: GET

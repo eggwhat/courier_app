@@ -105,6 +105,7 @@ export function Header(props: {
             <AppNavLink to="/" text="Check Order" />
             <AppNavLink to="/create-inquiry" text="Create Inquiry" />
             <AppNavLink to="/inquiries" text="Your Inquiries" />
+            <AppNavLink to="/offer-requests-user" text="Your Offer Requests" />
             <AppNavLink to="/orders" text="Your Orders" />
           </>
         );

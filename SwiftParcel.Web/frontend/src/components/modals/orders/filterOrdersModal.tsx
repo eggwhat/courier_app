@@ -16,6 +16,7 @@ import {
     inputData: any;
     tableData: any;
     setTableData: any;
+    pageContent: string;
   }
   
   type FilteringDetails = {
@@ -468,7 +469,7 @@ import {
             <form onSubmit={submit}>
               <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
                 <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                  Filter orders by attributes:
+                  Filter {props.pageContent == "orders" ? 'orders' : 'offer requests'} by attributes:
                 </h1>
                 {error ? (
                   <Alert color="failure" icon={HiInformationCircle}>
