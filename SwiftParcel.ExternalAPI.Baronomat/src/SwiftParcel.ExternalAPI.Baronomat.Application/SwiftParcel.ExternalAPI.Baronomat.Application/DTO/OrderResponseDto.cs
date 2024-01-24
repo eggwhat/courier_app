@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
 {
     public class OrderResponseDto
@@ -15,6 +17,24 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
         public DateTime DeliveryDate { get; set; }
         public string Priority { get; set; }
         public bool WeekendDelivery { get; set; }
+
+        [JsonConstructor]
+        public OrderResponseDto(int id, OrderAddressDto senderAddress, OrderAddressDto recipientAddress, ApiUserDto apiUser, string orderStatus, int priceCents, int shipmentWidthMm, int shipmentHeightMm, int shipmentLengthMm, int shipmentWeightMg, DateTime deliveryDate, string priority, bool weekendDelivery)
+        {
+            Id = id;
+            SenderAddress = senderAddress;
+            RecipientAddress = recipientAddress;
+            ApiUser = apiUser != null ? new ApiUserDto(apiUser.Id, apiUser.User, apiUser.HostName) : new ApiUserDto();
+            OrderStatus = orderStatus;
+            PriceCents = priceCents;
+            ShipmentWidthMm = shipmentWidthMm;
+            ShipmentHeightMm = shipmentHeightMm;
+            ShipmentLengthMm = shipmentLengthMm;
+            ShipmentWeightMg = shipmentWeightMg;
+            DeliveryDate = deliveryDate;
+            Priority = priority;
+            WeekendDelivery = weekendDelivery;
+        }
     }   
 
     public class ApiUserDto
@@ -22,5 +42,15 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
         public int Id { get; set; }
         public object User { get; set; }
         public string HostName { get; set; }
+        [JsonConstructor]
+        public ApiUserDto(int id, object user, string hostName)
+        {
+            Id = id;
+            User = user;
+            HostName = hostName;
+        }
+        public ApiUserDto()
+        {
+        }
     }
 }

@@ -11,15 +11,23 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands.Handlers
     {
         private readonly IOrdersServiceClient _ordersServiceClient;
         private readonly IOfferSnippetRepository _offerSnippetRepository;
+        private readonly IInquiryOfferRepository _inquiryOfferRepository;
 
-        public CreateOrderHandler(IOrdersServiceClient ordersServiceClient, IOfferSnippetRepository offerSnippetRepository)
+        public CreateOrderHandler(IOrdersServiceClient ordersServiceClient, IOfferSnippetRepository offerSnippetRepository,
+            IInquiryOfferRepository inquiryOfferRepository)
         {
             _ordersServiceClient = ordersServiceClient;
             _offerSnippetRepository = offerSnippetRepository;
+            _inquiryOfferRepository = inquiryOfferRepository;
         }
         public async Task HandleAsync(CreateOrder command, CancellationToken cancellationToken)
         {
-            var orderRequest = new OrderRequestDto(command);
+            var inquiryOffer = await _inquiryOfferRepository.GetAsync(command.ParcelId);
+            if (inquiryOffer is null)
+            {
+                throw new InquiryOfferNotFoundException(command.ParcelId);
+            }
+            var orderRequest = new OrderRequestDto(command, inquiryOffer.TotalPrice);
             var response = await _ordersServiceClient.PostAsync(orderRequest);
             if(response == null)
             {

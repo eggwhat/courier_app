@@ -8,6 +8,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands
     {
         public Guid OrderId { get; }
         public Guid CustomerId { get; }
+        public Guid ParcelId { get; }
         public string SourceStreet { get; }
         public string SourceBuildingNumber { get; }
         public string SourceApartmentNumber { get; }
@@ -35,6 +36,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands
         {
             OrderId = command.OrderId;
             CustomerId = command.CustomerId;
+            ParcelId = parcel.Id;
             SourceStreet = parcel.Source.Street;
             SourceBuildingNumber = parcel.Source.BuildingNumber;
             SourceApartmentNumber = parcel.Source.ApartmentNumber;
@@ -47,6 +49,7 @@ namespace SwiftParcel.Services.Orders.Application.Commands
             DestinationCity = parcel.Destination.City;
             DestinationZipCode = parcel.Destination.ZipCode;
             DestinationCountry = parcel.Destination.Country;
+            Price = (double)parcel.CalculatedPrice;
             Width = parcel.Width;
             Height = parcel.Height;
             Depth = parcel.Depth;

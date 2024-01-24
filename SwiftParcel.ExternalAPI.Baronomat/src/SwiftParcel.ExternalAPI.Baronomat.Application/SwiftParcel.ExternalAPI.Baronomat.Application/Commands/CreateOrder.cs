@@ -8,6 +8,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands
     {
         public Guid OrderId { get; }
         public Guid CustomerId { get; }
+        public Guid ParcelId { get; }
         public string SourceStreet { get; }
         public string SourceBuildingNumber { get; }
         public string SourceApartmentNumber { get; }
@@ -31,10 +32,11 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.Commands
         public string Name { get; }
         public string Email { get; }
 
-        public CreateOrder(Guid orderId, Guid customerId, string sourceStreet, string sourceBuildingNumber, string sourceApartmentNumber, string sourceCity, string sourceZipCode, string sourceCountry, string destinationStreet, string destinationBuildingNumber, string destinationApartmentNumber, string destinationCity, string destinationZipCode, string destinationCountry, double price, double width, double height, double depth, double weight, DateTime deliveryDate, string priority, bool atWeekend, string name, string email)
+        public CreateOrder(Guid orderId, Guid customerId, Guid parcelId, string sourceStreet, string sourceBuildingNumber, string sourceApartmentNumber, string sourceCity, string sourceZipCode, string sourceCountry, string destinationStreet, string destinationBuildingNumber, string destinationApartmentNumber, string destinationCity, string destinationZipCode, string destinationCountry, double price, double width, double height, double depth, double weight, DateTime deliveryDate, string priority, bool atWeekend, string name, string email)
         {
             OrderId = orderId;
             CustomerId = customerId;
+            ParcelId = parcelId;
             SourceStreet = sourceStreet;
             SourceBuildingNumber = sourceBuildingNumber;
             SourceApartmentNumber = sourceApartmentNumber;
