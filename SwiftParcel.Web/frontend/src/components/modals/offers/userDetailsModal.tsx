@@ -277,7 +277,7 @@ import {
         userInfo.addressCity,
         userInfo.addressZipCode,
         userInfo.addressCountry,
-        props.offer.company)
+        props.offer.companyName)
         .then((response) => {
           setRequestId(response);
           setSuccess("Offer request submitted successfully!");
