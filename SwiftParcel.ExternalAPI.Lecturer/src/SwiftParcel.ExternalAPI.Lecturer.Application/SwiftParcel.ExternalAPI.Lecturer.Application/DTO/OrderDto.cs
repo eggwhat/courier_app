@@ -1,4 +1,6 @@
-﻿namespace SwiftParcel.ExternalAPI.Lecturer.Application.DTO
+﻿using SwiftParcel.ExternalAPI.Lecturer.Core.Entities;
+
+namespace SwiftParcel.ExternalAPI.Lecturer.Application.DTO
 {
     public class OrderDto
     {
@@ -29,9 +31,36 @@
         {
             Id = orderId;
             CustomerId = customerId;
+            Parcel = new ParcelDto
+            {
+                Id = Guid.Empty,
+                CustomerId = customerId,
+                Description = string.Empty,
+                Width = 0,
+                Height = 0,
+                Depth = 0,
+                Weight = 0,
+                Source = new AddressDto("", "", "","","",""),
+                Destination = new AddressDto("", "", "","","",""),
+                Priority = "Low",
+                AtWeekend = false,
+                PickupDate = DateTime.MinValue,
+                DeliveryDate = DateTime.MinValue,
+                IsCompany = false,
+                VipPackage = false,
+                CreatedAt = DateTime.MinValue,
+                ValidTo = DateTime.MinValue,
+                CalculatedPrice = 0,            
+            };
             Status = status;
+            OrderRequestDate = DateTime.Now;
             RequestValidTo = validTo;
             CourierCompany = company;
+            BuyerName = string.Empty;
+            BuyerEmail = string.Empty;
+            BuyerAddress = new AddressDto("", "", "","","","");
+            CancellationReason = string.Empty;
+            CannotDeliverReason = string.Empty;
         }
 
         public OrderDto(OfferDto offer, Guid customerId, string status, string company)
