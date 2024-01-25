@@ -231,12 +231,12 @@ import { confirmOrder, cancelOrder } from "../../../utils/api";
     const [reason, setReason] = React.useState<any>("");
 
     const confirm = () => {
-      confirmOrder(props.order.id, props.order.company);
+      confirmOrder(props.order.id, props.order.courierCompany);
       setFinalized(true);
     };
 
     const cancel = () => {
-      cancelOrder(props.order.id, props.order.company);
+      cancelOrder(props.order.id, props.order.courierCompany);
       setFinalized(true);
     };
 
