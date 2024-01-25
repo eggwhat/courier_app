@@ -21,7 +21,7 @@ namespace SwiftParcel.Services.Pricing.Api.Services
 
         public (List<PriceBreakDownItemDto>, decimal) CalculateParcelPrice(Parcel parcel, Customer customer = null)
         {
-            decimal dimensionCharge = CalculateDimensionCharge(parcel);
+            decimal dimensionCharge = Math.Round(CalculateDimensionCharge(parcel), 2) + 1.0m;
             decimal priorityCharge = parcel.HighPriority ? 5.00m : 0m;
             decimal weekendDeliveryCharge = parcel.DeliverAtWeekend ? 3.00m : 0m;
             decimal vipPackage = parcel.VipPackage ? 7.00m : 0m;
