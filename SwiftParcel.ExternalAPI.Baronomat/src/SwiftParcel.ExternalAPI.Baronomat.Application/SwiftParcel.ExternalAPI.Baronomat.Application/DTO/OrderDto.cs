@@ -49,7 +49,7 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
                 IsCompany = false,
                 VipPackage = false,
                 CreatedAt = DateTime.Now,
-                ValidTo = DateTime.MinValue,
+                ValidTo = DateTime.MaxValue,
                 CalculatedPrice = (decimal)offer.PriceCents / 100,
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
                 {
@@ -63,8 +63,8 @@ namespace SwiftParcel.ExternalAPI.Baronomat.Application.DTO
             };
             Status = OrderStateToStatusMapper.Convert(offer.OrderStatus);
             CourierCompany = Company.Baronomat.ToString();
-            OrderRequestDate = DateTime.MinValue;
-            RequestValidTo = DateTime.MinValue;
+            OrderRequestDate = DateTime.Now.AddMinutes(-20);
+            RequestValidTo = DateTime.MaxValue;
             BuyerName = $"{offer.SenderAddress.firstName} {offer.SenderAddress.surname}";
             BuyerEmail = offer.SenderAddress.email;
             BuyerAddress = new AddressDto(offer.SenderAddress);
