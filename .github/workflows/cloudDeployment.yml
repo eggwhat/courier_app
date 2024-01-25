@@ -3,7 +3,7 @@ name: Deploy to Cloud
 on:
   push:
     branches:
-      - external_api_integration  # Set this to the branch you want to deploy from
+      - swiftparcel_web  # Set this to the branch you want to deploy from
 
 jobs:
   deploy:
