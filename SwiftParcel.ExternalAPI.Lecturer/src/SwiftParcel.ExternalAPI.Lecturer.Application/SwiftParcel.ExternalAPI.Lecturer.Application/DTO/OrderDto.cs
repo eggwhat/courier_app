@@ -52,7 +52,7 @@ namespace SwiftParcel.ExternalAPI.Lecturer.Application.DTO
                 ValidTo = DateTime.MinValue,
                 CalculatedPrice = 0,            
             };
-            Status = status;
+            Status = status.ToLower();
             OrderRequestDate = DateTime.Now;
             RequestValidTo = validTo;
             CourierCompany = company;
