@@ -2,9 +2,13 @@
 {
     public class InvalidParcelDateTimeException : DomainException
     {
-        public InvalidParcelDateTimeException(string element, string description)
-            : base("invalid_parcel_datetime_property", $"Parcel DateTime property ({element}) is invalid: {description}.")
+        public string Element { get; }
+        public string Value { get; }
+        public InvalidParcelDateTimeException(string element, string value)
+            : base("invalid_parcel_datetime_property", $"Parcel DateTime property ({element}) is invalid: {value}.")
         {
+            Element = element;
+            Value = value;
         }
     }
 }
