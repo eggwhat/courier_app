@@ -3,6 +3,7 @@
 directories=(
     "SwiftParcel.API.Gateway"
     "SwiftParcel.ExternalAPI.Lecturer"
+    "SwiftParcel.ExternalAPI.Baronomat"
     "SwiftParcel.Services.Customers"
     "SwiftParcel.Services.Deliveries"
     "SwiftParcel.Services.Orders"
