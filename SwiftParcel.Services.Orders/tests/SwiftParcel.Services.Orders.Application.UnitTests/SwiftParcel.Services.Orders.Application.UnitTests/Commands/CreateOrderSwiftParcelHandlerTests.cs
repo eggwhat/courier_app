@@ -23,7 +23,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
         private readonly Mock<IMessageBroker> _messageBrokerMock;
         private readonly Mock<IEventMapper> _eventMapperMock;
         private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
-        private readonly Mock<IParcelsServiceClient> _parcelsServiceClientMock;
 
         public CreateOrderSwiftParcelHandlerTests()
         {
@@ -32,9 +31,8 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             _messageBrokerMock = new Mock<IMessageBroker>();
             _eventMapperMock = new Mock<IEventMapper>();
             _dateTimeProviderMock = new Mock<IDateTimeProvider>();
-            _parcelsServiceClientMock = new Mock<IParcelsServiceClient>();
             _createOrderSwiftParcelHandler = new CreateOrderSwiftParcelHandler(_orderRepositoryMock.Object, _customerRepositoryMock.Object,
-                _messageBrokerMock.Object, _eventMapperMock.Object, _dateTimeProviderMock.Object, _parcelsServiceClientMock.Object);
+                _messageBrokerMock.Object, _eventMapperMock.Object, _dateTimeProviderMock.Object);
         }
 
         [Fact]
@@ -53,8 +51,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
-
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
             {
@@ -78,7 +74,9 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
+
+            
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
             var order = Order.Create(command.OrderId, command.CustomerId, OrderStatus.WaitingForDecision, dateTimeNow,
                                command.Name, command.Email, command.Address);
@@ -86,31 +84,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             // Act
             Func<Task> act = async () => await _createOrderSwiftParcelHandler.HandleAsync(command, cancellationToken);
             await act.Should().NotThrowAsync();
-        }
-
-        [Fact]
-        public async Task HandleAsync_WithInvalidParcelId_ShouldThrowParcelNotFoundException()
-        {
-            // Arrange
-            var address = new Address()
-            {
-                City = "City",
-                Country = "Country",
-                ApartmentNumber = "32",
-                BuildingNumber = "32",
-                ZipCode = "00-323",
-                Street = "Street"
-            };
-            var cancellationToken = new CancellationToken();
-            var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
-                    "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
-
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync((ParcelDto)null);
-
-            // Act & Assert
-            Func<Task> act = async () => await _createOrderSwiftParcelHandler.HandleAsync(command, cancellationToken);
-            await act.Should().ThrowAsync<ParcelNotFoundException>();
         }
 
         [Fact]
@@ -129,8 +102,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
-
             var parcelDto = new ParcelDto()
             {
                 Id = Guid.NewGuid(),
@@ -153,7 +124,8 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
+
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(DateTime.Now);
 
             // Act & Assert
@@ -177,7 +149,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -202,7 +173,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
             
             // Act
@@ -226,7 +197,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -251,7 +221,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act
@@ -276,7 +246,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -301,7 +270,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act
@@ -325,7 +294,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -350,7 +318,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act
@@ -374,7 +342,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -399,7 +366,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act
@@ -423,7 +390,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "", "valid@email.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -448,7 +414,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act
@@ -472,7 +438,6 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
             var cancellationToken = new CancellationToken();
             var createOrderCommand = new CreateOrder(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
                     "Name", "invalidemail.com", address, Company.SwiftParcel);
-            var command = new CreateOrderSwiftParcel(createOrderCommand);
 
             var dateTimeNow = DateTime.Now;
             var parcelDto = new ParcelDto()
@@ -497,7 +462,7 @@ namespace SwiftParcel.Services.Orders.Application.UnitTests.Commands
                 CalculatedPrice = 50.0m, // Set a sample price
                 PriceBreakDown = new List<PriceBreakDownItemDto>()
             };
-            _parcelsServiceClientMock.Setup(client => client.GetAsync(command.ParcelId)).ReturnsAsync(parcelDto);
+            var command = new CreateOrderSwiftParcel(createOrderCommand, parcelDto);
             _dateTimeProviderMock.Setup(provider => provider.Now).Returns(dateTimeNow);
 
             // Act

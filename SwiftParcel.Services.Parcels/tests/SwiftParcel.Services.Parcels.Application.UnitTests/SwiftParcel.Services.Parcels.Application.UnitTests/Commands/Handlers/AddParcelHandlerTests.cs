@@ -19,6 +19,7 @@ namespace SwiftParcel.Services.Parcels.Application.UnitTests
         private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
         private readonly Mock<IMessageBroker> _messageBrokerMock;
         private readonly Mock<ILecturerApiServiceClient> _lecturerApiServiceClientMock;
+        private readonly Mock<IBaronomatApiServiceClient> _baronomatApiServiceClientMock;
 
         public AddParcelHandlerTests()
         {
@@ -28,9 +29,10 @@ namespace SwiftParcel.Services.Parcels.Application.UnitTests
             _dateTimeProviderMock = new Mock<IDateTimeProvider>();
             _messageBrokerMock = new Mock<IMessageBroker>();
             _lecturerApiServiceClientMock = new Mock<ILecturerApiServiceClient>();
+            _baronomatApiServiceClientMock = new Mock<IBaronomatApiServiceClient>();
             _addParcelHandler = new AddParcelHandler(_parcelRepositoryMock.Object, _customerRepositoryMock.Object,
                                _pricingServiceClientMock.Object, _dateTimeProviderMock.Object, _messageBrokerMock.Object,
-                               _lecturerApiServiceClientMock.Object);
+                               _lecturerApiServiceClientMock.Object, _baronomatApiServiceClientMock.Object);
         }
 
         [Fact]
