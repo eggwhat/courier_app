@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D71746B1-DFF9-487E-B643-0A2837F9D119}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.ExternalAPI.Baronomat.Api", "SwiftParcel.ExternalAPI.Baronomat.Api", "{EC7B1051-70C9-495A-B2C6-5ADEC8707A36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.ExternalAPI.Baronomat.Api", "src\SwiftParcel.ExternalAPI.Baronomat.Api\SwiftParcel.ExternalAPI.Baronomat.Api\SwiftParcel.ExternalAPI.Baronomat.Api.csproj", "{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.ExternalAPI.Baronomat.Application", "SwiftParcel.ExternalAPI.Baronomat.Application", "{F23BBFA5-338F-4A0E-A3AE-E4B12E42D48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.ExternalAPI.Baronomat.Application", "src\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application.csproj", "{008E26F0-0FBB-4817-BD8E-1AEE8621D366}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.ExternalAPI.Baronomat.Core", "SwiftParcel.ExternalAPI.Baronomat.Core", "{FF334728-04F8-42CB-B359-2C5344ED0E07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.ExternalAPI.Baronomat.Core", "src\SwiftParcel.ExternalAPI.Baronomat.Core\SwiftParcel.ExternalAPI.Baronomat.Core\SwiftParcel.ExternalAPI.Baronomat.Core.csproj", "{5C172FC6-9A59-4848-BAF7-5D5A960EEF03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.ExternalAPI.Baronomat.Infrastructure", "SwiftParcel.ExternalAPI.Baronomat.Infrastructure", "{E59E83FC-44D9-46F6-AD6F-FCDF820DF2CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.ExternalAPI.Baronomat.Infrastructure", "src\SwiftParcel.ExternalAPI.Baronomat.Infrastructure\SwiftParcel.ExternalAPI.Baronomat.Infrastructure\SwiftParcel.ExternalAPI.Baronomat.Infrastructure.csproj", "{69B48993-68BD-4782-95FD-6AEF245269CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008E26F0-0FBB-4817-BD8E-1AEE8621D366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008E26F0-0FBB-4817-BD8E-1AEE8621D366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008E26F0-0FBB-4817-BD8E-1AEE8621D366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008E26F0-0FBB-4817-BD8E-1AEE8621D366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C172FC6-9A59-4848-BAF7-5D5A960EEF03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C172FC6-9A59-4848-BAF7-5D5A960EEF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C172FC6-9A59-4848-BAF7-5D5A960EEF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C172FC6-9A59-4848-BAF7-5D5A960EEF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69B48993-68BD-4782-95FD-6AEF245269CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B48993-68BD-4782-95FD-6AEF245269CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B48993-68BD-4782-95FD-6AEF245269CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B48993-68BD-4782-95FD-6AEF245269CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC7B1051-70C9-495A-B2C6-5ADEC8707A36} = {D71746B1-DFF9-487E-B643-0A2837F9D119}
+		{EBBDEE35-7F38-43B5-9DB0-62BDA83DBC2D} = {EC7B1051-70C9-495A-B2C6-5ADEC8707A36}
+		{F23BBFA5-338F-4A0E-A3AE-E4B12E42D48F} = {D71746B1-DFF9-487E-B643-0A2837F9D119}
+		{008E26F0-0FBB-4817-BD8E-1AEE8621D366} = {F23BBFA5-338F-4A0E-A3AE-E4B12E42D48F}
+		{FF334728-04F8-42CB-B359-2C5344ED0E07} = {D71746B1-DFF9-487E-B643-0A2837F9D119}
+		{5C172FC6-9A59-4848-BAF7-5D5A960EEF03} = {FF334728-04F8-42CB-B359-2C5344ED0E07}
+		{E59E83FC-44D9-46F6-AD6F-FCDF820DF2CA} = {D71746B1-DFF9-487E-B643-0A2837F9D119}
+		{69B48993-68BD-4782-95FD-6AEF245269CF} = {E59E83FC-44D9-46F6-AD6F-FCDF820DF2CA}
+	EndGlobalSection
+EndGlobal

@@ -8,7 +8,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
     {
         public static Order AsEntity(this OrderDocument document)
             => new Order(document.Id, document.CustomerId, document.Status, document.OrderRequestDate,
-                document.BuyerName, document.BuyerEmail, document.BuyerAddress, document.Parcel);
+                document.BuyerName, document.BuyerEmail, document.BuyerAddress, 
+                document.DecisionDate, document.PickedUpAt, document.DeliveredAt, document.CannotDeliverAt, 
+                document.CancellationReason, document.CannotDeliverReason, document.Parcel);
 
         public static OrderDocument AsDocument(this Order entity)
             => new OrderDocument
@@ -17,7 +19,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 CustomerId = entity.CustomerId,
                 Parcel = entity.Parcel,
                 Status = entity.Status,
+                CourierCompany = entity.CourierCompany,
                 OrderRequestDate = entity.OrderRequestDate,
+                RequestValidTo = entity.RequestValidTo,
                 BuyerName = entity.BuyerName,
                 BuyerEmail = entity.BuyerEmail,
                 BuyerAddress = entity.BuyerAddress,
@@ -36,10 +40,14 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents
                 CustomerId = document.CustomerId,
                 Parcel = new ParcelDto(document.Parcel),
                 Status = document.Status.ToString().ToLowerInvariant(),
+                CourierCompany = document.CourierCompany.ToString(),
                 OrderRequestDate = document.OrderRequestDate,
+                RequestValidTo = document.RequestValidTo,
                 BuyerName = document.BuyerName,
                 BuyerEmail = document.BuyerEmail,
-                BuyerAddress = new AddressDto(document.BuyerAddress),
+                BuyerAddress = new AddressDto(document.BuyerAddress.Street, document.BuyerAddress.BuildingNumber,
+                    document.BuyerAddress.ApartmentNumber, document.BuyerAddress.City, document.BuyerAddress.ZipCode,
+                    document.BuyerAddress.Country),
                 DecisionDate = document.DecisionDate,
                 PickedUpAt = document.PickedUpAt,
                 DeliveredAt = document.DeliveredAt,

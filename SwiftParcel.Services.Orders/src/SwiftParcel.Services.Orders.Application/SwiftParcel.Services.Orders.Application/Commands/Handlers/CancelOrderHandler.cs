@@ -1,55 +1,30 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Convey.CQRS.Commands;
-using SwiftParcel.Services.Orders.Application.Services;
+﻿using Convey.CQRS.Commands;
 using SwiftParcel.Services.Orders.Application.Exceptions;
-using SwiftParcel.Services.Orders.Core.Repositories;
-using SwiftParcel.Services.Orders.Core.Exceptions;
-
+using SwiftParcel.Services.Orders.Core.Entities;
 
 namespace SwiftParcel.Services.Orders.Application.Commands.Handlers
 {
     public class CancelOrderHandler: ICommandHandler<CancelOrder>
     {
-        private readonly IOrderRepository _orderRepository;
-        private readonly IMessageBroker _messageBroker;
-        private readonly IEventMapper _eventMapper;
-        private readonly IAppContext _appContext;
         private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IDateTimeProvider _dateTimeProvider;
-
-        public CancelOrderHandler(IOrderRepository orderRepository, IMessageBroker messageBroker,
-            IEventMapper eventMapper, IAppContext appContext, ICommandDispatcher commandDispatcher,
-            IDateTimeProvider dateTimeProvider)
+        public CancelOrderHandler(ICommandDispatcher commandDispatcher)
         {
-            _orderRepository = orderRepository;
-            _messageBroker = messageBroker;
-            _eventMapper = eventMapper;
-            _appContext = appContext;
             _commandDispatcher = commandDispatcher;
-            _dateTimeProvider = dateTimeProvider;
         }
+
         public async Task HandleAsync(CancelOrder command, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetAsync(command.OrderId);
-            if (order is null)
+             switch (command.Company)
             {
-                throw new OrderNotFoundException(command.OrderId);
+                case Company.SwiftParcel:
+                    await _commandDispatcher.SendAsync(new CancelOrderSwiftParcel(command));
+                    break;
+                case Company.MiniCurrier:
+                    await _commandDispatcher.SendAsync(new CancelOrderMiniCurrier(command));
+                    break;
+                default:
+                    throw new CompanyNotFoundException(command.Company.ToString());
             }
-
-            var identity = _appContext.Identity;
-            if (identity.IsAuthenticated && identity.Id != order.CustomerId && !identity.IsOfficeWorker)
-            {
-                throw new UnauthorizedOrderAccessException(command.OrderId, identity.Id);
-            }
-            
-            order.Cancel(_dateTimeProvider.Now, command.Reason);
-            await _orderRepository.UpdateAsync(order);
-            var events = _eventMapper.MapAll(order.Events);
-            await _messageBroker.PublishAsync(events.ToArray());
-
-            await _commandDispatcher.SendAsync(new SendCancellationEmail(order.Id, order.BuyerName,
-                order.BuyerEmail, command.Reason));
         }
     }
 }

@@ -27,16 +27,41 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                     CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
                     _ => null
                 },
+                
+                InvalidBuyerNameException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
+                InvalidBuyerEmailException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
+                InvalidAddressElementException ex => message switch
+                {
+                    CreateOrder m => new CreateOrderRejected(m.OrderId, m.CustomerId, m.ParcelId, ex.Message, ex.Code),
+                    _ => null
+                },
 
                 OrderNotFoundException ex
                 => message switch
                 {
-                    ApproveOrder m => new ApproveOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    ApproveOrderOfficeWorker m => new ApproveOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    CancelOrderOfficeWorker m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeliveryCompleted _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
                     DeliveryFailed _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
                     DeliveryPickedUp _ => new OrderForDeliveryNotFound(ex.Id, ex.Message, ex.Code),
+                    _ => null
+                },
+
+                OrderRequestExpiredException ex => message switch
+                {
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },
 
@@ -54,6 +79,8 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Exceptions
                 UnauthorizedOrderAccessException ex
                 => message switch
                 {
+                    CancelOrder m => new CancelOrderRejected(m.OrderId, ex.Message, ex.Code),
+                    ConfirmOrder m => new ConfirmOrderRejected(m.OrderId, ex.Message, ex.Code),
                     DeleteOrder m => new DeleteOrderRejected(m.OrderId, ex.Message, ex.Code),
                     _ => null
                 },

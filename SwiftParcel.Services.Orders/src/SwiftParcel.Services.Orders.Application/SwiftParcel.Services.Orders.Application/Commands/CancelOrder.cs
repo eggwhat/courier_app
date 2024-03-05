@@ -1,17 +1,17 @@
 ﻿using Convey.CQRS.Commands;
+using SwiftParcel.Services.Orders.Core.Entities;
 
 namespace SwiftParcel.Services.Orders.Application.Commands
 {
-    public class CancelOrder: ICommand
+    public class CancelOrder : ICommand
     {
         public Guid OrderId { get; }
-        public string Reason { get; }
-        public CancelOrder(Guid orderId, string reason)
+        public Company Company { get; set; }
+
+        public CancelOrder(Guid orderId, Company company)
         {
             OrderId = orderId;
-            Reason = reason;
+            Company = company;
         }
     }
 }
-
-

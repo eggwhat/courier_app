@@ -4,33 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Pricing.Api.Core.Entities;
 using SwiftParcel.Services.Pricing.Api.Core.Services;
+using SwiftParcel.Services.Pricing.Api.dto;
 
 namespace SwiftParcel.Services.Pricing.Api.Services
 {
     public class PricingService : IPricingService
     {
-        private readonly ICustomerDiscountsService _discountsService;
-
+        private const string Currency = "Pln";
         private const decimal BaseRate = 2.50m;
         private const decimal VolumeRate = 0.05m; // Price per cubic unit
         private const decimal WeightRate = 0.10m; // Price per weight unit
         private const decimal DimensionalWeightDivisor = 5000m; // Divisor for dimensional weight calculation
-        public PricingService(ICustomerDiscountsService discountsService)
+        public PricingService()
         {
-            _discountsService = discountsService;
         }
 
-        public decimal CalculateParcelPrice(Parcel parcel, Customer customer = null)
+        public (List<PriceBreakDownItemDto>, decimal) CalculateParcelPrice(Parcel parcel, Customer customer = null)
         {
-            decimal basePrice = CalculateBasePrice(parcel);
-            decimal discount = customer != null ? _discountsService.CalculateDiscount(customer) : 0m;
+            decimal dimensionCharge = Math.Round(CalculateDimensionCharge(parcel), 2) + 1.0m;
             decimal priorityCharge = parcel.HighPriority ? 5.00m : 0m;
             decimal weekendDeliveryCharge = parcel.DeliverAtWeekend ? 3.00m : 0m;
+            decimal vipPackage = parcel.VipPackage ? 7.00m : 0m;
+            var priceBreakDown = new List<PriceBreakDownItemDto>()
+            {
+                new PriceBreakDownItemDto { Amount = BaseRate, Currency = Currency, Description = "Base price" },
+                new PriceBreakDownItemDto { Amount = dimensionCharge, Currency = Currency, Description = "Dimension surcharge" },
+                new PriceBreakDownItemDto { Amount = priorityCharge + weekendDeliveryCharge, 
+                    Currency = Currency, Description = "Pickup and delivery time" },
+            };
+            if(parcel.VipPackage)
+            {
+                priceBreakDown.Add(new PriceBreakDownItemDto { Amount = vipPackage, Currency = Currency, Description = "Vip Package" });
+            }
 
-            return basePrice + priorityCharge + weekendDeliveryCharge - discount;
+            return (priceBreakDown, BaseRate + dimensionCharge + priorityCharge + weekendDeliveryCharge + vipPackage);
         }
 
-        private decimal CalculateBasePrice(Parcel parcel)
+        private decimal CalculateDimensionCharge(Parcel parcel)
         {
             decimal length = (decimal)parcel.Length;
             decimal width = (decimal)parcel.Width;
@@ -42,7 +52,7 @@ namespace SwiftParcel.Services.Pricing.Api.Services
             decimal weightCharge = Math.Max(weight, dimensionalWeight) * WeightRate;
             decimal volumeCharge = volume * VolumeRate;
 
-            return BaseRate + weightCharge + volumeCharge;
+            return weightCharge + volumeCharge;
         }
     }
 }

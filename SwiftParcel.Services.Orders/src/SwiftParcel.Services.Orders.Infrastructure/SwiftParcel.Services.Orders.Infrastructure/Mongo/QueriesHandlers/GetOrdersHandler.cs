@@ -10,37 +10,48 @@ using SwiftParcel.Services.Orders.Application;
 using SwiftParcel.Services.Orders.Application.DTO;
 using SwiftParcel.Services.Orders.Application.Queries;
 using SwiftParcel.Services.Orders.Infrastructure.Mongo.Documents;
+using SwiftParcel.Services.Orders.Core.Entities;
+using SwiftParcel.Services.Orders.Application.Services.Clients;
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Mongo.QueriesHandlers
 {
     public class GetOrdersHandler : IQueryHandler<GetOrders, IEnumerable<OrderDto>>
     {
         private readonly IMongoRepository<OrderDocument, Guid> _orderRepository;
+        private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
+        private readonly IBaronomatApiServiceClient _baronomatApiServiceClient;
         private readonly IAppContext _appContext;
 
-        public GetOrdersHandler(IMongoRepository<OrderDocument, Guid> orderRepository, IAppContext appContext)
+        public GetOrdersHandler(IMongoRepository<OrderDocument, Guid> orderRepository, 
+            ILecturerApiServiceClient lecturerApiServiceClient, IAppContext appContext,
+            IBaronomatApiServiceClient baronomatApiServiceClient)
         {
             _orderRepository = orderRepository;
+            _lecturerApiServiceClient = lecturerApiServiceClient;
             _appContext = appContext;
+            _baronomatApiServiceClient = baronomatApiServiceClient;
         }
 
         public async Task<IEnumerable<OrderDto>> HandleAsync(GetOrders query, CancellationToken cancellationToken)
         {
             var documents = _orderRepository.Collection.AsQueryable();
-            if (query.CustomerId.HasValue)
+            var identity = _appContext.Identity;
+            if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
             {
-                var identity = _appContext.Identity;
-                if (identity.IsAuthenticated && identity.Id != query.CustomerId && !identity.IsOfficeWorker)
-                {
-                    return Enumerable.Empty<OrderDto>();
-                }
-
-                documents = documents.Where(p => p.CustomerId == query.CustomerId);
+                return Enumerable.Empty<OrderDto>();
             }
 
+            documents = documents.Where(p => p.CustomerId == query.CustomerId &&
+                p.Status != OrderStatus.WaitingForDecision && p.Status != OrderStatus.Approved);
             var orders = await documents.ToListAsync();
+            var ordersDto = orders.Select(p => p.AsDto());
 
-            return orders.Select(p => p.AsDto());
+            var miniCurrierOrders = await _lecturerApiServiceClient.GetOrdersAsync(query.CustomerId.ToString());
+            var baronomatApiServiceClient = await _baronomatApiServiceClient.GetOrdersAsync(query.CustomerId.ToString());
+            ordersDto = ordersDto.Concat(miniCurrierOrders);
+            ordersDto = ordersDto.Concat(baronomatApiServiceClient);
+
+            return ordersDto;
         }
     }
 }

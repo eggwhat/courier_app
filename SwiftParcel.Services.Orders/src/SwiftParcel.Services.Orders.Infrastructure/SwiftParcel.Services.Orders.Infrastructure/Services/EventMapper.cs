@@ -24,7 +24,9 @@ namespace SwiftParcel.Services.Orders.Infrastructure.Services
                         case OrderStatus.WaitingForDecision:
                             return new OrderCreated(e.Order.Id);
                         case OrderStatus.Approved:
-                            return new OrderApproved(e.Order.Id, e.Order.Parcel.Width, e.Order.Parcel.Height, e.Order.Parcel.Depth,
+                            return new OrderApproved(e.Order.Id);
+                        case OrderStatus.Confirmed:
+                            return new OrderConfirmed(e.Order.Id, e.Order.Parcel.Width, e.Order.Parcel.Height, e.Order.Parcel.Depth,
                                 e.Order.Parcel.Weight, e.Order.Parcel.Source, e.Order.Parcel.Destination, e.Order.Parcel.Priority,
                                 e.Order.Parcel.AtWeekend, e.Order.Parcel.PickupDate, e.Order.Parcel.DeliveryDate);
                         case OrderStatus.PickedUp:

@@ -31,12 +31,16 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public DateTime CreatedAt { get; protected set; }
         public DateTime ValidTo { get; protected set; }
         public decimal CalculatedPrice { get; protected set; }
+        public List<PriceBreakDownItem> PriceBreakDown { get; protected set; }
 
         public Parcel(AggregateId id, string description, double width,
-            double height, double depth, double weight, DateTime pickupDate, DateTime deliveryDate,
-            DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
+            double height, double depth, double weight, Priority priority, bool atWeekend,
+            DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
+            DateTime createdAt, decimal calculatedPrice, List<PriceBreakDownItem> priceBreakDown,
+            DateTime validTo, Guid? customerId)
             : this(id, description, width, height, depth, weight, new Address(), new Address(),
-             Priority.Low, false, pickupDate, deliveryDate, false, false, createdAt, calculatedPrice, validTo, customerId)
+             priority, atWeekend, pickupDate, deliveryDate, isCompany, vipPackage, createdAt, 
+             calculatedPrice, priceBreakDown, validTo, customerId)
         {
 
         }
@@ -44,7 +48,8 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
         public Parcel(AggregateId id, string description, double width, double height,
             double depth, double weight, Address source, Address destination,
             Priority priority, bool atWeekend, DateTime pickupDate, DateTime deliveryDate, bool isCompany, bool vipPackage,
-             DateTime createdAt, decimal calculatedPrice, DateTime validTo, Guid? customerId)
+             DateTime createdAt, decimal calculatedPrice, List<PriceBreakDownItem> priceBreakDown, 
+             DateTime validTo, Guid? customerId)
         {
             Id = id;
             CustomerId = customerId;
@@ -64,13 +69,16 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
             Destination = destination;
             Priority = priority;
             AtWeekend = atWeekend;
+            CheckPickupDate(pickupDate, createdAt);
             PickupDate = pickupDate;
+            CheckDeliveryDate(deliveryDate, pickupDate);
             DeliveryDate = deliveryDate;
             IsCompany = isCompany;
             VipPackage = vipPackage;
             CreatedAt = createdAt;
             ValidTo = validTo;
             CalculatedPrice = calculatedPrice;
+            PriceBreakDown = priceBreakDown;
         }
 
         public void CheckDescription(string description)
@@ -83,17 +91,17 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void CheckDimensions(double width, double height, double depth)
         {
-            if (width <= 0)
+            if (width < 0.2 || width >= 8)
             {
                 throw new InvalidParcelDimensionException("width", width);
             }
 
-            if (height <= 0)
+            if (height < 0.2 || height >= 8)
             {
                 throw new InvalidParcelDimensionException("height", height);
             }
 
-            if (depth <= 0)
+            if (depth < 0.2 || depth >= 8)
             {
                 throw new InvalidParcelDimensionException("depth", depth);
             }
@@ -101,7 +109,7 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void CheckWeight(double weight)
         {
-            if (weight <= 0)
+            if (weight < 0.1 || weight > 100)
             {
                 throw new InvalidParcelWeightException(weight);
             }
@@ -114,6 +122,23 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
                 throw new InvalidParcelPriceException(price);
             }
         }
+
+        public void CheckPickupDate(DateTime pickupDate, DateTime now)
+        {
+            if (pickupDate <= now)
+            {
+                throw new InvalidParcelPickupDateException(pickupDate, now);
+            }
+        }
+
+        public void CheckDeliveryDate(DateTime deliveryDate, DateTime pickupDate)
+        {
+            if (deliveryDate <= pickupDate)
+            {
+                throw new InvalidParcelDeliveryDateException(deliveryDate, pickupDate);
+            }
+        }
+
         public void SetCalculatedPrice(decimal price)
         {
             CheckPrice(price);
@@ -180,6 +205,8 @@ namespace SwiftParcel.Services.Parcels.Core.Entities
 
         public void SetAtWeekend(bool atWeekend) => AtWeekend = atWeekend;
 
-        
+        public void SetIsCompany(bool isCompany) => IsCompany = isCompany;
+
+        public void SetVipPackage(bool vipPackage) => VipPackage = vipPackage;
     }
 }

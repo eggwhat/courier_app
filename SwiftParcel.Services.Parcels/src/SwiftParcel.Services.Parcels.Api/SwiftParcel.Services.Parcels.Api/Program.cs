@@ -37,9 +37,9 @@ namespace SwiftParcel.Services.Parcels.Api
                         .Get<GetParcels, IEnumerable<ParcelDto>>("parcels")
                         .Get<GetParcelsOfficeWorker, IEnumerable<ParcelDto>>("parcels/office-worker")
                         .Get<GetParcel, ParcelDto>("parcels/{parcelId}")
-                        .Get<GetParcelExpirationStatus, ExpirationStatusDto>("parcels/{parcelId}/expiration-status")
+                        .Get<GetOffers, IEnumerable<ExpirationStatusDto>>("parcels/{parcelId}/offers")
                         .Post<AddParcel>("parcels",
-                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}/expiration-status"))
+                            afterDispatch: (cmd, ctx) => ctx.Response.Created($"parcels/{cmd.ParcelId}/offers", cmd.ParcelId))
                         .Delete<DeleteParcel>("parcels/{parcelId}")
                     ))
                 .UseLogging()

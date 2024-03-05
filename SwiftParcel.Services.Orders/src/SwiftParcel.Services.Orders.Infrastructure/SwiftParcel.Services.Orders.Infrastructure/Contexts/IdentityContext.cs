@@ -1,4 +1,7 @@
 ﻿using SwiftParcel.Services.Orders.Application;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("SwiftParcel.Services.Orders.Application.UnitTests")]
 
 namespace SwiftParcel.Services.Orders.Infrastructure.Contexts
 {

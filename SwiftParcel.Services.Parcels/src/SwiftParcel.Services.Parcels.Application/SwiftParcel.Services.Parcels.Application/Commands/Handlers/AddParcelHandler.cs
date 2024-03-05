@@ -20,19 +20,24 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
         private readonly IParcelRepository _parcelRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IPricingServiceClient _pricingServiceClient;
+        private readonly ILecturerApiServiceClient _lecturerApiServiceClient;
+        private readonly IBaronomatApiServiceClient _baronomatApiServiceClient;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IMessageBroker _messageBroker;
         private readonly string _expectedFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
 
 
         public AddParcelHandler(IParcelRepository parcelRepository, ICustomerRepository customerRepository,
-            IPricingServiceClient pricingServiceClient, IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker)
+            IPricingServiceClient pricingServiceClient, IDateTimeProvider dateTimeProvider, IMessageBroker messageBroker,
+            ILecturerApiServiceClient lecturerApiServiceClient, IBaronomatApiServiceClient baronomatApiServiceClient)
         {
             _parcelRepository = parcelRepository;
             _customerRepository = customerRepository;
             _pricingServiceClient = pricingServiceClient;
             _dateTimeProvider = dateTimeProvider;
             _messageBroker = messageBroker;
+            _lecturerApiServiceClient = lecturerApiServiceClient;
+            _baronomatApiServiceClient = baronomatApiServiceClient;
         }
 
         public async Task HandleAsync(AddParcel command, CancellationToken cancellationToken = default)
@@ -55,17 +60,20 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
                 throw new InvalidParcelDateTimeException("delivery_date", command.DeliveryDate);
             }
             var createdAt = _dateTimeProvider.Now;
-            var validTo = createdAt.AddMinutes(30);
+            var validTo = createdAt.AddMinutes(60);
+
             var price = await _pricingServiceClient.GetParcelDeliveryPriceAsync(customerId ?? command.CustomerId, 0.0m, 
-            command.Width, command.Height, command.Depth, command.Weight, priority == Priority.High, command.AtWeekend);
+            command.Width, command.Height, command.Depth, command.Weight, priority == Priority.High, command.AtWeekend,
+            command.VipPackage);
             if (price == null)
             {
                 throw new PricingServiceException(command.ParcelId);
             }
 
             var parcel = new Parcel(command.ParcelId, command.Description, command.Width, 
-            command.Height, command.Depth, command.Weight, pickupDate, deliveryDate,
-            createdAt, price.OrderPrice, validTo, customerId);
+            command.Height, command.Depth, command.Weight, priority, command.AtWeekend,
+            pickupDate, deliveryDate, command.IsCompany, command.VipPackage,
+            createdAt, price.FinalPrice, price.PriceBreakDown, validTo, customerId);
 
             parcel.SetSourceAddress(command.SourceStreet, command.SourceBuildingNumber,
                 command.SourceApartmentNumber, command.SourceCity, command.SourceZipCode,
@@ -73,12 +81,18 @@ namespace SwiftParcel.Services.Parcels.Application.Commands.Handlers
             parcel.SetDestinationAddress(command.DestinationStreet, command.DestinationBuildingNumber,
                 command.DestinationApartmentNumber, command.DestinationCity, command.DestinationZipCode,
                 command.DestinationCountry);
-
             parcel.SetPriority(priority);
-
             parcel.SetAtWeekend(command.AtWeekend);
+            parcel.SetIsCompany(command.IsCompany);
+            parcel.SetVipPackage(command.VipPackage);
 
             await _parcelRepository.AddAsync(parcel);
+
+            var addParcelCommand = AddParcel.Generate(parcel);
+            var lecturerApiTask = _lecturerApiServiceClient.PostInquiryAsync(addParcelCommand);
+            var baronomatApiTask = _baronomatApiServiceClient.PostInquiryAsync(addParcelCommand);
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+            await Task.WhenAny(Task.WhenAll(lecturerApiTask, baronomatApiTask), timeoutTask);
 
             await _messageBroker.PublishAsync(new ParcelAdded(command.ParcelId));
         }

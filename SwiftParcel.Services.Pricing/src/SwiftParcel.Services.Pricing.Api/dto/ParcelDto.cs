@@ -13,5 +13,6 @@ namespace SwiftParcel.Services.Pricing.Api.dto
         public double Weight { get; set; }
         public bool HighPriority { get; set; }
         public bool DeliverAtWeekend { get; set; }
+        public bool VipPackage { get; set; }
     }
 }

@@ -7,27 +7,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32E2CA73-681
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Api", "SwiftParcel.Services.Orders.Api", "{6DA713C4-A10F-4248-B54C-9AE6AFB1E882}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Api", "src\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api.csproj", "{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Orders.Api", "src\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api\SwiftParcel.Services.Orders.Api.csproj", "{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Application", "SwiftParcel.Services.Orders.Application", "{DAA89118-586D-4669-B1D5-BE23736822C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Application", "src\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj", "{0CC5372D-B8AC-4380-8DBE-4B650C11D567}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Orders.Application", "src\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application\SwiftParcel.Services.Orders.Application.csproj", "{0CC5372D-B8AC-4380-8DBE-4B650C11D567}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Core", "SwiftParcel.Services.Orders.Core", "{58C56B7C-E6D8-4CBD-B730-3F307C1DB930}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Core", "src\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj", "{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Orders.Core", "src\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core\SwiftParcel.Services.Orders.Core.csproj", "{E894C4D2-05B4-479B-93E3-C49CDDF49B9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Infrastructure", "SwiftParcel.Services.Orders.Infrastructure", "{69CF0B3C-64D8-44EE-AC46-7066C12E81DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwiftParcel.Services.Orders.Infrastructure", "src\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure.csproj", "{1256CFDD-28BC-4233-A2E2-11CC5925C154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Orders.Infrastructure", "src\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure\SwiftParcel.Services.Orders.Infrastructure.csproj", "{1256CFDD-28BC-4233-A2E2-11CC5925C154}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EDFB6002-392F-431B-AAE2-DB2B1414E097}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwiftParcel.Services.Orders.Application.UnitTests", "SwiftParcel.Services.Orders.Application.UnitTests", "{D0F373EE-A9D3-45BF-82D0-C2198C734C6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwiftParcel.Services.Orders.Application.UnitTests", "tests\SwiftParcel.Services.Orders.Application.UnitTests\SwiftParcel.Services.Orders.Application.UnitTests\SwiftParcel.Services.Orders.Application.UnitTests.csproj", "{54AAAE25-748F-4F96-A197-D42986F388F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C84A6BD6-2CF0-4115-ACB7-2D3691F0B55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,6 +49,13 @@ Global
 		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1256CFDD-28BC-4233-A2E2-11CC5925C154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54AAAE25-748F-4F96-A197-D42986F388F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54AAAE25-748F-4F96-A197-D42986F388F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54AAAE25-748F-4F96-A197-D42986F388F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54AAAE25-748F-4F96-A197-D42986F388F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6DA713C4-A10F-4248-B54C-9AE6AFB1E882} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
@@ -56,5 +66,10 @@ Global
 		{E894C4D2-05B4-479B-93E3-C49CDDF49B9C} = {58C56B7C-E6D8-4CBD-B730-3F307C1DB930}
 		{69CF0B3C-64D8-44EE-AC46-7066C12E81DB} = {32E2CA73-681D-46E3-BFF4-F9DD0126E32A}
 		{1256CFDD-28BC-4233-A2E2-11CC5925C154} = {69CF0B3C-64D8-44EE-AC46-7066C12E81DB}
+		{D0F373EE-A9D3-45BF-82D0-C2198C734C6F} = {EDFB6002-392F-431B-AAE2-DB2B1414E097}
+		{54AAAE25-748F-4F96-A197-D42986F388F2} = {D0F373EE-A9D3-45BF-82D0-C2198C734C6F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19ADBF4A-9C94-4FB6-819A-93084E754070}
 	EndGlobalSection
 EndGlobal

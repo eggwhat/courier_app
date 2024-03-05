@@ -1,13 +1,24 @@
-version: "2.1"
+version: "3.7"
 
 services:
+
+ api-gateway:
+    build: ../../SwifttParcel.API.Gateway
+    container_name: api-gateway
+    restart: unless-stopped
+    environment:
+      - NTRADA_CONFIG=ntrada.docker # TODO: Add this file
+    ports:
+      - 5000:80
+    networks:
+      - swiftparcel
 
   identity-service:
     build: ../../SwifttParcel.Services.Identity
     container_name: apa/identity-service
     restart: unless-stopped
     ports:
-      - 6001:80
+      - 5004:80
     networks:
       - swiftparcel
 
@@ -16,7 +27,7 @@ services:
     container_name: apa/availability-service
     restart: unless-stopped
     ports:
-      - 6002:80 
+      - 5001:80 
     networks:
       - swiftparcel
   web:
@@ -27,7 +38,51 @@ services:
       - 3001:80 
     networks:
       - swiftparcel
+  
+  customers-service:
+    build: ../../SwiftParcel.Services.Customers
+    container_name: customers-service
+    restart: unless-stopped
+    ports:
+      - 5002:80
+    networks:
+      - swiftparcel
 
+  deliveries-service:
+    build: ../../SwiftParcel.Services.Deliveries
+    container_name: deliveries-service
+    restart: unless-stopped
+    ports:
+      - 5003:80
+    networks:
+      - swiftparcel
+
+  orders-service:
+    build: ../../SwiftParcel.Services.Orders
+    container_name: orders-service
+    restart: unless-stopped
+    ports:
+      - 5006:80
+    networks:
+      - swiftparcel
+
+  parcels-service:
+    build: ../../SwiftParcel.Services.Parcels
+    container_name: parcels-service
+    restart: unless-stopped
+    ports:
+      - 5007:80
+    networks:
+      - swiftparcel
+
+  pricing-service:
+    build: ../../SwiftParcel.Services.Pricing
+    container_name: pricing-service
+    restart: unless-stopped
+    ports:
+      - 5008:80
+    networks:
+      - swiftparcel
 
 networks:
   swiftparcel:

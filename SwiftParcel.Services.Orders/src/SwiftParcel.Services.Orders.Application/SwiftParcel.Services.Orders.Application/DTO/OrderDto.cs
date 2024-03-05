@@ -8,7 +8,9 @@ namespace SwiftParcel.Services.Orders.Application.DTO
         public Guid? CustomerId { get; set; }
         public ParcelDto Parcel { get; set; }
         public string Status { get; set; }
+        public string CourierCompany { get; set; }
         public DateTime OrderRequestDate { get; set; }
+        public DateTime RequestValidTo { get; set; }
         public string BuyerName { get; set; }
         public string BuyerEmail { get; set; }
         public AddressDto BuyerAddress { get; set; }
@@ -29,10 +31,14 @@ namespace SwiftParcel.Services.Orders.Application.DTO
             CustomerId = order.CustomerId;
             Parcel = order.Parcel == null ? null : new ParcelDto(order.Parcel);
             Status = order.Status.ToString().ToLowerInvariant();
+            CourierCompany = order.CourierCompany.ToString();
             OrderRequestDate = order.OrderRequestDate;
+            RequestValidTo = order.RequestValidTo;
             BuyerName = order.BuyerName;
             BuyerEmail = order.BuyerEmail;
-            BuyerAddress = new AddressDto(order.BuyerAddress);
+            BuyerAddress = new AddressDto(order.BuyerAddress.Street, order.BuyerAddress.BuildingNumber,
+                order.BuyerAddress.ApartmentNumber, order.BuyerAddress.City, order.BuyerAddress.ZipCode,
+                order.BuyerAddress.Country);
             DecisionDate = order.DecisionDate;
             PickedUpAt = order.PickedUpAt;
             DeliveredAt = order.DeliveredAt;

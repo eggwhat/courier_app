@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Convey" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Commands" Version="1.1.448" />
+    <PackageReference Include="Convey.HTTP" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Events" Version="1.1.448" />
+    <PackageReference Include="Convey.CQRS.Queries" Version="1.1.448" />
+    <PackageReference Include="Convey.MessageBrokers" Version="1.1.448" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application\SwiftParcel.ExternalAPI.Baronomat.Application.csproj" />
+    <ProjectReference Include="..\..\SwiftParcel.ExternalAPI.Baronomat.Infrastructure\SwiftParcel.ExternalAPI.Baronomat.Infrastructure\SwiftParcel.ExternalAPI.Baronomat.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

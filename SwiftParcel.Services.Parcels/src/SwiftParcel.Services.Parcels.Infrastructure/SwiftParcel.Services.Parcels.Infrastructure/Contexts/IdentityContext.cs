@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using SwiftParcel.Services.Parcels.Application;
+
+[assembly: InternalsVisibleTo("SwiftParcel.Services.Parcels.Application.UnitTests")]
 
 namespace SwiftParcel.Services.Parcels.Infrastructure.Contexts
 {

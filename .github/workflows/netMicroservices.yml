@@ -3,17 +3,15 @@ name: .NET SwiftParcel Microservice CI/CD
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 30  
     strategy:
       matrix:
         project: [ 
-          'SwiftParcel.Services.Availability/src/SwiftParcel.Services.Availability.Api/SwiftParcel.Services.Availability.Api/',
           'SwiftParcel.Services.Couriers/src/SwiftParcel.Services.Couriers.Api/SwiftParcel.Services.Couriers.Api',
           'SwiftParcel.Services.Customers/src/SwiftParcel.Services.Customers.Api/SwiftParcel.Services.Customers.Api',
           'SwiftParcel.Services.Orders/src/SwiftParcel.Services.Orders.Api/SwiftParcel.Services.Orders.Api',
-          'SwiftParcel.Services.OrdersCreator/src/SwiftParcel.Services.OrdersCreator',
           'SwiftParcel.Services.Parcels/src/SwiftParcel.Services.Parcels.Api/SwiftParcel.Services.Parcels.Api',
           'SwifttParcel.Services.Identity/src/SwiftParcel.Services.Identity.Api/SwiftParcel.Services.Identity.Api',
           'SwiftParcel.Services.Deliveries/src/SwiftParcel.Services.Deliveries.Api/SwiftParcel.Services.Deliveries.Api',
@@ -25,9 +23,32 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.0.x'
-    - name: Build and Test ${{ matrix.project }}
+    - name: Build ${{ matrix.project }}
       run: |
         cd ${{ matrix.project }}
         dotnet restore
         dotnet build --no-restore
-        # dotnet test --no-build --if-present --verbosity normal 
+        # dotnet test --no-build --verbosity normal 
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  
+    strategy:
+      matrix:
+        test: [ 
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.Application.UnitTests/Application.UnitTests',
+          'SwifttParcel.Services.Identity/tests/SwiftParcel.Services.Identity.Infrastructure.UnitTests/Infrastructure.UnitTests',
+          'SwiftParcel.Services.Orders/tests/SwiftParcel.Services.Orders.Application.UnitTests/SwiftParcel.Services.Orders.Application.UnitTests',
+          'SwiftParcel.Services.Parcels/tests/SwiftParcel.Services.Parcels.Application.UnitTests/SwiftParcel.Services.Parcels.Application.UnitTests'
+          ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+    - name: Test ${{ matrix.test }}
+      run: |
+        cd ${{ matrix.test }}
+        dotnet restore
+        dotnet build --no-restore
+        dotnet test --no-build --verbosity normal  

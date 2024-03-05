@@ -57,6 +57,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IPricingServiceClient, PricingServiceClient>();
+            builder.Services.AddTransient<ILecturerApiServiceClient, LecturerApiServiceClient>();
+            builder.Services.AddTransient<IBaronomatApiServiceClient, BaronomatApiServiceClient>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
             builder.Services.TryDecorate(typeof(ICommandHandler<>), typeof(OutboxCommandHandlerDecorator<>));
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));

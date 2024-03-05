@@ -39,6 +39,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 document.VipPackage,
                 document.CreatedAt,
                 document.CalculatedPrice,
+                document.PriceBreakDown,
                 document.ValidTo,
                 document.CustomerId
                 );
@@ -82,7 +83,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 VipPackage = entity.VipPackage,
                 CreatedAt = entity.CreatedAt,
                 ValidTo = entity.ValidTo,
-                CalculatedPrice = entity.CalculatedPrice
+                CalculatedPrice = entity.CalculatedPrice,
+                PriceBreakDown = entity.PriceBreakDown
             };
         
         public static async Task<ParcelDocument> AsDocumentAsync(this Task<Parcel> task)
@@ -116,7 +118,7 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                     ZipCode = document.Destination.ZipCode,
                     Country = document.Destination.Country
                 },
-                Priority = document.Priority.ToString().ToLowerInvariant(),
+                Priority = document.Priority.ToString(),
                 AtWeekend = document.AtWeekend,
                 PickupDate = document.PickupDate,
                 DeliveryDate = document.DeliveryDate,
@@ -124,7 +126,8 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
                 VipPackage = document.VipPackage,
                 CreatedAt = document.CreatedAt,
                 ValidTo = document.ValidTo,
-                CalculatedPrice = document.CalculatedPrice
+                CalculatedPrice = document.CalculatedPrice,
+                PriceBreakDown = document.PriceBreakDown.AsDto()
             };
 
         public static Customer AsEntity(this CustomerDocument document)
@@ -135,5 +138,20 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
             {
                 Id = entity.Id
             };
+        
+        public static List<PriceBreakDownItemDto> AsDto(this List<PriceBreakDownItem> priceBreakDown)
+        {
+            var priceBreakDownDto = new List<PriceBreakDownItemDto>();
+            foreach (var item in priceBreakDown)
+            {
+                priceBreakDownDto.Add(new PriceBreakDownItemDto
+                {
+                    Amount = item.Amount,
+                    Currency = item.Currency,
+                    Description = item.Description
+                });
+            }
+            return priceBreakDownDto;
+        }
     }
 }

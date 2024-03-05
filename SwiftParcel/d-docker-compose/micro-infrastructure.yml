@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3.7"
 
 services:
 
@@ -51,19 +51,22 @@ services:
       - 14268:14268
       - 16686:16686
 
-  mongo:
-    image: mongo
-    container_name: mongo
-    restart: unless-stopped
-    # environment:
-    #   - MONGO_INITDB_ROOT_USERNAME=root
-    #   - MONGO_INITDB_ROOT_PASSWORD=secret
-    networks:
-      - swiftparcel
-    ports:
-      - 27017:27017
-    volumes:
-      - mongo:/data/db
+  # in the case of not using the modgo claser,
+  # there will be a nees in this service for the 
+  # deployment purposes
+  # mongo:
+  #   image: mongo
+  #   container_name: mongo
+  #   restart: unless-stopped
+  #   # environment:
+  #   #   - MONGO_INITDB_ROOT_USERNAME=root
+  #   #   - MONGO_INITDB_ROOT_PASSWORD=secret
+  #   networks:
+  #     - swiftparcel
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongo:/data/db
 
   prometheus:
     build: ./prometheus

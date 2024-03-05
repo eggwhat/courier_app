@@ -28,5 +28,6 @@ namespace SwiftParcel.Services.Parcels.Infrastructure.Mongo.Documents
         public DateTime CreatedAt { get; set; }
         public DateTime ValidTo { get; set; }
         public decimal CalculatedPrice { get; set; }
+        public List<PriceBreakDownItem> PriceBreakDown { get; set; }
     }
 }
